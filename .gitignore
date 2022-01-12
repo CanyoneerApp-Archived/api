@@ -1,0 +1,6 @@
+cache/**/*.txt
+.DS_Store
+*.log
+node_modules
+out.csv
+dist
