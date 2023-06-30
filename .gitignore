@@ -1,6 +1,4 @@
-cache/**/*.txt
+cache/**
 .DS_Store
 *.log
 node_modules
-out.csv
-dist

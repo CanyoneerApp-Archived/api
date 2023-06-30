@@ -1,17 +1,17 @@
 {
-  "name": "scrapey",
+  "name": "CanyoneerScraper",
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "eslint --fix **/*.ts && tsc --outDir dist",
-    "start": "ts-node --files --pretty src/index.ts > ~/Desktop/ropewiki.json"
+    "eslint": "eslint --fix **/*.ts",
+    "start": "ts-node --files --pretty src/index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
     "@types/fs-extra": "^8.0.1",
-    "@types/geojson": "^7946.0.7",
+    "@types/geojson": "^7946.0.8",
     "@types/jsdom": "^12.2.4",
     "@types/lodash": "^4.14.149",
     "@types/node": "^13.1.1",
@@ -26,6 +26,7 @@
     "fs-extra": "^8.1.0",
     "jsdom": "^19.0.0",
     "lodash": "^4.17.15",
+    "node-base64-image": "^2.0.3",
     "node-fetch": "^2.6.0",
     "promise-throttle": "^1.0.1",
     "qs": "^6.9.1",
