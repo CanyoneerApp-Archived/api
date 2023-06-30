@@ -1,7 +1,7 @@
 
 import _, {toArray} from 'lodash';
 
-export type ScrapeyMonth = (
+export type Month = (
     'January' |
     'Feburary' |
     'March' |
@@ -16,7 +16,7 @@ export type ScrapeyMonth = (
     'December');
 
 
-const months: ScrapeyMonth[] = [
+const months: Month[] = [
     'January',
     'Feburary',
     'March',
@@ -31,6 +31,6 @@ const months: ScrapeyMonth[] = [
     'December'
 ];
 
-export default function parseMonths(tableElements: any): ScrapeyMonth[] {
+export default function parseMonths(tableElements: any): Month[] {
     return _.compact(tableElements['Best season'] && toArray(tableElements['Best season'].querySelectorAll('.wikitable.bst td:not(.bss)')).map((el, index) => (el.className === 'bsg' ? months[index] : undefined)));
 }

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
-type ScrapeyTime = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
+type Time = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 
-const lookups: [string | RegExp, ScrapeyTime][] = [
+const lookups: [string | RegExp, Time][] = [
     [/\biii\b/, 'III'],
     [/\bii\b/, 'II'],
     [/\biv\b/, 'IV'],
@@ -19,7 +19,7 @@ const lookups: [string | RegExp, ScrapeyTime][] = [
     ['overnight', 'V'],
 ];
 
-export default function parseDifficulty(input: string | undefined): ScrapeyTime | undefined {
+export default function parseDifficulty(input: string | undefined): Time | undefined {
     input = input ? JSON.stringify(input.toLowerCase().replace('-', ' ')) : '';
 
     for (const lookup of lookups) {

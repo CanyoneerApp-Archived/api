@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export type ScrapeySport = (
+export type Sport = (
     'canyoneering' |
     'caving' |
     'trad climbing' |
@@ -12,7 +12,7 @@ export type ScrapeySport = (
     'ice climbing');
 
 
-const lookups: [string | RegExp, ScrapeySport][] = [
+const lookups: [string | RegExp, Sport][] = [
     ['canyoneering', 'canyoneering'],
     ['trad', 'trad climbing'],
     ['sport', 'sport climbing'],
@@ -47,9 +47,9 @@ const lookups: [string | RegExp, ScrapeySport][] = [
     ['poi', 'hiking'],
 ];
 
-export default function parseSport(input: string | undefined | null, defaultOutput: ScrapeySport[] = []): ScrapeySport[] {
+export default function parseSport(input: string | undefined | null, defaultOutput: Sport[] = []): Sport[] {
     input = input ? input.toLowerCase() : '';
-    const output: ScrapeySport[] = [];
+    const output: Sport[] = [];
 
     for (const lookup of lookups) {
         const [key, value] = lookup;

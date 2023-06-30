@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-export type ScrapeyDifficulty = (
+export type Difficulty = (
     'class 1' |
     'class 2' |
     'class 3' |
@@ -30,7 +30,7 @@ export type ScrapeyDifficulty = (
     '4c');
 
 
-const lookups: [string | RegExp, ScrapeyDifficulty][] = [
+const lookups: [string | RegExp, Difficulty][] = [
 
     [/\b5\.14(a-d)?\b/, '5.14'],
     [/\b5\.13(a-d)?\b/, '5.13'],
@@ -100,7 +100,7 @@ const lookups: [string | RegExp, ScrapeyDifficulty][] = [
     ['1a', '1a'],
 ];
 
-export default function parseDifficulty(input: string | undefined | null): ScrapeyDifficulty | undefined {
+export default function parseDifficulty(input: string | undefined | null): Difficulty | undefined {
     input = input ? input.toLowerCase().replace('-', ' ') : '';
 
     for (const lookup of lookups) {

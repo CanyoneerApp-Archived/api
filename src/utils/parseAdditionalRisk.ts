@@ -1,8 +1,8 @@
 import _  from 'lodash';
 
-export type ScrapeyAdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R'
+export type AdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R'
 
-const lookups: [string | RegExp, ScrapeyAdditionalRisk][] = [
+const lookups: [string | RegExp, AdditionalRisk][] = [
     [/\bPG-13\b/, 'PG-13'],
     [/\bPG\b/, 'PG'],
     [/\bXXX\b/, 'XXX'],
@@ -11,7 +11,7 @@ const lookups: [string | RegExp, ScrapeyAdditionalRisk][] = [
     [/\bR\b/, 'R'],
 ];
 
-export default function parseAdditionalRisk(input: string | undefined): ScrapeyAdditionalRisk | undefined {
+export default function parseAdditionalRisk(input: string | undefined): AdditionalRisk | undefined {
     input = input ? input : '';
 
     for (const lookup of lookups) {
