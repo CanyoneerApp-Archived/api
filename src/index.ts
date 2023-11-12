@@ -33,7 +33,7 @@ async function parseRoute(url: string): Promise<any> {
     const {window: {document}} = new jsdom.JSDOM(text, {url});
 
     const tableElements = parseTable(document.querySelector('.tablecanyon tbody'));
-    const rating = tableElements['MetricRating'].textContent.trim();
+    const rating = (tableElements['MetricRating'] ?? tableElements['Rating']).textContent.trim();
     const raps = parseRaps(tableElements['Raps'].textContent.trim());
     const kml = await parseKML(document);
 
@@ -52,7 +52,7 @@ async function parseRoute(url: string): Promise<any> {
         Vehicle: tableElements['Vehicle'] && tableElements['Vehicle'].textContent.trim(),
         Shuttle: tableElements['Shuttle'] && tableElements['Shuttle'].textContent.trim(),
         Permits: tableElements['Permits'] && tableElements['Permits'].textContent.trim(),
-        Sports: parseSport(tableElements['Rating'], ['canyoneering']),
+        Sports: parseSport(rating, ['canyoneering']),
         Time: parseTime(rating),
         RappelCountMin: raps.countMin,
         RappelCountMax: raps.countMax,
