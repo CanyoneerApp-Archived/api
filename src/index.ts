@@ -34,7 +34,7 @@ async function parseRoute(url: string): Promise<any> {
 
     const tableElements = parseTable(document.querySelector('.tablecanyon tbody'));
     const rating = (tableElements['MetricRating'] ?? tableElements['Rating'])?.textContent.trim();
-    const raps = parseRaps(tableElements['Raps'].textContent.trim());
+    const raps = parseRaps(tableElements['Raps']?.textContent.trim());
     const kml = await parseKML(document);
 
     return {
@@ -49,9 +49,9 @@ async function parseRoute(url: string): Promise<any> {
         Months: parseMonths(tableElements),
         Difficulty: parseDifficulty(rating),
         AdditionalRisk: parseAdditionalRisk(rating),
-        Vehicle: tableElements['Vehicle'] && tableElements['Vehicle'].textContent.trim(),
-        Shuttle: tableElements['Shuttle'] && tableElements['Shuttle'].textContent.trim(),
-        Permits: tableElements['Permits'] && tableElements['Permits'].textContent.trim(),
+        Vehicle: tableElements['Vehicle']?.textContent.trim(),
+        Shuttle: tableElements['Shuttle']?.textContent.trim(),
+        Permits: tableElements['Permits']?.textContent.trim(),
         Sports: parseSport(rating, ['canyoneering']),
         Time: parseTime(rating),
         RappelCountMin: raps.countMin,
