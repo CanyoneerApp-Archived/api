@@ -4,7 +4,7 @@ import Path from 'path';
 import nodeCrypto from 'crypto';
 import PromiseThrottle from 'promise-throttle';
 
-const promiseThrottle = new PromiseThrottle({requestsPerSecond: 5});
+const promiseThrottle = new PromiseThrottle({requestsPerSecond: 2});
 
 function md5(input: string) {
     return nodeCrypto.createHash('md5').update(input).digest('hex');
