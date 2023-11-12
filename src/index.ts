@@ -15,9 +15,13 @@ let first = true;
 async function main() {
     console.log('[');
     await Promise.all((await getRouteURLs()).map(async url => {
-        const route = await parseRoute(url);
-        if (first) { first = false; } else { console.log(','); }
-        console.log(JSON.stringify(route));
+        try {
+            const route = await parseRoute(url);
+            if (first) { first = false; } else { console.log(','); }
+            console.log(JSON.stringify(route));
+        } catch (error) {
+            console.error(error);
+        }
     }));
     console.log(']');
 }
