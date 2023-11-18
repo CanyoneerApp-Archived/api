@@ -9,8 +9,17 @@ export function parseTable(tableEl: Element | null | undefined): any {
     }));
 
     const two = _.fromPairs(toArray(tableEl.querySelectorAll('div.detailsRow')).map(tr => {
-        const th = tr.querySelector('.detailsRowDescriptor');
-        if (!th) { return []; } else { return [th.textContent?.slice(0, th.textContent.length - 1), _.last(tr.querySelectorAll('span'))]; }
+        const th = tr.querySelector('.detailsRowDescriptor');        
+        if (!th) { 
+            return []; 
+        } else { 
+            // permits has a <u> instead of a <span>
+            var found = _.last(tr.querySelectorAll('u'))
+            if (found == null) {
+                found = _.last(tr.querySelectorAll('span'))
+            }
+            return [th.textContent?.slice(0, th.textContent.length - 1), found]; 
+        }
     }));
 
     return {...one, ...two};

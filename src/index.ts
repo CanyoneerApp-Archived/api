@@ -37,16 +37,21 @@ async function parseRoute(url: string): Promise<any> {
     const {window: {document}} = new jsdom.JSDOM(text, {url});
 
     const tableElements = parseTable(document.querySelector('.tablecanyon tbody'));
-    const rating = (tableElements['MetricRating'] ?? tableElements['Rating'])?.textContent.trim();
+    const rating = tableElements['Difficulty']?.textContent.trim() ?? "";
     const raps = parseRaps(tableElements['Raps']?.textContent.trim());
     const kml = await parseKML(document);
+
+    const qualityPopSection = tableElements['Rating']!;
+    const quality = qualityPopSection.querySelectorAll('.starRate4')?.length ?? 0 + (qualityPopSection.querySelectorAll('.starRate2')?.length ?? 0) / 2;
+
+    // popularity is currently broken
+    const popularity =  tableElements['StarRank'] && parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2));
+
     return {
         URL: url,
         Name: document.querySelector('h1')!.textContent!,
-        Quality: tableElements['StarRank'] && _.sum(toArray(tableElements['StarRank'].querySelector('.starRate')!.children).slice(0, 5).map(
-            child => parseInt(child.className.replace('starRate', '')),
-        )) / 4,
-        Popularity: tableElements['StarRank'] && parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2)),
+        Quality: quality,
+        Popularity: popularity,
         Latitude: tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[0]),
         Longitude: tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[1]),
         Months: parseMonths(tableElements),
@@ -54,7 +59,7 @@ async function parseRoute(url: string): Promise<any> {
         AdditionalRisk: parseAdditionalRisk(rating),
         Vehicle: tableElements['Vehicle']?.textContent.trim(),
         Shuttle: tableElements['Shuttle']?.textContent.trim(),
-        Permits: tableElements['Permits']?.textContent.trim(),
+        Permits: tableElements['Red Tape']?.textContent.trim(),
         Sports: parseSport(rating, ['canyoneering']),
         Time: parseTime(rating),
         RappelCountMin: raps.countMin,
