@@ -14,7 +14,9 @@ import parseMonths from './utils/parseMonths';
 let first = true;
 async function main() {
     console.log('[');
-    await Promise.all((await getRouteURLs()).map(async url => {
+    
+    const urls = await getRouteURLs()
+    await Promise.all((urls).map(async url => {
         try {
             const route = await parseRoute(url);
             if (first) { first = false; } else { console.log(','); }
