@@ -1,6 +1,8 @@
-export function parseRaps(value: string): {countMin?: number; countMax?: number; lengthMax?: number} {
-    const maxMatch = value?.match(/Max ↕([0-9]+ft$)/i);
-    const countMatch = value?.match(/^([0-9]+)(-([0-9]+))?/);
+import _, {toArray} from 'lodash';
+
+export function parseRaps(row: Element): {countMin?: number; countMax?: number; lengthMax?: number} {
+    const maxMatch = row.textContent?.match(/max ↨([0-9]+)ft/i);
+    const countMatch = row.textContent?.match(/Raps\: ([0-9]+)(-([0-9]+))?/);
 
     return {
         countMin: parseInt(countMatch?.[1] || '', 10),
