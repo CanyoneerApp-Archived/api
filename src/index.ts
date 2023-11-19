@@ -46,6 +46,7 @@ async function parseRoute(url: string): Promise<any> {
     const qualityPopSection = tableElementRowMap['Rating']!;
     const quality = qualityPopSection.querySelectorAll('.starRate4')?.length ?? 0 + (qualityPopSection.querySelectorAll('.starRate2')?.length ?? 0) / 2;
     const months = parseMonths(tableElementRowMap['Best season'])
+    const vehicle = tableElementRowMap['Vehicle']?.textContent?.trim().replace("Vehicle:", '')
 
     // Typically we just need the last element
     var tableElements = {};
@@ -53,7 +54,7 @@ async function parseRoute(url: string): Promise<any> {
         tableElements[key] = mostReleventElement(key, tableElementRowMap[key]);
     }
     const rating = tableElements['Difficulty']?.textContent.trim() ?? "";            
-
+    
     // popularity is currently broken
     const popularity =  tableElements['StarRank'] && parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2));
     return {
@@ -66,7 +67,7 @@ async function parseRoute(url: string): Promise<any> {
         Months: months,
         Difficulty: parseDifficulty(rating),
         AdditionalRisk: parseAdditionalRisk(rating),
-        Vehicle: tableElements['Vehicle']?.textContent.trim(),
+        Vehicle: vehicle,
         Shuttle: tableElements['Shuttle']?.textContent.trim(),
         Permits: tableElements['Red Tape']?.textContent.trim(),
         Sports: parseSport(rating, ['canyoneering']),
