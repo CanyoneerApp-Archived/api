@@ -6,15 +6,15 @@ import cachedFetch from './cachedFetch';
 const domParser = new XMLDOM.DOMParser();
 
 export default async function parseKML(document: Document) {
-    const url = document.querySelector('.kmllmenu a')?.getAttribute('href');
+  const url = document.querySelector('.kmllmenu a')?.getAttribute('href');
 
-    if (!url || !new URL(url, document.URL).pathname.endsWith('.kml')) {
-        return {url, geoJSON: undefined};
-    } else {
-        return {
-            url,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            geoJSON: ToGeoJSON.kml(domParser.parseFromString((await cachedFetch(url))!))
-        };
-    }
+  if (!url || !new URL(url, document.URL).pathname.endsWith('.kml')) {
+    return {url, geoJSON: undefined};
+  } else {
+    return {
+      url,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      geoJSON: ToGeoJSON.kml(domParser.parseFromString((await cachedFetch(url))!)),
+    };
+  }
 }
