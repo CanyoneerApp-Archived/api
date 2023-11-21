@@ -3,8 +3,8 @@ import _, {toArray} from 'lodash';
 export function parseTable(tableEl: Element | null | undefined) {
   if (!tableEl) return {};
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const one = _.fromPairs(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     toArray(tableEl!.children).map(tr => {
       const th = tr.querySelector('th');
       if (!th) {
