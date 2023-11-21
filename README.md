@@ -16,6 +16,12 @@ Install all dependencies
 yarn
 ```
 
+Install the git pre-commit hook
+
+```
+yarn install-precommit
+```
+
 Run the scraper
 
 ```
