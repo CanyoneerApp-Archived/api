@@ -14,7 +14,6 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "typeRoots": ["./types"]
+    "emitDecoratorMetadata": true
   }
 }

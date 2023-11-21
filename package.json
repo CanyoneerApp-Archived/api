@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "eslint": "eslint --fix **/*.ts",
-    "start": "ts-node --files --pretty src/index.ts"
+    "start": "ts-node --files --pretty src/index.ts",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -31,10 +32,19 @@
     "promise-throttle": "^1.0.1",
     "qs": "^6.9.1",
     "ts-node": "^10.9.1",
-    "typescript": "^3.7.4",
+    "typescript": "^5.3.2",
     "urlencode": "^1.1.0",
     "xmldom": "^0.2.1",
     "xmlparser": "^0.1.0",
     "yargs": "^15.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.9",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }
