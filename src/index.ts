@@ -62,9 +62,9 @@ async function parseRoute(url: string): Promise<any> {
     0 + (qualityPopSection.querySelectorAll('.starRate2')?.length ?? 0) / 2;
 
   // TODO popularity is currently broken
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const popularity =
     tableElements['StarRank'] &&
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2));
 
   return {
@@ -73,11 +73,11 @@ async function parseRoute(url: string): Promise<any> {
     Name: document.querySelector('h1')!.textContent!,
     Quality: quality,
     Popularity: popularity,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     Latitude:
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[0]),
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     Longitude:
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[1]),
     Months: parseMonths(tableElements),
     Difficulty: parseDifficulty(rating),
