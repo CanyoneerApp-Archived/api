@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "eslint": "eslint --fix **/*.ts",
-    "start": "ts-node --files --pretty src/index.ts"
+    "start": "ts-node --files --pretty src/index.ts",
+    "ci": "yarn eslint"
   },
   "author": "",
   "license": "ISC",
