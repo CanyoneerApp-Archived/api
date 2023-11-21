@@ -5,7 +5,9 @@ import {scrapeRoute} from './scrapeRoute';
 let first = true;
 async function main() {
     console.log('[');
-    await Promise.all((await getRouteURLs()).map(async url => {
+
+    const urls = await getRouteURLs();
+    await Promise.all((urls).map(async url => {
         try {
             const route = await scrapeRoute(url);
             if (first) { first = false; } else { console.log(','); }

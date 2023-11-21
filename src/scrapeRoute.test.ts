@@ -1,7 +1,12 @@
 import {scrapeRoute} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.
-// This could happen because of a bug in our code or a change on RopeWiki's site.
+// This could happen because of:
+//   - a bug in our code -> fix the bug
+//   - a change to RopeWiki's HTML structure -> fix our scraper
+//   - a legitimate change to one of these canyon's beta -> update the snapshot by running  `yarn test --updateSnapshot`
+
+// These canyons are chosen because they have a lot of metadata and but are unlikely to be updated frequently
 
 describe('scrapeRoute', () => {
     it('matches snapshot for Cerebus', async () => {

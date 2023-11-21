@@ -121,16 +121,16 @@ In all habitats live animals and plants that deserve respect, please minimize im
   "Permits": "Permit required",
   "Popularity": undefined,
   "Quality": 3,
-  "RappelCountMax": 170,
-  "RappelCountMin": 170,
-  "RappelLengthMax": NaN,
+  "RappelCountMax": 9,
+  "RappelCountMin": 9,
+  "RappelLengthMax": 170,
   "Shuttle": "None",
   "Sports": [
     "canyoneering",
   ],
   "Time": "III",
   "URL": "https://ropewiki.com/Behunin_Canyon",
-  "Vehicle": "Vehicle:",
+  "Vehicle": "Passenger",
 }
 `;
 
@@ -202,15 +202,15 @@ In all habitats live animals and plants that deserve respect, please minimize im
   "Permits": "No permit required",
   "Popularity": undefined,
   "Quality": 4,
-  "RappelCountMax": 270,
-  "RappelCountMin": 270,
-  "RappelLengthMax": NaN,
+  "RappelCountMax": 27,
+  "RappelCountMin": 27,
+  "RappelLengthMax": 270,
   "Shuttle": "Required 1 hour",
   "Sports": [
     "canyoneering",
   ],
   "Time": "IV",
   "URL": "https://ropewiki.com/Cerberus_Canyon_(North_Fork)",
-  "Vehicle": "Vehicle:",
+  "Vehicle": "Passenger",
 }
 `;
