@@ -140,10 +140,10 @@
   resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.4.0.tgz#6ecbc58519395443c2e3a259e052b2b3316f08bc"
   integrity sha512-YizK7w9T2R4URkjbdo9ssEiiQ2lyMfKdTk5uNWAjFwdxU2KFE18B7vtXy3TJRkTQHjfuKgLNwZpTPSWRnGKggw==
 
-"@scree/eslint-config-quality@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.6.0.tgz#93a30e1dd36bd141aa468869f203d6affe0b896b"
-  integrity sha512-aNfKcvuVLlhAYbyMGsqgnaH39yDvypNM8A7PfhFGzddyxeQ5S9NpbPAVDntlkE/badEiTOoybbOezhu3iI8Pzg==
+"@scree/eslint-config-quality@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.7.0.tgz#e2d57221e691cce1faef9b37ec9971fb1fe0a8f2"
+  integrity sha512-QqBJxzI731IqedlLLgYHntqrmMC+IXWj2sESIiGbNRNzwnjIFodr05T/gJ4jjWDNzDRVinO7uATO2Go3c4FDIw==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^6.10.0"
     "@typescript-eslint/parser" "^6.10.0"
