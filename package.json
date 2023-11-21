@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "ts-node --files --pretty src/index.ts",
+    "start": "ts-node --files --pretty src/scrape/index.ts",
     "lint": "scree lint",
     "lint-fix": "scree lint-fix",
     "precommit": "scree precommit",
     "preinstall": "scree preinstall",
-    "install-precommit": "scree install-precommit"
+    "install-precommit": "scree install-precommit",
+    "deploy": "AWS_PROFILE=canyoneer GIT_BRANCH=`git branch --show-current` ts-node src/deploy/index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-cloudformation": "^3.454.0",
+    "@aws-sdk/client-s3": "^3.456.0",
     "@mapbox/togeojson": "^0.16.0",
     "@scree/eslint-config-quality": "^1.6.0",
     "@scree/quality": "^0.14.0",
@@ -26,6 +29,7 @@
     "@types/yargs": "^13.0.4",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
     "@typescript-eslint/parser": "^2.13.0",
+    "cloudform": "^7.5.0",
     "eslint": "^6.8.0",
     "eslint-config-mourner": "^3.0.0",
     "eslint-config-prettier": "^9.0.0",

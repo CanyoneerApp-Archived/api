@@ -10,7 +10,7 @@ git clone git@github.com:lucaswoj/canyoneer.git
 cd canyoneer
 ```
 
-Install all dependencies
+Install all  yarn dependencies
 
 ```
 yarn
@@ -22,8 +22,22 @@ Install the git pre-commit hook
 yarn install-precommit
 ```
 
-Run the scraper
+[Install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+[Create an AWS access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html)
+
+Authenticate the AWS CLI
 
 ```
-yarn start > output.json
+$ aws configure --profile canyoneer
+
+AWS Access Key ID [None]: {COPY FROM PREVIOUS STEP}
+AWS Secret Access Key [None]: {COPY FROM PREVIOUS STEP}
+Default region name [None]:
+Default output format [None]:
+```
+
+Run the scraper
+```
+yarn start
 ```
