@@ -1,24 +1,25 @@
 import _, {toArray} from 'lodash';
 
-export function parseTable(tableEl: Element | null | undefined): any {
+export function parseTable(tableEl: Element | null | undefined) {
     if (!tableEl) return {};
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const one = _.fromPairs(toArray(tableEl!.children).map(tr => {
         const th = tr.querySelector('th');
-        if (!th) { return []; } else { return [th.textContent?.slice(0, th.textContent.length - 1), tr.querySelector('td')]; }
+        if (!th) {return [];} else {return [th.textContent?.slice(0, th.textContent.length - 1), tr.querySelector('td')];}
     }));
 
     const two = _.fromPairs(toArray(tableEl.querySelectorAll('div.detailsRow')).map(tr => {
-        const th = tr.querySelector('.detailsRowDescriptor');        
-        if (!th) { 
-            return []; 
-        } else { 
+        const th = tr.querySelector('.detailsRowDescriptor');
+        if (!th) {
+            return [];
+        } else {
             // permits has a <u> instead of a <span>
-            var found = _.last(tr.querySelectorAll('u'))
+            let found = _.last(tr.querySelectorAll('u'))
             if (found == null) {
                 found = _.last(tr.querySelectorAll('span'))
             }
-            return [th.textContent?.slice(0, th.textContent.length - 1), found]; 
+            return [th.textContent?.slice(0, th.textContent.length - 1), found];
         }
     }));
 

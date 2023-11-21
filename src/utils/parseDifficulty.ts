@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export type Difficulty = (
     'class 1' |
     'class 2' |

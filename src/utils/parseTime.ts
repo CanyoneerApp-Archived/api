@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 type Time = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 
 const lookups: [string | RegExp, Time][] = [

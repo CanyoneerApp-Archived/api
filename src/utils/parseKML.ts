@@ -1,4 +1,5 @@
 import XMLDOM from 'xmldom';
+// @ts-ignore TODO write typescript interafce
 import ToGeoJSON from '@mapbox/togeojson';
 import cachedFetch from './cachedFetch';
 
@@ -12,7 +13,8 @@ export default async function parseKML(document: Document) {
     } else {
         return {
             url,
-            geoJSON: ToGeoJSON.kml(domParser.parseFromString(await cachedFetch(url)))
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            geoJSON: ToGeoJSON.kml(domParser.parseFromString((await cachedFetch(url))!))
         };
     }
 }

@@ -1,5 +1,3 @@
-import _  from 'lodash';
-
 export type AdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R'
 
 const lookups: [string | RegExp, AdditionalRisk][] = [

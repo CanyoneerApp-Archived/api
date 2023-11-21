@@ -31,6 +31,7 @@ const months: Month[] = [
     'December'
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function parseMonths(tableElements: any): Month[] {
     return _.compact(tableElements['Best season'] && toArray(tableElements['Best season'].querySelectorAll('.wikitable.bst td:not(.bss)')).map((el, index) => (el.className === 'bsg' ? months[index] : undefined)));
 }

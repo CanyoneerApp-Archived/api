@@ -1,7 +1,8 @@
-import fetch from 'node-fetch';
-import FS from 'fs-extra';
-import Path from 'path';
 import nodeCrypto from 'crypto';
+import FS from 'fs-extra';
+import fetch from 'node-fetch';
+import Path from 'path';
+// @ts-ignore TODO create a type file for this module
 import PromiseThrottle from 'promise-throttle';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
@@ -11,12 +12,12 @@ function md5(input: string) {
 }
 
 function getPath(url: string) {
-    return Path.join(__dirname, '../../cache', `${md5(url)  }.txt`);
+    return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
 }
 
 async function defaultTransform(url: string): Promise<string> {
     const response = await fetch(url);
-    if (!response.ok) { throw new Error(`HTTP response not ok: ${url} ${response.statusText}`); }
+    if (!response.ok) {throw new Error(`HTTP response not ok: ${url} ${response.statusText}`);}
     return response.text();
 }
 
@@ -39,14 +40,14 @@ async function cachedFetch(url: string, transform: (url: string) => Promise<stri
 
     } else {
         return FS.readFile(path, 'utf-8');
-
     }
 }
 
-cachedFetch.has = (url: string): Promise<boolean> => {
+cachedFetch.has = async (url: string): Promise<boolean> => {
     const path = getPath(url);
-    // @ts-ignore broken typings
+    // TODO use async API like FS.promises.access
     return FS.existsSync(path);
 };
+
 
 export default cachedFetch;
