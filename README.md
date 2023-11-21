@@ -10,7 +10,7 @@ git clone git@github.com:lucaswoj/canyoneer.git
 cd canyoneer
 ```
 
-Install all  yarn dependencies
+Install all yarn dependencies
 
 ```
 yarn
@@ -38,6 +38,7 @@ Default output format [None]:
 ```
 
 Run the scraper
+
 ```
 yarn start
 ```
