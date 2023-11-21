@@ -1,5 +1,4 @@
 import cachedFetch from './utils/cachedFetch';
-import _, {toArray}  from 'lodash';
 import jsdom  from 'jsdom';
 import parseDifficulty  from './utils/parseDifficulty';
 import parseTime  from './utils/parseTime';
@@ -37,7 +36,7 @@ async function parseRoute(url: string): Promise<any> {
     const {window: {document}} = new jsdom.JSDOM(text, {url});
 
     const tableElements = parseTable(document.querySelector('.tablecanyon tbody'));
-    const rating = tableElements['Difficulty']?.textContent.trim() ?? "";
+    const rating = tableElements['Difficulty']?.textContent.trim() ?? '';
     const raps = parseRaps(tableElements['Raps']?.textContent.trim());
     const kml = await parseKML(document);
 
