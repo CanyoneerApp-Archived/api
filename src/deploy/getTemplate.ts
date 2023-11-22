@@ -3,7 +3,7 @@ import cloudform, {DeletionPolicy, Fn, S3} from 'cloudform';
 import {UpdateStackOptions} from './updateStack';
 
 export default ({app, branch}: UpdateStackOptions) =>
-  cloudform({
+  JSON.parse(cloudform({
     Description: `${app}--${branch}`,
 
     Outputs: {
@@ -41,4 +41,4 @@ export default ({app, branch}: UpdateStackOptions) =>
         },
       }).dependsOn(['Bucket']),
     },
-  });
+  }));

@@ -5,7 +5,7 @@ import {
   waitUntilStackUpdateComplete,
 } from '@aws-sdk/client-cloudformation';
 import chalk from 'chalk';
-import getStackTemplate from './getStackTemplate';
+import getTemplate from './getTemplate';
 
 export interface UpdateStackOptions {
   branch: string;
@@ -22,20 +22,21 @@ export async function updateStack(options: UpdateStackOptions) {
     const stackList = (await cloudFormation.listStacks({})).StackSummaries;
     const stack = stackList && stackList.find(s => s.StackName === stackName);
 
+    const template = getTemplate(options)
     const command: CreateStackCommandInput = {
       StackName: stackName,
-      TemplateBody: getStackTemplate(options),
+      TemplateBody: JSON.stringify(template),
       Capabilities: ['CAPABILITY_IAM'],
     };
 
-    const maxKeyLength = Math.max(stackName.length, ...Object.keys(JSON.parse(command.TemplateBody ?? "{}")).map(key => key.length))
+    const maxNameLength = getMaxNameLength(stackName, template)
 
     if (!stack || stack.StackStatus === 'DELETE_COMPLETE') {
       console.log('Creating new stack');
 
       await cloudFormation.createStack(command);
 
-      const stopLoggingStackEvents = logStackEvents(maxKeyLength);
+      const stopLoggingStackEvents = logStackEvents(maxNameLength);
 
       await waitUntilStackCreateComplete(
         {client: cloudFormation, maxWaitTime: 60 * 5},
@@ -47,7 +48,7 @@ export async function updateStack(options: UpdateStackOptions) {
       console.log('Updating existing stack');
       await cloudFormation.updateStack(command);
 
-      const stopLoggingStackEvents = logStackEvents(maxKeyLength);
+      const stopLoggingStackEvents = logStackEvents(maxNameLength);
 
       await waitUntilStackUpdateComplete(
         {client: cloudFormation, maxWaitTime: 60 * 5},
@@ -77,7 +78,7 @@ export async function updateStack(options: UpdateStackOptions) {
     );
   }
 
-  function logStackEvents(maxKeyLength: number) {
+  function logStackEvents(maxNameLength: number) {
     const startTime = new Date();
     const visitedEvents = new Set<string>();
 
@@ -89,7 +90,7 @@ export async function updateStack(options: UpdateStackOptions) {
         visitedEvents.add(event.EventId);
         console.log(
           chalk.dim(
-            `${event.LogicalResourceId?.padEnd(maxKeyLength)} ${event.ResourceStatus} ${event.ResourceStatusReason ?? ''
+            `${event.LogicalResourceId?.padEnd(maxNameLength)} ${event.ResourceStatus} ${event.ResourceStatusReason ?? ''
             }`,
           ),
         );
@@ -99,3 +100,7 @@ export async function updateStack(options: UpdateStackOptions) {
     return () => setInterval(() => clearInterval(interval));
   }
 }
+function getMaxNameLength(stackName: string, template: any) {
+  return Math.max(stackName.length, ...Object.keys(template.Resources).map(key => key.length));
+}
+
