@@ -19,17 +19,15 @@ export async function scrape(options: CachedFetchOptions) {
   output.write('[\n');
   await Promise.all(
     (await getRouteURLs(options)).map(async url => {
-      try {
-        const route = await scrapeRoute(url, options);
-        if (first) {
-          first = false;
-        } else {
-          output.write(',\n');
-        }
-        output.write(`${JSON.stringify(route)}`);
-      } catch (error) {
-        console.error(error);
+      const route = await scrapeRoute(url, options);
+      if (!route) {
+        return;
+      } else if (first) {
+        first = false;
+      } else {
+        output.write(',\n');
       }
+      output.write(`${JSON.stringify(route)}`);
     }),
   );
   output.write(']');

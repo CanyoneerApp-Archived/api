@@ -18,7 +18,7 @@ async function main() {
     const stack = await updateStack();
     await scrape(options);
     await upload(stack);
-    console.log(chalk.bold(`Uploaded to ${stack.url}`));
+    console.log(chalk.bold(`Done! ${stack.url}/routes.json`));
   }
 }
 

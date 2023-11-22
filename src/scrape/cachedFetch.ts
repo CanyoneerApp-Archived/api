@@ -23,17 +23,17 @@ async function cachedFetch(url: string, options: CachedFetchOptions) {
   const path = getPath(url);
 
   if (await cachedFetch.has(url)) {
-    console.log(chalk.dim(`Using cached ${url}`));
+    console.log(chalk.dim(`Fetch cached ${url}`));
     return FS.readFile(path, 'utf-8');
   } else if (options.skipFetch) {
-    console.log(chalk.dim(`Skipping ${url}`));
+    console.log(chalk.dim(`Fetch skip ${url}`));
     return undefined;
   } else {
     const text = await promiseThrottle.add(async () => {
-      console.log(chalk.dim(`Fetching ${url}`));
+      console.log(chalk.dim(`Fetch ${url}`));
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`Fetch failed ${response.status} ${url}`);
+        throw new Error(`Fetch error ${response.status} ${url}`);
       }
       return response.text();
     });
