@@ -18,9 +18,10 @@ describe('scrapeRoute', () => {
     });
 });
 
-function transform({GeoJSON, ...rest}: any) {
+function transform({GeoJSON, HTMLDescription, ...rest}: any) {
     return {
         HasGeoJSON: !!GeoJSON,
+        HasHTMLDescription: !!HTMLDescription,
         ...rest
     };
 }
