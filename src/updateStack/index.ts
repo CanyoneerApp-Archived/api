@@ -46,7 +46,7 @@ export async function updateStack(): Promise<StackOutputs> {
 
     stopLoggingStackEvents();
 
-    console.log('Stack creation complete');
+    console.log('Stack created');
   } else {
     console.log('Updating stack');
     try {
@@ -57,7 +57,7 @@ export async function updateStack(): Promise<StackOutputs> {
         'message' in error &&
         error.message === 'No updates are to be performed.'
       ) {
-        console.log('Stack already up to date');
+        console.log('Stack unchanged');
       } else {
         throw error;
       }
@@ -72,7 +72,7 @@ export async function updateStack(): Promise<StackOutputs> {
 
     stopLoggingStackEvents();
 
-    console.log('Stack update complete');
+    console.log('Stack updated');
   }
 
   const outputs = await getStackOutputs();

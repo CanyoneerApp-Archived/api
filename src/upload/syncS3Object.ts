@@ -26,7 +26,7 @@ export default async function syncS3Object(
   const prevEtag = prevObject?.ETag && JSON.parse(prevObject?.ETag);
 
   if (!prevObject || prevEtag !== etag) {
-    console.log(chalk.dim(`Uploading "${key}"`));
+    console.log(chalk.dim(`Uploading ${key}`));
     const {VersionId: versionId, ETag: actualEtagJson} = await s3.putObject({
       Bucket: bucket,
       Key: key,
@@ -51,6 +51,7 @@ export default async function syncS3Object(
       S3ObjectVersion: versionId,
     };
   } else {
+    console.log(chalk.dim(`Skipping upload ${key}`));
     return {
       S3Bucket: bucket,
       S3Key: key,

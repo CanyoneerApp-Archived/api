@@ -15,21 +15,25 @@ function getPath(url: string) {
   return `./output/cache/${md5(url)}.txt`;
 }
 
+export interface CachedFetchOptions {
+  skipFetch: boolean;
+}
+
 async function cachedFetch(url: string, options: CachedFetchOptions) {
   const path = getPath(url);
 
   if (await cachedFetch.has(url)) {
-    if (options.verbose) console.log(chalk.dim(`Fetching from cache ${url}`));
+    console.log(chalk.dim(`Using cached ${url}`));
     return FS.readFile(path, 'utf-8');
   } else if (options.skipFetch) {
-    if (options.verbose) console.log(chalk.dim(`Fetching skipped uncached ${url}`));
+    console.log(chalk.dim(`Skipping ${url}`));
     return undefined;
   } else {
     const text = await promiseThrottle.add(async () => {
       console.log(chalk.dim(`Fetching ${url}`));
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`HTTP response not ok: ${url} ${response.statusText}`);
+        throw new Error(`Fetch failed ${response.status} ${url}`);
       }
       return response.text();
     });
@@ -45,7 +49,3 @@ cachedFetch.has = async (url: string): Promise<boolean> => {
 };
 
 export default cachedFetch;
-export interface CachedFetchOptions {
-  skipFetch: boolean;
-  verbose: boolean;
-}
