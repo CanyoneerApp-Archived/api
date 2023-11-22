@@ -51,7 +51,7 @@ export default async function syncS3Object(
       S3ObjectVersion: versionId,
     };
   } else {
-    console.log(chalk.dim(`Skipping upload ${key}`));
+    console.log(chalk.dim(`Skipping ${key}`));
     return {
       S3Bucket: bucket,
       S3Key: key,

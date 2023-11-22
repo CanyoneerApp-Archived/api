@@ -1,10 +1,7 @@
 import {S3} from '@aws-sdk/client-s3';
 import FS from 'fs';
 import Path from 'path';
-import PromiseThrottle from 'promise-throttle';
 import syncS3Object from './syncS3Object';
-
-const promiseThrottle = new PromiseThrottle({requestsPerSecond: 100});
 
 interface UploadOptions {
   region: string;
@@ -33,13 +30,10 @@ export async function upload({
       }),
     );
   } else {
-    await promiseThrottle.add(async () => {
-      key ||= Path.basename(localPath);
-      return syncS3Object(s3, {
-        Key: key,
-        Bucket: bucket,
-        Body: await FS.promises.readFile(localPath),
-      });
+    await syncS3Object(s3, {
+      Key: key || Path.basename(localPath),
+      Bucket: bucket,
+      Body: await FS.promises.readFile(localPath),
     });
   }
 }

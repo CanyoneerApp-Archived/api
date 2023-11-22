@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import FS from 'fs';
 import jsdom from 'jsdom';
 import cachedFetch, {CachedFetchOptions} from './cachedFetch';
@@ -51,7 +50,6 @@ async function scrapeRoute(url: string, options: CachedFetchOptions): Promise<an
   const text = await cachedFetch(url, options);
   if (!text) return undefined;
 
-  console.log(chalk.dim(`Parsing ${url}`));
   const {
     window: {document},
   } = new jsdom.JSDOM(text, {url});
