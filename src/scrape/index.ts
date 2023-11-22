@@ -1,3 +1,4 @@
+import FS from 'fs';
 import jsdom from 'jsdom';
 import cachedFetch from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
@@ -10,27 +11,28 @@ import parseSport from './parseSports';
 import {parseTable} from './parseTable';
 import parseTime from './parseTime';
 
-let first = true;
-async function main() {
-  console.log('[');
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+export async function scrape() {
+  await FS.promises.mkdir('./output/cache', {recursive: true})
+  const output = FS.createWriteStream('./output/routes.json')
+
+  let first = true;
+  output.write('[\n');
   await Promise.all(
     (await getRouteURLs()).map(async url => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        const route = await parseRoute(url);
+        const route = await scrapeRoute(url);
         if (first) {
           first = false;
         } else {
-          console.log(',');
+          output.write(',\n');
         }
-        console.log(JSON.stringify(route));
+        output.write(`${JSON.stringify(route)}`);
       } catch (error) {
         console.error(error);
       }
     }),
   );
-  console.log(']');
+  output.write(']');
 }
 
 async function getRouteURLs(): Promise<Array<string>> {
@@ -43,7 +45,7 @@ async function getRouteURLs(): Promise<Array<string>> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function parseRoute(url: string): Promise<any> {
+async function scrapeRoute(url: string): Promise<any> {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const text = (await cachedFetch(url))!;
   const {
@@ -95,5 +97,3 @@ async function parseRoute(url: string): Promise<any> {
     GeoJSON: kml.geoJSON,
   };
 }
-
-main();

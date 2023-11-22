@@ -1,7 +1,7 @@
+import chalk from 'chalk';
 import nodeCrypto from 'crypto';
 import FS from 'fs-extra';
 import fetch from 'node-fetch';
-import Path from 'path';
 // @ts-ignore TODO create a type file for this module
 import PromiseThrottle from 'promise-throttle';
 
@@ -12,7 +12,7 @@ function md5(input: string) {
 }
 
 function getPath(url: string) {
-  return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
+  return `./output/cache/${md5(url)}.txt`;
 }
 
 async function defaultTransform(url: string): Promise<string> {
@@ -31,12 +31,8 @@ async function cachedFetch(
 
   if (!(await cachedFetch.has(url))) {
     const text = await promiseThrottle.add(async () => {
-      try {
-        return await transform(url);
-      } catch (error) {
-        console.error(error);
-        return undefined;
-      }
+      console.log(chalk.dim(`Fetching ${url}`))
+      return await transform(url);
     });
     if (text) {
       await FS.writeFile(path, text);
