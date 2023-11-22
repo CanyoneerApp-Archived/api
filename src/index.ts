@@ -15,7 +15,8 @@ let first = true;
 async function main() {
     console.log('[');
     
-    const urls = await getRouteURLs()
+    const urls_ = await getRouteURLs()
+    const urls = urls_.slice(0, 10);
     await Promise.all((urls).map(async url => {
         try {
             const route = await parseRoute(url);
