@@ -7,7 +7,6 @@
     "lint": "scree lint",
     "lint-fix": "scree lint-fix",
     "precommit": "scree precommit",
-    "preinstall": "scree preinstall",
     "install-precommit": "scree install-precommit"
   },
   "author": "",
