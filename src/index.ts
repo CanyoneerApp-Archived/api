@@ -1,5 +1,4 @@
 import cachedFetch from './utils/cachedFetch';
-import _, {toArray}  from 'lodash';
 import jsdom  from 'jsdom';
 import parseDifficulty  from './utils/parseDifficulty';
 import parseTime  from './utils/parseTime';
@@ -14,8 +13,8 @@ import parseMonths from './utils/parseMonths';
 let first = true;
 async function main() {
     console.log('[');
-    
-    const urls = await getRouteURLs()
+
+    const urls = await getRouteURLs();
     await Promise.all((urls).map(async url => {
         try {
             const route = await parseRoute(url);
@@ -45,16 +44,16 @@ async function parseRoute(url: string): Promise<any> {
     const raps = parseRaps(tableElementRowMap['Raps']);
     const qualityPopSection = tableElementRowMap['Rating']!;
     const quality = qualityPopSection.querySelectorAll('.starRate4')?.length ?? 0 + (qualityPopSection.querySelectorAll('.starRate2')?.length ?? 0) / 2;
-    const months = parseMonths(tableElementRowMap['Best season'])
-    const vehicle = tableElementRowMap['Vehicle']?.textContent?.trim().replace("Vehicle:", '')
+    const months = parseMonths(tableElementRowMap['Best season']);
+    const vehicle = tableElementRowMap['Vehicle']?.textContent?.trim().replace('Vehicle:', '');
 
     // Typically we just need the last element
-    var tableElements = {};
-    for (let key in tableElementRowMap) {
+    const tableElements = {};
+    for (const key in tableElementRowMap) {
         tableElements[key] = mostReleventElement(key, tableElementRowMap[key]);
     }
-    const rating = tableElements['Difficulty']?.textContent.trim() ?? "";            
-    
+    const rating = tableElements['Difficulty']?.textContent.trim() ?? '';
+
     // popularity is currently broken
     const popularity =  tableElements['StarRank'] && parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2));
     return {

@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "eslint": "eslint --fix **/*.ts",
-    "start": "ts-node --files --pretty src/index.ts"
+    "start": "ts-node --files --pretty src/index.ts",
+    "ci": "yarn eslint"
   },
   "author": "",
   "license": "ISC",
@@ -28,7 +29,7 @@
     "lodash": "^4.17.15",
     "node-base64-image": "^2.0.3",
     "node-fetch": "^2.6.0",
-    "promise-throttle": "^1.0.1",
+    "promise-throttle": "^1.1.2",
     "qs": "^6.9.1",
     "ts-node": "^10.9.1",
     "typescript": "^3.7.4",
