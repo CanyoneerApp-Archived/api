@@ -1,6 +1,7 @@
+import chalk from 'chalk';
 import FS from 'fs';
 import jsdom from 'jsdom';
-import cachedFetch from './cachedFetch';
+import cachedFetch, {CachedFetchOptions} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
 import parseDifficulty from './parseDifficulty';
@@ -11,16 +12,16 @@ import parseSport from './parseSports';
 import {parseTable} from './parseTable';
 import parseTime from './parseTime';
 
-export async function scrape() {
-  await FS.promises.mkdir('./output/cache', {recursive: true})
-  const output = FS.createWriteStream('./output/routes.json')
+export async function scrape(options: CachedFetchOptions) {
+  await FS.promises.mkdir('./output/cache', {recursive: true});
+  const output = FS.createWriteStream('./output/routes.json');
 
   let first = true;
   output.write('[\n');
   await Promise.all(
-    (await getRouteURLs()).map(async url => {
+    (await getRouteURLs(options)).map(async url => {
       try {
-        const route = await scrapeRoute(url);
+        const route = await scrapeRoute(url, options);
         if (first) {
           first = false;
         } else {
@@ -35,19 +36,22 @@ export async function scrape() {
   output.write(']');
 }
 
-async function getRouteURLs(): Promise<Array<string>> {
+async function getRouteURLs(options: CachedFetchOptions): Promise<Array<string>> {
   const url =
     'http://ropewiki.com/api.php?action=ask&format=json&query=%5B%5BCategory%3ACanyons%5D%5D%5B%5BHas+coordinates%3A%3A%2B%5D%5D%5B%5BCategory%3ACanyons%5D%5D%0A++%0A++%5B%5BHas+star+rating%3A%3A%210%5D%5D%5B%5BHas+star+rating%3A%3A%211%5D%5D%5B%5BHas+latitude%3A%3A%3E30.412022222222%5D%5D%5B%5BHas+longitude%3A%3A%3E-128.08301666667%5D%5D%5B%5BHas+latitude%3A%3A%3C44.8852%5D%5D%5B%5BHas+longitude%3A%3A%3C-108.54692%5D%5D%7Corder%3Ddescending%2C+ascending%7Csort%3DHas_rank_rating%2C+Has_name|%3FHas_coordinates|%3FHas_star_rating|%3FHas_summary|%3FHas_banner_image_file|%3FHas_location_class|%3FHas_KML_file|limit=2000|offset=0';
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const response = JSON.parse((await cachedFetch(url))!);
+  const response = JSON.parse((await cachedFetch(url, options))!);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return Object.values(response.query.results).map((result: any) => result.fullurl);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function scrapeRoute(url: string): Promise<any> {
+async function scrapeRoute(url: string, options: CachedFetchOptions): Promise<any> {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const text = (await cachedFetch(url))!;
+  const text = await cachedFetch(url, options);
+  if (!text) return undefined;
+
+  console.log(chalk.dim(`Parsing ${url}`));
   const {
     window: {document},
   } = new jsdom.JSDOM(text, {url});
@@ -55,7 +59,7 @@ async function scrapeRoute(url: string): Promise<any> {
   const tableElements = parseTable(document.querySelector('.tablecanyon tbody'));
   const rating = tableElements['Difficulty']?.textContent.trim() ?? '';
   const raps = parseRaps(tableElements['Raps']?.textContent.trim());
-  const kml = await parseKML(document);
+  const kml = await parseKML(document, options);
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const qualityPopSection = tableElements['Rating']!;
@@ -92,8 +96,8 @@ async function scrapeRoute(url: string): Promise<any> {
     RappelCountMin: raps.countMin,
     RappelCountMax: raps.countMax,
     RappelLengthMax: raps.lengthMax,
-    KMLURL: kml.url,
+    KMLURL: kml?.url,
     HTMLDescription: await parseDescription(document),
-    GeoJSON: kml.geoJSON,
+    GeoJSON: kml?.geoJSON,
   };
 }

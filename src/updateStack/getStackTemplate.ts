@@ -1,14 +1,16 @@
 /* eslint-disable new-cap */
 import cloudform, {DeletionPolicy, Fn, S3} from 'cloudform';
+import Output from 'cloudform-types/types/output';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type StackOutputs = {
-  region: string,
-  bucketName: string
+  region: string;
+  bucket: string;
+  url: string;
 };
 
 export function getStackTemplate(stackName: string, region: string) {
-  JSON.parse(
+  return JSON.parse(
     cloudform({
       Description: `Cloudformation`,
 
@@ -17,9 +19,13 @@ export function getStackTemplate(stackName: string, region: string) {
           Value: region,
         },
         bucket: {
-          Value: Fn.Ref('Bucket')
-        }
-      },
+          Value: Fn.Ref('Bucket'),
+        },
+        url: {
+          Value: Fn.GetAtt('Bucket', 'WebsiteURL'),
+        },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } as {[Key in keyof StackOutputs]: Output},
 
       Resources: {
         Bucket: new S3.Bucket({

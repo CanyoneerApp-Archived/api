@@ -15,31 +15,26 @@ function getPath(url: string) {
   return `./output/cache/${md5(url)}.txt`;
 }
 
-async function defaultTransform(url: string): Promise<string> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`HTTP response not ok: ${url} ${response.statusText}`);
-  }
-  return response.text();
-}
-
-async function cachedFetch(
-  url: string,
-  transform: (url: string) => Promise<string> = defaultTransform,
-) {
+async function cachedFetch(url: string, options: CachedFetchOptions) {
   const path = getPath(url);
 
-  if (!(await cachedFetch.has(url))) {
-    const text = await promiseThrottle.add(async () => {
-      console.log(chalk.dim(`Fetching ${url}`))
-      return await transform(url);
-    });
-    if (text) {
-      await FS.writeFile(path, text);
-    }
-    return text;
-  } else {
+  if (await cachedFetch.has(url)) {
+    if (options.verbose) console.log(chalk.dim(`Fetching from cache ${url}`));
     return FS.readFile(path, 'utf-8');
+  } else if (options.skipFetch) {
+    if (options.verbose) console.log(chalk.dim(`Fetching skipped uncached ${url}`));
+    return undefined;
+  } else {
+    const text = await promiseThrottle.add(async () => {
+      console.log(chalk.dim(`Fetching ${url}`));
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP response not ok: ${url} ${response.statusText}`);
+      }
+      return response.text();
+    });
+    await FS.writeFile(path, text);
+    return text;
   }
 }
 
@@ -50,3 +45,7 @@ cachedFetch.has = async (url: string): Promise<boolean> => {
 };
 
 export default cachedFetch;
+export interface CachedFetchOptions {
+  skipFetch: boolean;
+  verbose: boolean;
+}

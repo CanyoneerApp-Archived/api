@@ -1,58 +1,63 @@
 import {
   CloudFormation,
   CreateStackCommandInput,
-  waitUntilStackUpdateComplete
+  waitUntilStackCreateComplete,
+  waitUntilStackUpdateComplete,
 } from '@aws-sdk/client-cloudformation';
 import chalk from 'chalk';
+import {isObject} from 'lodash';
 import {StackOutputs, getStackTemplate} from './getStackTemplate';
 
 if (!process.env.GIT_BRANCH) {
   throw new Error('Please run this script using "yarn start"');
 }
 
-const appName = 'canyoneer'
-const branchName = process.env.GIT_BRANCH
+const appName = 'canyoneer';
+const branchName = process.env.GIT_BRANCH;
 const stackName = `${appName}--${branchName}`;
 
-const region = 'us-east-1'
+const region = 'us-east-1';
 const cloudFormation = new CloudFormation({region});
 
 export async function updateStack(): Promise<StackOutputs> {
   const stackList = (await cloudFormation.listStacks({})).StackSummaries;
   const stack = stackList && stackList.find(s => s.StackName === stackName);
 
-  const template = getStackTemplate(stackName, region)
+  const template = getStackTemplate(stackName, region);
   const command: CreateStackCommandInput = {
     StackName: stackName,
     TemplateBody: JSON.stringify(template),
     Capabilities: ['CAPABILITY_IAM'],
   };
 
-  const maxNameLength = getMaxNameLength(stackName, template)
+  const maxNameLength = getMaxNameLength(template);
 
   if (!stack || stack.StackStatus === 'DELETE_COMPLETE') {
-    console.log('Creating new stack');
+    console.log('Creating stack');
 
-    try {
-      await cloudFormation.createStack(command);
-    } catch (error: any) {
-      if (error.message === 'No updates are to be performed.') {
-        console.log('No stack updates found');
-        return
-      } else {
-        throw error;
-      }
-    }
+    await cloudFormation.createStack(command);
 
+    const stopLoggingStackEvents = logStackEvents(maxNameLength);
+
+    await waitUntilStackCreateComplete(
+      {client: cloudFormation, maxWaitTime: 60 * 5},
+      {StackName: stackName},
+    );
+
+    stopLoggingStackEvents();
+
+    console.log('Stack creation complete');
   } else {
-    console.log('Updating existing stack');
-
+    console.log('Updating stack');
     try {
       await cloudFormation.updateStack(command);
-    } catch (error: any) {
-      if (error.message === 'No updates are to be performed.') {
-        console.log('No stack updates found');
-        return
+    } catch (error) {
+      if (
+        isObject(error) &&
+        'message' in error &&
+        error.message === 'No updates are to be performed.'
+      ) {
+        console.log('Stack already up to date');
       } else {
         throw error;
       }
@@ -66,10 +71,11 @@ export async function updateStack(): Promise<StackOutputs> {
     );
 
     stopLoggingStackEvents();
+
+    console.log('Stack update complete');
   }
 
   const outputs = await getStackOutputs();
-  console.log(outputs);
   return outputs;
 }
 
@@ -92,7 +98,8 @@ function logStackEvents(maxNameLength: number) {
       visitedEvents.add(event.EventId);
       console.log(
         chalk.dim(
-          `${event.LogicalResourceId?.padEnd(maxNameLength)} ${event.ResourceStatus} ${event.ResourceStatusReason ?? ''
+          `${event.LogicalResourceId?.padEnd(maxNameLength)} ${event.ResourceStatus} ${
+            event.ResourceStatusReason ?? ''
           }`,
         ),
       );
@@ -102,7 +109,7 @@ function logStackEvents(maxNameLength: number) {
   return () => setInterval(() => clearInterval(interval));
 }
 
-function getMaxNameLength(stackName: string, template: any) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getMaxNameLength(template: any) {
   return Math.max(stackName.length, ...Object.keys(template.Resources).map(key => key.length));
 }
-
