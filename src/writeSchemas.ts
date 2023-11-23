@@ -5,10 +5,10 @@ const types = {
   LegacyRoute: './src/scrape/LegacyRoute.ts',
   Route: './src/scrape/Route.ts',
   RouteIndex: './src/scrape/Route.ts',
-  RouteFeature: './src/scrape/Route.ts',
+  RouteGeoJSONFeature: './src/scrape/Route.ts',
 };
 
-export async function writeRouteSchema() {
+export async function writeSchemas() {
   await FS.promises.mkdir('./output/schemas', {recursive: true});
 
   Object.entries(types).map(([type, path]) =>

@@ -1,6 +1,6 @@
 import FS from 'fs';
 import {toLegacyRoute} from './LegacyRoute';
-import {RouteFeature, toRouteIndex} from './Route';
+import {RouteGeoJSONFeature, toRouteIndex} from './Route';
 import {getRouteURLs} from './getRouteURLs';
 import {scrapeRoute} from './scrapeRoute';
 
@@ -26,7 +26,7 @@ export async function scrape() {
         legacy.write(',\n');
       }
 
-      const features: RouteFeature[] = route.geojson?.features.map(feature => ({
+      const features: RouteGeoJSONFeature[] = route.geojson?.features.map(feature => ({
         ...feature,
         properties: {
           ...Object.fromEntries(
@@ -46,7 +46,7 @@ export async function scrape() {
             ...Object.fromEntries(
               Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
             ),
-          } as unknown as RouteFeature['properties'],
+          } as unknown as RouteGeoJSONFeature['properties'],
         },
       ];
 

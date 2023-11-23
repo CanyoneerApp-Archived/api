@@ -1,4 +1,5 @@
-import {LegacyRoute as Route} from './LegacyRoute';
+import {toLegacyRoute} from './LegacyRoute';
+import {Route} from './Route';
 import {scrapeRoute} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.
@@ -23,7 +24,8 @@ describe('scrapeRoute', () => {
 
 function transform(route: Route | undefined) {
   if (!route) return undefined;
-  const {GeoJSON, HTMLDescription, ...rest} = route;
+  // TODO migrate to non-legacy Route type
+  const {GeoJSON, HTMLDescription, ...rest} = toLegacyRoute(route);
   return {
     HasGeoJSON: !!GeoJSON,
     HasHTMLDescription: !!HTMLDescription,
