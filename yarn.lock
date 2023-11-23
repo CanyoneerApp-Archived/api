@@ -1259,10 +1259,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@scree/aws-utils@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@scree/aws-utils/-/aws-utils-0.7.0.tgz#f96493be0a9ea2e28c8cc737808139f60307e146"
-  integrity sha512-8r4UvxBKadVHKzyZoqdHrWzFN1YyZ+eL+NZSPKGgnNCZpPbU4DS24LO+r9DbGHk5GIpkuZdjl0HDwHHEKpKMGQ==
+"@scree/aws-utils@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@scree/aws-utils/-/aws-utils-0.8.0.tgz#80e7933f8fe3b8df9187a9da5bb7431f210d186b"
+  integrity sha512-hrxmL7DAleVLfm+VtbaylM1GcGrYcu9noAh2eKk4UutuqZ9OpKB3LBSAfOlvVMnslo1cbmN9G63EJ6n5n+IHIw==
   dependencies:
     "@aws-sdk/client-cloudformation" "^3.454.0"
     "@aws-sdk/client-s3" "^3.456.0"
