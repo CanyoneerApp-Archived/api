@@ -1,7 +1,7 @@
 import FS from 'fs';
 import * as TSJ from 'ts-json-schema-generator';
 
-export async function buildSchema() {
+export async function writeRouteSchema() {
   await FS.promises.writeFile(
     './output/schema.json',
     JSON.stringify(

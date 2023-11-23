@@ -3,9 +3,9 @@ import {S3} from '@aws-sdk/client-s3';
 import {syncS3Dir} from '@scree/aws-utils';
 import chalk from 'chalk';
 import {program} from 'commander';
-import {buildSchema} from './buildSchema';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
+import {writeRouteSchema} from './writeRouteSchema';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
 
@@ -15,7 +15,7 @@ async function main() {
 
   if (options.skipAWS) {
     await scrape();
-    await buildSchema();
+    await writeRouteSchema();
   } else {
     const region = 'us-west-1';
     const s3 = new S3({region});
@@ -23,7 +23,7 @@ async function main() {
     const outputs = await syncStack(cloudFormation);
 
     await scrape();
-    await buildSchema();
+    await writeRouteSchema();
 
     console.log('Uploading');
     await syncS3Dir(s3, {
