@@ -16,7 +16,13 @@ export function getStackTemplate(stackName: string) {
           Value: Fn.Ref('Bucket'),
         },
         URL: {
-          Value: Fn.GetAtt('Bucket', 'WebsiteURL'),
+          Value: Fn.Join('', [
+            'http://',
+            Fn.Ref('Bucket'),
+            '.s3-',
+            Fn.Ref('AWS::Region'),
+            '.amazonaws.com',
+          ]),
         },
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } as {[Key in keyof StackOutputs]: Output},
