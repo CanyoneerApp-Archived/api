@@ -25,6 +25,7 @@ async function defaultTransform(url: string): Promise<string> {
 
 async function cachedFetch(
   url: string,
+  // eslint-disable-next-line no-shadow, @typescript-eslint/no-unused-vars
   transform: (url: string) => Promise<string> = defaultTransform,
 ) {
   const path = getPath(url);

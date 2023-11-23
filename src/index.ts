@@ -7,17 +7,17 @@ import parseKML from './utils/parseKML';
 import parseMonths from './utils/parseMonths';
 import {parseRaps} from './utils/parseRaps';
 import parseSport from './utils/parseSports';
-import {parseTable} from './utils/parseTable';
+import {mostReleventElement, parseTable} from './utils/parseTable';
 import parseTime from './utils/parseTime';
 
 let first = true;
 async function main() {
   console.log('[');
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+
+  const urls = await getRouteURLs();
   await Promise.all(
-    (await getRouteURLs()).map(async url => {
+    urls.map(async url => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const route = await parseRoute(url);
         if (first) {
           first = false;
@@ -50,23 +50,31 @@ async function parseRoute(url: string): Promise<any> {
     window: {document},
   } = new jsdom.JSDOM(text, {url});
 
-  const tableElements = parseTable(document.querySelector('.tablecanyon tbody'));
-  const rating = tableElements['Difficulty']?.textContent.trim() ?? '';
-  const raps = parseRaps(tableElements['Raps']?.textContent.trim());
+  // This generally works but not for linked bluugnome data
   const kml = await parseKML(document);
 
+  const tableElementRowMap = parseTable(document.querySelector('.tablecanyon tbody'));
+  const raps = parseRaps(tableElementRowMap['Raps']);
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const qualityPopSection = tableElements['Rating']!;
+  const qualityPopSection = tableElementRowMap['Rating']!;
   const quality =
     qualityPopSection.querySelectorAll('.starRate4')?.length ??
     0 + (qualityPopSection.querySelectorAll('.starRate2')?.length ?? 0) / 2;
+  const months = parseMonths(tableElementRowMap['Best season']);
+  const vehicle = tableElementRowMap['Vehicle']?.textContent?.trim().replace('Vehicle:', '');
 
-  // TODO popularity is currently broken
+  // Typically we just need the last element
+  const tableElements: {[key: string]: Element | undefined | null} = {};
+  for (const key in tableElementRowMap) {
+    tableElements[key] = mostReleventElement(key, tableElementRowMap[key]);
+  }
+  const rating = tableElements['Difficulty']?.textContent?.trim() ?? '';
+
+  // popularity is currently broken
   const popularity =
     tableElements['StarRank'] &&
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2));
-
   return {
     URL: url,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -79,12 +87,12 @@ async function parseRoute(url: string): Promise<any> {
     Longitude:
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[1]),
-    Months: parseMonths(tableElements),
+    Months: months,
     Difficulty: parseDifficulty(rating),
     AdditionalRisk: parseAdditionalRisk(rating),
-    Vehicle: tableElements['Vehicle']?.textContent.trim(),
-    Shuttle: tableElements['Shuttle']?.textContent.trim(),
-    Permits: tableElements['Red Tape']?.textContent.trim(),
+    Vehicle: vehicle,
+    Shuttle: tableElements['Shuttle']?.textContent?.trim(),
+    Permits: tableElements['Red Tape']?.textContent?.trim(),
     Sports: parseSport(rating, ['canyoneering']),
     Time: parseTime(rating),
     RappelCountMin: raps.countMin,
