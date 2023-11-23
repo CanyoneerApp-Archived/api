@@ -8,6 +8,7 @@ export async function buildSchema() {
       TSJ.createGenerator({
         path: './src/scrape/Route.ts',
         tsconfig: './tsconfig.json',
+        topRef: false,
       }).createSchema('Route'),
       null,
       2,
