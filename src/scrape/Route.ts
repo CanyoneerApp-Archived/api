@@ -1,4 +1,4 @@
-import {Feature, LineString} from '@turf/helpers';
+import {Feature, FeatureCollection, LineString, Point} from '@turf/helpers';
 import {AdditionalRisk} from './parseAdditionalRisk';
 import {Difficulty} from './parseDifficulty';
 import {Month} from './parseMonths';
@@ -25,5 +25,5 @@ export interface Route {
   RappelLengthMax: number | undefined;
   KMLURL: string | undefined;
   HTMLDescription: string;
-  GeoJSON: Feature<LineString, {}> | undefined;
+  GeoJSON: Feature<LineString | Point> | FeatureCollection<LineString | Point>;
 }
