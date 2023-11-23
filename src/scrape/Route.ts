@@ -14,11 +14,7 @@ import {Feature, LineString, Point} from '@turf/helpers';
  * to capture all data we need to filter routes while remaining as compact as possible.
  */
 export interface RouteIndex {
-  /**
-   * Each route is assigned a unique ID which is the md5 of it's URL on RopeWiki
-   */
   id: string;
-
   name: string;
   quality: number;
   months: Month[];
@@ -32,40 +28,61 @@ export interface RouteIndex {
   rappelLengthMax: number | undefined;
   vehicle: Vehicle | undefined;
   shuttle: Shuttle | undefined;
-  /**
-   * URL to the corresponding `RouteDetails` JSON file
-   */
   detailsUrl: string;
 }
 
-export interface RouteDetails extends RouteIndex {
+/**
+ * This "detailed" type will be used in `details/{id}.json`. It is the source of truth for all data
+ * we have on a particular route.
+ */
+export interface Route extends RouteIndex {
   description: string;
   geojson: {type: 'FeatureCollection'; features: RouteFeature[]};
   url: string;
+  latitude: number;
+  longitude: number;
 }
 
-export interface RouteFeatureProperties {
+/**
+ * Properties shared by all GeoJSON and vector tile features.
+ */
+export type RouteBaseProperties = {
   name: string;
   description: string;
-}
 
-export type RouteFeaturePropertiesLineString = {
-  type: 'approach' | 'exit' | 'shuttle' | 'descent';
   // This mapped type pulls in all properties from RouteIndex and prepends them with `route.`
   // e.g. 'route.id', 'route.name', 'route.stars'
   // Including these properties makes filtering directly on the main map possible.
 } & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]};
 
-export type RouteFeatureLineString = Feature<LineString, RouteFeaturePropertiesLineString>;
+/**
+ * Properties for GeoJSON and vector tile features with LineString geometry.
+ */
+export type RouteLineStringProperties = RouteBaseProperties & {
+  type: 'approach' | 'descent' | 'exit' | 'shuttle' | 'unknown';
+};
 
-export type RouteFeaturePropertiesProperties = {
-  type: 'waypoint';
-  // See comment on RouteFeaturePropertiesLineString
-} & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]};
+/**
+ * A GeoJSON feature with a LineString geometry.
+ */
+export type RouteLineStringFeature = Feature<LineString, RouteLineStringProperties>;
 
-export type RouteFeaturePoint = Feature<Point, RouteFeaturePropertiesProperties>;
+/**
+ * Properties for GeoJSON and vector tile features with a Point geometry.
+ */
+export type RoutePointProperties = RouteBaseProperties & {
+  type: 'waypoint' | 'unknown';
+};
 
-export type RouteFeature = RouteFeature[];
+/**
+ * A GeoJSON feature with a Point geometry.
+ */
+export type RoutePointFeature = Feature<Point, RoutePointProperties>;
+
+/**
+ * A GeoJSON feature with any allowable geometry.
+ */
+export type RouteFeature = RoutePointFeature | RouteLineStringFeature;
 
 type TechnicalGrade = 1 | 2 | 3 | 4;
 type WaterGrade = 'a' | 'b' | 'c';
