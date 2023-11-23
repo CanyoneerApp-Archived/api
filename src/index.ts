@@ -6,19 +6,18 @@ import {program} from 'commander';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 
-program
-  .option('--awsSkip', 'Skip updating the AWS stack and uploading files to S3', false)
-  .option('--awsRegion', 'Set the AWS S3 region', 'us-east-1');
+program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
 
 async function main() {
   program.parse();
-  const options = program.opts<{awsSkip: boolean; awsRegion: string}>();
+  const options = program.opts<{skipAWS: boolean}>();
 
-  if (options.awsSkip) {
+  if (options.skipAWS) {
     await scrape();
   } else {
-    const s3 = new S3({region: options.awsRegion});
-    const cloudFormation = new CloudFormation({region: options.awsRegion});
+    const region = 'us-west-1';
+    const s3 = new S3({region});
+    const cloudFormation = new CloudFormation({region});
 
     const outputs = await syncStack(cloudFormation);
     await scrape();
