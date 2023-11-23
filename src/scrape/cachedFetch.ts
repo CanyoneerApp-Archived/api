@@ -1,7 +1,7 @@
-import chalk from 'chalk';
 import nodeCrypto from 'crypto';
 import FS from 'fs-extra';
 import fetch from 'node-fetch';
+import Path from 'path';
 // @ts-ignore TODO create a type file for this module
 import PromiseThrottle from 'promise-throttle';
 
@@ -12,26 +12,39 @@ function md5(input: string) {
 }
 
 function getPath(url: string) {
-  return `./output/cache/${md5(url)}.txt`;
+  return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
 }
 
-async function cachedFetch(url: string) {
+async function defaultTransform(url: string): Promise<string> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP response not ok: ${url} ${response.statusText}`);
+  }
+  return response.text();
+}
+
+async function cachedFetch(
+  url: string,
+  // eslint-disable-next-line no-shadow, @typescript-eslint/no-unused-vars
+  transform: (url: string) => Promise<string> = defaultTransform,
+) {
   const path = getPath(url);
 
-  if (await cachedFetch.has(url)) {
-    console.log(chalk.dim(`Fetch cached ${url}`));
-    return FS.readFile(path, 'utf-8');
-  } else {
+  if (!(await cachedFetch.has(url))) {
     const text = await promiseThrottle.add(async () => {
-      console.log(chalk.dim(`Fetch ${url}`));
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Fetch error ${response.status} ${url}`);
+      try {
+        return await transform(url);
+      } catch (error) {
+        console.error(error);
+        return undefined;
       }
-      return response.text();
     });
-    await FS.writeFile(path, text);
+    if (text) {
+      await FS.writeFile(path, text);
+    }
     return text;
+  } else {
+    return FS.readFile(path, 'utf-8');
   }
 }
 
