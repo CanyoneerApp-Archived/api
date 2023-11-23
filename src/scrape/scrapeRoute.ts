@@ -54,8 +54,8 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     Longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
     Months: months,
     Difficulty: difficulty,
-    WaterDifficulty: waterLookup[difficulty ?? ''],
-    TechnicalDifficulty: technicalLookup[difficulty ?? ''],
+    CanyonWaterGrade: waterLookup[difficulty ?? ''],
+    CanyonTechGrade: technicalLookup[difficulty ?? ''],
     AdditionalRisk: parseAdditionalRisk(rating),
     Vehicle: vehicle,
     Shuttle: tableElements['Shuttle']?.textContent?.trim(),
@@ -71,7 +71,7 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
   };
 }
 
-const waterLookup: {[key: string]: Route['WaterDifficulty']} = {
+const waterLookup: {[key: string]: Route['CanyonWaterGrade']} = {
   '1a': 'a',
   '1b': 'b',
   '1c': 'c',
@@ -86,7 +86,7 @@ const waterLookup: {[key: string]: Route['WaterDifficulty']} = {
   '4c': 'c',
 };
 
-const technicalLookup: {[key: string]: Route['TechnicalDifficulty']} = {
+const technicalLookup: {[key: string]: Route['CanyonTechGrade']} = {
   '1a': 1,
   '1b': 1,
   '1c': 1,

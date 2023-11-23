@@ -14,8 +14,8 @@ export interface Route {
   Longitude: number;
   Months: Month[];
   Difficulty: Difficulty | undefined;
-  WaterDifficulty: 'a' | 'b' | 'c' | undefined;
-  TechnicalDifficulty: 1 | 2 | 3 | 4 | undefined;
+  CanyonWaterGrade: 'a' | 'b' | 'c' | undefined;
+  CanyonTechGrade: 1 | 2 | 3 | 4 | undefined;
   AdditionalRisk: AdditionalRisk | undefined;
   Vehicle: string | undefined;
   Shuttle: string | undefined;
