@@ -26,7 +26,15 @@ export async function scrape() {
         legacy.write(',\n');
       }
 
-      const features: RouteFeature[] = route.geojson?.features ?? [
+      const features: RouteFeature[] = route.geojson?.features.map(feature => ({
+        ...feature,
+        properties: {
+          ...Object.fromEntries(
+            Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
+          ),
+          ...feature.properties,
+        },
+      })) ?? [
         {
           type: 'Feature',
           geometry: {
