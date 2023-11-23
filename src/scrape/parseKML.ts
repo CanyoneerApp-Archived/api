@@ -9,16 +9,12 @@ export default async function parseKML(document: Document, options: CachedFetchO
   const url = document.querySelector('.kmllmenu a')?.getAttribute('href');
 
   if (!url || !new URL(url, document.URL).pathname.endsWith('.kml')) {
-    return undefined;
+    return {url, geoJSON: undefined};
+  } else {
+    return {
+      url,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      geoJSON: ToGeoJSON.kml(domParser.parseFromString((await cachedFetch(url, options))!)),
+    };
   }
-
-  const string = await cachedFetch(url, options);
-  if (!string) {
-    return undefined;
-  }
-
-  return {
-    url,
-    geoJSON: ToGeoJSON.kml(domParser.parseFromString(string)),
-  };
 }

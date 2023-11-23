@@ -106,7 +106,7 @@ function logStackEvents(maxNameLength: number) {
     });
   }, 500);
 
-  return () => setInterval(() => clearInterval(interval));
+  return () => clearInterval(interval);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

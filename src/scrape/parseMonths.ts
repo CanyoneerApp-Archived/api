@@ -14,7 +14,7 @@ export type Month =
   | 'November'
   | 'December';
 
-const months: Month[] = [
+const monthLookup: Month[] = [
   'January',
   'Feburary',
   'March',
@@ -29,12 +29,10 @@ const months: Month[] = [
   'December',
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function parseMonths(tableElements: any): Month[] {
+export default function parseMonths(months: Element): Month[] {
   return _.compact(
-    tableElements['Best season'] &&
-      toArray(tableElements['Best season'].querySelectorAll('.wikitable.bst td:not(.bss)')).map(
-        (el, index) => (el.className === 'bsg' ? months[index] : undefined),
-      ),
+    toArray(months.querySelectorAll('.wikitable.bst td:not(.bss)')).map((el, index) =>
+      el.className === 'bsg' ? monthLookup[index] : undefined,
+    ),
   );
 }

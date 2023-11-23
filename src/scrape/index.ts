@@ -1,15 +1,6 @@
 import FS from 'fs';
-import jsdom from 'jsdom';
 import cachedFetch, {CachedFetchOptions} from './cachedFetch';
-import parseAdditionalRisk from './parseAdditionalRisk';
-import {parseDescription} from './parseDescription';
-import parseDifficulty from './parseDifficulty';
-import parseKML from './parseKML';
-import parseMonths from './parseMonths';
-import {parseRaps} from './parseRaps';
-import parseSport from './parseSports';
-import {parseTable} from './parseTable';
-import parseTime from './parseTime';
+import {scrapeRoute} from './scrapeRoute';
 
 export async function scrape(options: CachedFetchOptions) {
   await FS.promises.mkdir('./output/cache', {recursive: true});
@@ -40,60 +31,4 @@ async function getRouteURLs(options: CachedFetchOptions): Promise<Array<string>>
   const response = JSON.parse((await cachedFetch(url, options))!);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return Object.values(response.query.results).map((result: any) => result.fullurl);
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function scrapeRoute(url: string, options: CachedFetchOptions): Promise<any> {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const text = await cachedFetch(url, options);
-  if (!text) return undefined;
-
-  const {
-    window: {document},
-  } = new jsdom.JSDOM(text, {url});
-
-  const tableElements = parseTable(document.querySelector('.tablecanyon tbody'));
-  const rating = tableElements['Difficulty']?.textContent.trim() ?? '';
-  const raps = parseRaps(tableElements['Raps']?.textContent.trim());
-  const kml = await parseKML(document, options);
-
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const qualityPopSection = tableElements['Rating']!;
-  const quality =
-    qualityPopSection.querySelectorAll('.starRate4')?.length ??
-    0 + (qualityPopSection.querySelectorAll('.starRate2')?.length ?? 0) / 2;
-
-  // TODO popularity is currently broken
-  const popularity =
-    tableElements['StarRank'] &&
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2));
-
-  return {
-    URL: url,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    Name: document.querySelector('h1')!.textContent!,
-    Quality: quality,
-    Popularity: popularity,
-    Latitude:
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[0]),
-    Longitude:
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[1]),
-    Months: parseMonths(tableElements),
-    Difficulty: parseDifficulty(rating),
-    AdditionalRisk: parseAdditionalRisk(rating),
-    Vehicle: tableElements['Vehicle']?.textContent.trim(),
-    Shuttle: tableElements['Shuttle']?.textContent.trim(),
-    Permits: tableElements['Red Tape']?.textContent.trim(),
-    Sports: parseSport(rating, ['canyoneering']),
-    Time: parseTime(rating),
-    RappelCountMin: raps.countMin,
-    RappelCountMax: raps.countMax,
-    RappelLengthMax: raps.lengthMax,
-    KMLURL: kml?.url,
-    HTMLDescription: await parseDescription(document),
-    GeoJSON: kml?.geoJSON,
-  };
 }
