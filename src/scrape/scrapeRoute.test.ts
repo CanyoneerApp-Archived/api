@@ -1,4 +1,4 @@
-import {Route} from './Route';
+import {LegacyRoute as Route} from './LegacyRoute';
 import {scrapeRoute} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.

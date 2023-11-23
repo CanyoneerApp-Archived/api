@@ -1,14 +1,26 @@
-import {Feature, FeatureCollection, LineString, Point} from '@turf/helpers';
-import {AdditionalRisk} from './parseAdditionalRisk';
-import {Difficulty} from './parseDifficulty';
-import {Month} from './parseMonths';
-import {Sport} from './parseSports';
-import {Time} from './parseTime';
+import {Feature, LineString, Point} from '@turf/helpers';
 
+/*
+ * We will produce the following output products:
+ *  1. `index.json` - a list of all routes with stripped down data
+ *  2. `details/{id}.json` - detailed data for a single route with geometries
+ *  3. `tiles/{z}/{x}/{y}.pbf` - vector tiles of all geometries with stripped down data
+ *  4. `schema/{type}.json` - JSON schemas for each type in this file
+ *  4. `legacy.json` - previous schema for backwards compatibility
+ */
+
+/**
+ * This "stripped down" type will be used in `index.json` and `tiles/{z}/{x}/{y}.pbf`. It is meant
+ * to capture all data we need to filter routes while remaining as compact as possible.
+ */
 export interface RouteIndex {
+  /**
+   * Each route is assigned a unique ID which is the md5 of it's URL on RopeWiki
+   */
   id: string;
+
   name: string;
-  stars: number;
+  quality: number;
   months: Month[];
   technicalGrade: TechnicalGrade | undefined;
   waterGrade: WaterGrade | undefined;
@@ -18,14 +30,17 @@ export interface RouteIndex {
   rappelCountMin: number | undefined;
   rappelCountMax: number | undefined;
   rappelLengthMax: number | undefined;
-  detailsUrl: string;
   vehicle: Vehicle | undefined;
   shuttle: Shuttle | undefined;
+  /**
+   * URL to the corresponding `RouteDetails` JSON file
+   */
+  detailsUrl: string;
 }
 
 export interface RouteDetails extends RouteIndex {
   description: string;
-  geojson: {type: 'FeatureCollection', features: RouteFeature[]};
+  geojson: {type: 'FeatureCollection'; features: RouteFeature[]};
   url: string;
 }
 
@@ -35,38 +50,40 @@ export interface RouteFeatureProperties {
 }
 
 export type RouteFeaturePropertiesLineString = {
-  type: 'approach' | 'exit' | 'shuttle' | 'descent'
-} & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]}
+  type: 'approach' | 'exit' | 'shuttle' | 'descent';
+  // This mapped type pulls in all properties from RouteIndex and prepends them with `route.`
+  // e.g. 'route.id', 'route.name', 'route.stars'
+  // Including these properties makes filtering directly on the main map possible.
+} & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]};
 
-export type RouteFeatureLineString = Feature<LineString, RouteFeaturePropertiesLineString>
+export type RouteFeatureLineString = Feature<LineString, RouteFeaturePropertiesLineString>;
 
 export type RouteFeaturePropertiesProperties = {
-  type: 'waypoint'
-} & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]}
+  type: 'waypoint';
+  // See comment on RouteFeaturePropertiesLineString
+} & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]};
 
-export type RouteFeaturePoint = Feature<Point, RouteFeaturePropertiesProperties>
+export type RouteFeaturePoint = Feature<Point, RouteFeaturePropertiesProperties>;
 
-export type RouteFeature = RouteFeature[]
+export type RouteFeature = RouteFeature[];
 
-export interface LegacyRoute {
-  URL: string;
-  Name: string;
-  Quality: number;
-  Popularity: number | undefined;
-  Latitude: number;
-  Longitude: number;
-  Months: Month[];
-  Difficulty: Difficulty | undefined;
-  AdditionalRisk: AdditionalRisk | undefined;
-  Vehicle: string | undefined;
-  Shuttle: string | undefined;
-  Permits: string | undefined;
-  Sports: Sport[];
-  Time: Time | undefined;
-  RappelCountMin: number | undefined;
-  RappelCountMax: number | undefined;
-  RappelLengthMax: number | undefined;
-  KMLURL: string | undefined;
-  HTMLDescription: string;
-  GeoJSON: Feature<LineString | Point> | FeatureCollection<LineString | Point>;
-}
+type TechnicalGrade = 1 | 2 | 3 | 4;
+type WaterGrade = 'a' | 'b' | 'c';
+export type TimeGrade = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
+export type AdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R';
+type Vehicle = string;
+type Shuttle = string;
+type Permit = string;
+export type Month =
+  | 'January'
+  | 'Feburary'
+  | 'March'
+  | 'April'
+  | 'May'
+  | 'June'
+  | 'July'
+  | 'August'
+  | 'September'
+  | 'October'
+  | 'November'
+  | 'December';

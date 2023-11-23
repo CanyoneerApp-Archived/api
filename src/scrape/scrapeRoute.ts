@@ -1,5 +1,5 @@
 import jsdom from 'jsdom';
-import {Route} from './Route';
+import {LegacyRoute as Route} from './LegacyRoute';
 import cachedFetch from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
