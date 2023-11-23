@@ -1,6 +1,6 @@
 import {Feature, LineString} from '@turf/helpers';
 import {AdditionalRisk} from './parseAdditionalRisk';
-import {Difficulty} from './parseDifficulty';
+import {Grade} from './parseDifficulty';
 import {Month} from './parseMonths';
 import {Sport} from './parseSports';
 import {Time} from './parseTime';
@@ -13,7 +13,9 @@ export interface Route {
   Latitude: number;
   Longitude: number;
   Months: Month[];
-  Difficulty: Difficulty | undefined;
+  Difficulty: Grade | undefined;
+  WaterDifficulty: 'a' | 'b' | 'c' | undefined;
+  TechnicalDifficulty: 1 | 2 | 3 | 4 | undefined;
   AdditionalRisk: AdditionalRisk | undefined;
   Vehicle: string | undefined;
   Shuttle: string | undefined;

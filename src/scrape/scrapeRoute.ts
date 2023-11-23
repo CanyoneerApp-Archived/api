@@ -43,6 +43,8 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     tableElements['StarRank']?.querySelector('.starRate > span')?.textContent?.slice(2) ?? '',
   );
 
+  const difficulty = parseDifficulty(rating);
+
   return {
     URL: url,
     Name: document.querySelector('h1')?.textContent ?? 'Unknown',
@@ -51,7 +53,9 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     Latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
     Longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
     Months: months,
-    Difficulty: parseDifficulty(rating),
+    Difficulty: difficulty,
+    WaterDifficulty: waterLookup[difficulty ?? ''],
+    TechnicalDifficulty: technicalLookup[difficulty ?? ''],
     AdditionalRisk: parseAdditionalRisk(rating),
     Vehicle: vehicle,
     Shuttle: tableElements['Shuttle']?.textContent?.trim(),
@@ -66,3 +70,37 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     GeoJSON: kml.geoJSON,
   };
 }
+
+const waterLookup: {[key: string]: Route['WaterDifficulty']} = {
+  '1a': 'a',
+  '1b': 'b',
+  '1c': 'c',
+  '2a': 'a',
+  '2b': 'b',
+  '2c': 'c',
+  '3a': 'a',
+  '3b': 'b',
+  '3c': 'c',
+  '4a': 'a',
+  '4b': 'b',
+  '4c': 'c',
+};
+
+const technicalLookup: {[key: string]: Route['TechnicalDifficulty']} = {
+  '1a': 1,
+  '1b': 1,
+  '1c': 1,
+  '1?': 1,
+  '2a': 2,
+  '2b': 2,
+  '2c': 2,
+  '2?': 2,
+  '3a': 3,
+  '3b': 3,
+  '3c': 3,
+  '3?': 3,
+  '4a': 4,
+  '4b': 4,
+  '4c': 4,
+  '4?': 4,
+};
