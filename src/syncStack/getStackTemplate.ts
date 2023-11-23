@@ -2,26 +2,21 @@
 import cloudform, {DeletionPolicy, Fn, S3} from 'cloudform';
 import Output from 'cloudform-types/types/output';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type StackOutputs = {
-  region: string;
-  bucket: string;
-  url: string;
+  Bucket: string;
+  URL: string;
 };
 
-export function getStackTemplate(stackName: string, region: string) {
+export function getStackTemplate(stackName: string) {
   return JSON.parse(
     cloudform({
       Description: `Cloudformation`,
 
       Outputs: {
-        region: {
-          Value: region,
-        },
-        bucket: {
+        Bucket: {
           Value: Fn.Ref('Bucket'),
         },
-        url: {
+        URL: {
           Value: Fn.GetAtt('Bucket', 'WebsiteURL'),
         },
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

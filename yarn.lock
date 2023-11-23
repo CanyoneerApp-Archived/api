@@ -1259,6 +1259,15 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@scree/aws-utils@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@scree/aws-utils/-/aws-utils-0.7.0.tgz#f96493be0a9ea2e28c8cc737808139f60307e146"
+  integrity sha512-8r4UvxBKadVHKzyZoqdHrWzFN1YyZ+eL+NZSPKGgnNCZpPbU4DS24LO+r9DbGHk5GIpkuZdjl0HDwHHEKpKMGQ==
+  dependencies:
+    "@aws-sdk/client-cloudformation" "^3.454.0"
+    "@aws-sdk/client-s3" "^3.456.0"
+    lodash "^4.17.21"
+
 "@scree/eslint-config-quality@1.6.0", "@scree/eslint-config-quality@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.6.0.tgz#93a30e1dd36bd141aa468869f203d6affe0b896b"
@@ -4488,7 +4497,7 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19:
+lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==

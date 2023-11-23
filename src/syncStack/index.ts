@@ -1,0 +1,38 @@
+import {CloudFormation, StackEvent} from '@aws-sdk/client-cloudformation';
+import {syncCloudFormationStack} from '@scree/aws-utils';
+import chalk from 'chalk';
+import {StackOutputs, getStackTemplate} from './getStackTemplate';
+
+export async function syncStack(cloudFormation: CloudFormation) {
+  if (!process.env.GIT_BRANCH) {
+    throw new Error('Please run this script using "yarn start"');
+  }
+
+  const stackName = `canyoneer--${process.env.GIT_BRANCH}`;
+  const template = getStackTemplate(stackName);
+
+  const pad = getResourceIdPadding(stackName, template);
+
+  console.log('Syncing stack');
+  const outputs = await syncCloudFormationStack<StackOutputs>(cloudFormation, {
+    TemplateBody: JSON.stringify(template),
+    StackName: stackName,
+    EventHandler: (event: StackEvent) => {
+      console.log(
+        chalk.dim(
+          `${event.LogicalResourceId?.padEnd(pad)} ${event.ResourceStatus} ${
+            event.ResourceStatusReason ?? ''
+          }`,
+        ),
+      );
+    },
+  });
+  console.log('Stack synced');
+
+  return outputs;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getResourceIdPadding(stackName: string, template: any) {
+  return Math.max(stackName.length, ...Object.keys(template.Resources).map(key => key.length));
+}
