@@ -31,9 +31,6 @@ export function getStackTemplate(stackName: string) {
             IgnorePublicAcls: false,
             RestrictPublicBuckets: false,
           },
-          WebsiteConfiguration: {
-            IndexDocument: 'index.html',
-          },
         }).deletionPolicy(DeletionPolicy.Delete),
 
         BucketPolicy: new S3.BucketPolicy({
