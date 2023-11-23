@@ -1259,12 +1259,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@scree/eslint-config-quality@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.4.0.tgz#6ecbc58519395443c2e3a259e052b2b3316f08bc"
-  integrity sha512-YizK7w9T2R4URkjbdo9ssEiiQ2lyMfKdTk5uNWAjFwdxU2KFE18B7vtXy3TJRkTQHjfuKgLNwZpTPSWRnGKggw==
-
-"@scree/eslint-config-quality@^1.6.0":
+"@scree/eslint-config-quality@1.6.0", "@scree/eslint-config-quality@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.6.0.tgz#93a30e1dd36bd141aa468869f203d6affe0b896b"
   integrity sha512-aNfKcvuVLlhAYbyMGsqgnaH39yDvypNM8A7PfhFGzddyxeQ5S9NpbPAVDntlkE/badEiTOoybbOezhu3iI8Pzg==
@@ -1277,12 +1272,12 @@
     eslint-plugin-react "^7.33.2"
     eslint-plugin-react-hooks "^4.6.0"
 
-"@scree/quality@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-0.14.0.tgz#fd565ef18bd1f7a6dcf9d7b778495d75bd5890fa"
-  integrity sha512-LO2WuhMI0Ox751jmilydLl/6fLNdTVblwsdmbHzpDBu4B1x7mUCtXoxaDwbnZNcpYvzaP9q3B0YickhzO61v5g==
+"@scree/quality@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-0.15.0.tgz#109e52730dbd4d774e8395596a3402d83f66677f"
+  integrity sha512-Y3NrRxQB/CgdGkHGdpshGGHtI3Vvi2xPlacofbIzhq5dDjcWGn7ZNtFJ84Bpra5VnsYK/bkYjL/+oVug3Wi60Q==
   dependencies:
-    "@scree/eslint-config-quality" "1.4.0"
+    "@scree/eslint-config-quality" "1.6.0"
     eslint "^8.53.0"
     prettier "^3.0.3"
     typescript "^5.2.2"
