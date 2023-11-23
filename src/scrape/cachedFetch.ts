@@ -3,6 +3,7 @@ import FS from 'fs-extra';
 import fetch from 'node-fetch';
 import Path from 'path';
 // @ts-ignore TODO create a type file for this module
+import chalk from 'chalk';
 import PromiseThrottle from 'promise-throttle';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
@@ -12,7 +13,7 @@ function md5(input: string) {
 }
 
 function getPath(url: string) {
-  return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
+  return Path.join(__dirname, '../../output/cache', `${md5(url)}.txt`);
 }
 
 async function defaultTransform(url: string): Promise<string> {
@@ -33,6 +34,7 @@ async function cachedFetch(
   if (!(await cachedFetch.has(url))) {
     const text = await promiseThrottle.add(async () => {
       try {
+        console.log(chalk.dim(`Fetch live ${url}`));
         return await transform(url);
       } catch (error) {
         console.error(error);
@@ -44,6 +46,7 @@ async function cachedFetch(
     }
     return text;
   } else {
+    console.log(chalk.dim(`Fetch cached ${url}`));
     return FS.readFile(path, 'utf-8');
   }
 }
