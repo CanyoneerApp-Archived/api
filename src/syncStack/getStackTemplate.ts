@@ -10,8 +10,7 @@ export type StackOutputs = {
 export function getStackTemplate(stackName: string) {
   return JSON.parse(
     cloudform({
-      Description: `Cloudformation`,
-
+      // These values are made available to our program after the stack update is complete
       Outputs: {
         Bucket: {
           Value: Fn.Ref('Bucket'),
@@ -23,6 +22,7 @@ export function getStackTemplate(stackName: string) {
       } as {[Key in keyof StackOutputs]: Output},
 
       Resources: {
+        // This this is a file system to which we can upload files
         Bucket: new S3.Bucket({
           BucketName: stackName,
           PublicAccessBlockConfiguration: {
@@ -33,6 +33,7 @@ export function getStackTemplate(stackName: string) {
           },
         }).deletionPolicy(DeletionPolicy.Delete),
 
+        // This makes our files available publicly
         BucketPolicy: new S3.BucketPolicy({
           Bucket: Fn.Ref('Bucket'),
           PolicyDocument: {
