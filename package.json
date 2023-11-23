@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "GIT_BRANCH=`git branch --show-current` ts-node --files --pretty src/index.ts",
+    "start": "AWS_PROFILE=canyoneer GIT_BRANCH=`git branch --show-current` ts-node --files --pretty src/index.ts",
     "lint": "scree lint",
     "lint-fix": "scree lint-fix",
     "precommit": "scree precommit",
