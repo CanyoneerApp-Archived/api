@@ -6,6 +6,7 @@ import {parseDescription} from './parseDescription';
 import parseDifficulty from './parseDifficulty';
 import parseKML from './parseKML';
 import parseMonths from './parseMonths';
+import {parsePermits} from './parsePermits';
 import {parseRaps} from './parseRaps';
 import parseSport from './parseSports';
 import {mostReleventElement, parseTable} from './parseTable';
@@ -55,7 +56,7 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     AdditionalRisk: parseAdditionalRisk(rating),
     Vehicle: vehicle,
     Shuttle: tableElements['Shuttle']?.textContent?.trim(),
-    Permits: tableElements['Red Tape']?.textContent?.trim(),
+    Permits: parsePermits(tableElements['Red Tape']?.textContent?.trim()),
     Sports: parseSport(rating, ['canyoneering']),
     Time: parseTime(rating),
     RappelCountMin: raps.countMin,

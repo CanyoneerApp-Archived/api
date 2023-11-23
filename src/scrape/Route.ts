@@ -2,6 +2,7 @@ import {Feature, LineString} from '@turf/helpers';
 import {AdditionalRisk} from './parseAdditionalRisk';
 import {Difficulty} from './parseDifficulty';
 import {Month} from './parseMonths';
+import {Permits} from './parsePermits';
 import {Sport} from './parseSports';
 import {Time} from './parseTime';
 
@@ -17,7 +18,7 @@ export interface Route {
   AdditionalRisk: AdditionalRisk | undefined;
   Vehicle: string | undefined;
   Shuttle: string | undefined;
-  Permits: string | undefined;
+  Permits: Permits | undefined;
   Sports: Sport[];
   Time: Time | undefined;
   RappelCountMin: number | undefined;
