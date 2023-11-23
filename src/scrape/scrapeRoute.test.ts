@@ -1,3 +1,4 @@
+import {Route} from './Route';
 import {scrapeRoute} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.
