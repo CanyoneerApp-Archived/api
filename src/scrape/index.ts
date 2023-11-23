@@ -3,7 +3,9 @@ import cachedFetch from './cachedFetch';
 import {scrapeRoute} from './scrapeRoute';
 
 export async function scrape() {
-  await FS.promises.mkdir('./output/cache', {recursive: true});
+  await FS.promises.mkdir('./output');
+  await FS.promises.mkdir('./cache');
+
   const output = FS.createWriteStream('./output/routes.json');
 
   let first = true;
