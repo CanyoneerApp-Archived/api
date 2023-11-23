@@ -3,6 +3,8 @@ import {S3} from '@aws-sdk/client-s3';
 import {syncS3Dir} from '@scree/aws-utils';
 import chalk from 'chalk';
 import {program} from 'commander';
+import FS from 'fs';
+import TSJ from 'ts-json-schema-generator';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 
@@ -14,6 +16,7 @@ async function main() {
 
   if (options.skipAWS) {
     await scrape();
+    await buildSchema();
   } else {
     const region = 'us-west-1';
     const s3 = new S3({region});
@@ -21,6 +24,7 @@ async function main() {
 
     const outputs = await syncStack(cloudFormation);
     await scrape();
+    await buildSchema();
 
     console.log('Uploading');
     await syncS3Dir(s3, {
@@ -35,3 +39,17 @@ async function main() {
 }
 
 main();
+
+async function buildSchema() {
+  await FS.promises.writeFile(
+    './output/schema.json',
+    JSON.stringify(
+      TSJ.createGenerator({
+        path: './src/scrape/Route.ts',
+        tsconfig: './tsconfig.json',
+      }).createSchema('Schema'),
+      null,
+      2,
+    ),
+  );
+}
