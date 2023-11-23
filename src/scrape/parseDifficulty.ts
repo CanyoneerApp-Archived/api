@@ -17,17 +17,39 @@ export type Difficulty =
   | '1a'
   | '1b'
   | '1c'
+  | '1?'
   | '2a'
   | '2b'
   | '2c'
+  | '2?'
   | '3a'
   | '3b'
   | '3c'
+  | '3?'
   | '4a'
   | '4b'
-  | '4c';
+  | '4c'
+  | '4?';
 
 const lookups: [string | RegExp, Difficulty][] = [
+  ['4c', '4c'],
+  ['4b', '4b'],
+  ['4a', '4a'],
+  ['3c', '3c'],
+  ['3b', '3b'],
+  ['3a', '3a'],
+  ['2c', '2c'],
+  ['2b', '2b'],
+  ['2a', '2a'],
+  ['1c', '1c'],
+  ['1b', '1b'],
+  ['1a', '1a'],
+
+  ['1', '1?'],
+  ['2', '2?'],
+  ['3', '3?'],
+  ['4', '4?'],
+
   [/\b5\.14(a-d)?\b/, '5.14'],
   [/\b5\.13(a-d)?\b/, '5.13'],
   [/\b5\.12(a-d)?\b/, '5.12'],
@@ -81,19 +103,6 @@ const lookups: [string | RegExp, Difficulty][] = [
   ['hiking', 'class 1'],
   ['trail', 'class 1'],
   ['strenuous', 'class 1'],
-
-  ['4c', '4c'],
-  ['4b', '4b'],
-  ['4a', '4a'],
-  ['3c', '3c'],
-  ['3b', '3b'],
-  ['3a', '3a'],
-  ['2c', '2c'],
-  ['2b', '2b'],
-  ['2a', '2a'],
-  ['1c', '1c'],
-  ['1b', '1b'],
-  ['1a', '1a'],
 ];
 
 export default function parseDifficulty(input: string | undefined | null): Difficulty | undefined {
