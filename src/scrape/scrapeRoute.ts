@@ -1,5 +1,5 @@
 import jsdom from 'jsdom';
-import cachedFetch, {CachedFetchOptions} from './cachedFetch';
+import cachedFetch from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
 import parseDifficulty from './parseDifficulty';
@@ -11,15 +11,15 @@ import {mostReleventElement, parseTable} from './parseTable';
 import parseTime from './parseTime';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function scrapeRoute(url: string, options: CachedFetchOptions): Promise<any> {
+export async function scrapeRoute(url: string): Promise<any> {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const text = (await cachedFetch(url, options))!;
+  const text = (await cachedFetch(url))!;
   const {
     window: {document},
   } = new jsdom.JSDOM(text, {url});
 
   // This generally works but not for linked bluugnome data
-  const kml = await parseKML(document, options);
+  const kml = await parseKML(document);
 
   const tableElementRowMap = parseTable(document.querySelector('.tablecanyon tbody'));
   const raps = parseRaps(tableElementRowMap['Raps']);

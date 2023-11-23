@@ -10,7 +10,7 @@ git clone git@github.com:lucaswoj/canyoneer.git
 cd canyoneer
 ```
 
-Install all yarn dependencies
+Install all dependencies
 
 ```
 yarn

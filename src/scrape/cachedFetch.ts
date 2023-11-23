@@ -15,19 +15,12 @@ function getPath(url: string) {
   return `./output/cache/${md5(url)}.txt`;
 }
 
-export interface CachedFetchOptions {
-  skipFetch: boolean;
-}
-
-async function cachedFetch(url: string, options: CachedFetchOptions) {
+async function cachedFetch(url: string) {
   const path = getPath(url);
 
   if (await cachedFetch.has(url)) {
     console.log(chalk.dim(`Fetch cached ${url}`));
     return FS.readFile(path, 'utf-8');
-  } else if (options.skipFetch) {
-    console.log(chalk.dim(`Fetch skip ${url}`));
-    return undefined;
   } else {
     const text = await promiseThrottle.add(async () => {
       console.log(chalk.dim(`Fetch ${url}`));

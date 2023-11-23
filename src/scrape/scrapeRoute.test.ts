@@ -11,16 +11,12 @@ import {scrapeRoute} from './scrapeRoute';
 describe('scrapeRoute', () => {
   it('matches snapshot for Cerebus', async () => {
     expect(
-      transform(
-        await scrapeRoute('https://ropewiki.com/Cerberus_Canyon_(North_Fork)', {skipFetch: true}),
-      ),
+      transform(await scrapeRoute('https://ropewiki.com/Cerberus_Canyon_(North_Fork)')),
     ).toMatchSnapshot();
   });
 
   it('matches snapshot for Behunin', async () => {
-    expect(
-      transform(await scrapeRoute('https://ropewiki.com/Behunin_Canyon', {skipFetch: true})),
-    ).toMatchSnapshot();
+    expect(transform(await scrapeRoute('https://ropewiki.com/Behunin_Canyon'))).toMatchSnapshot();
   });
 });
 

@@ -1,11 +1,11 @@
 import XMLDOM from 'xmldom';
 // @ts-ignore TODO write typescript interafce
 import ToGeoJSON from '@mapbox/togeojson';
-import cachedFetch, {CachedFetchOptions} from './cachedFetch';
+import cachedFetch from './cachedFetch';
 
 const domParser = new XMLDOM.DOMParser();
 
-export default async function parseKML(document: Document, options: CachedFetchOptions) {
+export default async function parseKML(document: Document) {
   const url = document.querySelector('.kmllmenu a')?.getAttribute('href');
 
   if (!url || !new URL(url, document.URL).pathname.endsWith('.kml')) {
@@ -14,7 +14,7 @@ export default async function parseKML(document: Document, options: CachedFetchO
     return {
       url,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      geoJSON: ToGeoJSON.kml(domParser.parseFromString((await cachedFetch(url, options))!)),
+      geoJSON: ToGeoJSON.kml(domParser.parseFromString((await cachedFetch(url))!)),
     };
   }
 }

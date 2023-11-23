@@ -7,22 +7,21 @@ import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 
 program
-  .option('--skipFetch', 'Do not make requests to RopeWiki, use only cached data')
-  .option('--skipAWS', 'Do not update the AWS stack or upload to S3')
-  .option('--region', 'Set the AWS S3 region', 'us-east-1');
+  .option('--awsSkip', 'Skip updating the AWS stack and uploading files to S3', false)
+  .option('--awsRegion', 'Set the AWS S3 region', 'us-east-1');
 
 async function main() {
   program.parse();
-  const options = program.opts<{skipAWS: boolean; skipFetch: boolean; region: string}>();
+  const options = program.opts<{awsSkip: boolean; awsRegion: string}>();
 
-  if (options.skipAWS) {
-    await scrape(options);
+  if (options.awsSkip) {
+    await scrape();
   } else {
-    const s3 = new S3({region: options.region});
-    const cloudFormation = new CloudFormation({region: options.region});
+    const s3 = new S3({region: options.awsRegion});
+    const cloudFormation = new CloudFormation({region: options.awsRegion});
 
     const outputs = await syncStack(cloudFormation);
-    await scrape(options);
+    await scrape();
 
     console.log('Uploading');
     await syncS3Dir(s3, {
