@@ -31,6 +31,9 @@ export type Difficulty =
   | '4c'
   | '4?';
 
+export type CanyonWaterGrade = 'a' | 'b' | 'c';
+export type CanyonTechGrade = 1 | 2 | 3 | 4;
+
 const lookups: [string | RegExp, Difficulty][] = [
   ['4c', '4c'],
   ['4b', '4b'],
@@ -115,3 +118,37 @@ export default function parseDifficulty(input: string | undefined | null): Diffi
     }
   }
 }
+
+export const getCanyonWaterGrade: {[key: string]: CanyonWaterGrade} = {
+  '1a': 'a',
+  '1b': 'b',
+  '1c': 'c',
+  '2a': 'a',
+  '2b': 'b',
+  '2c': 'c',
+  '3a': 'a',
+  '3b': 'b',
+  '3c': 'c',
+  '4a': 'a',
+  '4b': 'b',
+  '4c': 'c',
+};
+
+export const getCanyonTechGrade: {[key: string]: CanyonTechGrade} = {
+  '1a': 1,
+  '1b': 1,
+  '1c': 1,
+  '1?': 1,
+  '2a': 2,
+  '2b': 2,
+  '2c': 2,
+  '2?': 2,
+  '3a': 3,
+  '3b': 3,
+  '3c': 3,
+  '3?': 3,
+  '4a': 4,
+  '4b': 4,
+  '4c': 4,
+  '4?': 4,
+};

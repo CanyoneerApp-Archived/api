@@ -3,7 +3,7 @@ import {Route} from './Route';
 import cachedFetch from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
-import parseDifficulty from './parseDifficulty';
+import parseDifficulty, {getCanyonTechGrade, getCanyonWaterGrade} from './parseDifficulty';
 import parseKML from './parseKML';
 import parseMonths from './parseMonths';
 import {parseRaps} from './parseRaps';
@@ -54,8 +54,8 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     Longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
     Months: months,
     Difficulty: difficulty,
-    CanyonWaterGrade: waterLookup[difficulty ?? ''],
-    CanyonTechGrade: technicalLookup[difficulty ?? ''],
+    CanyonWaterGrade: getCanyonWaterGrade[difficulty ?? ''],
+    CanyonTechGrade: getCanyonTechGrade[difficulty ?? ''],
     AdditionalRisk: parseAdditionalRisk(rating),
     Vehicle: vehicle,
     Shuttle: tableElements['Shuttle']?.textContent?.trim(),
@@ -70,37 +70,3 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     GeoJSON: kml.geoJSON,
   };
 }
-
-const waterLookup: {[key: string]: Route['CanyonWaterGrade']} = {
-  '1a': 'a',
-  '1b': 'b',
-  '1c': 'c',
-  '2a': 'a',
-  '2b': 'b',
-  '2c': 'c',
-  '3a': 'a',
-  '3b': 'b',
-  '3c': 'c',
-  '4a': 'a',
-  '4b': 'b',
-  '4c': 'c',
-};
-
-const technicalLookup: {[key: string]: Route['CanyonTechGrade']} = {
-  '1a': 1,
-  '1b': 1,
-  '1c': 1,
-  '1?': 1,
-  '2a': 2,
-  '2b': 2,
-  '2c': 2,
-  '2?': 2,
-  '3a': 3,
-  '3b': 3,
-  '3c': 3,
-  '3?': 3,
-  '4a': 4,
-  '4b': 4,
-  '4c': 4,
-  '4?': 4,
-};

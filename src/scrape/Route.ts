@@ -1,6 +1,6 @@
 import {Feature, LineString} from '@turf/helpers';
 import {AdditionalRisk} from './parseAdditionalRisk';
-import {Difficulty} from './parseDifficulty';
+import {CanyonTechGrade, CanyonWaterGrade, Difficulty} from './parseDifficulty';
 import {Month} from './parseMonths';
 import {Sport} from './parseSports';
 import {Time} from './parseTime';
@@ -14,8 +14,8 @@ export interface Route {
   Longitude: number;
   Months: Month[];
   Difficulty: Difficulty | undefined;
-  CanyonWaterGrade: 'a' | 'b' | 'c' | undefined;
-  CanyonTechGrade: 1 | 2 | 3 | 4 | undefined;
+  CanyonWaterGrade: CanyonWaterGrade | undefined;
+  CanyonTechGrade: CanyonTechGrade | undefined;
   AdditionalRisk: AdditionalRisk | undefined;
   Vehicle: string | undefined;
   Shuttle: string | undefined;
