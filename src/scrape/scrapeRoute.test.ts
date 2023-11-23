@@ -1,3 +1,4 @@
+import {Route} from './Route';
 import {scrapeRoute} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.
@@ -20,7 +21,9 @@ describe('scrapeRoute', () => {
   });
 });
 
-function transform({GeoJSON, HTMLDescription, ...rest}: Awaited<ReturnType<typeof scrapeRoute>>) {
+function transform(route: Route | undefined) {
+  if (!route) return undefined;
+  const {GeoJSON, HTMLDescription, ...rest} = route;
   return {
     HasGeoJSON: !!GeoJSON,
     HasHTMLDescription: !!HTMLDescription,

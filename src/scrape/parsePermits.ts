@@ -7,8 +7,8 @@ const permitsObject = {
 
 export type Permits = keyof typeof permitsObject;
 
-export function parsePermits(input: string): Permits | undefined {
-  if (input in permitsObject) {
+export function parsePermits(input: string | undefined): Permits | undefined {
+  if (input && input in permitsObject) {
     return input as Permits;
   } else if (input) {
     throw new Error(`Unexpected string in permits: ${input}`);
