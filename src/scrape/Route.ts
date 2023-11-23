@@ -1,4 +1,5 @@
 import {Feature, LineString, Point} from '@turf/helpers';
+import {omit} from 'lodash';
 
 /*
  * We will produce the following output products:
@@ -28,7 +29,6 @@ export interface RouteIndex {
   rappelLengthMax: number | undefined;
   vehicle: Vehicle | undefined;
   shuttle: Shuttle | undefined;
-  detailsUrl: string;
 }
 
 /**
@@ -44,53 +44,26 @@ export interface Route extends RouteIndex {
 }
 
 /**
- * Properties shared by all GeoJSON and vector tile features.
+ * A GeoJSON feature representing a route
  */
-export type RouteBaseProperties = {
-  name: string;
-  description: string;
+export type RouteFeature = Feature<
+  LineString | Point,
+  {
+    [key: string]: unknown;
 
-  // This mapped type pulls in all properties from RouteIndex and prepends them with `route.`
-  // e.g. 'route.id', 'route.name', 'route.stars'
-  // Including these properties makes filtering directly on the main map possible.
-} & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]};
+    // This mapped type pulls in all properties from RouteIndex and prepends them with `route.`
+    // e.g. 'route.id', 'route.name', 'route.stars'
+    // Including these properties makes filtering directly on the main map possible.
+  } & {[Key in keyof RouteIndex as `route.${Key}`]: RouteIndex[Key]}
+>;
 
-/**
- * Properties for GeoJSON and vector tile features with LineString geometry.
- */
-export type RouteLineStringProperties = RouteBaseProperties & {
-  type: 'approach' | 'descent' | 'exit' | 'shuttle' | 'unknown';
-};
-
-/**
- * A GeoJSON feature with a LineString geometry.
- */
-export type RouteLineStringFeature = Feature<LineString, RouteLineStringProperties>;
-
-/**
- * Properties for GeoJSON and vector tile features with a Point geometry.
- */
-export type RoutePointProperties = RouteBaseProperties & {
-  type: 'waypoint' | 'unknown';
-};
-
-/**
- * A GeoJSON feature with a Point geometry.
- */
-export type RoutePointFeature = Feature<Point, RoutePointProperties>;
-
-/**
- * A GeoJSON feature with any allowable geometry.
- */
-export type RouteFeature = RoutePointFeature | RouteLineStringFeature;
-
-type TechnicalGrade = 1 | 2 | 3 | 4;
-type WaterGrade = 'a' | 'b' | 'c';
+export type TechnicalGrade = 1 | 2 | 3 | 4;
+export type WaterGrade = 'a' | 'b' | 'c';
 export type TimeGrade = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 export type AdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R';
-type Vehicle = string;
-type Shuttle = string;
-type Permit = string;
+export type Vehicle = string;
+export type Shuttle = string;
+export type Permit = string;
 export type Month =
   | 'January'
   | 'Feburary'
@@ -104,3 +77,7 @@ export type Month =
   | 'October'
   | 'November'
   | 'December';
+
+export function toRouteIndex(route: Route): RouteIndex {
+  return omit(route, ['description', 'geojson', 'url', 'latitude', 'longitude']);
+}

@@ -1,9 +1,9 @@
 import jsdom from 'jsdom';
-import {LegacyRoute as Route} from './LegacyRoute';
-import cachedFetch from './cachedFetch';
+import {Route} from './Route';
+import cachedFetch, {md5} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
-import parseDifficulty from './parseDifficulty';
+import parseDifficulty, {getTechnicalGrade, getWaterGrade} from './parseDifficulty';
 import parseKML from './parseKML';
 import parseMonths from './parseMonths';
 import {parseRaps} from './parseRaps';
@@ -38,31 +38,31 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
   }
   const rating = tableElements['Difficulty']?.textContent?.trim() ?? '';
 
-  // popularity is currently broken
-  const popularity = parseInt(
-    tableElements['StarRank']?.querySelector('.starRate > span')?.textContent?.slice(2) ?? '',
-  );
+  if (!parseSport(rating, ['canyoneering']).includes('canyoneering')) {
+    return undefined;
+  }
+
+  const difficulty = parseDifficulty(rating);
 
   return {
-    URL: url,
-    Name: document.querySelector('h1')?.textContent ?? 'Unknown',
-    Quality: quality,
-    Popularity: popularity ?? undefined,
-    Latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
-    Longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
-    Months: months,
-    Difficulty: parseDifficulty(rating),
-    AdditionalRisk: parseAdditionalRisk(rating),
-    Vehicle: vehicle,
-    Shuttle: tableElements['Shuttle']?.textContent?.trim(),
-    Permits: tableElements['Red Tape']?.textContent?.trim(),
-    Sports: parseSport(rating, ['canyoneering']),
-    Time: parseTime(rating),
-    RappelCountMin: raps.countMin,
-    RappelCountMax: raps.countMax,
-    RappelLengthMax: raps.lengthMax,
-    KMLURL: kml.url ?? undefined,
-    HTMLDescription: await parseDescription(document),
-    GeoJSON: kml.geoJSON,
+    id: md5(url),
+    url: url,
+    name: document.querySelector('h1')?.textContent ?? 'Unknown',
+    quality: quality,
+    latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
+    longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
+    months: months,
+    additionalRisk: parseAdditionalRisk(rating),
+    vehicle: vehicle,
+    shuttle: tableElements['Shuttle']?.textContent?.trim(),
+    permits: tableElements['Red Tape']?.textContent?.trim(),
+    technicalGrade: getTechnicalGrade[difficulty ?? ''],
+    waterGrade: getWaterGrade[difficulty ?? ''],
+    timeGrade: parseTime(rating),
+    rappelCountMin: raps.countMin,
+    rappelCountMax: raps.countMax,
+    rappelLengthMax: raps.lengthMax,
+    description: await parseDescription(document),
+    geojson: kml.geoJSON,
   };
 }

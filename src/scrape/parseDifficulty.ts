@@ -1,3 +1,5 @@
+import {TechnicalGrade, WaterGrade} from './Route';
+
 export type Difficulty =
   | 'class 1'
   | 'class 2'
@@ -106,3 +108,37 @@ export default function parseDifficulty(input: string | undefined | null): Diffi
     }
   }
 }
+
+export const getWaterGrade: {[key: string]: WaterGrade} = {
+  '1a': 'a',
+  '1b': 'b',
+  '1c': 'c',
+  '2a': 'a',
+  '2b': 'b',
+  '2c': 'c',
+  '3a': 'a',
+  '3b': 'b',
+  '3c': 'c',
+  '4a': 'a',
+  '4b': 'b',
+  '4c': 'c',
+};
+
+export const getTechnicalGrade: {[key: string]: TechnicalGrade} = {
+  '1a': 1,
+  '1b': 1,
+  '1c': 1,
+  '1?': 1,
+  '2a': 2,
+  '2b': 2,
+  '2c': 2,
+  '2?': 2,
+  '3a': 3,
+  '3b': 3,
+  '3c': 3,
+  '3?': 3,
+  '4a': 4,
+  '4b': 4,
+  '4c': 4,
+  '4?': 4,
+};

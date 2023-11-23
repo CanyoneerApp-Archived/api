@@ -8,12 +8,12 @@ import PromiseThrottle from 'promise-throttle';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
 
-function md5(input: string) {
+export function md5(input: string) {
   return nodeCrypto.createHash('md5').update(input).digest('hex');
 }
 
 function getPath(url: string) {
-  return Path.join(__dirname, '../../output/cache', `${md5(url)}.txt`);
+  return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
 }
 
 async function defaultTransform(url: string): Promise<string> {
