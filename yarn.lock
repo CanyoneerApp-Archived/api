@@ -1281,10 +1281,10 @@
     eslint-plugin-react "^7.33.2"
     eslint-plugin-react-hooks "^4.6.0"
 
-"@scree/quality@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-0.17.0.tgz#4621f0ae3ff3b14a2db98d809778e169a982dcbe"
-  integrity sha512-9ZjkLFJNe3yP/CByVvKAked1WADb8p93M5WT79JgBAT/2eh01I6z5tTNtmsO4NumwPSR4x866lZnmMx8g/4WuA==
+"@scree/quality@^0.20.0":
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-0.20.0.tgz#8550a7c5a28cd959ba5fdf5c129584c18502f1ec"
+  integrity sha512-GFjpqOOqje6EZoqkQPIN+MFC61QnAy2TvlS6b7UzQmYFSi3qJGszzCeLOcVlc2i/NCi2ZrIvemEt2ZmL4fqiNg==
   dependencies:
     "@scree/eslint-config-quality" "1.6.0"
     "@types/node" "^20.10.0"
