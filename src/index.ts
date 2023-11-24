@@ -7,6 +7,7 @@ import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
+import {writeTippecanoe} from './writeTippecanoe';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
 
@@ -26,6 +27,7 @@ async function main() {
   await createOutputDir();
   await scrape();
   await writeRouteSchema();
+  await writeTippecanoe();
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);
@@ -36,8 +38,5 @@ async function main() {
 
 main();
 function writeRouteSchema() {
-  throw new Error('Function not implemented.');
-}
-function writeTippecanoe() {
   throw new Error('Function not implemented.');
 }
