@@ -7,7 +7,6 @@ import FS from 'fs';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {writeSchemas} from './writeSchemas';
-import {writeTippecanoe} from './writeTippecanoe';
 
 export async function main() {
   program.parse();
@@ -26,7 +25,6 @@ export async function main() {
   const outputs = options.skipAWS ? undefined : await syncStack(cloudFormation);
 
   await scrape();
-  await writeTippecanoe();
   await writeSchemas();
 
   console.log('Uploading');
