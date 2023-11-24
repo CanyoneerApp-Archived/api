@@ -31,12 +31,12 @@ export interface IndexRoute {
   /**
    * Feet
    */
-  rappelLengthMax: number | undefined;
+  rappelLengthMaxFeet: number | undefined;
   vehicle: Vehicle | undefined;
   /**
    * Minutes
    */
-  shuttle: number | undefined;
+  shuttleMinutes: number | undefined;
 }
 
 /**

@@ -60,7 +60,7 @@ async function fetchRoutes(validate: ValidateFunction<unknown>, callback: (route
 
       const rappelCount = result.printouts['Rappels'][0]?.match(/([0-9+])(-([0-9+]))?r/)
 
-      const route = ({
+      const route: Route = {
         description: "", // TODO
         geojson: undefined, // TODO
         url: result.fullurl,
@@ -77,10 +77,10 @@ async function fetchRoutes(validate: ValidateFunction<unknown>, callback: (route
         permits: result.printouts['Permits'][0],
         rappelCountMin: parseIntSafe(rappelCount?.[1]),
         rappelCountMax: parseIntSafe(rappelCount?.[3] ?? rappelCount?.[1]),
-        rappelLengthMax: result.printouts['Longest'][0]?.value,
+        rappelLengthMaxFeet: result.printouts['Longest'][0]?.value,
         vehicle: result.printouts['Vehicle'][0],
-        shuttle: result.printouts['Shuttle'][0]?.value
-      })
+        shuttleMinutes: result.printouts['Shuttle'][0]?.value
+      }
 
       validate(route)
       if (validate.errors) {
