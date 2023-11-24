@@ -6,7 +6,7 @@
     "start": "ts-node --files --pretty src/index.ts",
     "lint": "scree lint",
     "lint-fix": "scree lint-fix",
-    "precommit": "scree precommit",
+    "precommit": "scree lint-precommit && yarn test",
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint",
     "test": "jest"
@@ -16,7 +16,7 @@
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
     "@scree/eslint-config-quality": "^1.6.0",
-    "@scree/quality": "^0.14.0",
+    "@scree/quality": "^0.17.0",
     "@types/fs-extra": "^8.0.1",
     "@types/geojson": "^7946.0.8",
     "@types/jsdom": "^12.2.4",
