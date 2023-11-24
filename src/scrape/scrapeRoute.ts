@@ -1,6 +1,6 @@
 import {Feature} from '@turf/helpers';
 import jsdom from 'jsdom';
-import {Route, RouteGeoJSONFeature, RouteIndex} from './Route';
+import {IndexRoute, Route, RouteGeoJSONFeature} from './Route';
 import cachedFetch, {md5} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
@@ -52,7 +52,7 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
         ? {type: 'FeatureCollection', features: [kml.geojson]}
         : undefined;
 
-  const index: RouteIndex = {
+  const index: IndexRoute = {
     id: md5(url),
     name: document.querySelector('h1')?.textContent ?? 'Unknown',
     quality: quality,

@@ -6,9 +6,9 @@
     "start": "yarn lint-fix && AWS_PROFILE=canyoneer GIT_BRANCH=`git branch --show-current` ts-node --files --pretty src/index.ts",
     "lint": "scree lint",
     "lint-fix": "scree lint-fix",
-    "precommit": "scree precommit",
+    "precommit": "scree precommit && yarn test",
     "install-precommit": "scree install-precommit",
-    "ci": "yarn lint",
+    "ci": "yarn lint && yarn test",
     "test": "jest"
   },
   "author": "",

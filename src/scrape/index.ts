@@ -1,6 +1,6 @@
 import FS from 'fs';
 import {toLegacyRoute} from './LegacyRoute';
-import {RouteGeoJSONFeature, toRouteIndex} from './Route';
+import {RouteGeoJSONFeature, toIndexRoute} from './Route';
 import {getRouteURLs} from './getRouteURLs';
 import {scrapeRoute} from './scrapeRoute';
 
@@ -31,7 +31,7 @@ export async function scrape() {
           ...feature,
           properties: {
             ...Object.fromEntries(
-              Object.entries(toRouteIndex(route)).map(([key, value]) => [`route.${key}`, value]),
+              Object.entries(toIndexRoute(route)).map(([key, value]) => [`route.${key}`, value]),
             ),
             ...feature.properties,
           },
@@ -55,7 +55,7 @@ export async function scrape() {
           : []);
 
       FS.writeFileSync(`./output/details/${route.id}.json`, JSON.stringify(route));
-      index.write(`${JSON.stringify(toRouteIndex(route))}\n`);
+      index.write(`${JSON.stringify(toIndexRoute(route))}\n`);
       features.forEach(feature => {
         geojson.write(`${JSON.stringify(feature)}\n`);
       });
