@@ -1,5 +1,6 @@
+import {Feature} from '@turf/helpers';
 import jsdom from 'jsdom';
-import {Route} from './Route';
+import {Route, RouteGeoJSONFeature, RouteIndex} from './Route';
 import cachedFetch, {md5} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
@@ -44,13 +45,17 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
 
   const difficulty = parseDifficulty(rating);
 
-  return {
+  const geojson =
+    kml.geojson?.type === 'FeatureCollection'
+      ? kml.geojson
+      : kml.geojson
+        ? {type: 'FeatureCollection', features: [kml.geojson]}
+        : undefined;
+
+  const index: RouteIndex = {
     id: md5(url),
-    url: url,
     name: document.querySelector('h1')?.textContent ?? 'Unknown',
     quality: quality,
-    latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
-    longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
     months: months,
     additionalRisk: parseAdditionalRisk(rating),
     vehicle: vehicle,
@@ -62,7 +67,28 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     rappelCountMin: raps.countMin,
     rappelCountMax: raps.countMax,
     rappelLengthMax: raps.lengthMax,
+  };
+
+  return {
+    ...index,
+    latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
+    longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
+    url: url,
     description: await parseDescription(document),
-    geojson: kml.geoJSON,
+    geojson: geojson && {
+      type: 'FeatureCollection',
+      features: geojson.features.map(
+        (feature: Feature) =>
+          ({
+            ...feature,
+            properties: {
+              ...feature.properties,
+              ...Object.fromEntries(
+                Object.entries(index).map(([key, value]) => [`route.${key}`, value]),
+              ),
+            },
+          }) as unknown as RouteGeoJSONFeature,
+      ),
+    },
   };
 }

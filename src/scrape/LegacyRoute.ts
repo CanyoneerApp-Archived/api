@@ -23,7 +23,7 @@ export interface LegacyRoute {
   RappelLengthMax: number | undefined;
   KMLURL: string | undefined;
   HTMLDescription: string;
-  GeoJSON: Feature<LineString | Point> | FeatureCollection<LineString | Point>;
+  GeoJSON: Feature<LineString | Point> | FeatureCollection<LineString | Point> | undefined;
 }
 
 export function toLegacyRoute(route: Route): LegacyRoute {

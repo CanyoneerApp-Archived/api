@@ -26,36 +26,39 @@ export async function scrape() {
         legacy.write(',\n');
       }
 
-      const features: RouteGeoJSONFeature[] = route.geojson?.features.map(feature => ({
-        ...feature,
-        properties: {
-          ...Object.fromEntries(
-            Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
-          ),
-          ...feature.properties,
-        },
-      })) ?? [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [route.longitude, route.latitude],
-          },
+      const features: RouteGeoJSONFeature[] =
+        route.geojson?.features.map(feature => ({
+          ...feature,
           properties: {
-            name: route.name,
             ...Object.fromEntries(
-              Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
+              Object.entries(toRouteIndex(route)).map(([key, value]) => [`route.${key}`, value]),
             ),
-          } as unknown as RouteGeoJSONFeature['properties'],
-        },
-      ];
+            ...feature.properties,
+          },
+        })) ??
+        (route.longitude && route.latitude
+          ? [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [route.longitude, route.latitude],
+                },
+                properties: {
+                  name: route.name,
+                  ...Object.fromEntries(
+                    Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
+                  ),
+                } as unknown as RouteGeoJSONFeature['properties'],
+              },
+            ]
+          : []);
 
       FS.writeFileSync(`./output/details/${route.id}.json`, JSON.stringify(route));
       index.write(`${JSON.stringify(toRouteIndex(route))}\n`);
       features.forEach(feature => {
-        geojson.write(JSON.stringify(feature));
+        geojson.write(`${JSON.stringify(feature)}\n`);
       });
-
       legacy.write(JSON.stringify(toLegacyRoute(route)));
     }),
   );

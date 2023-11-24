@@ -37,7 +37,7 @@ export interface RouteIndex {
  */
 export interface Route extends RouteIndex {
   description: string;
-  geojson: {type: 'FeatureCollection'; features: RouteGeoJSONFeature[]};
+  geojson: {type: 'FeatureCollection'; features: RouteGeoJSONFeature[]} | undefined;
   url: string;
   latitude: number;
   longitude: number;

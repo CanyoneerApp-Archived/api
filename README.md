@@ -1,7 +1,7 @@
 # Getting Started
 
 Install [git](https://git-scm.com), [Node.js](https://nodejs.org/en) (>= v19)
-and [yarn](https://yarnpkg.com/) (>= v1.22)
+[yarn](https://yarnpkg.com/) (>= v1.22), and [tippecanoe](https://github.com/mapbox/tippecanoe)
 
 Clone this git repository
 
