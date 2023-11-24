@@ -26,7 +26,6 @@ async function main() {
   await createOutputDir();
   await scrape();
   await writeRouteSchema();
-  await writeTippecanoe();
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);
