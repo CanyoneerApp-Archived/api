@@ -1,5 +1,5 @@
 import nodeCrypto from 'crypto';
-import FS from 'fs-extra';
+import FS from 'fs';
 import fetch from 'node-fetch';
 import Path from 'path';
 // @ts-ignore TODO create a type file for this module
@@ -31,30 +31,26 @@ async function cachedFetch(
 ) {
   const path = getPath(url);
 
-  if (!(await cachedFetch.has(url))) {
+  try {
+    const text = await FS.promises.readFile(path, 'utf-8');
+    console.log(chalk.dim(`Fetch cached ${url}`));
+    return text;
+  } catch (error) {
+    if (error instanceof Error && 'code' in error && error.code !== 'ENOENT') {
+      throw error;
+    }
+
     const text = await promiseThrottle.add(async () => {
-      try {
-        console.log(chalk.dim(`Fetch live ${url}`));
-        return await transform(url);
-      } catch (error) {
-        console.error(error);
-        return undefined;
-      }
+      console.log(chalk.dim(`Fetch live ${url}`));
+      return await transform(url);
     });
+
     if (text) {
-      await FS.writeFile(path, text);
+      await FS.promises.mkdir(Path.dirname(path), {recursive: true});
+      await FS.promises.writeFile(path, text);
     }
     return text;
-  } else {
-    console.log(chalk.dim(`Fetch cached ${url}`));
-    return FS.readFile(path, 'utf-8');
   }
 }
-
-cachedFetch.has = async (url: string): Promise<boolean> => {
-  const path = getPath(url);
-  // TODO use async API like FS.promises.access
-  return FS.existsSync(path);
-};
 
 export default cachedFetch;
