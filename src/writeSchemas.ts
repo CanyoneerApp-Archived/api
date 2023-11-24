@@ -2,10 +2,10 @@ import FS from 'fs';
 import * as TSJ from 'ts-json-schema-generator';
 
 const types = {
-  LegacyRoute: './src/scrape/LegacyRoute.ts',
-  Route: './src/scrape/Route.ts',
-  IndexRoute: './src/scrape/Route.ts',
-  RouteGeoJSONFeature: './src/scrape/Route.ts',
+  LegacyRoute: './src/LegacyRoute.ts',
+  Route: './src/Route.ts',
+  IndexRoute: './src/Route.ts',
+  RouteGeoJSONFeature: './src/Route.ts',
 };
 
 export async function writeSchemas() {

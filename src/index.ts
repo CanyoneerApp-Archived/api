@@ -25,8 +25,8 @@ async function main() {
   }
 
   await createDirs();
-  await scrape();
   await writeSchemas();
+  await scrape();
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);

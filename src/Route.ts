@@ -21,16 +21,22 @@ export interface IndexRoute {
   name: string;
   quality: number;
   months: Month[];
-  technicalGrade: TechnicalGrade | undefined;
-  waterGrade: WaterGrade | undefined;
-  timeGrade: TimeGrade | undefined;
-  additionalRisk: AdditionalRisk | undefined;
+  technicalRating: TechnicalGrade | undefined;
+  waterRating: WaterGrade | undefined;
+  timeRating: TimeGrade | undefined;
+  riskRating: AdditionalRisk | undefined;
   permits: Permit | undefined;
   rappelCountMin: number | undefined;
   rappelCountMax: number | undefined;
+  /**
+   * Feet
+   */
   rappelLengthMax: number | undefined;
   vehicle: Vehicle | undefined;
-  shuttle: Shuttle | undefined;
+  /**
+   * Minutes
+   */
+  shuttle: number | undefined;
 }
 
 /**
@@ -60,25 +66,24 @@ export type RouteGeoJSONFeature = Feature<
 >;
 
 export type TechnicalGrade = 1 | 2 | 3 | 4;
-export type WaterGrade = 'a' | 'b' | 'c';
+export type WaterGrade = 'a' | 'b' | 'c' | 'c1' | 'c2' | 'c3' | 'c4';
 export type TimeGrade = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 export type AdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R';
 export type Vehicle = string;
-export type Shuttle = string;
 export type Permit = string;
 export type Month =
-  | 'January'
-  | 'Feburary'
-  | 'March'
-  | 'April'
+  | 'Jan'
+  | 'Feb'
+  | 'Mar'
+  | 'Apr'
   | 'May'
-  | 'June'
-  | 'July'
-  | 'August'
-  | 'September'
-  | 'October'
-  | 'November'
-  | 'December';
+  | 'Jun'
+  | 'Jul'
+  | 'Aug'
+  | 'Sep'
+  | 'Oct'
+  | 'Nov'
+  | 'Dec';
 
 export function toIndexRoute(route: Route): IndexRoute {
   return omit(route, ['description', 'geojson', 'url', 'latitude', 'longitude']);
