@@ -46,10 +46,10 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
   const difficulty = parseDifficulty(rating);
 
   const geojson =
-    kml.geojson?.type === 'FeatureCollection'
-      ? kml.geojson
-      : kml.geojson
-        ? {type: 'FeatureCollection', features: [kml.geojson]}
+    kml.geoJSON?.type === 'FeatureCollection'
+      ? kml.geoJSON
+      : kml.geoJSON
+        ? {type: 'FeatureCollection', features: [kml.geoJSON]}
         : undefined;
 
   const index: IndexRoute = {

@@ -24,7 +24,6 @@ describe('scrapeRoute', () => {
 
 function transform(route: Route | undefined) {
   if (!route) return undefined;
-  // TODO migrate to non-legacy Route type
   const {GeoJSON, HTMLDescription, ...rest} = toLegacyRoute(route);
   return {
     HasGeoJSON: !!GeoJSON,
