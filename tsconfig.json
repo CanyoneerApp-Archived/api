@@ -1,8 +1,4 @@
 {
   "extends": "./node_modules/@scree/quality/src/tsconfig.json",
-  "compilerOptions": {
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
-  },
   "include": ["./src"]
 }

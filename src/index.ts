@@ -2,7 +2,7 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import chalk from 'chalk';
 import {program} from 'commander';
-import {createOutputDir} from './createOutputDir';
+import {createDirs} from './createDirs';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
@@ -23,7 +23,7 @@ async function main() {
     stack = await syncStack(cloudFormation);
   }
 
-  await createOutputDir();
+  await createDirs();
   await scrape();
 
   if (!options.skipAWS && stack) {
