@@ -1,7 +1,7 @@
 import {CloudFormation, StackEvent} from '@aws-sdk/client-cloudformation';
 import {syncCloudFormationStack} from '@scree/aws-utils';
 import chalk from 'chalk';
-import {StackOutputs, getStackTemplate} from './getStackTemplate';
+import {SyncStackOutput, getStackTemplate} from './getStackTemplate';
 
 export async function syncStack(cloudFormation: CloudFormation) {
   if (!process.env.GIT_BRANCH) {
@@ -14,7 +14,7 @@ export async function syncStack(cloudFormation: CloudFormation) {
   const pad = getResourceIdPadding(stackName, template);
 
   console.log('Syncing stack');
-  const outputs = await syncCloudFormationStack<StackOutputs>(cloudFormation, {
+  const outputs = await syncCloudFormationStack<SyncStackOutput>(cloudFormation, {
     TemplateBody: JSON.stringify(template),
     StackName: stackName,
     EventHandler: (event: StackEvent) => {

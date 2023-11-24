@@ -2,7 +2,7 @@
 import cloudform, {DeletionPolicy, Fn, S3} from 'cloudform';
 import Output from 'cloudform-types/types/output';
 
-export type StackOutputs = {
+export type SyncStackOutput = {
   Bucket: string;
   URL: string;
 };
@@ -24,7 +24,7 @@ export function getStackTemplate(stackName: string) {
             '.amazonaws.com',
           ]),
         },
-      } as {[Key in keyof StackOutputs]: Output},
+      } as {[Key in keyof SyncStackOutput]: Output},
 
       Resources: {
         // This this is a file system to which we can upload files
