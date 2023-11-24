@@ -2,11 +2,12 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import chalk from 'chalk';
 import {program} from 'commander';
-import {createOutputDir} from './createOutputDir';
+import {createDirs} from './createDirs';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
+import {writeSchemas} from './writeSchemas';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
@@ -24,10 +25,10 @@ async function main() {
     stack = await syncStack(cloudFormation);
   }
 
-  await createOutputDir();
+  await createDirs();
   await scrape();
-  await writeRouteSchema();
   await writeTippecanoe();
+  await writeSchemas();
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);
@@ -37,6 +38,3 @@ async function main() {
 }
 
 main();
-function writeRouteSchema() {
-  throw new Error('Function not implemented.');
-}
