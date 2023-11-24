@@ -24,7 +24,6 @@ export function getStackTemplate(stackName: string) {
             '.amazonaws.com',
           ]),
         },
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } as {[Key in keyof StackOutputs]: Output},
 
       Resources: {
