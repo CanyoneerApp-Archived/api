@@ -156,8 +156,8 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
         name: result.printouts.name[0],
         quality: result.printouts.quality[0],
         months: result.printouts.months,
-        technicalRating: parseIntSafe(result.printouts.technicalRating[0]) as TechnicalGrade, // TODO format properly
-        waterRating: result.printouts.waterRating[0]?.toLowerCase() as WaterGrade, // TODO format properly
+        technicalRating: parseIntSafe(result.printouts.technicalRating[0]) as TechnicalGrade,
+        waterRating: result.printouts.waterRating[0]?.toLowerCase() as WaterGrade,
         timeRating: result.printouts.timeRating[0],
         riskRating: result.printouts.riskRating[0],
         permits: result.printouts.permits[0],
