@@ -4,6 +4,7 @@ import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
 import chalk from 'chalk';
 import {cloneDeep, keyBy} from 'lodash';
+import {logger} from '../logger';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
@@ -41,10 +42,8 @@ export async function scrapeKMLs(routes: Route[], {regions}: {regions: string[]}
           continue
         }
 
-        console.log(chalk.dim(`Got KML for ${name}`))
+        logger.verbose(`Got KML for ${name}`)
         route.geojson = TJ.kml(el, {styles: true})
-
-        console.log(name, route.geojson)
 
         validate('Route', route)
       }

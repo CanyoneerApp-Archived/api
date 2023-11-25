@@ -16,8 +16,12 @@ export const validate = async (schema: SchemaName, value: unknown) => {
   const validator = validateInner(schema)
   validator(value)
   if (validator.errors) {
-    console.log(value);
-    console.error(validator.errors);
-    throw new Error('Failed validation');
+    throw new SchemaValidationError(value, validator.errors);
+  }
+}
+
+class SchemaValidationError extends Error {
+  constructor(value: unknown, errors: Ajv.ErrorObject[]) {
+    super(`Failed to validate ${JSON.stringify(value)}\n${JSON.stringify(errors, null, 2)}`);
   }
 }

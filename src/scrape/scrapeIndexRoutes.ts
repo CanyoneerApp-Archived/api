@@ -1,5 +1,6 @@
 import assert from 'assert';
 import {IndexRoute, TechnicalGrade, WaterGrade} from '../Route';
+import {logger} from '../logger';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
@@ -127,9 +128,6 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
     );
     url.searchParams.append('format', 'json');
     url.searchParams.append('limit', '2000');
-    // url.searchParams.append('offset', '0');
-
-    console.log(url.toString())
 
     const results: {
       fulltext: string;
@@ -139,6 +137,10 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       printouts: {[Key in keyof typeof properties]: any};
     }[] = Object.values(JSON.parse(await cachedFetch(url.toString())).results ?? {});
+
+    if (results.length === 2000) {
+      logger.warn(`Reached limit of 2000 results for ${region}`)
+    }
 
     for (const result of results) {
       assert(['minutes', undefined].includes(result.printouts['shuttle'][0]?.units));

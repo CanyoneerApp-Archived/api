@@ -1,6 +1,7 @@
 import {CloudFormation, StackEvent} from '@aws-sdk/client-cloudformation';
 import {syncCloudFormationStack} from '@scree/aws-utils';
 import chalk from 'chalk';
+import {logger} from '../logger';
 import {SyncStackOutput, getStackTemplate} from './getStackTemplate';
 
 export async function syncStack(cloudFormation: CloudFormation) {
@@ -13,21 +14,20 @@ export async function syncStack(cloudFormation: CloudFormation) {
 
   const pad = getResourceIdPadding(stackName, template);
 
-  console.log('Syncing stack');
+  logger.log('Syncing stack');
   const outputs = await syncCloudFormationStack<SyncStackOutput>(cloudFormation, {
     TemplateBody: JSON.stringify(template),
     StackName: stackName,
     EventHandler: (event: StackEvent) => {
-      console.log(
+      logger.verbose(
         chalk.dim(
-          `${event.LogicalResourceId?.padEnd(pad)} ${event.ResourceStatus} ${
-            event.ResourceStatusReason ?? ''
+          `${event.LogicalResourceId?.padEnd(pad)} ${event.ResourceStatus} ${event.ResourceStatusReason ?? ''
           }`,
         ),
       );
     },
   });
-  console.log('Stack synced');
+  logger.log('Stack synced');
 
   return outputs;
 }
