@@ -1,4 +1,4 @@
-type Time = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
+export type Time = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 
 const lookups: [string | RegExp, Time][] = [
   [/\biii\b/, 'III'],

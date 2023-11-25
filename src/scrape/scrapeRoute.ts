@@ -1,4 +1,5 @@
 import jsdom from 'jsdom';
+import {Route} from './Route';
 import cachedFetch from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
@@ -10,10 +11,10 @@ import parseSport from './parseSports';
 import {mostReleventElement, parseTable} from './parseTable';
 import parseTime from './parseTime';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function scrapeRoute(url: string): Promise<any> {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const text = (await cachedFetch(url))!;
+export async function scrapeRoute(url: string): Promise<Route | undefined> {
+  const text = await cachedFetch(url);
+  if (!text) return undefined;
+
   const {
     window: {document},
   } = new jsdom.JSDOM(text, {url});
@@ -23,8 +24,7 @@ export async function scrapeRoute(url: string): Promise<any> {
 
   const tableElementRowMap = parseTable(document.querySelector('.tablecanyon tbody'));
   const raps = parseRaps(tableElementRowMap['Raps']);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const qualityPopSection = tableElementRowMap['Rating']!;
+  const qualityPopSection = tableElementRowMap['Rating'];
   const quality =
     qualityPopSection.querySelectorAll('.starRate4')?.length ??
     0 + (qualityPopSection.querySelectorAll('.starRate2')?.length ?? 0) / 2;
@@ -39,22 +39,17 @@ export async function scrapeRoute(url: string): Promise<any> {
   const rating = tableElements['Difficulty']?.textContent?.trim() ?? '';
 
   // popularity is currently broken
-  const popularity =
-    tableElements['StarRank'] &&
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parseInt(tableElements['StarRank'].querySelector('.starRate > span')!.textContent!.slice(2));
+  const popularity = parseInt(
+    tableElements['StarRank']?.querySelector('.starRate > span')?.textContent?.slice(2) ?? '',
+  );
+
   return {
     URL: url,
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    Name: document.querySelector('h1')!.textContent!,
+    Name: document.querySelector('h1')?.textContent ?? 'Unknown',
     Quality: quality,
-    Popularity: popularity,
-    Latitude:
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[0]),
-    Longitude:
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tableElements['Location'] && parseFloat(tableElements['Location'].textContent!.split(',')[1]),
+    Popularity: popularity ?? undefined,
+    Latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
+    Longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
     Months: months,
     Difficulty: parseDifficulty(rating),
     AdditionalRisk: parseAdditionalRisk(rating),
@@ -66,7 +61,7 @@ export async function scrapeRoute(url: string): Promise<any> {
     RappelCountMin: raps.countMin,
     RappelCountMax: raps.countMax,
     RappelLengthMax: raps.lengthMax,
-    KMLURL: kml.url,
+    KMLURL: kml.url ?? undefined,
     HTMLDescription: await parseDescription(document),
     GeoJSON: kml.geoJSON,
   };

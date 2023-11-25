@@ -7,6 +7,7 @@ import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
+import {writeRouteSchema} from './writeRouteSchema';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
 
@@ -25,6 +26,7 @@ async function main() {
 
   await createDirs();
   await scrape();
+  await writeRouteSchema();
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);
