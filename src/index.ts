@@ -1,36 +1,36 @@
-import {scrapeRoute} from './scrapeRoute';
-import cachedFetch from './utils/cachedFetch';
+import {CloudFormation} from '@aws-sdk/client-cloudformation';
+import {S3} from '@aws-sdk/client-s3';
+import chalk from 'chalk';
+import {program} from 'commander';
+import {createDirs} from './createDirs';
+import {scrape} from './scrape';
+import {syncStack} from './syncStack';
+import {SyncStackOutput} from './syncStack/getStackTemplate';
+import {uploadOutputDir} from './uploadOutputDir';
 
-let first = true;
+program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
+
 async function main() {
-  console.log('[');
+  program.parse();
+  const options = program.opts<{skipAWS: boolean}>();
 
-  const urls = await getRouteURLs();
-  await Promise.all(
-    urls.map(async url => {
-      try {
-        const route = await scrapeRoute(url);
-        if (first) {
-          first = false;
-        } else {
-          console.log(',');
-        }
-        console.log(JSON.stringify(route));
-      } catch (error) {
-        console.error(error);
-      }
-    }),
-  );
-  console.log(']');
-}
+  const region = 'us-west-1';
+  const s3 = new S3({region});
+  const cloudFormation = new CloudFormation({region});
 
-async function getRouteURLs(): Promise<Array<string>> {
-  const url =
-    'http://ropewiki.com/api.php?action=ask&format=json&query=%5B%5BCategory%3ACanyons%5D%5D%5B%5BHas+coordinates%3A%3A%2B%5D%5D%5B%5BCategory%3ACanyons%5D%5D%0A++%0A++%5B%5BHas+star+rating%3A%3A%210%5D%5D%5B%5BHas+star+rating%3A%3A%211%5D%5D%5B%5BHas+latitude%3A%3A%3E30.412022222222%5D%5D%5B%5BHas+longitude%3A%3A%3E-128.08301666667%5D%5D%5B%5BHas+latitude%3A%3A%3C44.8852%5D%5D%5B%5BHas+longitude%3A%3A%3C-108.54692%5D%5D%7Corder%3Ddescending%2C+ascending%7Csort%3DHas_rank_rating%2C+Has_name|%3FHas_coordinates|%3FHas_star_rating|%3FHas_summary|%3FHas_banner_image_file|%3FHas_location_class|%3FHas_KML_file|limit=2000|offset=0';
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const response = JSON.parse((await cachedFetch(url))!);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return Object.values(response.query.results).map((result: any) => result.fullurl);
+  let stack: SyncStackOutput | undefined;
+  if (!options.skipAWS) {
+    stack = await syncStack(cloudFormation);
+  }
+
+  await createDirs();
+  await scrape();
+
+  if (!options.skipAWS && stack) {
+    await uploadOutputDir(s3, stack);
+  }
+
+  console.log(chalk.green(chalk.bold('Done')));
 }
 
 main();

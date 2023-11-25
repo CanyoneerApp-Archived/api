@@ -9,15 +9,23 @@ import {scrapeRoute} from './scrapeRoute';
 // These canyons are chosen because they have a lot of metadata and but are unlikely to be updated frequently
 
 describe('scrapeRoute', () => {
-  it('matches snapshot for Cerebus', async () => {
-    expect(
-      transform(await scrapeRoute('https://ropewiki.com/Cerberus_Canyon_(North_Fork)')),
-    ).toMatchSnapshot();
-  });
+  it(
+    'matches snapshot for Cerebus',
+    async () => {
+      expect(
+        transform(await scrapeRoute('https://ropewiki.com/Cerberus_Canyon_(North_Fork)')),
+      ).toMatchSnapshot();
+    },
+    60 * 1000,
+  );
 
-  it('matches snapshot for Behunin', async () => {
-    expect(transform(await scrapeRoute('https://ropewiki.com/Behunin_Canyon'))).toMatchSnapshot();
-  });
+  it(
+    'matches snapshot for Behunin',
+    async () => {
+      expect(transform(await scrapeRoute('https://ropewiki.com/Behunin_Canyon'))).toMatchSnapshot();
+    },
+    60 * 1000,
+  );
 });
 
 function transform({GeoJSON, HTMLDescription, ...rest}: Awaited<ReturnType<typeof scrapeRoute>>) {

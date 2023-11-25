@@ -1,14 +1,14 @@
 import jsdom from 'jsdom';
-import cachedFetch from './utils/cachedFetch';
-import parseAdditionalRisk from './utils/parseAdditionalRisk';
-import {parseDescription} from './utils/parseDescription';
-import parseDifficulty from './utils/parseDifficulty';
-import parseKML from './utils/parseKML';
-import parseMonths from './utils/parseMonths';
-import {parseRaps} from './utils/parseRaps';
-import parseSport from './utils/parseSports';
-import {mostReleventElement, parseTable} from './utils/parseTable';
-import parseTime from './utils/parseTime';
+import cachedFetch from './cachedFetch';
+import parseAdditionalRisk from './parseAdditionalRisk';
+import {parseDescription} from './parseDescription';
+import parseDifficulty from './parseDifficulty';
+import parseKML from './parseKML';
+import parseMonths from './parseMonths';
+import {parseRaps} from './parseRaps';
+import parseSport from './parseSports';
+import {mostReleventElement, parseTable} from './parseTable';
+import parseTime from './parseTime';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function scrapeRoute(url: string): Promise<any> {
