@@ -9,7 +9,7 @@
     "precommit": "scree lint-precommit && yarn test",
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +29,7 @@
     "@types/lodash": "^4.14.149",
     "@types/node": "^13.1.1",
     "@types/node-fetch": "^2.5.4",
+    "@types/xml2js": "^0.4.14",
     "@types/xmldom": "^0.1.29",
     "@types/yargs": "^13.0.4",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
@@ -53,6 +54,7 @@
     "ts-node": "^10.9.1",
     "typescript": "5.2",
     "urlencode": "^1.1.0",
+    "xml2js": "^0.6.2",
     "xmldom": "^0.2.1",
     "xmlparser": "^0.1.0",
     "yargs": "^15.0.2"

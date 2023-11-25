@@ -33,8 +33,7 @@ export function toLegacyRoute(route: Route): LegacyRoute {
     Latitude: route.latitude,
     Longitude: route.longitude,
     Months: route.months,
-    Difficulty:
-      route.technicalRating && ((route.technicalRating + (route.waterRating ?? '?'))),
+    Difficulty: route.technicalRating && route.technicalRating + (route.waterRating ?? '?'),
     AdditionalRisk: route.riskRating,
     Vehicle: route.vehicle,
     Shuttle: `${route.shuttleMinutes}min`,
@@ -43,7 +42,7 @@ export function toLegacyRoute(route: Route): LegacyRoute {
     Time: route.timeRating,
     RappelCountMin: route.rappelCountMin,
     RappelCountMax: route.rappelCountMax,
-    RappelLengthMax: route.rappelLengthMaxFeet,
+    RappelLengthMax: route.rappelLongestFeet,
     KMLURL: undefined, // not supported by new type & not used in app
     HTMLDescription: route.description,
     GeoJSON: route.geojson,

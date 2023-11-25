@@ -31,12 +31,16 @@ export interface IndexRoute {
   /**
    * Feet
    */
-  rappelLengthMaxFeet: number | undefined;
+  rappelLongestFeet: number | undefined;
   vehicle: Vehicle | undefined;
   /**
    * Minutes
    */
   shuttleMinutes: number | undefined;
+
+  url: string;
+  latitude: number;
+  longitude: number;
 }
 
 /**
@@ -46,9 +50,6 @@ export interface IndexRoute {
 export interface Route extends IndexRoute {
   description: string;
   geojson: {type: 'FeatureCollection'; features: RouteGeoJSONFeature[]} | undefined;
-  url: string;
-  latitude: number;
-  longitude: number;
 }
 
 /**
@@ -86,5 +87,5 @@ export type Month =
   | 'Dec';
 
 export function toIndexRoute(route: Route): IndexRoute {
-  return omit(route, ['description', 'geojson', 'url', 'latitude', 'longitude']);
+  return omit(route, ['description', 'geojson']);
 }
