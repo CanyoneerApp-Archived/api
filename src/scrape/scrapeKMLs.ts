@@ -19,13 +19,37 @@ export async function scrapeKMLs(
     let offset = 0;
 
     while (true) {
-      // TODO build as URL object
       // TODO pull older KMLs too
-      const url = `https://ropewiki.com/luca/rwr?gpx=off&kml=http://ropewiki.com/index.php/KMLList?offset=${offset}&limit=${limit}&action=raw&templates=expand&ctype=application/x-zope-edit&numname=on&group=link&query=%5B%5BCategory%3ACanyons%5D%5D%5B%5BLocated%20in%20region.Located%20in%20regions%3A%3AX%7C%7C${encodeURIComponent(
-        region,
-      )}%5D%5D&sort=Has_rank_rating%2C%20Has_name&order=descending%2C%20ascending&gpx=off&mapnum=&mapname=off&mapdata=&maploc=&maplinks=&allmap=&qname=${encodeURIComponent(
-        region,
-      )}&filename=${encodeURIComponent(region)}&ext=.kml`;
+
+      const url1 = new URL(`http://ropewiki.com/index.php/KMLList`);
+      url1.searchParams.append('offset', `${offset}`);
+      url1.searchParams.append('limit', `${limit}`);
+      url1.searchParams.append('action', `raw`);
+      url1.searchParams.append('templates', `expand`);
+      url1.searchParams.append('ctype', `application/x-zope-edit`);
+      url1.searchParams.append('numname', `on`);
+      url1.searchParams.append('group', `link`);
+      url1.searchParams.append(
+        'query',
+        decodeURIComponent(
+          `%5B%5BCategory%3ACanyons%5D%5D%5B%5BLocated%20in%20region.Located%20in%20regions%3A%3AX%7C%7C${region}%5D%5D`,
+        ),
+      );
+      url1.searchParams.append('sort', decodeURIComponent(`Has_rank_rating%2C%20Has_name`));
+      url1.searchParams.append('order', decodeURIComponent(`descending%2C%20ascending`));
+      url1.searchParams.append('gpx', `off`);
+      url1.searchParams.append('mapnum', ``);
+      url1.searchParams.append('mapname', `off`);
+      url1.searchParams.append('mapdata', ``);
+      url1.searchParams.append('maploc', ``);
+      url1.searchParams.append('maplinks', ``);
+      url1.searchParams.append('allmap', ``);
+      url1.searchParams.append('qname', region);
+      url1.searchParams.append('filename', region);
+      url1.searchParams.append('ext', `.kml`);
+
+      // TODO eliminate this wrapper
+      const url = `https://ropewiki.com/luca/rwr?gpx=off&kml=${url1.toString()}`;
 
       const text = await cachedFetch(new URL(url));
 
@@ -41,11 +65,7 @@ export async function scrapeKMLs(
         if (name === 'Ropewiki Map Export') continue;
 
         const route = lookup[name];
-
-        if (!route) {
-          // console.warn(chalk.yellow(chalk.bold(`No route found for ${name}`)))
-          continue;
-        }
+        if (!route) continue;
 
         logger.verbose(`Got KML for ${name}`);
         route.geojson = TJ.kml(el, {styles: true});
