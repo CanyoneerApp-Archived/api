@@ -4,9 +4,7 @@ import {IndexRoute, Route} from '../Route';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
-export async function scrapeDescriptions(
-  routes: IndexRoute[],
-): Promise<Route[]> {
+export async function scrapeDescriptions(routes: IndexRoute[]): Promise<Route[]> {
   const routeChunks = lodashChunk(routes, 50);
 
   return (
@@ -27,7 +25,7 @@ export async function scrapeDescriptions(
           }),
         );
 
-        return routeChunk.map((index) => {
+        return routeChunk.map(index => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const text = xml.mediawiki.page.find((page: any) => page.id[0] === index.id).revision[0]
             .text[0]._;
@@ -36,12 +34,12 @@ export async function scrapeDescriptions(
             ...index,
             // TODO render this as HTML
             description: text.slice(text.indexOf('==Introduction==')),
-            geojson: undefined
+            geojson: undefined,
           };
 
-          validate('Route', route)
+          validate('Route', route);
 
-          return route
+          return route;
         });
       }),
     )

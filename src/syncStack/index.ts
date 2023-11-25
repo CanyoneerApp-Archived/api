@@ -21,7 +21,8 @@ export async function syncStack(cloudFormation: CloudFormation) {
     EventHandler: (event: StackEvent) => {
       logger.verbose(
         chalk.dim(
-          `${event.LogicalResourceId?.padEnd(pad)} ${event.ResourceStatus} ${event.ResourceStatusReason ?? ''
+          `${event.LogicalResourceId?.padEnd(pad)} ${event.ResourceStatus} ${
+            event.ResourceStatusReason ?? ''
           }`,
         ),
       );

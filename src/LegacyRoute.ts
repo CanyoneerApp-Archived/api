@@ -21,7 +21,7 @@ export interface LegacyRoute {
   RappelLengthMax: number | undefined;
   KMLURL: string | undefined;
   HTMLDescription: string;
-  GeoJSON: FeatureCollection | undefined
+  GeoJSON: FeatureCollection | undefined;
 }
 
 export function toLegacyRoute(route: Route): LegacyRoute {

@@ -3,7 +3,6 @@ import {identity, isString} from 'lodash';
 import {inspect} from 'util';
 
 export const logger = {
-
   enableVerbose: false,
 
   verbose(...args: unknown[]) {
@@ -25,7 +24,6 @@ export const logger = {
   },
 
   format(args: unknown[], transform: (input: string) => string = identity) {
-    return args.map(arg => transform(isString(arg) ? arg : inspect(arg, {depth: 10})))
-  }
-
-}
+    return args.map(arg => transform(isString(arg) ? arg : inspect(arg, {depth: 10})));
+  },
+};

@@ -55,7 +55,8 @@ export interface Route extends IndexRoute {
 /**
  * A GeoJSON feature representing a route
  */
-export type RouteGeoJSONFeature = Feature<Geometry | GeometryCollection,
+export type RouteGeoJSONFeature = Feature<
+  Geometry | GeometryCollection,
   {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;

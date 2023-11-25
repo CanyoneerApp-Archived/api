@@ -139,7 +139,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
     }[] = Object.values(JSON.parse(await cachedFetch(url.toString())).results ?? {});
 
     if (results.length === 2000) {
-      logger.warn(`Reached limit of 2000 results for ${region}`)
+      logger.warn(`Reached limit of 2000 results for ${region}`);
     }
 
     for (const result of results) {

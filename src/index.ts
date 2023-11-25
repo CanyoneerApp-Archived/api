@@ -15,11 +15,10 @@ program.option('--verbose', 'Show  verbose log messages', false);
 program.option('--region', '', ['California']);
 
 async function main() {
-
   program.parse();
   const options = program.opts();
 
-  logger.enableVerbose = options.verbose
+  logger.enableVerbose = options.verbose;
 
   const region = 'us-west-1';
   const s3 = new S3({region});
@@ -32,17 +31,13 @@ async function main() {
 
   await clearOutputDir();
   await writeSchemas();
-  await scrape(
-    isArray(options.region)
-      ? options.region
-      : [options.region],
-  );
+  await scrape(isArray(options.region) ? options.region : [options.region]);
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);
   }
 
-  logger.log('Done')
+  logger.log('Done');
 }
 
 main();

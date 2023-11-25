@@ -3,12 +3,14 @@ import {scrapeIndexRoutes} from './scrapeIndexRoutes';
 import {scrapeKMLs} from './scrapeKMLs';
 import {writeRoute, writeRouteEnd} from './writeRoute';
 
-export async function scrape(regions: string[]) {
-  const routes = await scrapeIndexRoutes({regions});
-  const routes1 = await scrapeDescriptions(routes);
-  const routes2 = await scrapeKMLs(routes1, {regions});
+export async function inner(regions: string[]) {
+  return await scrapeKMLs(await scrapeDescriptions(await scrapeIndexRoutes({regions})), {regions});
+}
 
-  for (const route of routes2) {
+export async function scrape(regions: string[]) {
+  const routes = await inner(regions);
+
+  for (const route of routes) {
     writeRoute(route);
   }
 

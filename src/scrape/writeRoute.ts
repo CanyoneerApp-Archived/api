@@ -13,7 +13,7 @@ const inner = once(() => ({
 let first = true;
 
 export function writeRouteEnd() {
-  const {legacy} = inner()
+  const {legacy} = inner();
   legacy.write(']');
 }
 
@@ -36,5 +36,3 @@ export function writeRoute(route: Route) {
   });
   legacy.write(JSON.stringify(toLegacyRoute(route)));
 }
-
-
