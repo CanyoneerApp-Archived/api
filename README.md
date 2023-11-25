@@ -44,3 +44,9 @@ Run the scraper
 ```
 yarn start
 ```
+
+The scraper supports some command line flags. You can see all of them by running
+
+```
+yarn start --help
+```
