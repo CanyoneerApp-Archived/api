@@ -3059,6 +3059,13 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.202.tgz#f09dbd2fb082d507178b2f2a5c7e74bd72ff98f8"
   integrity sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==
 
+"@types/marked@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/marked/-/marked-6.0.0.tgz#4dbc7df4add578ef87eb6ca2c6927c97b0531abf"
+  integrity sha512-jmjpa4BwUsmhxcfsgUit/7A9KbrC48Q0q8KvnY107ogcjGgTFDlIL3RpihNpx2Mu1hM4mdFQjoVc4O6JoGKHsA==
+  dependencies:
+    marked "*"
+
 "@types/node-fetch@^2.5.4":
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.9.tgz#15f529d247f1ede1824f7e7acdaa192d5f28071e"
@@ -3095,11 +3102,6 @@
   integrity sha512-4YnrRemBShWRO2QjvUin8ESA41rH+9nQGLUGZV/1IDhi3SL9OhdpNC/MrulTWuptXKwhx/aDxE7toV0f/ypIXQ==
   dependencies:
     "@types/node" "*"
-
-"@types/xmldom@^0.1.29":
-  version "0.1.34"
-  resolved "https://registry.yarnpkg.com/@types/xmldom/-/xmldom-0.1.34.tgz#a752f73bdf09cc6d78b3d3b2e7ca4dd04cc96fd2"
-  integrity sha512-7eZFfxI9XHYjJJuugddV6N5YNeXgQE1lArWOcd1eCOKWb/FGs5SIjacSYuEJuwhsGS3gy4RuZ5EUIcqYscuPDA==
 
 "@types/yargs-parser@*":
   version "21.0.3"
@@ -5819,6 +5821,11 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
+marked@*, marked@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-10.0.0.tgz#7fe1805bb908433d760e2de0fcc8841a2b2d745c"
+  integrity sha512-YiGcYcWj50YrwBgNzFoYhQ1hT6GmQbFG8SksnYJX1z4BXTHSOrz1GB5/Jm2yQvMg4nN1FHP4M6r03R10KrVUiA==
+
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
@@ -5923,6 +5930,11 @@ node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==
+
+node-pandoc@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/node-pandoc/-/node-pandoc-0.3.0.tgz#d46577cd0a72af415353fcb8a0117adb6242f9c8"
+  integrity sha512-e+kANHQQFBlN7J8wEFf7sNc1sSCLltyPtPqNA/IEapiNsA1LjZ9mtV/B0lU6b2cAdvn7rrAVNBONw+Fo1YsY+A==
 
 node-releases@^2.0.13:
   version "2.0.13"
@@ -7296,6 +7308,16 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
+
+wikitext2markdown@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/wikitext2markdown/-/wikitext2markdown-0.0.1.tgz#74e08fddd3f27bf11fd6d715fff0e6d4e32507f9"
+  integrity sha512-QcOlRsBKX1XCgbFtULG7lY2Lt6FRK2HYpdhCtZreYSwtM1aOV2LCqUFyOGFt0j99AgS3FKN7mLJIjRbu7wT1jQ==
+
+wiky@^0.95.1:
+  version "0.95.1"
+  resolved "https://registry.yarnpkg.com/wiky/-/wiky-0.95.1.tgz#816894f32fb66e5d09a97275b162568a1fe51536"
+  integrity sha512-s6SRF4r0ncag+caUhlqtZcwHdVVTNIRzT2SrIPDuzK+Q3PG9UBptn/ZnjOYdI+xK5Pen9iGa/Y+Nx+gv4BGhoA==
 
 word-wrap@~1.2.3:
   version "1.2.5"

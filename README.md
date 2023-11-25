@@ -1,7 +1,7 @@
 # Getting Started
 
 Install [git](https://git-scm.com), [Node.js](https://nodejs.org/en) (>= v19)
-[yarn](https://yarnpkg.com/) (>= v1.22)
+[yarn](https://yarnpkg.com/) (>= v1.22), and pandoc (>= 0.3.0)
 
 Clone this git repository
 
