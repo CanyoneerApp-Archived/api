@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`scrape scrapes 1`] = `
+exports[`scrape Maine 1`] = `
 [
   {
     "description": "==Introduction==
@@ -504,6 +504,40 @@ See The Maine Canyon Survey
     "url": "https://ropewiki.com/The_Cataracts",
     "vehicle": undefined,
     "waterRating": "c",
+  },
+]
+`;
+
+exports[`scrape South Dakota 1`] = `
+[
+  {
+    "description": "==Introduction==
+==Approach==
+==Descent==
+==Exit==
+==Red tape==
+==Beta sites==
+* [[File:rwl_en.png|alt=|link=]][http://summitpost.org/beaver-creek-canyon/972748 SummitPost.org]  : Beaver Creek Canyon
+==Trip reports and media==
+==Background==",
+    "geojson": undefined,
+    "id": "34288",
+    "latitude": 43.5815,
+    "longitude": -103.4837,
+    "months": [],
+    "name": "Beaver Creek Canyon",
+    "permits": "No",
+    "quality": 0,
+    "rappelCountMax": undefined,
+    "rappelCountMin": undefined,
+    "rappelLongestFeet": undefined,
+    "riskRating": undefined,
+    "shuttleMinutes": undefined,
+    "technicalRating": undefined,
+    "timeRating": undefined,
+    "url": "https://ropewiki.com/Beaver_Creek_Canyon",
+    "vehicle": undefined,
+    "waterRating": undefined,
   },
 ]
 `;

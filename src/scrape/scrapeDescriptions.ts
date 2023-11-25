@@ -10,12 +10,13 @@ export async function scrapeDescriptions(routes: IndexRoute[]): Promise<Route[]>
   return (
     await Promise.all(
       routeChunks.map(async routeChunk => {
-        // TODO make this a URL
         // TODO find docs for this API
         // TODO there's actually a ton of metadata in here, do we even need the first pass over the index data?
-        const url = `http://ropewiki.com/api.php?format=json&action=query&export=true&pageids=${routeChunk
-          .map(index => index.id)
-          .join('|')}`;
+        const url = new URL('http://ropewiki.com/api.php');
+        url.searchParams.append('format', 'json');
+        url.searchParams.append('action', 'query');
+        url.searchParams.append('export', 'true');
+        url.searchParams.append('pageids', routeChunk.map(index => index.id).join('|'));
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const xml: any = await new Promise(async (resolve, reject) =>

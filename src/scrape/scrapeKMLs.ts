@@ -27,7 +27,7 @@ export async function scrapeKMLs(
         region,
       )}&filename=${encodeURIComponent(region)}&ext=.kml`;
 
-      const text = await cachedFetch(url);
+      const text = await cachedFetch(new URL(url));
 
       const document = new xmldom.DOMParser().parseFromString(text);
       const els = Array.from(document.getElementsByTagName('Document'));

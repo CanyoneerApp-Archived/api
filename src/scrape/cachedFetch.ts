@@ -15,7 +15,9 @@ function getPath(url: string) {
   return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
 }
 
-async function cachedFetch(url: string) {
+async function cachedFetch(urlObject: URL) {
+  const url = urlObject.toString();
+
   const path = getPath(url);
 
   try {

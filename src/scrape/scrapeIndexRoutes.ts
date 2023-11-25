@@ -136,7 +136,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
       exists: boolean;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       printouts: {[Key in keyof typeof properties]: any};
-    }[] = Object.values(JSON.parse(await cachedFetch(url.toString())).results ?? {});
+    }[] = Object.values(JSON.parse(await cachedFetch(url)).results ?? {});
 
     if (results.length === 2000) {
       logger.warn(`Reached limit of 2000 results for ${region}`);
