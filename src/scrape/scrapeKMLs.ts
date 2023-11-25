@@ -19,8 +19,6 @@ export async function scrapeKMLs(
     let offset = 0;
 
     while (true) {
-      // TODO pull older KMLs too
-
       const url1 = new URL(`http://ropewiki.com/index.php/KMLList`);
       url1.searchParams.append('offset', `${offset}`);
       url1.searchParams.append('limit', `${limit}`);
@@ -48,10 +46,10 @@ export async function scrapeKMLs(
       url1.searchParams.append('filename', region);
       url1.searchParams.append('ext', `.kml`);
 
-      // TODO eliminate this wrapper
-      const url = `https://ropewiki.com/luca/rwr?gpx=off&kml=${url1.toString()}`;
+      const url = new URL('https://ropewiki.com/luca/rwr');
+      url.searchParams.append('gpx', 'off');
 
-      const text = await cachedFetch(new URL(url));
+      const text = await cachedFetch(new URL(`${url.toString()}&kml=${url1.toString()}`));
 
       const document = new xmldom.DOMParser().parseFromString(text);
       const els = Array.from(document.getElementsByTagName('Document'));
