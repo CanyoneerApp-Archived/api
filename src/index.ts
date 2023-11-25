@@ -1,9 +1,9 @@
 import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
-import chalk from 'chalk';
 import {program} from 'commander';
 import {isArray} from 'lodash';
 import {clearOutputDir} from './clearOutputDir';
+import {logger} from './logger';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
@@ -11,11 +11,15 @@ import {uploadOutputDir} from './uploadOutputDir';
 import {writeSchemas} from './writeSchemas';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
+program.option('--verbose', 'Show  verbose log messages', false);
 program.option('--region', '', ['California']);
 
 async function main() {
+
   program.parse();
-  const options = program.opts<{skipAWS: boolean; region: string | string[]}>();
+  const options = program.opts();
+
+  logger.enableVerbose = options.verbose
 
   const region = 'us-west-1';
   const s3 = new S3({region});
@@ -38,7 +42,7 @@ async function main() {
     await uploadOutputDir(s3, stack);
   }
 
-  console.log(chalk.green(chalk.bold('Done')));
+  logger.log('Done')
 }
 
 main();

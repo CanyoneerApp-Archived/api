@@ -2,7 +2,6 @@ import {Route} from '../Route';
 // @ts-ignore
 import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
-import chalk from 'chalk';
 import {cloneDeep, keyBy} from 'lodash';
 import {logger} from '../logger';
 import cachedFetch from './cachedFetch';
@@ -38,7 +37,7 @@ export async function scrapeKMLs(routes: Route[], {regions}: {regions: string[]}
         const route = lookup[name]
 
         if (!route) {
-          console.warn(chalk.yellow(chalk.bold(`No route found for ${name}`)))
+          // console.warn(chalk.yellow(chalk.bold(`No route found for ${name}`)))
           continue
         }
 

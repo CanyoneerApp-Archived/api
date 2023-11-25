@@ -1,4 +1,4 @@
-import Ajv from 'ajv';
+import Ajv, {ErrorObject} from 'ajv';
 import FS from 'fs';
 import {memoize} from 'lodash';
 import {schemas} from '../writeSchemas';
@@ -21,7 +21,7 @@ export const validate = async (schema: SchemaName, value: unknown) => {
 }
 
 class SchemaValidationError extends Error {
-  constructor(value: unknown, errors: Ajv.ErrorObject[]) {
+  constructor(value: unknown, errors: ErrorObject[]) {
     super(`Failed to validate ${JSON.stringify(value)}\n${JSON.stringify(errors, null, 2)}`);
   }
 }
