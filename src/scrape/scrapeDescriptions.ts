@@ -1,12 +1,12 @@
 import {chunk as lodashChunk} from 'lodash';
 import {parseString} from 'xml2js';
-import {IndexRoute} from '../Route';
-
-type IndexRouteWithDescription = IndexRoute & {description: string};
+import {IndexRoute, Route} from '../Route';
+import cachedFetch from './cachedFetch';
+import {validate} from './getValidator';
 
 export async function scrapeDescriptions(
   routes: IndexRoute[],
-): Promise<IndexRouteWithDescription[]> {
+): Promise<Route[]> {
   const routeChunks = lodashChunk(routes, 50);
 
   return (
@@ -21,22 +21,27 @@ export async function scrapeDescriptions(
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const xml: any = await new Promise(async (resolve, reject) =>
-          parseString((await (await fetch(url)).json()).query.export['*'], (error, result) => {
+          parseString(JSON.parse(await cachedFetch(url)).query.export['*'], (error, result) => {
             if (error) reject(error);
             else resolve(result);
           }),
         );
 
-        return routeChunk.map((index): IndexRouteWithDescription => {
+        return routeChunk.map((index) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const text = xml.mediawiki.page.find((page: any) => page.id[0] === index.id).revision[0]
             .text[0]._;
 
-          return {
+          const route: Route = {
             ...index,
             // TODO render this as HTML
             description: text.slice(text.indexOf('==Introduction==')),
+            geojson: undefined
           };
+
+          validate('Route', route)
+
+          return route
         });
       }),
     )

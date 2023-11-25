@@ -1,7 +1,7 @@
 import FS from 'fs';
 import * as TSJ from 'ts-json-schema-generator';
 
-const types = {
+export const schemas = {
   LegacyRoute: './src/LegacyRoute.ts',
   Route: './src/Route.ts',
   IndexRoute: './src/Route.ts',
@@ -11,7 +11,7 @@ const types = {
 export async function writeSchemas() {
   await FS.promises.mkdir('./output/schemas', {recursive: true});
 
-  Object.entries(types).map(([type, path]) =>
+  Object.entries(schemas).map(([type, path]) =>
     FS.promises.writeFile(
       `./output/schemas/${type}.json`,
       JSON.stringify(

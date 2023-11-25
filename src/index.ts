@@ -3,9 +3,8 @@ import {S3} from '@aws-sdk/client-s3';
 import chalk from 'chalk';
 import {program} from 'commander';
 import {isArray} from 'lodash';
-import {createDirs} from './createDirs';
+import {clearOutputDir} from './clearOutputDir';
 import {scrape} from './scrape';
-import {allRegions} from './scrape/scrapeIndexRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
@@ -27,14 +26,12 @@ async function main() {
     stack = await syncStack(cloudFormation);
   }
 
-  await createDirs();
+  await clearOutputDir();
   await writeSchemas();
   await scrape(
     isArray(options.region)
       ? options.region
-      : options.region === 'all'
-        ? allRegions
-        : [options.region],
+      : [options.region],
   );
 
   if (!options.skipAWS && stack) {

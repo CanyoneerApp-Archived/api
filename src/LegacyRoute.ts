@@ -1,4 +1,4 @@
-import {Feature, FeatureCollection, LineString, Point} from '@turf/helpers';
+import {FeatureCollection} from '@turf/helpers';
 import {AdditionalRisk, Month, Route, TimeGrade} from './Route';
 
 export interface LegacyRoute {
@@ -21,7 +21,7 @@ export interface LegacyRoute {
   RappelLengthMax: number | undefined;
   KMLURL: string | undefined;
   HTMLDescription: string;
-  GeoJSON: Feature<LineString | Point> | FeatureCollection<LineString | Point> | undefined;
+  GeoJSON: FeatureCollection | undefined
 }
 
 export function toLegacyRoute(route: Route): LegacyRoute {

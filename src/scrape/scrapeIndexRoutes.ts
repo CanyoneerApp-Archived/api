@@ -1,8 +1,7 @@
-import Ajv from 'ajv';
 import assert from 'assert';
-import FS from 'fs';
-import {once} from 'lodash';
 import {IndexRoute, TechnicalGrade, WaterGrade} from '../Route';
+import cachedFetch from './cachedFetch';
+import {validate} from './getValidator';
 
 export const allRegions = [
   'Asia',
@@ -90,8 +89,6 @@ interface FetchIndexRoutesOptions {
 export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
   const output: IndexRoute[] = [];
 
-  const validate = await getValidator();
-
   for (const region of regions) {
     const url = new URL('https://ropewiki.com/index.php');
     url.searchParams.append('title', 'Special:Ask');
@@ -132,6 +129,8 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
     url.searchParams.append('limit', '2000');
     // url.searchParams.append('offset', '0');
 
+    console.log(url.toString())
+
     const results: {
       fulltext: string;
       fullurl: string;
@@ -139,7 +138,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
       exists: boolean;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       printouts: {[Key in keyof typeof properties]: any};
-    }[] = Object.values((await (await fetch(url)).json()).results ?? {});
+    }[] = Object.values(JSON.parse(await cachedFetch(url.toString())).results ?? {});
 
     for (const result of results) {
       assert(['minutes', undefined].includes(result.printouts['shuttle'][0]?.units));
@@ -167,13 +166,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
         shuttleMinutes: result.printouts.shuttle[0]?.value,
       };
 
-      validate(route);
-      if (validate.errors) {
-        console.log(result);
-        console.log(route);
-        console.error(validate.errors);
-        throw new Error('Failed validation');
-      }
+      validate('IndexRoute', route);
 
       output.push(route);
     }
@@ -181,13 +174,6 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
 
   return output;
 }
-
-const getValidator = once(async () => {
-  const ajv = new Ajv({allowUnionTypes: true, allErrors: true});
-  return ajv.compile(
-    JSON.parse(await FS.promises.readFile('./output/schemas/IndexRoute.json', 'utf-8')),
-  );
-});
 
 function encode(input: string) {
   return encodeURIComponent(input).replace(/%/g, '-');

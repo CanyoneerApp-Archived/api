@@ -1,4 +1,4 @@
-import {Feature, LineString, Point} from '@turf/helpers';
+import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
 import {omit} from 'lodash';
 
 /*
@@ -49,16 +49,16 @@ export interface IndexRoute {
  */
 export interface Route extends IndexRoute {
   description: string;
-  geojson: {type: 'FeatureCollection'; features: RouteGeoJSONFeature[]} | undefined;
+  geojson: FeatureCollection | undefined;
 }
 
 /**
  * A GeoJSON feature representing a route
  */
-export type RouteGeoJSONFeature = Feature<
-  LineString | Point,
+export type RouteGeoJSONFeature = Feature<Geometry | GeometryCollection,
   {
-    [key: string]: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
 
     // This mapped type pulls in all properties from IndexRoute and prepends them with `route.`
     // e.g. 'route.id', 'route.name', 'route.stars'
