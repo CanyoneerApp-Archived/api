@@ -1,4 +1,4 @@
-import XMLDOM from 'xmldom';
+import XMLDOM from '@xmldom/xmldom';
 // @ts-ignore TODO write typescript interafce
 import ToGeoJSON from '@mapbox/togeojson';
 import cachedFetch from './cachedFetch';
