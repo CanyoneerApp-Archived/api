@@ -18,7 +18,7 @@ export interface IndexRouteV2 {
   permit: PermitV2 | undefined;
   rappelCountMin: number | undefined;
   rappelCountMax: number | undefined;
-  rappelLongestFeet: number | undefined;
+  rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
   shuttleMinutes: number | undefined;
   url: string;

@@ -1,6 +1,7 @@
 import {FeatureCollection} from '@turf/helpers';
 
 // Avoid using types from RouteV2 in the V1 schema to prevent breaking changes from being propagated
+import {METERS_PER_FOOT} from '../scrape/scrapeIndices';
 import {RouteV2, permitV2toV1} from './RouteV2';
 
 export interface RouteV1 {
@@ -106,7 +107,9 @@ export function toRouteV1(route: RouteV2): RouteV1 {
     Time: route.timeRating,
     RappelCountMin: route.rappelCountMin,
     RappelCountMax: route.rappelCountMax,
-    RappelLengthMax: route.rappelLongestFeet,
+    RappelLengthMax: route.rappelLongestMeters
+      ? route.rappelLongestMeters / METERS_PER_FOOT
+      : undefined,
     KMLURL: undefined, // not supported by new type & not used in app
     HTMLDescription: route.description,
     GeoJSON: route.geojson,
