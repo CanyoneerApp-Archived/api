@@ -20,7 +20,7 @@ export interface IndexRouteV2 {
   rappelCountMax: number | undefined;
   rappelLongestFeet: number | undefined;
   vehicle: VehicleV2 | undefined;
-  shuttleMinutes: ShuttleV2 | undefined;
+  shuttleMinutes: number | undefined;
   url: string;
   latitude: number;
   longitude: number;

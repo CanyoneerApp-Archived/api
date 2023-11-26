@@ -26,7 +26,7 @@ const apiResponse = {
   // 'Max Time': 'Has slowest typical time',
   // Hike: 'Has length of hike',
   permits: 'Requires permits',
-  Rappels: 'Has info rappels',
+  rappelCount: 'Has info rappels',
   // URL: 'Has url',
   rappelLongestFeet: 'Has longest rappel',
   months: 'Has best month',
@@ -63,7 +63,9 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
     // The API does not support returning more than 2000 results
     url.searchParams.append('limit', '2000');
 
-    const results: APIResponse[] = Object.values(JSON.parse(await cachedFetch(url)).results ?? {});
+    const text = await cachedFetch(url);
+    const json = text && JSON.parse(text);
+    const results: APIResponse[] = Object.values(json?.results ?? {});
 
     if (results.length === 2000) {
       logger.warn(
@@ -75,10 +77,12 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
       assert(['minutes', undefined].includes(result.printouts['shuttle'][0]?.units));
       assert(['ft', undefined].includes(result.printouts['rappelLongestFeet'][0]?.units));
 
+      if (!result.printouts.coordinates[0]?.lat || !result.printouts.coordinates[0]?.lon) continue;
+
       const route: IndexRouteV2 = {
         url: result.fullurl,
-        latitude: result.printouts.coordinates[0].lat,
-        longitude: result.printouts.coordinates[0].lon,
+        latitude: result.printouts.coordinates[0]?.lat,
+        longitude: result.printouts.coordinates[0]?.lon,
         id: result.printouts.pageid[0],
         name: result.printouts.name[0],
         quality: result.printouts.quality[0],
@@ -88,7 +92,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
         timeRating: result.printouts.timeRating[0],
         riskRating: result.printouts.riskRating[0],
         permit: result.printouts.permits[0],
-        ...parseRappelCount(result.printouts.Rappels[0]),
+        ...parseRappelCount(result.printouts.rappelCount[0]),
         rappelLongestFeet: result.printouts.rappelLongestFeet[0]?.value,
         vehicle: result.printouts.vehicle[0],
         shuttleMinutes: result.printouts.shuttle[0]?.value,

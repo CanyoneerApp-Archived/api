@@ -3,7 +3,7 @@ import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
 import {logger} from './logger';
-import {rmAllDirs} from './rmAllDirs';
+import {rmOutputDir} from './rmOutputDir';
 import {scrape} from './scrape';
 import {allRegions} from './scrape/allRegions';
 import {syncStack} from './syncStack';
@@ -38,7 +38,7 @@ async function main() {
     stack = await syncStack(cloudFormation);
   }
 
-  await rmAllDirs();
+  await rmOutputDir();
   await writeAllSchemas();
   await scrape(
     isArray(options.region)

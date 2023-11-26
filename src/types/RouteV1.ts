@@ -100,7 +100,7 @@ export function toRouteV1(route: RouteV2): RouteV1 {
       ((route.technicalRating + (route.waterRating ?? '?')).toLowerCase() as DifficultyV1),
     AdditionalRisk: route.riskRating,
     Vehicle: route.vehicle,
-    Shuttle: route.shuttleMinutes,
+    Shuttle: route.shuttleMinutes ? `${route.shuttleMinutes} minutes` : undefined,
     Permits: permitV2toV1[route.permit ?? ''],
     Sports: ['canyoneering'],
     Time: route.timeRating,
