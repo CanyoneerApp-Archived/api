@@ -1,18 +1,18 @@
 import {Feature, FeatureCollection, LineString, Point} from '@turf/helpers';
-import {AdditionalRisk, Month, Route, TimeGrade} from './Route';
-import {Difficulty} from './parseDifficulty';
-import {Sport} from './parseSports';
+import {Difficulty} from '../scrape/parseDifficulty';
+import {Sport} from '../scrape/parseSports';
+import {AdditionalRiskV2, MonthV2, RouteV2, TimeGradeV2} from './RouteV2';
 
-export interface LegacyRoute {
+export interface RouteV1 {
   URL: string;
   Name: string;
-  Quality: number;
+  Quality: number | undefined;
   Popularity: number | undefined;
   Latitude: number;
   Longitude: number;
-  Months: Month[];
+  Months: MonthV2[];
   Difficulty: Difficulty | undefined;
-  AdditionalRisk: AdditionalRisk | undefined;
+  AdditionalRisk: AdditionalRiskV2 | undefined;
   Vehicle: string | undefined;
   Shuttle: string | undefined;
   Permits:
@@ -22,7 +22,7 @@ export interface LegacyRoute {
     | 'Access is Restricted'
     | undefined;
   Sports: Sport[];
-  Time: TimeGrade | undefined;
+  Time: TimeGradeV2 | undefined;
   RappelCountMin: number | undefined;
   RappelCountMax: number | undefined;
   RappelLengthMax: number | undefined;
@@ -31,7 +31,7 @@ export interface LegacyRoute {
   GeoJSON: Feature<LineString | Point> | FeatureCollection<LineString | Point> | undefined;
 }
 
-export function toLegacyRoute(route: Route): LegacyRoute {
+export function toRouteV1(route: RouteV2): RouteV1 {
   return {
     URL: route.url,
     Name: route.name,
@@ -51,7 +51,7 @@ export function toLegacyRoute(route: Route): LegacyRoute {
       Closed: 'Closed to entry',
       Restricted: 'Access is Restricted',
       '': undefined,
-    }[route.permits ?? ''] as LegacyRoute['Permits'],
+    }[route.permits ?? ''] as RouteV1['Permits'],
     Sports: ['canyoneering'],
     Time: route.timeGrade,
     RappelCountMin: route.rappelCountMin,

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`scrapeRoute matches snapshot for Behunin 1`] = `
+exports[`scrapeRouteV2 matches snapshot for Behunin 1`] = `
 {
   "AdditionalRisk": undefined,
   "Difficulty": "3b",
@@ -35,7 +35,7 @@ exports[`scrapeRoute matches snapshot for Behunin 1`] = `
 }
 `;
 
-exports[`scrapeRoute matches snapshot for Cerebus 1`] = `
+exports[`scrapeRouteV2 matches snapshot for Cerebus 1`] = `
 {
   "AdditionalRisk": undefined,
   "Difficulty": "4a",

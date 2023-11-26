@@ -1,4 +1,4 @@
-import {TechnicalGrade, WaterGrade} from './Route';
+import {TechnicalGradeV2 as TechnicalGrade, WaterGradeV2 as WaterGrade} from '../types/RouteV2';
 
 export type Difficulty =
   | 'class 1'

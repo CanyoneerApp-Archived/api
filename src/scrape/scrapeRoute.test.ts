@@ -1,6 +1,6 @@
-import {toLegacyRoute} from './LegacyRoute';
-import {Route} from './Route';
-import {scrapeRoute} from './scrapeRoute';
+import {toRouteV1} from '../types/RouteV1';
+import {RouteV2} from '../types/RouteV2';
+import {scrapeRouteV2} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.
 // This could happen because of:
@@ -10,12 +10,12 @@ import {scrapeRoute} from './scrapeRoute';
 
 // These canyons are chosen because they have a lot of metadata and but are unlikely to be updated frequently
 
-describe('scrapeRoute', () => {
+describe('scrapeRouteV2', () => {
   it(
     'matches snapshot for Cerebus',
     async () => {
       expect(
-        transform(await scrapeRoute('https://ropewiki.com/Cerberus_Canyon_(North_Fork)')),
+        transform(await scrapeRouteV2('https://ropewiki.com/Cerberus_Canyon_(North_Fork)')),
       ).toMatchSnapshot();
     },
     60 * 1000,
@@ -24,15 +24,17 @@ describe('scrapeRoute', () => {
   it(
     'matches snapshot for Behunin',
     async () => {
-      expect(transform(await scrapeRoute('https://ropewiki.com/Behunin_Canyon'))).toMatchSnapshot();
+      expect(
+        transform(await scrapeRouteV2('https://ropewiki.com/Behunin_Canyon')),
+      ).toMatchSnapshot();
     },
     60 * 1000,
   );
 });
 
-function transform(route: Route | undefined) {
+function transform(route: RouteV2 | undefined) {
   if (!route) return undefined;
-  const {GeoJSON, HTMLDescription, ...rest} = toLegacyRoute(route);
+  const {GeoJSON, HTMLDescription, ...rest} = toRouteV1(route);
   return {
     HasGeoJSON: !!GeoJSON,
     HasHTMLDescription: !!HTMLDescription,
