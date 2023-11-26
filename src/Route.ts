@@ -1,16 +1,6 @@
 import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
 import {omit} from 'lodash';
-
-/*
- * We will produce the following output products:
- *  1. `index.json` - a list of all routes with stripped down data
- *  2. `index.geojson` - a list of all routes with stripped down data
- *  3. `details/{id}.json` - detailed data for a single route with geometries
- *  4. `tiles/{z}/{x}/{y}.pbf` - vector tiles of all geometries with stripped down data
- *  5. `tiles/metadata.json` - a standard tippecanoe metadata file that describes the vector tiles
- *  6. `schema/{type}.json` - JSON schemas for LegacyRoute, IndexRoute, Route, RouteGeoJSONFeature
- *  7. `legacy.json` - previous schema for backwards compatibility
- */
+import {validate} from './scrape/getValidator';
 
 /**
  * This "stripped down" type will be used in `index.json` and `tiles/{z}/{x}/{y}.pbf`. It is meant
@@ -55,7 +45,7 @@ export interface Route extends IndexRoute {
 /**
  * A GeoJSON feature representing a route
  */
-export type RouteGeoJSONFeature = Feature<
+export type GeoJSONRoute = Feature<
   Geometry | GeometryCollection,
   {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,7 +62,7 @@ export type WaterGrade = 'a' | 'b' | 'c' | 'c1' | 'c2' | 'c3' | 'c4';
 export type TimeGrade = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 export type AdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R';
 export type Vehicle = string;
-export type Permit = string;
+export type Permit = 'Closed' | 'No' | 'Restricted' | 'Yes';
 export type Month =
   | 'Jan'
   | 'Feb'
@@ -89,4 +79,40 @@ export type Month =
 
 export function toIndexRoute(route: Route): IndexRoute {
   return omit(route, ['description', 'geojson']);
+}
+
+export function toGeoJSONFeatures(route: Route): GeoJSONRoute[] {
+  const features =
+    route.geojson?.features.map(feature => ({
+      ...feature,
+      properties: {
+        ...Object.fromEntries(
+          Object.entries(toIndexRoute(route)).map(([key, value]) => [`route.${key}`, value]),
+        ),
+        ...feature.properties,
+      },
+    })) ??
+    (route.longitude && route.latitude
+      ? [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [route.longitude, route.latitude],
+            },
+            properties: {
+              name: route.name,
+              ...Object.fromEntries(
+                Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
+              ),
+            } as unknown as GeoJSONRoute['properties'],
+          },
+        ]
+      : []);
+
+  features.forEach(feature => {
+    validate('RouteGeoJSONFeature', feature);
+  });
+
+  return features as GeoJSONRoute[];
 }
