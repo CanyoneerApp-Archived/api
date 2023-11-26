@@ -10,7 +10,7 @@ const validateInner = memoize((schema: SchemaName) => {
   return ajv.compile(JSON.parse(FS.readFileSync(`./output/schemas/${schema}.json`, 'utf-8')));
 });
 
-export const validate = async (schema: SchemaName, value: unknown) => {
+export const validate = (schema: SchemaName, value: unknown) => {
   const validator = validateInner(schema);
   validator(value);
   if (validator.errors) {

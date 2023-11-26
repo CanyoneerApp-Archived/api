@@ -1,5 +1,6 @@
 import {FeatureCollection} from '@turf/helpers';
 import {AdditionalRisk, Month, Route, TimeGrade} from './Route';
+import {validate} from './scrape/getValidator';
 
 export interface LegacyRoute {
   URL: string;
@@ -31,7 +32,7 @@ export interface LegacyRoute {
 
 export function toLegacyRoute(route: Route): LegacyRoute {
   // TODO test the runtime value against the schema
-  return {
+  const output: LegacyRoute = {
     URL: route.url,
     Name: route.name,
     Quality: route.quality,
@@ -42,7 +43,7 @@ export function toLegacyRoute(route: Route): LegacyRoute {
     Difficulty: route.technicalRating && route.technicalRating + (route.waterRating ?? '?'),
     AdditionalRisk: route.riskRating,
     Vehicle: route.vehicle,
-    Shuttle: `${route.shuttleMinutes}min`,
+    Shuttle: `${route.shuttleMinutes}`,
     Permits: {
       No: 'No permit required',
       Yes: 'Permit required',
@@ -59,4 +60,8 @@ export function toLegacyRoute(route: Route): LegacyRoute {
     HTMLDescription: route.description,
     GeoJSON: route.geojson,
   };
+
+  validate('LegacyRoute', output);
+
+  return output;
 }

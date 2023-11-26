@@ -9,7 +9,7 @@
     "precommit": "scree lint-precommit && yarn test",
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -43,7 +43,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "jsdom": "^19.0.0",
     "lodash": "^4.17.15",
-    "marked": "^10.0.0",
     "node-base64-image": "^2.0.3",
     "node-fetch": "^2.6.0",
     "node-pandoc": "^0.3.0",
