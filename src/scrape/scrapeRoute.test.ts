@@ -10,7 +10,7 @@ import {scrapeRoute} from './scrapeRoute';
 
 // These canyons are chosen because they have a lot of metadata and but are unlikely to be updated frequently
 
-describe('scrapeRouteV2', () => {
+describe('scrapeRoute', () => {
   it(
     'matches snapshot for Cerebus',
     async () => {
