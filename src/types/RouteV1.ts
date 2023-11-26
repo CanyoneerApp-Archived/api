@@ -1,7 +1,7 @@
 import {FeatureCollection} from '@turf/helpers';
 
 // Avoid using types from RouteV2 in the V1 schema to prevent breaking changes from being propagated
-import {RouteV2, permit2to1} from './RouteV2';
+import {RouteV2, permitV2toV1} from './RouteV2';
 
 export interface RouteV1 {
   URL: string;
@@ -94,14 +94,14 @@ export function toRouteV1(route: RouteV2): RouteV1 {
     Popularity: undefined, // not supported by new type & not used in app
     Latitude: route.latitude,
     Longitude: route.longitude,
-    Months: route.months.map(month => months2to1[month]),
+    Months: route.months.map(month => monthsV2toV1[month]),
     Difficulty:
       route.technicalRating &&
       ((route.technicalRating + (route.waterRating ?? '?')).toLowerCase() as DifficultyV1),
     AdditionalRisk: route.riskRating,
     Vehicle: route.vehicle,
     Shuttle: route.shuttleMinutes,
-    Permits: permit2to1[route.permit ?? ''],
+    Permits: permitV2toV1[route.permit ?? ''],
     Sports: ['canyoneering'],
     Time: route.timeRating,
     RappelCountMin: route.rappelCountMin,
@@ -113,7 +113,7 @@ export function toRouteV1(route: RouteV2): RouteV1 {
   };
 }
 
-const months2to1: {[key: string]: MonthV1} = {
+const monthsV2toV1: {[key: string]: MonthV1} = {
   Jan: 'January',
   Feb: 'Feburary',
   Mar: 'March',

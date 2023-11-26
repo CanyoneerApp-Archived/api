@@ -107,14 +107,14 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
   );
 }
 
-export const permit1to2: {[key: string]: PermitV2} = {
+export const permitV1toV2: {[key: string]: PermitV2} = {
   'No permit required': 'No',
   'Permit required': 'Yes',
   'Closed to entry': 'Closed',
   'Access is Restricted': 'Restricted',
 };
 
-export const permit2to1: {[key: string]: PermitV1} = {
+export const permitV2toV1: {[key: string]: PermitV1} = {
   No: 'No permit required',
   Yes: 'Permit required',
   Closed: 'Closed to entry',

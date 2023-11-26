@@ -6,7 +6,7 @@ import {
   MonthV2,
   PermitV2 as Permit,
   RouteV2,
-  permit1to2,
+  permitV1toV2,
 } from '../types/RouteV2';
 import cachedFetch, {md5} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
@@ -67,7 +67,9 @@ export async function scrapeRoute(url: string): Promise<RouteV2 | undefined> {
     riskRating: parseAdditionalRisk(rating),
     vehicle: vehicle,
     shuttleMinutes: tableElements['Shuttle']?.textContent?.trim(),
-    permit: permit1to2[tableElements['Red Tape']?.textContent?.trim() ?? ''] as Permit | undefined,
+    permit: permitV1toV2[tableElements['Red Tape']?.textContent?.trim() ?? ''] as
+      | Permit
+      | undefined,
     technicalRating: getTechnicalGrade[difficulty ?? ''],
     waterRating: getWaterGrade[difficulty ?? ''],
     timeRating: parseTime(rating),
