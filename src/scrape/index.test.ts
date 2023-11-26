@@ -1,5 +1,5 @@
 import {inner} from '.';
-import {writeAllSchemas} from '../writeSchemas';
+import {writeAllSchemas} from '../writeAllSchemas';
 
 describe('scrape', () => {
   it(

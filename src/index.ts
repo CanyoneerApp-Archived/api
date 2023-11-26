@@ -2,13 +2,13 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
-import {clearOutputDir} from './clearOutputDir';
 import {logger} from './logger';
+import {rmAllDirs} from './rmAllDirs';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
-import {writeAllSchemas} from './writeSchemas';
+import {writeAllSchemas} from './writeAllSchemas';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
 program.option('--verbose', 'Show  verbose log messages', false);
@@ -29,7 +29,7 @@ async function main() {
     stack = await syncStack(cloudFormation);
   }
 
-  await clearOutputDir();
+  await rmAllDirs();
   await writeAllSchemas();
   await scrape(isArray(options.region) ? options.region : [options.region]);
 
