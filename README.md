@@ -58,5 +58,5 @@ yarn start --help
 - `details/{id}.json` - detailed data for a single route with geometries
 - `tiles/{z}/{x}/{y}.pbf` - vector tiles of all geometries with stripped down data
 - `tiles/metadata.json` - a standard tippecanoe metadata file that describes the vector tiles
-- `schema/{type}.json` - JSON schemas for LegacyRoute, IndexRoute, Route, RouteGeoJSONFeature
+- `schema/{type}.json` - JSON schemas for LegacyRoute, IndexRoute, Route, GeoJSONRoute
 - `legacy.json` - previous schema for backwards compatibility

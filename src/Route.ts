@@ -111,7 +111,7 @@ export function toGeoJSONFeatures(route: Route): GeoJSONRoute[] {
       : []);
 
   features.forEach(feature => {
-    validate('RouteGeoJSONFeature', feature);
+    validate('GeoJSONRoute', feature);
   });
 
   return features as GeoJSONRoute[];

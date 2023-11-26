@@ -5,7 +5,7 @@ export const schemas = {
   LegacyRoute: './src/LegacyRoute.ts',
   Route: './src/Route.ts',
   IndexRoute: './src/Route.ts',
-  RouteGeoJSONFeature: './src/Route.ts',
+  GeoJSONRoute: './src/Route.ts',
 };
 
 export async function writeSchemas() {
