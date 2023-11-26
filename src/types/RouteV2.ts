@@ -16,7 +16,13 @@ export interface IndexRouteV2 {
   timeRating: TimeGradeV2 | undefined;
   riskRating: RiskGradeV2 | undefined;
   permit: PermitV2 | undefined;
+  /**
+   * @asType integer
+   */
   rappelCountMin: number | undefined;
+  /**
+   * @asType integer
+   */
   rappelCountMax: number | undefined;
   rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
