@@ -57,6 +57,9 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
   ).flat();
 }
 
+/**
+ * Turn MediaWiki markup into HTML
+ */
 function parseDescription(input: string) {
   return new Promise<string>((resolve, reject) =>
     pandoc(
