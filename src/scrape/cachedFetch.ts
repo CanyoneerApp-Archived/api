@@ -1,14 +1,16 @@
-import chalk from 'chalk';
-import nodeCrypto from 'crypto';
+import Crypto from 'crypto';
 import FS from 'fs';
+import fetch from 'node-fetch';
 import Path from 'path';
+// @ts-ignore TODO create a type file for this module
+import chalk from 'chalk';
 import PromiseThrottle from 'promise-throttle';
 import {logger} from '../logger';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
 
 export function md5(input: string) {
-  return nodeCrypto.createHash('md5').update(input).digest('hex');
+  return Crypto.createHash('md5').update(input).digest('hex');
 }
 
 function getPath(url: string) {

@@ -10,6 +10,7 @@ import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
+import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
   '--skipAWS',
@@ -47,6 +48,7 @@ async function main() {
         ? allRegions
         : [options.region],
   );
+  await writeTippecanoe();
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);

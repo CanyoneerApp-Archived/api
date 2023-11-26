@@ -1,10 +1,10 @@
 import {scrapeDescriptions} from './scrapeDescriptions';
-import {scrapeIndexRoutes} from './scrapeIndexRoutes';
+import {scrapeIndices} from './scrapeIndices';
 import {scrapeKMLs} from './scrapeKMLs';
 import {writeRoute, writeRouteEnd} from './writeRoute';
 
 export async function inner(regions: string[]) {
-  return await scrapeKMLs(await scrapeDescriptions(await scrapeIndexRoutes({regions})), {regions});
+  return await scrapeKMLs(await scrapeDescriptions(await scrapeIndices({regions})), {regions});
 }
 
 export async function scrape(regions: string[]) {
