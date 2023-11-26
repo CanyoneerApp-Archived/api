@@ -1,4 +1,4 @@
-import {Route} from '../Route';
+import {RouteV2} from '../types/RouteV2';
 // @ts-ignore
 import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
@@ -10,9 +10,9 @@ import {validate} from './getValidator';
 const limit = 100;
 
 export async function scrapeKMLs(
-  routes: Route[],
+  routes: RouteV2[],
   {regions}: {regions: string[]},
-): Promise<Route[]> {
+): Promise<RouteV2[]> {
   const lookup = keyBy(cloneDeep(routes), 'name');
 
   for (const region of regions) {
@@ -68,7 +68,7 @@ export async function scrapeKMLs(
         logger.verbose(`Got KML for ${name}`);
         route.geojson = TJ.kml(el, {styles: true});
 
-        validate('Route', route);
+        validate('RouteV2', route);
       }
 
       offset += els.length;

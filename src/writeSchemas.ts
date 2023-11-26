@@ -2,13 +2,13 @@ import FS from 'fs';
 import * as TSJ from 'ts-json-schema-generator';
 
 export const schemas = {
-  LegacyRoute: './src/LegacyRoute.ts',
-  Route: './src/Route.ts',
-  IndexRoute: './src/Route.ts',
-  GeoJSONRoute: './src/Route.ts',
+  RouteV1: './src/types/RouteV1.ts',
+  RouteV2: './src/types/RouteV2.ts',
+  IndexRouteV2: './src/types/RouteV2.ts',
+  GeoJSONRouteV2: './src/types/RouteV2.ts',
 };
 
-export async function writeSchemas() {
+export async function writeAllSchemas() {
   await FS.promises.mkdir('./output/schemas', {recursive: true});
 
   Object.entries(schemas).map(([type, path]) =>

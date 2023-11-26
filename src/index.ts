@@ -8,7 +8,7 @@ import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
-import {writeSchemas} from './writeSchemas';
+import {writeAllSchemas} from './writeSchemas';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
 program.option('--verbose', 'Show  verbose log messages', false);
@@ -30,7 +30,7 @@ async function main() {
   }
 
   await clearOutputDir();
-  await writeSchemas();
+  await writeAllSchemas();
   await scrape(isArray(options.region) ? options.region : [options.region]);
 
   if (!options.skipAWS && stack) {

@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {IndexRoute, TechnicalGrade, WaterGrade} from '../Route';
 import {logger} from '../logger';
+import {IndexRouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
@@ -83,12 +83,12 @@ export const allRegions = [
   'Venezuela',
 ];
 
-interface FetchIndexRoutesOptions {
+interface FetchIndexRouteV2sOptions {
   regions: string[];
 }
 
-export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
-  const output: IndexRoute[] = [];
+export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
+  const output: IndexRouteV2[] = [];
 
   for (const region of regions) {
     const url = new URL('https://ropewiki.com/index.php');
@@ -106,12 +106,12 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
       technicalRating: 'Has technical rating',
       waterRating: 'Has water rating',
       riskRating: 'Has extra risk rating',
-      'Min Time': 'Has fastest typical time',
-      'Max Time': 'Has slowest typical time',
-      Hike: 'Has length of hike',
+      // 'Min Time': 'Has fastest typical time',
+      // 'Max Time': 'Has slowest typical time',
+      // Hike: 'Has length of hike',
       permits: 'Requires permits',
       Rappels: 'Has info rappels',
-      URL: 'Has url',
+      // URL: 'Has url',
       rappelLongestFeet: 'Has longest rappel',
       months: 'Has best month',
       shuttle: 'Has shuttle length',
@@ -148,7 +148,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
 
       const rappelCount = result.printouts['Rappels'][0]?.match(/([0-9+])(-([0-9+]))?r/);
 
-      const route: IndexRoute = {
+      const route: IndexRouteV2 = {
         url: result.fullurl,
         latitude: result.printouts.coordinates[0].lat,
         longitude: result.printouts.coordinates[0].lon,
@@ -156,11 +156,11 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
         name: result.printouts.name[0],
         quality: result.printouts.quality[0],
         months: result.printouts.months,
-        technicalRating: parseIntSafe(result.printouts.technicalRating[0]) as TechnicalGrade,
-        waterRating: result.printouts.waterRating[0]?.toLowerCase() as WaterGrade,
+        technicalRating: parseIntSafe(result.printouts.technicalRating[0]) as TechnicalGradeV2,
+        waterRating: result.printouts.waterRating[0] as WaterGradeV2,
         timeRating: result.printouts.timeRating[0],
         riskRating: result.printouts.riskRating[0],
-        permits: result.printouts.permits[0],
+        permit: result.printouts.permits[0],
         rappelCountMin: parseIntSafe(rappelCount?.[1]),
         rappelCountMax: parseIntSafe(rappelCount?.[3] ?? rappelCount?.[1]),
         rappelLongestFeet: result.printouts.rappelLongestFeet[0]?.value,
@@ -168,7 +168,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRoutesOptions) {
         shuttleMinutes: result.printouts.shuttle[0]?.value,
       };
 
-      validate('IndexRoute', route);
+      validate('IndexRouteV2', route);
 
       output.push(route);
     }

@@ -47,7 +47,7 @@ href="https://eyesupadventure.wixsite.com/adventure/maine-canyoneering">https://
       "Oct",
     ],
     "name": "Bickford Slides Canyon",
-    "permits": "No",
+    "permit": "No",
     "quality": 3,
     "rappelCountMax": 3,
     "rappelCountMin": 3,
@@ -58,7 +58,7 @@ href="https://eyesupadventure.wixsite.com/adventure/maine-canyoneering">https://
     "timeRating": "II",
     "url": "https://ropewiki.com/Bickford_Slides_Canyon",
     "vehicle": undefined,
-    "waterRating": "c",
+    "waterRating": "C",
   },
   {
     "description": "<h2 id="introduction">Introduction</h2>
@@ -82,7 +82,7 @@ keep riffraff out of dangrous situations!</p>
     "longitude": -69.0747,
     "months": [],
     "name": "Inman's Cave",
-    "permits": "No",
+    "permit": "No",
     "quality": 0,
     "rappelCountMax": 2,
     "rappelCountMin": 2,
@@ -93,7 +93,7 @@ keep riffraff out of dangrous situations!</p>
     "timeRating": "I",
     "url": "https://ropewiki.com/Inman%27s_Cave",
     "vehicle": undefined,
-    "waterRating": "a",
+    "waterRating": "A",
   },
   {
     "description": "<h2 id="introduction">Introduction</h2>
@@ -362,7 +362,7 @@ Adventure Hikes (Southwest)</a> : Katahdin; Maine</li>
     "longitude": -68.922,
     "months": [],
     "name": "Mount Katahdin",
-    "permits": "No",
+    "permit": "No",
     "quality": 5,
     "rappelCountMax": undefined,
     "rappelCountMin": undefined,
@@ -419,7 +419,7 @@ Up Adventure</a> : Maine canyoneering]</li>
       "Oct",
     ],
     "name": "Screw Auger Falls Gorge",
-    "permits": "No",
+    "permit": "No",
     "quality": 0,
     "rappelCountMax": 1,
     "rappelCountMin": 1,
@@ -430,7 +430,7 @@ Up Adventure</a> : Maine canyoneering]</li>
     "timeRating": "I",
     "url": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
     "vehicle": undefined,
-    "waterRating": "c1",
+    "waterRating": "C1",
   },
   {
     "description": "<h2 id="introduction">Introduction</h2>
@@ -454,7 +454,7 @@ ft rap and a final 50ft.</p>
     "longitude": -70.8616,
     "months": [],
     "name": "The Cataracts",
-    "permits": "No",
+    "permit": "No",
     "quality": 3,
     "rappelCountMax": 5,
     "rappelCountMin": 4,
@@ -465,7 +465,7 @@ ft rap and a final 50ft.</p>
     "timeRating": "II",
     "url": "https://ropewiki.com/The_Cataracts",
     "vehicle": undefined,
-    "waterRating": "c",
+    "waterRating": "C",
   },
 ]
 `;
@@ -493,7 +493,7 @@ href="http://summitpost.org/beaver-creek-canyon/972748">SummitPost.org</a>
     "longitude": -103.4837,
     "months": [],
     "name": "Beaver Creek Canyon",
-    "permits": "No",
+    "permit": "No",
     "quality": 0,
     "rappelCountMax": undefined,
     "rappelCountMin": undefined,

@@ -1,7 +1,7 @@
 import FS from 'fs';
 import {once} from 'lodash';
-import {toLegacyRoute} from '../LegacyRoute';
-import {GeoJSONRoute, Route, toGeoJSONFeatures, toIndexRoute} from '../Route';
+import {toRouteV1} from '../types/RouteV1';
+import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from '../types/RouteV2';
 
 const inner = once(() => ({
   legacyStream: FS.createWriteStream('./output/legacy.json'),
@@ -16,7 +16,7 @@ export function writeRouteEnd() {
   legacy.write(']');
 }
 
-export function writeRoute(route: Route) {
+export function writeRoute(route: RouteV2) {
   const {legacyStream: legacy, indexStream: index, geojsonStream: geojson} = inner();
 
   if (first) {
@@ -26,12 +26,12 @@ export function writeRoute(route: Route) {
     legacy.write(',\n');
   }
 
-  const features: GeoJSONRoute[] = toGeoJSONFeatures(route);
+  const features: GeoJSONRouteV2[] = toGeoJSONRouteV2(route);
 
   FS.writeFileSync(`./output/details/${route.id}.json`, JSON.stringify(route, null, 2));
-  index.write(`${JSON.stringify(toIndexRoute(route))}\n`);
+  index.write(`${JSON.stringify(toIndexRouteV2(route))}\n`);
   features.forEach(feature => {
     geojson.write(`${JSON.stringify(feature)}\n`);
   });
-  legacy.write(JSON.stringify(toLegacyRoute(route)));
+  legacy.write(JSON.stringify(toRouteV1(route)));
 }

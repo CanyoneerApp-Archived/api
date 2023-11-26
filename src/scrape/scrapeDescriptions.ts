@@ -2,11 +2,11 @@ import {chunk as lodashChunk} from 'lodash';
 // @ts-ignore
 import pandoc from 'node-pandoc';
 import XML2JS from 'xml2js';
-import {IndexRoute, Route} from '../Route';
+import {IndexRouteV2, RouteV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
-export async function scrapeDescriptions(routes: IndexRoute[]): Promise<Route[]> {
+export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV2[]> {
   const routeChunks = lodashChunk(routes, 50);
 
   return (
@@ -37,7 +37,7 @@ export async function scrapeDescriptions(routes: IndexRoute[]): Promise<Route[]>
             const text = xml.mediawiki.page.find((page: any) => page.id[0] === index.id).revision[0]
               .text[0]._;
 
-            const route: Route = {
+            const route: RouteV2 = {
               ...index,
               description: await new Promise((resolve, reject) =>
                 pandoc(
@@ -52,7 +52,7 @@ export async function scrapeDescriptions(routes: IndexRoute[]): Promise<Route[]>
               geojson: undefined,
             };
 
-            validate('Route', route);
+            validate('RouteV2', route);
 
             return route;
           }),
