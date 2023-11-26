@@ -49,12 +49,12 @@ export type GeoJSONRouteV2 = Feature<
 >;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
-export type WaterGradeV2 = 'a' | 'b' | 'c';
+export type WaterGradeV2 = 'a' | 'b' | 'c' | 'c1' | 'c2' | 'c3' | 'c4';
 export type TimeGradeV2 = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
-export type AdditionalRiskV2 = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R';
+export type AdditionalRiskV2 = 'PG' | 'PG-13' | 'R' | 'X' | 'XX' | 'XXX';
 export type VehicleV2 = string;
 export type ShuttleV2 = string;
-export type PermitV2 = 'Closed' | 'No' | 'Restricted' | 'Yes';
+export type PermitV2 = 'No' | 'Restricted' | 'Yes' | 'Closed';
 export type MonthV2 =
   | 'January'
   | 'Feburary'
