@@ -32,7 +32,6 @@ export interface LegacyRoute {
 }
 
 export function toLegacyRoute(route: Route): LegacyRoute {
-  // TODO test the runtime value against the schema
   return {
     URL: route.url,
     Name: route.name,
