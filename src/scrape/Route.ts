@@ -28,7 +28,7 @@ export interface IndexRoute {
  */
 export interface Route extends IndexRoute {
   description: string;
-  geojson: {type: 'FeatureCollection'; features: RouteGeoJSONFeature[]} | undefined;
+  geojson: {type: 'FeatureCollection'; features: GeoJSONRoute[]} | undefined;
   url: string;
   latitude: number;
   longitude: number;
@@ -37,7 +37,7 @@ export interface Route extends IndexRoute {
 /**
  * A GeoJSON feature representing a route
  */
-export type RouteGeoJSONFeature = Feature<
+export type GeoJSONRoute = Feature<
   LineString | Point,
   {
     [key: string]: unknown;
@@ -71,4 +71,35 @@ export type Month =
 
 export function toIndexRoute(route: Route): IndexRoute {
   return omit(route, ['description', 'geojson', 'url', 'latitude', 'longitude']);
+}
+
+export function toGeoJSONRoute(route: Route): GeoJSONRoute[] {
+  return (
+    route.geojson?.features.map(feature => ({
+      ...feature,
+      properties: {
+        ...Object.fromEntries(
+          Object.entries(toIndexRoute(route)).map(([key, value]) => [`route.${key}`, value]),
+        ),
+        ...feature.properties,
+      },
+    })) ??
+    (route.longitude && route.latitude
+      ? [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [route.longitude, route.latitude],
+            },
+            properties: {
+              name: route.name,
+              ...Object.fromEntries(
+                Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
+              ),
+            } as unknown as GeoJSONRoute['properties'],
+          },
+        ]
+      : [])
+  );
 }
