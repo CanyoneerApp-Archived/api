@@ -1,6 +1,10 @@
 import FS from 'fs';
-import {toLegacyRoute} from './LegacyRoute';
-import {GeoJSONRoute, toGeoJSONRoute as toGeoJSONRoutes, toIndexRoute} from './Route';
+import {toRouteV1} from '../types/RouteV1';
+import {
+  GeoJSONRouteV2,
+  toGeoJSONRouteV2 as toGeoJSONRouteV2s,
+  toIndexRouteV2,
+} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {scrapeRoute} from './scrapeRoute';
 
@@ -26,14 +30,14 @@ export async function scrape() {
         legacyStream.write(',\n');
       }
 
-      const geojson: GeoJSONRoute[] = toGeoJSONRoutes(route);
+      const geojson: GeoJSONRouteV2[] = toGeoJSONRouteV2s(route);
 
       FS.writeFileSync(`./output/details/${route.id}.json`, JSON.stringify(route, null, '  '));
-      indexStream.write(`${JSON.stringify(toIndexRoute(route))}\n`);
+      indexStream.write(`${JSON.stringify(toIndexRouteV2(route))}\n`);
       geojson.forEach(feature => {
         geojsonStream.write(`${JSON.stringify(feature)}\n`);
       });
-      legacyStream.write(JSON.stringify(toLegacyRoute(route)));
+      legacyStream.write(JSON.stringify(toRouteV1(route)));
     }),
   );
   legacyStream.write(']');

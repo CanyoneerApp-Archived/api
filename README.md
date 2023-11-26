@@ -1,3 +1,5 @@
+This is an API for canyoneering routes from RopeWiki.
+
 # Getting Started
 
 Install [git](https://git-scm.com), [Node.js](https://nodejs.org/en) (>= v19)
@@ -53,10 +55,10 @@ yarn start --help
 
 ## Output Products
 
-- `index.json` - a list of all routes with stripped down data
-- `index.geojson` - a list of all routes with stripped down data
-- `details/{id}.json` - detailed data for a single route with geometries
-- `tiles/{z}/{x}/{y}.pbf` - vector tiles of all geometries with stripped down data
-- `tiles/metadata.json` - a standard tippecanoe metadata file that describes the vector tiles
-- `schema/{type}.json` - JSON schemas for LegacyRoute, IndexRoute, Route, RouteGeoJSONFeature
-- `legacy.json` - previous schema for backwards compatibility
+- `index.json` - all routes as a newline separated JSON file using the `IndexRouteV2` type
+- `index.geojson` - all route geometries from the KML file as a newline separated JSON file using the `GeoJSONRouteV2` type
+- `details/{id}.json` - detailed data for a single route using the `RouteV2` type which includes the HTML description and all geometries from the KML file
+- `tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML as the `GeoJSONRouteV2` type formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
+- `tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the vector tiles and how they were generated
+- `schema/{type}.json` - JSON schemas for RouteV1, IndexRouteV2, RouteV2, RouteV2GeoJSONFeature
+- `legacy.json` - all routes as a JSON array using the `RouteV1` type

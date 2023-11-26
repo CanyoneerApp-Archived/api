@@ -1,6 +1,13 @@
 import {Feature} from '@turf/helpers';
 import jsdom from 'jsdom';
-import {GeoJSONRoute, IndexRoute, Permit, Route} from './Route';
+import {
+  GeoJSONRouteV2,
+  IndexRouteV2,
+  MonthV2,
+  PermitV2 as Permit,
+  RouteV2,
+  permitV1toV2,
+} from '../types/RouteV2';
 import cachedFetch, {md5} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
@@ -12,7 +19,7 @@ import parseSport from './parseSports';
 import {mostReleventElement, parseTable} from './parseTable';
 import parseTime from './parseTime';
 
-export async function scrapeRoute(url: string): Promise<Route | undefined> {
+export async function scrapeRoute(url: string): Promise<RouteV2 | undefined> {
   const text = await cachedFetch(url);
   if (!text) return undefined;
 
@@ -52,34 +59,30 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
         ? {type: 'FeatureCollection', features: [kml.geoJSON]}
         : undefined;
 
-  const index: IndexRoute = {
+  const index: IndexRouteV2 = {
     id: md5(url),
     name: document.querySelector('h1')?.textContent ?? 'Unknown',
     quality: quality,
-    months: months,
-    additionalRisk: parseAdditionalRisk(rating),
+    months: months.map(month => month.slice(0, 3) as MonthV2),
+    riskRating: parseAdditionalRisk(rating),
     vehicle: vehicle,
-    shuttle: tableElements['Shuttle']?.textContent?.trim(),
-    permits: {
-      'No permit required': 'No',
-      'Permit required': 'Yes',
-      'Closed to entry': 'Closed',
-      'Access is Restricted': 'Restricted',
-      '': undefined,
-    }[tableElements['Red Tape']?.textContent?.trim() ?? ''] as Permit | undefined,
-    technicalGrade: getTechnicalGrade[difficulty ?? ''],
-    waterGrade: getWaterGrade[difficulty ?? ''],
-    timeGrade: parseTime(rating),
+    shuttleMinutes: tableElements['Shuttle']?.textContent?.trim(),
+    permit: permitV1toV2[tableElements['Red Tape']?.textContent?.trim() ?? ''] as
+      | Permit
+      | undefined,
+    technicalRating: getTechnicalGrade[difficulty ?? ''],
+    waterRating: getWaterGrade[difficulty ?? ''],
+    timeRating: parseTime(rating),
     rappelCountMin: raps.countMin,
     rappelCountMax: raps.countMax,
-    rappelLengthMax: raps.lengthMax,
+    rappelLongestFeet: raps.lengthMax,
+    latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
+    longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
+    url: url,
   };
 
   return {
     ...index,
-    latitude: parseFloat(tableElements['Location']?.textContent?.split(',')[0] ?? ''),
-    longitude: parseFloat(tableElements['Location']?.textContent?.split(',')[1] ?? ''),
-    url: url,
     description: await parseDescription(document),
     geojson: geojson && {
       type: 'FeatureCollection',
@@ -93,7 +96,7 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
                 Object.entries(index).map(([key, value]) => [`route.${key}`, value]),
               ),
             },
-          }) as unknown as GeoJSONRoute,
+          }) as unknown as GeoJSONRouteV2,
       ),
     },
   };
