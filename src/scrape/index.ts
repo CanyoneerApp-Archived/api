@@ -6,7 +6,7 @@ import {
   toIndexRouteV2,
 } from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
-import {scrapeRouteV2} from './scrapeRoute';
+import {scrapeRoute} from './scrapeRoute';
 
 export async function scrape() {
   await FS.promises.mkdir('./cache', {recursive: true});
@@ -21,7 +21,7 @@ export async function scrape() {
 
   await Promise.all(
     (await getRouteV2URLs()).map(async url => {
-      const route = await scrapeRouteV2(url);
+      const route = await scrapeRoute(url);
       if (!route) {
         return;
       } else if (first) {

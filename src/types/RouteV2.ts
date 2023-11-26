@@ -1,5 +1,6 @@
 import {Feature, LineString, Point} from '@turf/helpers';
 import {omit} from 'lodash';
+import type {PermitV1} from './RouteV1';
 
 /**
  * This "stripped down" type is used in `index.json` and `tiles/{z}/{x}/{y}.pbf`. It is meant
@@ -49,7 +50,7 @@ export type GeoJSONRouteV2 = Feature<
 >;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
-export type WaterGradeV2 = 'a' | 'b' | 'c' | 'c1' | 'c2' | 'c3' | 'c4';
+export type WaterGradeV2 = 'A' | 'B' | 'C' | 'C1' | 'C2' | 'C3' | 'C4';
 export type TimeGradeV2 = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 export type AdditionalRiskV2 = 'PG' | 'PG-13' | 'R' | 'X' | 'XX' | 'XXX';
 export type VehicleV2 = string;
@@ -103,3 +104,17 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
       : [])
   );
 }
+
+export const permit1to2: {[key: string]: PermitV2} = {
+  'No permit required': 'No',
+  'Permit required': 'Yes',
+  'Closed to entry': 'Closed',
+  'Access is Restricted': 'Restricted',
+};
+
+export const permit2to1: {[key: string]: PermitV1} = {
+  No: 'No permit required',
+  Yes: 'Permit required',
+  Closed: 'Closed to entry',
+  Restricted: 'Access is Restricted',
+};

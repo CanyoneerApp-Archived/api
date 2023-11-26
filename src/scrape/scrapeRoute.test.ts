@@ -1,6 +1,6 @@
 import {toRouteV1} from '../types/RouteV1';
 import {RouteV2} from '../types/RouteV2';
-import {scrapeRouteV2} from './scrapeRoute';
+import {scrapeRoute} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.
 // This could happen because of:
@@ -15,7 +15,7 @@ describe('scrapeRouteV2', () => {
     'matches snapshot for Cerebus',
     async () => {
       expect(
-        transform(await scrapeRouteV2('https://ropewiki.com/Cerberus_Canyon_(North_Fork)')),
+        transform(await scrapeRoute('https://ropewiki.com/Cerberus_Canyon_(North_Fork)')),
       ).toMatchSnapshot();
     },
     60 * 1000,
@@ -24,9 +24,7 @@ describe('scrapeRouteV2', () => {
   it(
     'matches snapshot for Behunin',
     async () => {
-      expect(
-        transform(await scrapeRouteV2('https://ropewiki.com/Behunin_Canyon')),
-      ).toMatchSnapshot();
+      expect(transform(await scrapeRoute('https://ropewiki.com/Behunin_Canyon'))).toMatchSnapshot();
     },
     60 * 1000,
   );

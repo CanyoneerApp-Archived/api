@@ -1,6 +1,12 @@
 import {Feature} from '@turf/helpers';
 import jsdom from 'jsdom';
-import {GeoJSONRouteV2, IndexRouteV2, PermitV2 as Permit, RouteV2} from '../types/RouteV2';
+import {
+  GeoJSONRouteV2,
+  IndexRouteV2,
+  PermitV2 as Permit,
+  RouteV2,
+  permit1to2,
+} from '../types/RouteV2';
 import cachedFetch, {md5} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
@@ -12,7 +18,7 @@ import parseSport from './parseSports';
 import {mostReleventElement, parseTable} from './parseTable';
 import parseTime from './parseTime';
 
-export async function scrapeRouteV2(url: string): Promise<RouteV2 | undefined> {
+export async function scrapeRoute(url: string): Promise<RouteV2 | undefined> {
   const text = await cachedFetch(url);
   if (!text) return undefined;
 
@@ -60,13 +66,7 @@ export async function scrapeRouteV2(url: string): Promise<RouteV2 | undefined> {
     additionalRisk: parseAdditionalRisk(rating),
     vehicle: vehicle,
     shuttle: tableElements['Shuttle']?.textContent?.trim(),
-    permits: {
-      'No permit required': 'No',
-      'Permit required': 'Yes',
-      'Closed to entry': 'Closed',
-      'Access is Restricted': 'Restricted',
-      '': undefined,
-    }[tableElements['Red Tape']?.textContent?.trim() ?? ''] as Permit | undefined,
+    permits: permit1to2[tableElements['Red Tape']?.textContent?.trim() ?? ''] as Permit | undefined,
     technicalGrade: getTechnicalGrade[difficulty ?? ''],
     waterGrade: getWaterGrade[difficulty ?? ''],
     timeGrade: parseTime(rating),

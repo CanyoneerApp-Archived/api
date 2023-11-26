@@ -1,3 +1,5 @@
+This is an API for canyoneering routes from RopeWiki.
+
 # Getting Started
 
 Install [git](https://git-scm.com), [Node.js](https://nodejs.org/en) (>= v19)

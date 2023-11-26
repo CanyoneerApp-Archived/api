@@ -1,35 +1,7 @@
+import {DifficultyV1} from '../types/RouteV1';
 import {TechnicalGradeV2 as TechnicalGrade, WaterGradeV2 as WaterGrade} from '../types/RouteV2';
 
-export type Difficulty =
-  | 'class 1'
-  | 'class 2'
-  | 'class 3'
-  | 'class 4'
-  | '5.fun'
-  | '5.5'
-  | '5.6'
-  | '5.7'
-  | '5.8'
-  | '5.9'
-  | '5.10'
-  | '5.11'
-  | '5.12'
-  | '5.13'
-  | '5.14'
-  | '1a'
-  | '1b'
-  | '1c'
-  | '2a'
-  | '2b'
-  | '2c'
-  | '3a'
-  | '3b'
-  | '3c'
-  | '4a'
-  | '4b'
-  | '4c';
-
-const lookups: [string | RegExp, Difficulty][] = [
+const lookups: [string | RegExp, DifficultyV1][] = [
   [/\b5\.14(a-d)?\b/, '5.14'],
   [/\b5\.13(a-d)?\b/, '5.13'],
   [/\b5\.12(a-d)?\b/, '5.12'],
@@ -98,7 +70,9 @@ const lookups: [string | RegExp, Difficulty][] = [
   ['1a', '1a'],
 ];
 
-export default function parseDifficulty(input: string | undefined | null): Difficulty | undefined {
+export default function parseDifficulty(
+  input: string | undefined | null,
+): DifficultyV1 | undefined {
   input = input ? input.toLowerCase().replace('-', ' ') : '';
 
   for (const lookup of lookups) {
@@ -110,18 +84,18 @@ export default function parseDifficulty(input: string | undefined | null): Diffi
 }
 
 export const getWaterGrade: {[key: string]: WaterGrade} = {
-  '1a': 'a',
-  '1b': 'b',
-  '1c': 'c',
-  '2a': 'a',
-  '2b': 'b',
-  '2c': 'c',
-  '3a': 'a',
-  '3b': 'b',
-  '3c': 'c',
-  '4a': 'a',
-  '4b': 'b',
-  '4c': 'c',
+  '1a': 'A',
+  '1b': 'B',
+  '1c': 'C',
+  '2a': 'A',
+  '2b': 'B',
+  '2c': 'C',
+  '3a': 'A',
+  '3b': 'B',
+  '3c': 'C',
+  '4a': 'A',
+  '4b': 'B',
+  '4c': 'C',
 };
 
 export const getTechnicalGrade: {[key: string]: TechnicalGrade} = {
