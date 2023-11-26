@@ -1,6 +1,6 @@
 import FS from 'fs';
 
-export async function createDirs() {
+export async function rmAllDirs() {
   try {
     await FS.promises.rmdir('./output', {recursive: true});
   } catch (error) {

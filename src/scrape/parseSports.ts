@@ -1,15 +1,6 @@
-export type Sport =
-  | 'canyoneering'
-  | 'caving'
-  | 'trad climbing'
-  | 'sport climbing'
-  | 'bouldering'
-  | 'mountaineering'
-  | 'hiking'
-  | 'backcountry skiing'
-  | 'ice climbing';
+import {SportV1} from '../types/RouteV1';
 
-const lookups: [string | RegExp, Sport][] = [
+const lookups: [string | RegExp, SportV1][] = [
   ['canyoneering', 'canyoneering'],
   ['trad', 'trad climbing'],
   ['sport', 'sport climbing'],
@@ -46,10 +37,10 @@ const lookups: [string | RegExp, Sport][] = [
 
 export default function parseSport(
   input: string | undefined | null,
-  defaultOutput: Sport[] = [],
-): Sport[] {
+  defaultOutput: SportV1[] = [],
+): SportV1[] {
   input = input ? input.toLowerCase() : '';
-  const output: Sport[] = [];
+  const output: SportV1[] = [];
 
   for (const lookup of lookups) {
     const [key, value] = lookup;

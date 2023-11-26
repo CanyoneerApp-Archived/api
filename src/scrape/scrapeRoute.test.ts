@@ -1,4 +1,5 @@
-import {Route} from './Route';
+import {toRouteV1} from '../types/RouteV1';
+import {RouteV2} from '../types/RouteV2';
 import {scrapeRoute} from './scrapeRoute';
 
 // This integration test alerts us if our scraper starts returning different data.
@@ -29,9 +30,9 @@ describe('scrapeRoute', () => {
   );
 });
 
-function transform(route: Route | undefined) {
+function transform(route: RouteV2 | undefined) {
   if (!route) return undefined;
-  const {GeoJSON, HTMLDescription, ...rest} = route;
+  const {GeoJSON, HTMLDescription, ...rest} = toRouteV1(route);
   return {
     HasGeoJSON: !!GeoJSON,
     HasHTMLDescription: !!HTMLDescription,

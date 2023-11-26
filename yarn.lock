@@ -1294,10 +1294,10 @@
     eslint-plugin-react "^7.33.2"
     eslint-plugin-react-hooks "^4.6.0"
 
-"@scree/quality@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-0.20.0.tgz#8550a7c5a28cd959ba5fdf5c129584c18502f1ec"
-  integrity sha512-GFjpqOOqje6EZoqkQPIN+MFC61QnAy2TvlS6b7UzQmYFSi3qJGszzCeLOcVlc2i/NCi2ZrIvemEt2ZmL4fqiNg==
+"@scree/quality@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-0.21.0.tgz#d4158fe06642a3d84a7e36d6b3fa71efe2ee009f"
+  integrity sha512-C4dsinlaaIaI5MoLXpxnZ35ftfPUXuHGJoNtVZ6Z48NTcr1S/soAkN3+JsnjbwMc96eqmMAxh4Htn30iwP7JhA==
   dependencies:
     "@scree/eslint-config-quality" "1.6.0"
     "@types/node" "^20.10.0"
@@ -1936,11 +1936,6 @@
   integrity sha512-D0WfRmU9TQ8I9PFx9Yc+EBHw+vSpIub4IDvQivcp26PtPrdMGAq5SDcpXEo/epqa/DXotVpekHiLNTg3iaKXBQ==
   dependencies:
     undici-types "~5.26.4"
-
-"@types/node@^13.1.1":
-  version "13.13.52"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.52.tgz#03c13be70b9031baaed79481c0c0cfb0045e53f7"
-  integrity sha512-s3nugnZumCC//n4moGGe6tkNMyYEdaDBitVjwPxXmR5lnMG5dHePinH2EdxkG3Rh1ghFHHixAG4NJhpJW1rthQ==
 
 "@types/semver@^7.5.0":
   version "7.5.6"
