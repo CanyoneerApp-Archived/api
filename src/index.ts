@@ -8,6 +8,7 @@ import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
+import {writeTippecanoe} from './writeTippecanoe';
 
 program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
 
@@ -27,6 +28,7 @@ async function main() {
   await rmAllDirs();
   await scrape();
   await writeAllSchemas();
+  await writeTippecanoe();
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);
