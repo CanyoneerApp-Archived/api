@@ -1,6 +1,6 @@
 import {Feature} from '@turf/helpers';
 import jsdom from 'jsdom';
-import {IndexRoute, Route, RouteGeoJSONFeature} from './Route';
+import {GeoJSONRoute, IndexRoute, Permit, Route} from './Route';
 import cachedFetch, {md5} from './cachedFetch';
 import parseAdditionalRisk from './parseAdditionalRisk';
 import {parseDescription} from './parseDescription';
@@ -60,7 +60,13 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
     additionalRisk: parseAdditionalRisk(rating),
     vehicle: vehicle,
     shuttle: tableElements['Shuttle']?.textContent?.trim(),
-    permits: tableElements['Red Tape']?.textContent?.trim(),
+    permits: {
+      'No permit required': 'No',
+      'Permit required': 'Yes',
+      'Closed to entry': 'Closed',
+      'Access is Restricted': 'Restricted',
+      '': undefined,
+    }[tableElements['Red Tape']?.textContent?.trim() ?? ''] as Permit | undefined,
     technicalGrade: getTechnicalGrade[difficulty ?? ''],
     waterGrade: getWaterGrade[difficulty ?? ''],
     timeGrade: parseTime(rating),
@@ -87,7 +93,7 @@ export async function scrapeRoute(url: string): Promise<Route | undefined> {
                 Object.entries(index).map(([key, value]) => [`route.${key}`, value]),
               ),
             },
-          }) as unknown as RouteGeoJSONFeature,
+          }) as unknown as GeoJSONRoute,
       ),
     },
   };

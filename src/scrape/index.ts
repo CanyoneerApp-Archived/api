@@ -1,6 +1,6 @@
 import FS from 'fs';
 import {toLegacyRoute} from './LegacyRoute';
-import {RouteGeoJSONFeature, toIndexRoute} from './Route';
+import {GeoJSONRoute, toGeoJSONRoute as toGeoJSONRoutes, toIndexRoute} from './Route';
 import cachedFetch from './cachedFetch';
 import {scrapeRoute} from './scrapeRoute';
 
@@ -8,12 +8,12 @@ export async function scrape() {
   await FS.promises.mkdir('./cache', {recursive: true});
   await FS.promises.mkdir('./output/details', {recursive: true});
 
-  const legacy = FS.createWriteStream('./output/legacy.json');
-  const index = FS.createWriteStream('./output/index.json');
-  const geojson = FS.createWriteStream('./output/index.geojson');
+  const legacyStream = FS.createWriteStream('./output/legacy.json');
+  const indexStream = FS.createWriteStream('./output/index.json');
+  const geojsonStream = FS.createWriteStream('./output/index.geojson');
 
   let first = true;
-  legacy.write('[\n');
+  legacyStream.write('[\n');
 
   await Promise.all(
     (await getRouteURLs()).map(async url => {
@@ -23,46 +23,20 @@ export async function scrape() {
       } else if (first) {
         first = false;
       } else {
-        legacy.write(',\n');
+        legacyStream.write(',\n');
       }
 
-      const features: RouteGeoJSONFeature[] =
-        route.geojson?.features.map(feature => ({
-          ...feature,
-          properties: {
-            ...Object.fromEntries(
-              Object.entries(toIndexRoute(route)).map(([key, value]) => [`route.${key}`, value]),
-            ),
-            ...feature.properties,
-          },
-        })) ??
-        (route.longitude && route.latitude
-          ? [
-              {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [route.longitude, route.latitude],
-                },
-                properties: {
-                  name: route.name,
-                  ...Object.fromEntries(
-                    Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
-                  ),
-                } as unknown as RouteGeoJSONFeature['properties'],
-              },
-            ]
-          : []);
+      const geojson: GeoJSONRoute[] = toGeoJSONRoutes(route);
 
-      FS.writeFileSync(`./output/details/${route.id}.json`, JSON.stringify(route));
-      index.write(`${JSON.stringify(toIndexRoute(route))}\n`);
-      features.forEach(feature => {
-        geojson.write(`${JSON.stringify(feature)}\n`);
+      FS.writeFileSync(`./output/details/${route.id}.json`, JSON.stringify(route, null, '  '));
+      indexStream.write(`${JSON.stringify(toIndexRoute(route))}\n`);
+      geojson.forEach(feature => {
+        geojsonStream.write(`${JSON.stringify(feature)}\n`);
       });
-      legacy.write(JSON.stringify(toLegacyRoute(route)));
+      legacyStream.write(JSON.stringify(toLegacyRoute(route)));
     }),
   );
-  legacy.write(']');
+  legacyStream.write(']');
 }
 
 export async function getRouteURLs(): Promise<Array<string>> {

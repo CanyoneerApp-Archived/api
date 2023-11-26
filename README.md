@@ -44,3 +44,19 @@ Run the scraper
 ```
 yarn start
 ```
+
+The scraper supports some command line flags. You can see all of them by running
+
+```
+yarn start --help
+```
+
+## Output Products
+
+- `index.json` - a list of all routes with stripped down data
+- `index.geojson` - a list of all routes with stripped down data
+- `details/{id}.json` - detailed data for a single route with geometries
+- `tiles/{z}/{x}/{y}.pbf` - vector tiles of all geometries with stripped down data
+- `tiles/metadata.json` - a standard tippecanoe metadata file that describes the vector tiles
+- `schema/{type}.json` - JSON schemas for LegacyRoute, IndexRoute, Route, RouteGeoJSONFeature
+- `legacy.json` - previous schema for backwards compatibility

@@ -15,7 +15,12 @@ export interface LegacyRoute {
   AdditionalRisk: AdditionalRisk | undefined;
   Vehicle: string | undefined;
   Shuttle: string | undefined;
-  Permits: string | undefined;
+  Permits:
+    | 'No permit required'
+    | 'Permit required'
+    | 'Closed to entry'
+    | 'Access is Restricted'
+    | undefined;
   Sports: Sport[];
   Time: TimeGrade | undefined;
   RappelCountMin: number | undefined;
@@ -27,6 +32,7 @@ export interface LegacyRoute {
 }
 
 export function toLegacyRoute(route: Route): LegacyRoute {
+  // TODO test the runtime value against the schema
   return {
     URL: route.url,
     Name: route.name,
@@ -40,7 +46,13 @@ export function toLegacyRoute(route: Route): LegacyRoute {
     AdditionalRisk: route.additionalRisk,
     Vehicle: route.vehicle,
     Shuttle: route.shuttle,
-    Permits: route.permits,
+    Permits: {
+      No: 'No permit required',
+      Yes: 'Permit required',
+      Closed: 'Closed to entry',
+      Restricted: 'Access is Restricted',
+      '': undefined,
+    }[route.permits ?? ''] as LegacyRoute['Permits'],
     Sports: ['canyoneering'],
     Time: route.timeGrade,
     RappelCountMin: route.rappelCountMin,
