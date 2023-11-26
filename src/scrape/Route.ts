@@ -65,7 +65,7 @@ export type TimeGrade = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 export type AdditionalRisk = 'PG-13' | 'PG' | 'XXX' | 'XX' | 'X' | 'R';
 export type Vehicle = string;
 export type Shuttle = string;
-export type Permit = string;
+export type Permit = 'Closed' | 'No' | 'Restricted' | 'Yes';
 export type Month =
   | 'January'
   | 'Feburary'
