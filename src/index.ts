@@ -5,14 +5,23 @@ import {isArray} from 'lodash';
 import {logger} from './logger';
 import {rmAllDirs} from './rmAllDirs';
 import {scrape} from './scrape';
+import {allRegions} from './scrape/scrapeIndexRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
 
-program.option('--skipAWS', 'Skip updating the AWS stack and uploading files to S3', false);
-program.option('--verbose', 'Show  verbose log messages', false);
-program.option('--region', '', ['California']);
+program.option(
+  '--skipAWS',
+  'run entirely locally, do not update the AWS stack or uploading files to S3',
+  false,
+);
+program.option('--verbose', 'show verbose log messages', false);
+program.option(
+  '--region',
+  '"all" or the name a RopeWiki region to scrape (https://ropewiki.com/Regions). In development you may prefer to scrape a small number of canyons in a region such as "California."',
+  'all',
+);
 
 async function main() {
   program.parse();
@@ -31,7 +40,13 @@ async function main() {
 
   await rmAllDirs();
   await writeAllSchemas();
-  await scrape(isArray(options.region) ? options.region : [options.region]);
+  await scrape(
+    isArray(options.region)
+      ? options.region
+      : options.region === 'all'
+        ? allRegions
+        : [options.region],
+  );
 
   if (!options.skipAWS && stack) {
     await uploadOutputDir(s3, stack);
