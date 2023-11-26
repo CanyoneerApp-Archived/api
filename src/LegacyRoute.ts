@@ -1,5 +1,5 @@
 import {FeatureCollection} from '@turf/helpers';
-import {AdditionalRisk, Month, Route, TimeGrade} from './Route';
+import {AdditionalRisk, Route, TimeGrade} from './Route';
 import {validate} from './scrape/getValidator';
 
 export interface LegacyRoute {
@@ -9,7 +9,20 @@ export interface LegacyRoute {
   Popularity: number | undefined;
   Latitude: number;
   Longitude: number;
-  Months: Month[];
+  Months: (
+    | 'January'
+    | 'Feburary'
+    | 'March'
+    | 'April'
+    | 'May'
+    | 'June'
+    | 'July'
+    | 'August'
+    | 'September'
+    | 'October'
+    | 'November'
+    | 'December'
+  )[];
   Difficulty: string | undefined;
   AdditionalRisk: AdditionalRisk | undefined;
   Vehicle: string | undefined;
@@ -39,7 +52,23 @@ export function toLegacyRoute(route: Route): LegacyRoute {
     Popularity: undefined, // not supported by new type & not used in app
     Latitude: route.latitude,
     Longitude: route.longitude,
-    Months: route.months,
+    Months: route.months.map(
+      month =>
+        ({
+          Jan: 'January',
+          Feb: 'Feburary',
+          Mar: 'March',
+          Apr: 'April',
+          May: 'May',
+          Jun: 'June',
+          Jul: 'July',
+          Aug: 'August',
+          Sep: 'September',
+          Oct: 'October',
+          Nov: 'November',
+          Dec: 'December',
+        })[month] as LegacyRoute['Months'][0],
+    ),
     Difficulty: route.technicalRating && route.technicalRating + (route.waterRating ?? '?'),
     AdditionalRisk: route.riskRating,
     Vehicle: route.vehicle,
