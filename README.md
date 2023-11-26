@@ -1,7 +1,7 @@
 # Getting Started
 
 Install [git](https://git-scm.com), [Node.js](https://nodejs.org/en) (>= v19)
-[yarn](https://yarnpkg.com/) (>= v1.22)
+and [yarn](https://yarnpkg.com/) (>= v1.22)
 
 Clone this git repository
 
@@ -50,3 +50,13 @@ The scraper supports some command line flags. You can see all of them by running
 ```
 yarn start --help
 ```
+
+## Output Products
+
+- `index.json` - a list of all routes with stripped down data
+- `index.geojson` - a list of all routes with stripped down data
+- `details/{id}.json` - detailed data for a single route with geometries
+- `tiles/{z}/{x}/{y}.pbf` - vector tiles of all geometries with stripped down data
+- `tiles/metadata.json` - a standard tippecanoe metadata file that describes the vector tiles
+- `schema/{type}.json` - JSON schemas for LegacyRoute, IndexRoute, Route, RouteGeoJSONFeature
+- `legacy.json` - previous schema for backwards compatibility

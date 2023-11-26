@@ -1,17 +1,6 @@
 import {Feature, LineString, Point} from '@turf/helpers';
 import {omit} from 'lodash';
 
-/*
- * We will produce the following output products:
- *  1. `index.json` - a list of all routes with stripped down data
- *  2. `index.geojson` - a list of all routes with stripped down data
- *  3. `details/{id}.json` - detailed data for a single route with geometries
- *  4. `tiles/{z}/{x}/{y}.pbf` - vector tiles of all geometries with stripped down data
- *  5. `tiles/metadata.json` - a standard tippecanoe metadata file that describes the vector tiles
- *  6. `schema/{type}.json` - JSON schemas for LegacyRoute, IndexRoute, Route, RouteGeoJSONFeature
- *  7. `legacy.json` - previous schema for backwards compatibility
- */
-
 /**
  * This "stripped down" type will be used in `index.json` and `tiles/{z}/{x}/{y}.pbf`. It is meant
  * to capture all data we need to filter routes while remaining as compact as possible.
