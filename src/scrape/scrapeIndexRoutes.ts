@@ -2,90 +2,46 @@ import assert from 'assert';
 import {logger} from '../logger';
 import {IndexRouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
-import {validate} from './getValidator';
-
-export const allRegions = [
-  'Asia',
-  'Central America',
-  'Albania',
-  'Austria',
-  'Bavaria',
-  'Friuli Venezia Giulia',
-  'Lombardia',
-  'Piemonte',
-  "Provence-Alpes-Cote d'Azur",
-  'Slovenia',
-  'Switzerland',
-  'Trentino-Alto Adige',
-  "Valle d'Aosta",
-  'Andorra',
-  'Bulgaria',
-  'Croatia',
-  'France',
-  'Germany',
-  'Greece',
-  'Hungary',
-  'Iceland',
-  'Ireland',
-  'Islas Canarias',
-  'Italy',
-  'Lithuania',
-  'Macedonia',
-  'Montenegro',
-  'Poland',
-  'Portugal',
-  'Romania',
-  'Slovakia',
-  'Spain',
-  'Turkey',
-  'United Kingdom',
-  'Middle East',
-  'Canada',
-  'Mexico',
-  'Northeast',
-  'Pacific Northwest',
-  'Alaska',
-  'Arizona',
-  'Arkansas',
-  'California',
-  'Utah',
-  'Colorado',
-  'Connecticut',
-  'Georgia',
-  'Hawaii',
-  'Idaho',
-  'Maine',
-  'Massachusetts',
-  'Montana',
-  'Nevada',
-  'New Mexico',
-  'New York',
-  'North Carolina',
-  'Oregon',
-  'South Carolina',
-  'South Dakota',
-  'Texas',
-  'Utah',
-  'Virginia',
-  'Washington',
-  'West Desert',
-  'Wyoming',
-  'Pacific',
-  'South America',
-  'Argentina',
-  'Bolivia',
-  'Brazil',
-  'Chile',
-  'Colombia',
-  'Ecuador',
-  'Peru',
-  'Playa Montezuma',
-  'Venezuela',
-];
+import {validate as validateSchema} from './getValidator';
+import {parseIntSafe} from './parseIntSafe';
+import parseRappelCount from './parseRappelCount';
 
 interface FetchIndexRouteV2sOptions {
   regions: string[];
 }
+
+const apiResponse = {
+  pageid: 'Has pageid',
+  name: 'Has name',
+  coordinates: 'Has coordinates',
+  region: 'Located in region',
+  quality: 'Has user rating',
+  rating: 'Has rating',
+  timeRating: 'Has time rating',
+  kmlUrl: 'Has KML file',
+  technicalRating: 'Has technical rating',
+  waterRating: 'Has water rating',
+  riskRating: 'Has extra risk rating',
+  // 'Min Time': 'Has fastest typical time',
+  // 'Max Time': 'Has slowest typical time',
+  // Hike: 'Has length of hike',
+  permits: 'Requires permits',
+  Rappels: 'Has info rappels',
+  // URL: 'Has url',
+  rappelLongestFeet: 'Has longest rappel',
+  months: 'Has best month',
+  shuttle: 'Has shuttle length',
+  vehicle: 'Has vehicle type',
+};
+
+type APIResponse = {
+  fulltext: string;
+  fullurl: string;
+  namespace: number;
+  exists: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  printouts: {[Key in keyof typeof apiResponse]: any};
+};
 
 export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
   const output: IndexRouteV2[] = [];
@@ -94,31 +50,7 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
     const url = new URL('https://ropewiki.com/index.php');
     url.searchParams.append('title', 'Special:Ask');
 
-    const properties = {
-      pageid: 'Has pageid',
-      name: 'Has name',
-      coordinates: 'Has coordinates',
-      region: 'Located in region',
-      quality: 'Has user rating',
-      rating: 'Has rating',
-      timeRating: 'Has time rating',
-      kmlUrl: 'Has KML file',
-      technicalRating: 'Has technical rating',
-      waterRating: 'Has water rating',
-      riskRating: 'Has extra risk rating',
-      // 'Min Time': 'Has fastest typical time',
-      // 'Max Time': 'Has slowest typical time',
-      // Hike: 'Has length of hike',
-      permits: 'Requires permits',
-      Rappels: 'Has info rappels',
-      // URL: 'Has url',
-      rappelLongestFeet: 'Has longest rappel',
-      months: 'Has best month',
-      shuttle: 'Has shuttle length',
-      vehicle: 'Has vehicle type',
-    };
-
-    const propertiesEncoded = Object.entries(properties)
+    const propertiesEncoded = Object.entries(apiResponse)
       .map(([a, b]) => `${encode(b)}=${encode(a)}`)
       .join('/-3F');
 
@@ -127,26 +59,21 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
       `-5B-5BCategory:Canyons-5D-5D-5B-5BCategory:Canyons-5D-5D-5B-5BLocated-20in-20region.Located-20in-20regions::X-7C-7C${region}-5D-5D/-3F${propertiesEncoded}`,
     );
     url.searchParams.append('format', 'json');
+
+    // The API does not support returning more than 2000 results
     url.searchParams.append('limit', '2000');
 
-    const results: {
-      fulltext: string;
-      fullurl: string;
-      namespace: number;
-      exists: boolean;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      printouts: {[Key in keyof typeof properties]: any};
-    }[] = Object.values(JSON.parse(await cachedFetch(url)).results ?? {});
+    const results: APIResponse[] = Object.values(JSON.parse(await cachedFetch(url)).results ?? {});
 
     if (results.length === 2000) {
-      logger.warn(`Reached limit of 2000 results for ${region}`);
+      logger.warn(
+        `Reached limit of 2000 results for ${region}. The output will be missing canyons unless you break this region up into its child regions.`,
+      );
     }
 
     for (const result of results) {
       assert(['minutes', undefined].includes(result.printouts['shuttle'][0]?.units));
       assert(['ft', undefined].includes(result.printouts['rappelLongestFeet'][0]?.units));
-
-      const rappelCount = result.printouts['Rappels'][0]?.match(/([0-9+])(-([0-9+]))?r/);
 
       const route: IndexRouteV2 = {
         url: result.fullurl,
@@ -161,14 +88,13 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
         timeRating: result.printouts.timeRating[0],
         riskRating: result.printouts.riskRating[0],
         permit: result.printouts.permits[0],
-        rappelCountMin: parseIntSafe(rappelCount?.[1]),
-        rappelCountMax: parseIntSafe(rappelCount?.[3] ?? rappelCount?.[1]),
+        ...parseRappelCount(result.printouts.Rappels[0]),
         rappelLongestFeet: result.printouts.rappelLongestFeet[0]?.value,
         vehicle: result.printouts.vehicle[0],
         shuttleMinutes: result.printouts.shuttle[0]?.value,
       };
 
-      validate('IndexRouteV2', route);
+      validateSchema('IndexRouteV2', route);
 
       output.push(route);
     }
@@ -179,9 +105,4 @@ export async function scrapeIndexRoutes({regions}: FetchIndexRouteV2sOptions) {
 
 function encode(input: string) {
   return encodeURIComponent(input).replace(/%/g, '-');
-}
-
-function parseIntSafe(input: string) {
-  const output = parseInt(input);
-  return isNaN(output) ? undefined : output;
 }

@@ -6,6 +6,10 @@ import {IndexRouteV2, RouteV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
+/**
+ * Take an array of `RouteV2`s, scrape their KMLs, and return a new array of routes with the
+ * "description" property populated.
+ */
 export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV2[]> {
   const routeChunks = lodashChunk(routes, 50);
 
@@ -39,16 +43,7 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
 
             const route: RouteV2 = {
               ...index,
-              description: await new Promise((resolve, reject) =>
-                pandoc(
-                  text.slice(text.indexOf('==Introduction==')),
-                  '-f mediawiki -t html',
-                  (error: Error, result: string) => {
-                    if (error) reject(error);
-                    else resolve(result);
-                  },
-                ),
-              ),
+              description: await parseDescription(text),
               geojson: undefined,
             };
 
@@ -60,4 +55,17 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
       }),
     )
   ).flat();
+}
+
+function parseDescription(input: string) {
+  return new Promise<string>((resolve, reject) =>
+    pandoc(
+      input.slice(input.indexOf('==Introduction==')),
+      '-f mediawiki -t html',
+      (error: Error, result: string) => {
+        if (error) reject(error);
+        else resolve(result);
+      },
+    ),
+  );
 }

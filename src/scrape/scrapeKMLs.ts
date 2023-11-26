@@ -9,6 +9,10 @@ import {validate} from './getValidator';
 
 const limit = 100;
 
+/**
+ * Take an array of `RouteV2`s and a list of their RopeWiki regions, scrape their KMLs,
+ * and return a new array of routes with the "geojson" property populated.
+ */
 export async function scrapeKMLs(
   routes: RouteV2[],
   {regions}: {regions: string[]},

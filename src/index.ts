@@ -5,7 +5,7 @@ import {isArray} from 'lodash';
 import {logger} from './logger';
 import {rmAllDirs} from './rmAllDirs';
 import {scrape} from './scrape';
-import {allRegions} from './scrape/scrapeIndexRoutes';
+import {allRegions} from './scrape/allRegions';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
