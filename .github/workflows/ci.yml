@@ -17,9 +17,7 @@ jobs:
         run: |
           sudo apt-get update
           - name: Install Pandoc v3
-            run: |
-              sudo apt-get update
-              sudo apt-get install -y pandoc=3.x.x
+            run: sudo apt-get install -y pandoc=3.x.x
 
       - name: Run yarn install
         uses: borales/actions-yarn@v4
