@@ -3,7 +3,7 @@ This is an API for canyoneering routes from RopeWiki.
 # Getting Started
 
 Install [git](https://git-scm.com), [Node.js](https://nodejs.org/en) (>= v19)
-[yarn](https://yarnpkg.com/) (>= v1.22), and pandoc (>= 0.3.0)
+[yarn](https://yarnpkg.com/) (>= v1.22), and pandoc (>= 3.x.x)
 
 Clone this git repository
 

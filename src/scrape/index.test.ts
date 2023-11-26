@@ -1,12 +1,15 @@
-import {inner} from '.';
+import {inner as scrapeInner} from '.';
 import {writeAllSchemas} from '../writeAllSchemas';
 
 describe('scrape', () => {
+  beforeAll(async () => {
+    await writeAllSchemas();
+  });
+
   it(
     'Maine',
     async () => {
-      await writeAllSchemas();
-      return expect(await inner(['Maine'])).toMatchSnapshot();
+      return expect(await scrapeInner(['Maine'])).toMatchSnapshot();
     },
     60 * 1000,
   );
@@ -14,8 +17,7 @@ describe('scrape', () => {
   it(
     'South Dakota',
     async () => {
-      await writeAllSchemas();
-      return expect(await inner(['South Dakota'])).toMatchSnapshot();
+      return expect(await scrapeInner(['South Dakota'])).toMatchSnapshot();
     },
     60 * 1000,
   );
