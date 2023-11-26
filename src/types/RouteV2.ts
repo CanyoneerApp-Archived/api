@@ -1,4 +1,4 @@
-import {Feature, LineString, Point} from '@turf/helpers';
+import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
 import {omit} from 'lodash';
 import type {PermitV1} from './RouteV1';
 
@@ -11,16 +11,19 @@ export interface IndexRouteV2 {
   name: string;
   quality: number | undefined;
   months: MonthV2[];
-  technicalGrade: TechnicalGradeV2 | undefined;
-  waterGrade: WaterGradeV2 | undefined;
-  timeGrade: TimeGradeV2 | undefined;
-  additionalRisk: AdditionalRiskV2 | undefined;
-  permits: PermitV2 | undefined;
+  technicalRating: TechnicalGradeV2 | undefined;
+  waterRating: WaterGradeV2 | undefined;
+  timeRating: TimeGradeV2 | undefined;
+  riskRating: RiskGradeV2 | undefined;
+  permit: PermitV2 | undefined;
   rappelCountMin: number | undefined;
   rappelCountMax: number | undefined;
-  rappelLengthMax: number | undefined;
+  rappelLongestFeet: number | undefined;
   vehicle: VehicleV2 | undefined;
-  shuttle: ShuttleV2 | undefined;
+  shuttleMinutes: ShuttleV2 | undefined;
+  url: string;
+  latitude: number;
+  longitude: number;
 }
 
 /**
@@ -29,17 +32,14 @@ export interface IndexRouteV2 {
  */
 export interface RouteV2 extends IndexRouteV2 {
   description: string;
-  geojson: {type: 'FeatureCollection'; features: GeoJSONRouteV2[]} | undefined;
-  url: string;
-  latitude: number;
-  longitude: number;
+  geojson: FeatureCollection | undefined;
 }
 
 /**
  * A GeoJSON feature representing a route
  */
 export type GeoJSONRouteV2 = Feature<
-  LineString | Point,
+  Geometry | GeometryCollection,
   {
     [key: string]: unknown;
 
@@ -52,39 +52,41 @@ export type GeoJSONRouteV2 = Feature<
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
 export type WaterGradeV2 = 'A' | 'B' | 'C' | 'C1' | 'C2' | 'C3' | 'C4';
 export type TimeGradeV2 = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
-export type AdditionalRiskV2 = 'PG' | 'PG-13' | 'R' | 'X' | 'XX' | 'XXX';
+export type RiskGradeV2 = 'PG' | 'PG-13' | 'R' | 'X' | 'XX' | 'XXX';
 export type VehicleV2 = string;
 export type ShuttleV2 = string;
 export type PermitV2 = 'No' | 'Restricted' | 'Yes' | 'Closed';
 export type MonthV2 =
-  | 'January'
-  | 'Feburary'
-  | 'March'
-  | 'April'
+  | 'Jan'
+  | 'Feb'
+  | 'Mar'
+  | 'Apr'
   | 'May'
-  | 'June'
-  | 'July'
-  | 'August'
-  | 'September'
-  | 'October'
-  | 'November'
-  | 'December';
+  | 'Jun'
+  | 'Jul'
+  | 'Aug'
+  | 'Sep'
+  | 'Oct'
+  | 'Nov'
+  | 'Dec';
 
 export function toIndexRouteV2(route: RouteV2): IndexRouteV2 {
-  return omit(route, ['description', 'geojson', 'latitude', 'longitude', 'url']);
+  return omit(route, ['description', 'geojson']);
 }
 
 export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
   return (
-    route.geojson?.features.map(feature => ({
-      ...feature,
-      properties: {
-        ...Object.fromEntries(
-          Object.entries(toIndexRouteV2(route)).map(([key, value]) => [`route.${key}`, value]),
-        ),
-        ...feature.properties,
-      },
-    })) ??
+    route.geojson?.features.map(
+      (feature): GeoJSONRouteV2 => ({
+        ...feature,
+        properties: {
+          ...Object.fromEntries(
+            Object.entries(toIndexRouteV2(route)).map(([key, value]) => [`route.${key}`, value]),
+          ),
+          ...feature.properties,
+        } as GeoJSONRouteV2['properties'],
+      }),
+    ) ??
     (route.longitude && route.latitude
       ? [
           {

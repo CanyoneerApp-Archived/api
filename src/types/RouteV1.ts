@@ -1,4 +1,4 @@
-import {Feature, FeatureCollection, LineString, Point} from '@turf/helpers';
+import {FeatureCollection} from '@turf/helpers';
 
 // Avoid using types from RouteV2 in the V1 schema to prevent breaking changes from being propagated
 import {RouteV2, permit2to1} from './RouteV2';
@@ -10,7 +10,7 @@ export interface RouteV1 {
   Popularity: number | undefined;
   Latitude: number;
   Longitude: number;
-  Months: MonthsV1[];
+  Months: MonthV1[];
   Difficulty: DifficultyV1 | undefined;
   AdditionalRisk: 'PG' | 'PG-13' | 'R' | 'X' | 'XX' | 'XXX' | undefined;
   Vehicle: string | undefined;
@@ -23,7 +23,7 @@ export interface RouteV1 {
   RappelLengthMax: number | undefined;
   KMLURL: string | undefined;
   HTMLDescription: string;
-  GeoJSON: Feature<LineString | Point> | FeatureCollection<LineString | Point> | undefined;
+  GeoJSON: FeatureCollection | undefined;
 }
 
 export type PermitV1 =
@@ -32,7 +32,7 @@ export type PermitV1 =
   | 'Closed to entry'
   | 'Access is Restricted';
 
-export type MonthsV1 =
+export type MonthV1 =
   | 'January'
   | 'Feburary'
   | 'March'
@@ -94,21 +94,36 @@ export function toRouteV1(route: RouteV2): RouteV1 {
     Popularity: undefined, // not supported by new type & not used in app
     Latitude: route.latitude,
     Longitude: route.longitude,
-    Months: route.months,
+    Months: route.months.map(month => months2to1[month]),
     Difficulty:
-      route.technicalGrade &&
-      ((route.technicalGrade + (route.waterGrade ?? '?')).toLowerCase() as DifficultyV1),
-    AdditionalRisk: route.additionalRisk,
+      route.technicalRating &&
+      ((route.technicalRating + (route.waterRating ?? '?')).toLowerCase() as DifficultyV1),
+    AdditionalRisk: route.riskRating,
     Vehicle: route.vehicle,
-    Shuttle: route.shuttle,
-    Permits: permit2to1[route.permits ?? ''],
+    Shuttle: route.shuttleMinutes,
+    Permits: permit2to1[route.permit ?? ''],
     Sports: ['canyoneering'],
-    Time: route.timeGrade,
+    Time: route.timeRating,
     RappelCountMin: route.rappelCountMin,
     RappelCountMax: route.rappelCountMax,
-    RappelLengthMax: route.rappelLengthMax,
+    RappelLengthMax: route.rappelLongestFeet,
     KMLURL: undefined, // not supported by new type & not used in app
     HTMLDescription: route.description,
     GeoJSON: route.geojson,
   };
 }
+
+const months2to1: {[key: string]: MonthV1} = {
+  Jan: 'January',
+  Feb: 'Feburary',
+  Mar: 'March',
+  Apr: 'April',
+  May: 'May',
+  Jun: 'June',
+  Jul: 'July',
+  Aug: 'August',
+  Sep: 'September',
+  Oct: 'October',
+  Nov: 'November',
+  Dec: 'December',
+};
