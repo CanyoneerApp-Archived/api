@@ -10,7 +10,7 @@ interface FetchIndicesOptions {
   regions: string[];
 }
 
-const apiResponse = {
+const apiRequestPrintouts = {
   pageid: 'Has pageid',
   name: 'Has name',
   coordinates: 'Has coordinates',
@@ -22,16 +22,18 @@ const apiResponse = {
   technicalRating: 'Has technical rating',
   waterRating: 'Has water rating',
   riskRating: 'Has extra risk rating',
-  // 'Min Time': 'Has fastest typical time',
-  // 'Max Time': 'Has slowest typical time',
-  // Hike: 'Has length of hike',
   permits: 'Requires permits',
   rappelCount: 'Has info rappels',
-  // URL: 'Has url',
   rappelLongest: 'Has longest rappel',
   months: 'Has best month',
   shuttle: 'Has shuttle length',
   vehicle: 'Has vehicle type',
+
+  // We aren't using these properties yet but they are available in the API
+  // 'Min Time': 'Has fastest typical time',
+  // 'Max Time': 'Has slowest typical time',
+  // Hike: 'Has length of hike',
+  // URL: 'Has url',
 };
 
 type APIResponse = {
@@ -40,7 +42,7 @@ type APIResponse = {
   namespace: number;
   exists: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  printouts: {[Key in keyof typeof apiResponse]: any};
+  printouts: {[Key in keyof typeof apiRequestPrintouts]: any};
 };
 
 export async function scrapeIndices({regions}: FetchIndicesOptions) {
@@ -50,7 +52,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
     const url = new URL('https://ropewiki.com/index.php');
     url.searchParams.append('title', 'Special:Ask');
 
-    const propertiesEncoded = Object.entries(apiResponse)
+    const propertiesEncoded = Object.entries(apiRequestPrintouts)
       .map(([a, b]) => `${encode(b)}=${encode(a)}`)
       .join('/-3F');
 
@@ -97,7 +99,9 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
           ? result.printouts.rappelLongest[0].value * METERS_PER_FOOT
           : undefined,
         vehicle: result.printouts.vehicle[0],
-        shuttleMinutes: result.printouts.shuttle[0]?.value,
+        shuttleSeconds: result.printouts.shuttle[0]?.value
+          ? result.printouts.shuttle[0].value * 60
+          : undefined,
       };
 
       validateSchema('IndexRouteV2', route);

@@ -53,7 +53,7 @@ href="https://eyesupadventure.wixsite.com/adventure/maine-canyoneering">https://
     "rappelCountMin": 3,
     "rappelLongestMeters": 15.24,
     "riskRating": undefined,
-    "shuttleMinutes": undefined,
+    "shuttleSeconds": undefined,
     "technicalRating": 3,
     "timeRating": "II",
     "url": "https://ropewiki.com/Bickford_Slides_Canyon",
@@ -88,7 +88,7 @@ keep riffraff out of dangrous situations!</p>
     "rappelCountMin": 2,
     "rappelLongestMeters": 6.096,
     "riskRating": undefined,
-    "shuttleMinutes": undefined,
+    "shuttleSeconds": undefined,
     "technicalRating": 3,
     "timeRating": "I",
     "url": "https://ropewiki.com/Inman%27s_Cave",
@@ -368,7 +368,7 @@ Adventure Hikes (Southwest)</a> : Katahdin; Maine</li>
     "rappelCountMin": undefined,
     "rappelLongestMeters": undefined,
     "riskRating": undefined,
-    "shuttleMinutes": undefined,
+    "shuttleSeconds": undefined,
     "technicalRating": undefined,
     "timeRating": undefined,
     "url": "https://ropewiki.com/Mount_Katahdin",
@@ -425,7 +425,7 @@ Up Adventure</a> : Maine canyoneering]</li>
     "rappelCountMin": 1,
     "rappelLongestMeters": 7.62,
     "riskRating": undefined,
-    "shuttleMinutes": undefined,
+    "shuttleSeconds": undefined,
     "technicalRating": 3,
     "timeRating": "I",
     "url": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
@@ -460,12 +460,497 @@ ft rap and a final 50ft.</p>
     "rappelCountMin": 4,
     "rappelLongestMeters": 15.24,
     "riskRating": undefined,
-    "shuttleMinutes": undefined,
+    "shuttleSeconds": undefined,
     "technicalRating": 3,
     "timeRating": "II",
     "url": "https://ropewiki.com/The_Cataracts",
     "vehicle": undefined,
     "waterRating": "C",
+  },
+]
+`;
+
+exports[`scrape Maine v1 1`] = `
+[
+  {
+    "AdditionalRisk": undefined,
+    "Difficulty": "3c",
+    "GeoJSON": undefined,
+    "HTMLDescription": "<h2 id="introduction">Introduction</h2>
+<p>This gorgeous canyon sits high up in the White Mountains of western
+Maine. The canyon descends over 400 feet in just a half mile and
+requires technical gear for navigation around its four rappels. It may
+be one of the most enjoyable descents in western Maine. Spend a fun
+morning descending this canyon then hop on over to Rattlesnake Gorge for
+another fun descent.</p>
+<h2 id="approach">Approach</h2>
+<p>The best location to start from is the Brickett Place. There is a day
+use fee for this trailhead it was $5.00 in 2021. From the trailhead hike
+up Bickford Brook Trail past the first trail intersection until you
+reach the second fork in the trail. (19 T 0341714E 4904338N). Take the
+trail on the right at this intersection. The trail will cross over the
+creek, follow this creek downstream until you reach the canyon.</p>
+<h2 id="descent">Descent</h2>
+<p>Wrap a tree and descend 30 ft into the canyon. Continue down canyon
+until you reach the second drop. Wrap another tree and descend 20 ft.
+Following the second rappel hike along the canyon avoiding the pools of
+water as much as possible. Turn the corner and wrap another tree or
+boulder and descend to the large pool at the end of the canyon. Hike
+along the stream another 1/4th of a mile to where a trail crosses the
+stream.</p>
+<h2 id="exit">Exit</h2>
+<p>Hike out to the trail head on this trail or descend down one last
+rappel on the other side of this trail.</p>
+<h2 id="red_tape">Red tape</h2>
+<h2 id="beta_sites">Beta sites</h2>
+<p><a
+href="https://eyesupadventure.wixsite.com/adventure/maine-canyoneering">https://eyesupadventure.wixsite.com/adventure/maine-canyoneering</a></p>
+<h2 id="trip_reports_and_media">Trip reports and media</h2>
+<h2 id="background">Background</h2>
+",
+    "KMLURL": undefined,
+    "Latitude": 44.274,
+    "Longitude": -70.9843,
+    "Months": [
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+    ],
+    "Name": "Bickford Slides Canyon",
+    "Permits": "No permit required",
+    "Popularity": undefined,
+    "Quality": 3,
+    "RappelCountMax": 3,
+    "RappelCountMin": 3,
+    "RappelLengthMax": 50,
+    "Shuttle": undefined,
+    "Sports": [
+      "canyoneering",
+    ],
+    "Time": "II",
+    "URL": "https://ropewiki.com/Bickford_Slides_Canyon",
+    "Vehicle": undefined,
+  },
+  {
+    "AdditionalRisk": undefined,
+    "Difficulty": "3a",
+    "GeoJSON": undefined,
+    "HTMLDescription": "<h2 id="introduction">Introduction</h2>
+<p>This is one of the only caves in Maine that requires the use of SRT
+equipment. The cave is small but makes for a fun adventure. Location
+beta and more information can be provided by contacting the Maine Cave
+Survey with the following email: stephen.whitney1999@gmail.com</p>
+<p>If you have visited this cave please do not post location data to
+keep riffraff out of dangrous situations!</p>
+<h2 id="approach">Approach</h2>
+<h2 id="descent">Descent</h2>
+<h2 id="exit">Exit</h2>
+<h2 id="red_tape">Red tape</h2>
+<h2 id="beta_sites">Beta sites</h2>
+<h2 id="trip_reports_and_media">Trip reports and media</h2>
+<h2 id="background">Background</h2>
+",
+    "KMLURL": undefined,
+    "Latitude": 44.2165,
+    "Longitude": -69.0747,
+    "Months": [],
+    "Name": "Inman's Cave",
+    "Permits": "No permit required",
+    "Popularity": undefined,
+    "Quality": 0,
+    "RappelCountMax": 2,
+    "RappelCountMin": 2,
+    "RappelLengthMax": 20,
+    "Shuttle": undefined,
+    "Sports": [
+      "canyoneering",
+    ],
+    "Time": "I",
+    "URL": "https://ropewiki.com/Inman%27s_Cave",
+    "Vehicle": undefined,
+  },
+  {
+    "AdditionalRisk": undefined,
+    "Difficulty": undefined,
+    "GeoJSON": {
+      "features": [
+        {
+          "geometry": {
+            "coordinates": [
+              -116.329666,
+              35.030834,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt1",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.936668,
+              45.898499,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt2",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.921997,
+              45.904335,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt3",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.936668,
+              45.898499,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt4",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.981667,
+              45.896168,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt5",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.998833,
+              45.887333,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt6",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.963997,
+              45.873833,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "Br (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt7",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.936668,
+              45.898499,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt8",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.921997,
+              45.904335,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt9",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.947334,
+              45.900002,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "5mile to (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt10",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+        {
+          "geometry": {
+            "coordinates": [
+              -68.981667,
+              45.896168,
+              0,
+            ],
+            "type": "Point",
+          },
+          "properties": {
+            "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
+            "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
+            "name": "Wpt11",
+            "styleHash": "-56beb8bb",
+            "styleMapHash": {
+              "highlight": "#dot1",
+              "normal": "#dot0",
+            },
+            "styleUrl": "#dot",
+          },
+          "type": "Feature",
+        },
+      ],
+      "type": "FeatureCollection",
+    },
+    "HTMLDescription": "<h2 id="introduction">Introduction</h2>
+<h2 id="approach">Approach</h2>
+<h2 id="descent">Descent</h2>
+<h2 id="exit">Exit</h2>
+<h2 id="red_tape">Red tape</h2>
+<h2 id="beta_sites">Beta sites</h2>
+<ul>
+<li><img src="rwl_en.png" title="rwl_en.png" alt="rwl_en.png" /><a
+href="http://brennen.caltech.edu/swhikes/katadn.htm">Chris Brennen's
+Adventure Hikes (Southwest)</a> : Katahdin; Maine</li>
+</ul>
+<h2 id="trip_reports_and_media">Trip reports and media</h2>
+<h2 id="background">Background</h2>
+",
+    "KMLURL": undefined,
+    "Latitude": 45.9043,
+    "Longitude": -68.922,
+    "Months": [],
+    "Name": "Mount Katahdin",
+    "Permits": "No permit required",
+    "Popularity": undefined,
+    "Quality": 5,
+    "RappelCountMax": undefined,
+    "RappelCountMin": undefined,
+    "RappelLengthMax": undefined,
+    "Shuttle": undefined,
+    "Sports": [
+      "canyoneering",
+    ],
+    "Time": undefined,
+    "URL": "https://ropewiki.com/Mount_Katahdin",
+    "Vehicle": undefined,
+  },
+  {
+    "AdditionalRisk": undefined,
+    "Difficulty": "3c1",
+    "GeoJSON": undefined,
+    "HTMLDescription": "<h2 id="introduction">Introduction</h2>
+<p>"The last canyon along the Bear River in Grafton Notch is the Screw
+Auger Gorge. This short Gorge is probably one of the most popular
+tourist destinations in the area. It is frequented by thousands of
+tourists each summer and it is not uncommon to find families and teens
+swimming here on a warm summer afternoon. The canyoneering opportunities
+are limited but still possible. Rappel off a natural anchor or tree into
+the pothole below, escape the small pothole and hike/ swim through the
+rest of the gorge."</p>
+<p>from <em>The Maine Canyon Survey: A Guide to Canyoneering in
+Maine.</em></p>
+<p><a
+href="https://eyesupadventure.wixsite.com/adventure/maine-canyoneering">1</a></p>
+<h2 id="approach">Approach</h2>
+<h2 id="descent">Descent</h2>
+<h2 id="exit">Exit</h2>
+<h2 id="red_tape">Red tape</h2>
+<h2 id="beta_sites">Beta sites</h2>
+<ul>
+<li><img src="rwl_en.png" title="rwl_en.png" alt="rwl_en.png" /><a
+href="http://summitpost.org/screw-auger-falls-gorge/826303">SummitPost.org</a>
+: Screw Auger Falls Gorge]</li>
+</ul>
+<ul>
+<li><img src="rwl_en.png" title="rwl_en.png" alt="rwl_en.png" /><a
+href="https://eyesupadventure.wixsite.com/adventure/maine-canyoneering">Eyes
+Up Adventure</a> : Maine canyoneering]</li>
+</ul>
+<h2 id="trip_reports_and_media">Trip reports and media</h2>
+<h2 id="background">Background</h2>
+",
+    "KMLURL": undefined,
+    "Latitude": 44.571944444444,
+    "Longitude": -70.91,
+    "Months": [
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+    ],
+    "Name": "Screw Auger Falls Gorge",
+    "Permits": "No permit required",
+    "Popularity": undefined,
+    "Quality": 0,
+    "RappelCountMax": 1,
+    "RappelCountMin": 1,
+    "RappelLengthMax": 25,
+    "Shuttle": undefined,
+    "Sports": [
+      "canyoneering",
+    ],
+    "Time": "I",
+    "URL": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
+    "Vehicle": undefined,
+  },
+  {
+    "AdditionalRisk": undefined,
+    "Difficulty": "3c",
+    "GeoJSON": undefined,
+    "HTMLDescription": "<h2 id="introduction">Introduction</h2>
+<p>Nice Canyon near Andover, ME.</p>
+<h2 id="approach">Approach</h2>
+<p>Hike up trail to slot.</p>
+<h2 id="descent">Descent</h2>
+<p>8ft rap into slot, 25ft two tier rap at the end of slot. Another 30
+ft rap and a final 50ft.</p>
+<h2 id="exit">Exit</h2>
+<p>Hike out trail</p>
+<h2 id="red_tape">Red tape</h2>
+<h2 id="beta_sites">Beta sites</h2>
+<p>See The Maine Canyon Survey</p>
+<h2 id="trip_reports_and_media">Trip reports and media</h2>
+<h2 id="background">Background</h2>
+",
+    "KMLURL": undefined,
+    "Latitude": 44.6351,
+    "Longitude": -70.8616,
+    "Months": [],
+    "Name": "The Cataracts",
+    "Permits": "No permit required",
+    "Popularity": undefined,
+    "Quality": 3,
+    "RappelCountMax": 5,
+    "RappelCountMin": 4,
+    "RappelLengthMax": 50,
+    "Shuttle": undefined,
+    "Sports": [
+      "canyoneering",
+    ],
+    "Time": "II",
+    "URL": "https://ropewiki.com/The_Cataracts",
+    "Vehicle": undefined,
   },
 ]
 `;
@@ -499,7 +984,7 @@ href="http://summitpost.org/beaver-creek-canyon/972748">SummitPost.org</a>
     "rappelCountMin": undefined,
     "rappelLongestMeters": undefined,
     "riskRating": undefined,
-    "shuttleMinutes": undefined,
+    "shuttleSeconds": undefined,
     "technicalRating": undefined,
     "timeRating": undefined,
     "url": "https://ropewiki.com/Beaver_Creek_Canyon",

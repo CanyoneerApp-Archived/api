@@ -26,7 +26,7 @@ export interface IndexRouteV2 {
   rappelCountMax: number | undefined;
   rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
-  shuttleMinutes: number | undefined;
+  shuttleSeconds: number | undefined;
   url: string;
   latitude: number;
   longitude: number;
