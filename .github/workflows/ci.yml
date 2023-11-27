@@ -13,6 +13,13 @@ jobs:
         with:
           node-version: 21.x
 
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+
+      - name: Install Pandoc v3
+        run: sudo wget https://github.com/jgm/pandoc/releases/download/3.1.9/pandoc-3.1.9-1-amd64.deb && sudo dpkg -i pandoc-3.1.9-1-amd64.deb
+
       - name: Run yarn install
         uses: borales/actions-yarn@v4
         with:

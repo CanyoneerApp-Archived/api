@@ -16,11 +16,17 @@ export interface IndexRouteV2 {
   timeRating: TimeGradeV2 | undefined;
   riskRating: RiskGradeV2 | undefined;
   permit: PermitV2 | undefined;
+  /**
+   * @asType integer
+   */
   rappelCountMin: number | undefined;
+  /**
+   * @asType integer
+   */
   rappelCountMax: number | undefined;
-  rappelLongestFeet: number | undefined;
+  rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
-  shuttleMinutes: ShuttleV2 | undefined;
+  shuttleSeconds: number | undefined;
   url: string;
   latitude: number;
   longitude: number;
