@@ -3,9 +3,8 @@ import FS from 'fs';
 import fetch from 'node-fetch';
 import Path from 'path';
 // @ts-ignore TODO create a type file for this module
-import chalk from 'chalk';
 import PromiseThrottle from 'promise-throttle';
-import {logger} from '../logger';
+import * as logger from '../logger';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
 
@@ -24,7 +23,7 @@ async function cachedFetch(urlObject: URL) {
 
   try {
     const text = await FS.promises.readFile(path, 'utf-8');
-    logger.verbose(chalk.dim(`Fetch cached ${url}`));
+    logger.fetch(url, 'cached');
     return text;
   } catch (error) {
     if (error instanceof Error && 'code' in error && error.code !== 'ENOENT') {
@@ -32,7 +31,7 @@ async function cachedFetch(urlObject: URL) {
     }
 
     const text = await promiseThrottle.add(async () => {
-      logger.verbose(chalk.dim(`Fetch live ${url}`));
+      logger.fetch(url, 'live');
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP response not ok: ${url} ${response.statusText}`);
