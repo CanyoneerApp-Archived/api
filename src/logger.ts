@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import {isString} from 'lodash';
+import {identity, isString} from 'lodash';
 import {inspect} from 'util';
 
 type Step =
@@ -14,6 +14,9 @@ type Step =
 
 let isLastLineProgress = false;
 const enableFetch = false;
+
+// eslint-disable-next-line prefer-const
+export let enableAll = true;
 
 export function fetch(url: string, type: 'live' | 'cached') {
   if (enableFetch) {
@@ -37,12 +40,12 @@ export function progress(totalCount: number, doneCount: number, name: string) {
 
   const fractionString = `${doneCount.toLocaleString()}/${totalCount.toLocaleString()}`;
 
-  inner('log', chalk.dim, `${percentString} (${fractionString}) ${name}`);
+  inner('log', identity, `${percentString} (${fractionString}) ${name}`);
   isLastLineProgress = true;
 }
 
 export function verbose(...args: unknown[]) {
-  inner('log', chalk.dim, ...args);
+  inner('log', identity, ...args);
 }
 
 export function warn(...args: unknown[]) {
@@ -78,6 +81,7 @@ function inner(
   transform: (input: string) => string,
   ...args: unknown[]
 ) {
+  if (!enableAll) return;
   console[stream](...args.map(arg => transform(isString(arg) ? arg : inspect(arg, {depth: 10}))));
   isLastLineProgress = false;
 }

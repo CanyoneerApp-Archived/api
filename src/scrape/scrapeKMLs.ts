@@ -94,12 +94,13 @@ export async function scrapeKMLs(
 
           const route = output[name];
           if (!route) {
-            logger.warn(`Couldn't find route named "${name}"`);
+            const nameTruncated =
+              name.split('\n')[0].slice(0, 64) + (name.length > 64 ? '...' : '');
+            logger.warn(`Couldn't find route named "${nameTruncated}"`);
             continue;
           }
 
           route.geojson = TJ.kml(el, {styles: true});
-
           validate('RouteV2', route);
         }
       } catch (error) {
