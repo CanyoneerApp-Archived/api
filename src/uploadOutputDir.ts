@@ -7,6 +7,6 @@ export async function uploadOutputDir(s3: S3, outputs: SyncStackOutput) {
   await syncS3Dir(s3, {
     ...outputs,
     LocalPath: './output',
-    FileUploadedHandler: ({S3Key}) => logger.verbose(`Uploading "${S3Key}"`),
+    FileUploadedHandler: ({S3Key}) => logger.log(`Uploading "${S3Key}"`),
   });
 }

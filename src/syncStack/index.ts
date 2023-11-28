@@ -17,7 +17,7 @@ export async function syncStack(cloudFormation: CloudFormation) {
     TemplateBody: JSON.stringify(template),
     StackName: stackName,
     EventHandler: (event: StackEvent) => {
-      logger.verbose(
+      logger.log(
         `${event.LogicalResourceId?.padEnd(pad)} ${event.ResourceStatus} ${
           event.ResourceStatusReason ?? ''
         }`,

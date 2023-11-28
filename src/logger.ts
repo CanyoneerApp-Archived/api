@@ -5,31 +5,26 @@ import {inspect} from 'util';
 /**
  * All messages that get printed to the console should flow through this object.
  * This allows us to disable specific types of log messages and ensure consistent formatting.
- * Try to use a more specific logging method like `progress` instead of a more general one like
- * `warn` whenever applicable.
  */
 class Logger {
   enable = true;
   enableFetch = false;
 
-  private isLastLineProgress = false;
-
-  fetch(url: string, type: 'live' | 'cached') {
+  /**
+   * Call this method every time you make an HTTP request.
+   */
+  fetch(url: string, type: 'live' | 'cached' = 'live') {
     if (this.enableFetch) {
-      this.inner(
-        'log',
-        chalk.dim,
+      this.inner('log', chalk.dim, [
         `Fetch ${type === 'live' ? chalk.bold(chalk.green('live')) : type} ${url}`,
-      );
+      ]);
     }
   }
 
+  /**
+   * Call this method to report progress on a long-running task with a known number of steps.
+   */
   progress(totalCount: number, doneCount: number, name: string) {
-    if (this.isLastLineProgress && process.stdout.isTTY) {
-      process.stdout.moveCursor(0, -1);
-      process.stdout.clearLine(1);
-    }
-
     const percentString = (doneCount / totalCount).toLocaleString(undefined, {
       style: 'percent',
       minimumFractionDigits: 1,
@@ -37,29 +32,33 @@ class Logger {
 
     const fractionString = `${doneCount.toLocaleString()}/${totalCount.toLocaleString()}`;
 
-    this.isLastLineProgress = this.inner(
-      'log',
-      identity,
-      `${percentString} (${fractionString}) ${name}`,
-    );
+    this.inner('log', identity, [`${percentString} (${fractionString}) ${name}`], {
+      isProgress: true,
+    });
   }
 
-  verbose(...args: unknown[]) {
-    this.inner('log', identity, ...args);
+  /**
+   * Call this method to report a general log message.
+   * Prefer a more specific method like `progress` if applicable.
+   */
+  log(...args: unknown[]) {
+    this.inner('log', identity, args);
   }
 
   warn(...args: unknown[]) {
-    this.inner('warn', chalk.yellow, ...args);
+    this.inner('warn', chalk.yellow, args);
   }
 
   error(...args: unknown[]) {
-    this.inner('error', chalk.red, ...args);
+    this.inner('error', chalk.red, args);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  step<T extends (...args: any[]) => any>(fn: T, args: Parameters<T>): Promise<ReturnType<T>> {
+  /**
+   * Call this method to report the start and end of a long-running task.
+   */
+  step<T extends unknown[], U>(fn: (...args: T) => Promise<U>, args: T): Promise<U> {
     const startTime = Date.now();
-    this.inner('log', s => chalk.blue(chalk.bold(s)), `Start ${fn.name}`);
+    this.inner('log', s => chalk.blue(chalk.bold(s)), [`Start ${fn.name}`]);
     const promise = fn(...args);
     promise.then(() => {
       const timeString = ((Date.now() - startTime) / 1000).toLocaleString(undefined, {
@@ -68,27 +67,38 @@ class Logger {
         style: 'unit',
       });
 
-      this.inner('log', s => chalk.blue(chalk.bold(s)), `End   ${fn.name} ${timeString}`);
+      this.inner('log', s => chalk.blue(chalk.bold(s)), [`End   ${fn.name} ${timeString}`]);
     });
     return promise;
   }
 
+  /**
+   * Call this method to report the entire program has completed successfully.
+   */
   done() {
-    this.inner('log', s => chalk.green(chalk.bold(s)), `DONE`);
+    this.inner('log', s => chalk.green(chalk.bold(s)), [`DONE`]);
   }
 
-  /**
-   * @returns true if the line was printed to the console, false if not
-   */
+  private isPreviousProgress = false;
+
   private inner(
     stream: 'log' | 'error' | 'warn',
     transform: (input: string) => string,
-    ...args: unknown[]
-  ): boolean {
+    args: unknown[],
+    {isProgress}: {isProgress: boolean} = {isProgress: false},
+  ) {
     if (!this.enable) return false;
+
+    // If this line is a progress report AND the previous line is a progress report, overwrite the
+    // previous line. This keeps the console output clean and makes errors easier to spot.
+    if (isProgress && this.isPreviousProgress && process.stdout.isTTY) {
+      process.stdout.moveCursor(0, -1);
+      process.stdout.clearLine(1);
+    }
+
     console[stream](...args.map(arg => transform(isString(arg) ? arg : inspect(arg, {depth: 10}))));
-    this.isLastLineProgress = false;
-    return true;
+
+    this.isPreviousProgress = isProgress;
   }
 }
 
