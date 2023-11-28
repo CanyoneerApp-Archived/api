@@ -8,11 +8,7 @@ import {logger} from '../logger';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
-/**
- * The maximum number of KMLs to load per batched request.
- * A larger number results in fewer requests but each request is slower and more expensive.
- */
-const kmlCountPerRequest = 10;
+const limit = 100;
 
 /**
  * Take an array of `RouteV2`s and a list of their RopeWiki regions, scrape their KMLs,
@@ -33,7 +29,7 @@ export async function scrapeKMLs(
     while (true) {
       const url1 = new URL(`http://ropewiki.com/index.php/KMLList`);
       url1.searchParams.append('offset', `${offset}`);
-      url1.searchParams.append('limit', `${kmlCountPerRequest}`);
+      url1.searchParams.append('limit', `${limit}`);
       url1.searchParams.append('action', `raw`);
       url1.searchParams.append('templates', `expand`);
       url1.searchParams.append('ctype', `application/x-zope-edit`);
@@ -110,8 +106,8 @@ export async function scrapeKMLs(
           continue;
         }
       } finally {
-        offset += kmlCountPerRequest;
-        doneCount += kmlCountPerRequest;
+        offset += limit;
+        doneCount += limit;
         logger.progress(totalCount, doneCount, region);
       }
     }

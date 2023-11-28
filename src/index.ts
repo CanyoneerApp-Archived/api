@@ -17,11 +17,6 @@ program.option(
   'run entirely locally, do not update the AWS stack or uploading files to S3',
   false,
 );
-program.option(
-  '--region',
-  '"all" or the name a RopeWiki region to scrape (https://ropewiki.com/Regions). In development you may prefer to scrape a small number of canyons in a region such as "California."',
-  'all',
-);
 
 program.option(
   '--logFetch',
@@ -29,9 +24,17 @@ program.option(
   false,
 );
 
+program.option(
+  '--region',
+  '"all" or the name a RopeWiki region to scrape (https://ropewiki.com/Regions). In development you may prefer to scrape a small number of canyons in a region such as "California."',
+  'all',
+);
+
 async function main() {
   program.parse();
   const options = program.opts();
+
+  logger.enableFetch = options.logFetch;
 
   const region = 'us-west-1';
   const s3 = new S3({region});
@@ -41,8 +44,6 @@ async function main() {
   if (!options.skipAWS) {
     stack = await logger.step(syncStack, [cloudFormation]);
   }
-
-  logger.enableFetch = options.logFetch;
 
   await logger.step(rmOutputDir, []);
   await logger.step(writeAllSchemas, []);

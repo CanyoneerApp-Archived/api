@@ -13,8 +13,10 @@ export async function inner(regions: string[]) {
 
 export async function scrape(regions: string[]) {
   const routes = await inner(regions);
+
   for (const route of routes) {
-    await writeRoute(route);
+    writeRoute(route);
   }
-  await writeRouteEnd();
+
+  writeRouteEnd();
 }
