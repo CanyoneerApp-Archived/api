@@ -3,9 +3,10 @@ import {identity, isString} from 'lodash';
 import {inspect} from 'util';
 
 class Logger {
-  isLastLineProgress = false;
-  enableFetch = false;
   enableAll = true;
+  enableFetch = false;
+
+  private isLastLineProgress = false;
 
   fetch(url: string, type: 'live' | 'cached') {
     if (this.enableFetch) {
