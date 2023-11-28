@@ -2,6 +2,12 @@ import chalk from 'chalk';
 import {identity, isString} from 'lodash';
 import {inspect} from 'util';
 
+/**
+ * All messages that get printed to the console should flow through this object.
+ * This allows us to disable specific types of log messages and ensure consistent formatting.
+ * Try to use a more specific logging method like `progress` instead of a more general one like
+ * `warn` whenever applicable.
+ */
 class Logger {
   enable = true;
   enableFetch = false;
