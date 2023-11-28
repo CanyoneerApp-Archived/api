@@ -5,7 +5,6 @@ import {writeAllSchemas} from '../writeAllSchemas';
 
 describe('scrape', () => {
   beforeAll(async () => {
-    // @ts-ignore
     logger.enableAll = false;
     await writeAllSchemas();
   });

@@ -4,7 +4,7 @@ import {logger} from '../logger';
 import {IndexRouteV2, RouteV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
-import {parseDescription} from './parseDescription';
+import {PandocTimeoutError, parseDescription} from './parseDescription';
 
 /**
  * Take an array of `RouteV2`s, scrape their KMLs, and return a new array of routes with the
@@ -14,7 +14,7 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
   const routeChunks = lodashChunk(routes, 50);
 
   const totalCount = routes.length;
-  let doneCount = 0;
+  const doneCount = 0;
 
   return (
     await Promise.all(
@@ -44,18 +44,23 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
             const text = xml.mediawiki.page.find((page: any) => page.id[0] === index.id).revision[0]
               .text[0]._;
 
-            const description = await parseDescription(text);
-
-            doneCount++;
-            if (description.timeout) {
-              logger.warn(`Pandoc timed out parsing "${index.name}"`);
-            } else {
-              logger.progress(totalCount, doneCount, index.name);
+            let description: string | undefined;
+            try {
+              description = await parseDescription(text);
+            } catch (error) {
+              if (error instanceof PandocTimeoutError) {
+                logger.warn(`Pandoc timed out parsing "${index.name}"`);
+                description = undefined;
+              } else {
+                throw error;
+              }
             }
+
+            logger.progress(totalCount, doneCount, index.name);
 
             const route: RouteV2 = {
               ...index,
-              description: description.timeout ? undefined : description.html,
+              description,
               geojson: undefined,
             };
 

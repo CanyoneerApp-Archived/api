@@ -1,28 +1,30 @@
 // @ts-ignore
 import pandoc from 'node-pandoc';
 import PromiseThrottle from 'promise-throttle';
+import {sleep} from './sleep';
 
 export const promiseThrottle = new PromiseThrottle({requestsPerSecond: 500});
-
-type ParseDescriptionOutput = {html: string; timeout: false} | {timeout: true};
 
 /**
  * Turn MediaWiki markup into HTML
  */
-export async function parseDescription(input: string): Promise<ParseDescriptionOutput> {
+export async function parseDescription(input: string): Promise<string> {
   return promiseThrottle.add(async () => {
+    const sleepPromise = sleep(5000);
+
     return await Promise.race([
-      (async (): Promise<ParseDescriptionOutput> => {
-        await sleep(5000);
-        return {timeout: true};
+      (async () => {
+        await sleepPromise;
+        throw new PandocTimeoutError();
       })(),
-      new Promise<ParseDescriptionOutput>((resolve, reject) =>
+      new Promise<string>((resolve, reject) =>
         pandoc(
           input.slice(input.indexOf('==Introduction==')),
           '-f mediawiki -t html',
           (error: Error, html: string) => {
+            sleepPromise.cancel();
             if (error) reject(error);
-            else resolve({timeout: false, html});
+            else resolve(html);
           },
         ),
       ),
@@ -30,6 +32,4 @@ export async function parseDescription(input: string): Promise<ParseDescriptionO
   });
 }
 
-function sleep(milliseconds: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
+export class PandocTimeoutError extends Error {}

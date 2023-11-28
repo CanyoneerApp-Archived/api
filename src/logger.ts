@@ -19,7 +19,7 @@ class Logger {
   }
 
   progress(totalCount: number, doneCount: number, name: string) {
-    if (this.isLastLineProgress) {
+    if (this.isLastLineProgress && process.stdout.isTTY) {
       process.stdout.moveCursor(0, -1);
       process.stdout.clearLine(1);
     }
@@ -65,7 +65,6 @@ class Logger {
 
   done() {
     this.inner('log', s => chalk.green(chalk.bold(s)), `DONE`);
-    this.isLastLineProgress = false;
   }
 
   private inner(
