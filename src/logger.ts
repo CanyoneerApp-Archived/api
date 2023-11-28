@@ -45,9 +45,11 @@ class Logger {
     this.inner('error', chalk.red, ...args);
   }
 
-  step<T>(step: string, promise: Promise<T>): Promise<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  step<T extends (...args: any[]) => any>(fn: T, args: Parameters<T>): Promise<ReturnType<T>> {
     const startTime = Date.now();
-    this.inner('log', s => chalk.blue(chalk.bold(s)), `Start ${step}`);
+    this.inner('log', s => chalk.blue(chalk.bold(s)), `Start ${fn.name}`);
+    const promise = fn(...args);
     promise.then(() => {
       const timeString = ((Date.now() - startTime) / 1000).toLocaleString(undefined, {
         unit: 'second',
@@ -55,7 +57,7 @@ class Logger {
         style: 'unit',
       });
 
-      this.inner('log', s => chalk.blue(chalk.bold(s)), `End   ${step} ${timeString}`);
+      this.inner('log', s => chalk.blue(chalk.bold(s)), `End   ${fn.name} ${timeString}`);
     });
     return promise;
   }

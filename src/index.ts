@@ -33,11 +33,11 @@ async function main() {
 
   let stack: SyncStackOutput | undefined;
   if (!options.skipAWS) {
-    stack = await logger.step('syncStack', syncStack(cloudFormation));
+    stack = await logger.step(syncStack, [cloudFormation]);
   }
 
-  await logger.step('rmOutputDir', rmOutputDir());
-  await logger.step('writeAllSchemas', writeAllSchemas());
+  await logger.step(rmOutputDir, []);
+  await logger.step(writeAllSchemas, []);
   await scrape(
     isArray(options.region)
       ? options.region
@@ -45,10 +45,10 @@ async function main() {
         ? allRegions
         : [options.region],
   );
-  await logger.step('writeTippecanoe', writeTippecanoe());
+  await logger.step(writeTippecanoe, []);
 
   if (!options.skipAWS && stack) {
-    await logger.step('uploadOutputDir', uploadOutputDir(s3, stack));
+    await logger.step(uploadOutputDir, [s3, stack]);
   }
 
   logger.done();

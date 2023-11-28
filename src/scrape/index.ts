@@ -5,9 +5,9 @@ import {scrapeKMLs} from './scrapeKMLs';
 import {writeRoute, writeRouteEnd} from './writeRoute';
 
 export async function inner(regions: string[]) {
-  const indices = await logger.step('scrapeIndices', scrapeIndices({regions}));
-  const descriptions = await logger.step('scrapeDescriptions', scrapeDescriptions(indices));
-  const kmls = await logger.step('scrapeKMLs', scrapeKMLs(descriptions, {regions}));
+  const indices = await logger.step(scrapeIndices, [{regions}]);
+  const descriptions = await logger.step(scrapeDescriptions, [indices]);
+  const kmls = await logger.step(scrapeKMLs, [descriptions, {regions}]);
   return kmls;
 }
 
