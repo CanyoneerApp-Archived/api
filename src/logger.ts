@@ -3,7 +3,7 @@ import {identity, isString} from 'lodash';
 import {inspect} from 'util';
 
 class Logger {
-  enableAll = true;
+  enable = true;
   enableFetch = false;
 
   private isLastLineProgress = false;
@@ -23,6 +23,7 @@ class Logger {
       process.stdout.moveCursor(0, -1);
       process.stdout.clearLine(1);
     }
+
     const percentString = (doneCount / totalCount).toLocaleString(undefined, {
       style: 'percent',
       minimumFractionDigits: 1,
@@ -72,7 +73,7 @@ class Logger {
     transform: (input: string) => string,
     ...args: unknown[]
   ) {
-    if (!this.enableAll) return;
+    if (!this.enable) return;
     console[stream](...args.map(arg => transform(isString(arg) ? arg : inspect(arg, {depth: 10}))));
     this.isLastLineProgress = false;
   }
