@@ -13,10 +13,11 @@ export async function parseDescription(input: string): Promise<string> {
     const sleepPromise = sleep(5000);
 
     return await Promise.race([
-      (async () => {
-        await sleepPromise;
+      // Throw a `PandocTimeoutError` unless `sleepPromise` is cancelled
+      sleepPromise.then(() => {
         throw new PandocTimeoutError();
-      })(),
+      }),
+
       new Promise<string>((resolve, reject) =>
         pandoc(
           input.slice(input.indexOf('==Introduction==')),
