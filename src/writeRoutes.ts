@@ -2,7 +2,7 @@ import FS from 'fs';
 import {toRouteV1} from './types/RouteV1';
 import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/RouteV2';
 
-export default async function writeRoutes(routes: RouteV2[]) {
+export async function writeRoutes(routes: RouteV2[]) {
   const legacyStream = FS.createWriteStream('./output/legacy.json');
   const indexStream = FS.createWriteStream('./output/index.json');
   const geojsonStream = FS.createWriteStream('./output/index.geojson');

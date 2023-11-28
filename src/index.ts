@@ -10,7 +10,7 @@ import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
-import writeRoutes from './writeRoutes';
+import {writeRoutes} from './writeRoutes';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
