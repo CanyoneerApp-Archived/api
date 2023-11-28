@@ -108,8 +108,6 @@ export async function scrapeKMLs(
           validate('RouteV2', route);
         }
       } catch (error) {
-        // eslint-disable-next-line no-warning-comments
-        // TODO check error prototype
         if (error instanceof DOMException) {
           logger.error(
             `Error parsing KML for "${region}" ${url}\n\n${error}\n\n${inspect(internalErrors)}`,
