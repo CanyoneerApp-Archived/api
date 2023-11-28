@@ -19,51 +19,51 @@ const kmlCountPerRequest = 10;
  * and return a new array of routes with the "geojson" property populated.
  */
 export async function scrapeKMLs(
-  input: RouteV2[],
+  routes: RouteV2[],
   {regions}: {regions: string[]},
 ): Promise<RouteV2[]> {
-  const output = keyBy(cloneDeep(input), 'name');
+  const lookup = keyBy(cloneDeep(routes), 'name');
 
-  const totalCount = input.length;
+  const totalCount = routes.length;
   let doneCount = 0;
 
   for (const region of regions) {
     let offset = 0;
 
     while (true) {
-      const innerURL = new URL(`http://ropewiki.com/index.php/KMLList`);
-      innerURL.searchParams.append('offset', `${offset}`);
-      innerURL.searchParams.append('limit', `${kmlCountPerRequest}`);
-      innerURL.searchParams.append('action', `raw`);
-      innerURL.searchParams.append('templates', `expand`);
-      innerURL.searchParams.append('ctype', `application/x-zope-edit`);
-      innerURL.searchParams.append('numname', `on`);
-      innerURL.searchParams.append('group', `link`);
-      innerURL.searchParams.append(
+      const url1 = new URL(`http://ropewiki.com/index.php/KMLList`);
+      url1.searchParams.append('offset', `${offset}`);
+      url1.searchParams.append('limit', `${kmlCountPerRequest}`);
+      url1.searchParams.append('action', `raw`);
+      url1.searchParams.append('templates', `expand`);
+      url1.searchParams.append('ctype', `application/x-zope-edit`);
+      url1.searchParams.append('numname', `on`);
+      url1.searchParams.append('group', `link`);
+      url1.searchParams.append(
         'query',
         decodeURIComponent(
           `%5B%5BCategory%3ACanyons%5D%5D%5B%5BLocated%20in%20region.Located%20in%20regions%3A%3AX%7C%7C${region}%5D%5D`,
         ),
       );
-      innerURL.searchParams.append('sort', decodeURIComponent(`Has_rank_rating%2C%20Has_name`));
-      innerURL.searchParams.append('order', decodeURIComponent(`descending%2C%20ascending`));
-      innerURL.searchParams.append('gpx', `off`);
-      innerURL.searchParams.append('mapnum', ``);
-      innerURL.searchParams.append('mapname', `off`);
-      innerURL.searchParams.append('mapdata', ``);
-      innerURL.searchParams.append('maploc', ``);
-      innerURL.searchParams.append('maplinks', ``);
-      innerURL.searchParams.append('allmap', ``);
-      innerURL.searchParams.append('qname', region);
-      innerURL.searchParams.append('filename', region);
-      innerURL.searchParams.append('ext', `.kml`);
+      url1.searchParams.append('sort', decodeURIComponent(`Has_rank_rating%2C%20Has_name`));
+      url1.searchParams.append('order', decodeURIComponent(`descending%2C%20ascending`));
+      url1.searchParams.append('gpx', `off`);
+      url1.searchParams.append('mapnum', ``);
+      url1.searchParams.append('mapname', `off`);
+      url1.searchParams.append('mapdata', ``);
+      url1.searchParams.append('maploc', ``);
+      url1.searchParams.append('maplinks', ``);
+      url1.searchParams.append('allmap', ``);
+      url1.searchParams.append('qname', region);
+      url1.searchParams.append('filename', region);
+      url1.searchParams.append('ext', `.kml`);
 
       const url = new URL('https://ropewiki.com/luca/rwr');
       url.searchParams.append('gpx', 'off');
 
-      const outerURL = new URL(`${url.toString()}&kml=${innerURL.toString()}`);
+      let text = await cachedFetch(new URL(`${url.toString()}&kml=${url1.toString()}`));
 
-      let text = await cachedFetch(outerURL);
+      // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
       if (!text.trim().endsWith('</kml>')) {
         text += '</kml>';
       }
@@ -96,7 +96,7 @@ export async function scrapeKMLs(
           if (!name) continue;
           if (name === 'Ropewiki Map Export') continue;
 
-          const route = output[name];
+          const route = lookup[name];
           if (!route) {
             const nameTruncated =
               name.split('\n')[0].slice(0, 64) + (name.length > 64 ? '...' : '');
@@ -124,5 +124,5 @@ export async function scrapeKMLs(
     }
   }
 
-  return Object.values(output);
+  return Object.values(lookup);
 }
