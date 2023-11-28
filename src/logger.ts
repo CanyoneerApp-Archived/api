@@ -31,8 +31,11 @@ class Logger {
 
     const fractionString = `${doneCount.toLocaleString()}/${totalCount.toLocaleString()}`;
 
-    this.inner('log', identity, `${percentString} (${fractionString}) ${name}`);
-    this.isLastLineProgress = true;
+    this.isLastLineProgress = this.inner(
+      'log',
+      identity,
+      `${percentString} (${fractionString}) ${name}`,
+    );
   }
 
   verbose(...args: unknown[]) {
@@ -68,14 +71,18 @@ class Logger {
     this.inner('log', s => chalk.green(chalk.bold(s)), `DONE`);
   }
 
+  /**
+   * @returns true if the line was printed to the console, false if not
+   */
   private inner(
     stream: 'log' | 'error' | 'warn',
     transform: (input: string) => string,
     ...args: unknown[]
-  ) {
-    if (!this.enable) return;
+  ): boolean {
+    if (!this.enable) return false;
     console[stream](...args.map(arg => transform(isString(arg) ? arg : inspect(arg, {depth: 10}))));
     this.isLastLineProgress = false;
+    return true;
   }
 }
 
