@@ -12,15 +12,11 @@ const inner = once(() => ({
 let first = true;
 
 export function writeRouteEnd() {
-  const {legacyStream, indexStream, geojsonStream} = inner();
-  legacyStream.write(']');
-
-  legacyStream.close();
-  indexStream.close();
-  geojsonStream.close();
+  const {legacyStream: legacy} = inner();
+  legacy.write(']');
 }
 
-export async function writeRoute(route: RouteV2) {
+export function writeRoute(route: RouteV2) {
   const {legacyStream: legacy, indexStream: index, geojsonStream: geojson} = inner();
 
   if (first) {
@@ -32,8 +28,7 @@ export async function writeRoute(route: RouteV2) {
 
   const features: GeoJSONRouteV2[] = toGeoJSONRouteV2(route);
 
-  await FS.promises.mkdir('./output/details', {recursive: true});
-  await FS.promises.writeFile(`./output/details/${route.id}.json`, JSON.stringify(route, null, 2));
+  FS.writeFileSync(`./output/details/${route.id}.json`, JSON.stringify(route, null, 2));
   index.write(`${JSON.stringify(toIndexRouteV2(route))}\n`);
   features.forEach(feature => {
     geojson.write(`${JSON.stringify(feature)}\n`);
