@@ -13,7 +13,7 @@ import {writeAllSchemas} from './writeAllSchemas';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
-  '--local',
+  '--skipAWS',
   'run entirely locally, do not update the AWS stack or uploading files to S3',
   false,
 );
@@ -38,7 +38,7 @@ async function main() {
   const cloudFormation = new CloudFormation({region});
 
   let stack: SyncStackOutput | undefined;
-  if (!options.local) {
+  if (!options.skipAWS) {
     stack = await logger.step(syncStack, [cloudFormation]);
   }
 
@@ -55,7 +55,7 @@ async function main() {
   );
   await logger.step(writeTippecanoe, []);
 
-  if (!options.local && stack) {
+  if (!options.skipAWS && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);
   }
 
