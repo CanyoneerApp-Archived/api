@@ -23,7 +23,7 @@ export interface RouteV1 {
   RappelCountMax: number | undefined;
   RappelLengthMax: number | undefined;
   KMLURL: string | undefined;
-  HTMLDescription: string | undefined;
+  HTMLDescription: string;
   GeoJSON: FeatureCollection | undefined;
 }
 
