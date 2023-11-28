@@ -61,12 +61,7 @@ export async function scrapeKMLs(
       const url = new URL('https://ropewiki.com/luca/rwr');
       url.searchParams.append('gpx', 'off');
 
-      let text = await cachedFetch(new URL(`${url.toString()}&kml=${url1.toString()}`));
-
-      // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
-      if (!text.trim().endsWith('</kml>')) {
-        text += '</kml>';
-      }
+      const text = await cachedFetch(new URL(`${url.toString()}&kml=${url1.toString()}`));
 
       let document: Document;
       const internalErrors: string[] = [];
