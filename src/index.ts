@@ -2,7 +2,7 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
-import * as logger from './logger';
+import {logger} from './logger';
 import {rmOutputDir} from './rmOutputDir';
 import {scrape} from './scrape';
 import {allRegions} from './scrape/allRegions';

@@ -1,4 +1,4 @@
-import * as logger from '../logger';
+import {logger} from '../logger';
 import {scrapeDescriptions} from './scrapeDescriptions';
 import {scrapeIndices} from './scrapeIndices';
 import {scrapeKMLs} from './scrapeKMLs';

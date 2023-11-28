@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import Path from 'path';
 // @ts-ignore TODO create a type file for this module
 import PromiseThrottle from 'promise-throttle';
-import * as logger from '../logger';
+import {logger} from '../logger';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
 

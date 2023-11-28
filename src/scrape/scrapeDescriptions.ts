@@ -1,6 +1,6 @@
 import {chunk as lodashChunk} from 'lodash';
 import XML2JS from 'xml2js';
-import * as logger from '../logger';
+import {logger} from '../logger';
 import {IndexRouteV2, RouteV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';

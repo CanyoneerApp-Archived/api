@@ -1,5 +1,5 @@
 import {inner as scrapeInner} from '.';
-import * as logger from '../logger';
+import {logger} from '../logger';
 import {toRouteV1} from '../types/RouteV1';
 import {writeAllSchemas} from '../writeAllSchemas';
 

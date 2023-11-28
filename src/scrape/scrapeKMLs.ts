@@ -4,7 +4,7 @@ import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
 import {cloneDeep, keyBy} from 'lodash';
 import {inspect} from 'util';
-import * as logger from '../logger';
+import {logger} from '../logger';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 

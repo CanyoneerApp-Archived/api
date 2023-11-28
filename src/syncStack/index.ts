@@ -1,6 +1,6 @@
 import {CloudFormation, StackEvent} from '@aws-sdk/client-cloudformation';
 import {syncCloudFormationStack} from '@scree/aws-utils';
-import * as logger from '../logger';
+import {logger} from '../logger';
 import {SyncStackOutput, getStackTemplate} from './getStackTemplate';
 
 export async function syncStack(cloudFormation: CloudFormation) {

@@ -1,5 +1,5 @@
 import assert from 'assert';
-import * as logger from '../logger';
+import {logger} from '../logger';
 import {IndexRouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate as validateSchema} from './getValidator';
