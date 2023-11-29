@@ -20,7 +20,10 @@ export async function scrapeKMLs(
 ): Promise<RouteV2[]> {
   const lookup = keyBy(cloneDeep(routes), 'name');
 
-  const totalCount = routes.length;
+  // We don't know exactly how many routes there are in each region or how many of those have KMLs.
+  // This formula creates a worst case upper bound for the number of requests we'll need to make.
+  const totalCount = Math.floor(routes.length / limit) + regions.length;
+
   let doneCount = 0;
 
   for (const region of regions) {
@@ -109,7 +112,7 @@ export async function scrapeKMLs(
         }
       } finally {
         offset += limit;
-        doneCount += limit;
+        doneCount += 1;
         logger.progress(totalCount, doneCount, region);
       }
     }
