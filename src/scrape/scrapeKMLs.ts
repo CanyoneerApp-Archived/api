@@ -34,37 +34,39 @@ export async function scrapeKMLs(
     let offset = 0;
 
     while (true) {
-      const url1 = new URL(`http://ropewiki.com/index.php/KMLList`);
-      url1.searchParams.append('offset', `${offset}`);
-      url1.searchParams.append('kmlCountPerRequest', `${kmlCountPerRequest}`);
-      url1.searchParams.append('action', `raw`);
-      url1.searchParams.append('templates', `expand`);
-      url1.searchParams.append('ctype', `application/x-zope-edit`);
-      url1.searchParams.append('numname', `on`);
-      url1.searchParams.append('group', `link`);
-      url1.searchParams.append(
+      const innerURL = new URL(`http://ropewiki.com/index.php/KMLList`);
+      innerURL.searchParams.append('offset', `${offset}`);
+      innerURL.searchParams.append('limit', `${kmlCountPerRequest}`);
+      innerURL.searchParams.append('action', `raw`);
+      innerURL.searchParams.append('templates', `expand`);
+      innerURL.searchParams.append('ctype', `application/x-zope-edit`);
+      innerURL.searchParams.append('numname', `on`);
+      innerURL.searchParams.append('group', `link`);
+      innerURL.searchParams.append(
         'query',
         decodeURIComponent(
           `%5B%5BCategory%3ACanyons%5D%5D%5B%5BLocated%20in%20region.Located%20in%20regions%3A%3AX%7C%7C${region}%5D%5D`,
         ),
       );
-      url1.searchParams.append('sort', decodeURIComponent(`Has_rank_rating%2C%20Has_name`));
-      url1.searchParams.append('order', decodeURIComponent(`descending%2C%20ascending`));
-      url1.searchParams.append('gpx', `off`);
-      url1.searchParams.append('mapnum', ``);
-      url1.searchParams.append('mapname', `off`);
-      url1.searchParams.append('mapdata', ``);
-      url1.searchParams.append('maploc', ``);
-      url1.searchParams.append('maplinks', ``);
-      url1.searchParams.append('allmap', ``);
-      url1.searchParams.append('qname', region);
-      url1.searchParams.append('filename', region);
-      url1.searchParams.append('ext', `.kml`);
+      innerURL.searchParams.append('sort', decodeURIComponent(`Has_rank_rating%2C%20Has_name`));
+      innerURL.searchParams.append('order', decodeURIComponent(`descending%2C%20ascending`));
+      innerURL.searchParams.append('gpx', `off`);
+      innerURL.searchParams.append('mapnum', ``);
+      innerURL.searchParams.append('mapname', `off`);
+      innerURL.searchParams.append('mapdata', ``);
+      innerURL.searchParams.append('maploc', ``);
+      innerURL.searchParams.append('maplinks', ``);
+      innerURL.searchParams.append('allmap', ``);
+      innerURL.searchParams.append('qname', region);
+      innerURL.searchParams.append('filename', region);
+      innerURL.searchParams.append('ext', `.kml`);
 
-      const url = new URL('https://ropewiki.com/luca/rwr');
-      url.searchParams.append('gpx', 'off');
+      // The "inner" URL is a MediaWiki query for a set of routes.
+      // This "outer" URL is a proxy that fetches KMLs for those routes.
+      // The API demands the "inner" URL not be encoded so we cannot use the URL class here.
+      const outerURL = new URL(`https://ropewiki.com/luca/rwr?gpx=off&kml=${innerURL.toString()}`);
 
-      let text = await cachedFetch(new URL(`${url.toString()}&kml=${url1.toString()}`));
+      let text = await cachedFetch(outerURL);
 
       // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
       if (!text.trim().endsWith('</kml>')) {
@@ -115,7 +117,9 @@ export async function scrapeKMLs(
       } catch (error) {
         if (error instanceof DOMException) {
           logger.error(
-            `Error parsing KML for "${region}" ${url}\n\n${error}\n\n${inspect(internalErrors)}`,
+            `Error parsing KML for "${region}" ${outerURL}\n\n${error}\n\n${inspect(
+              internalErrors,
+            )}`,
           );
           continue;
         }
