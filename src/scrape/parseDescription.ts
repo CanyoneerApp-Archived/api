@@ -42,4 +42,6 @@ export async function parseDescription(input: string): Promise<string> {
   });
 }
 
-export class PandocTimeoutError extends Error {}
+export class PandocTimeoutError extends Error {
+  isPandocTimeoutError = true;
+}

@@ -1,6 +1,7 @@
-import {chunk as lodashChunk} from 'lodash';
+import {isObject, chunk as lodashChunk} from 'lodash';
 // @ts-ignore
 import XML2JS from 'xml2js';
+import {logger} from '../logger';
 import {IndexRouteV2, RouteV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
@@ -12,6 +13,9 @@ import {parseDescription} from './parseDescription';
  */
 export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV2[]> {
   const routeChunks = lodashChunk(routes, 50);
+
+  const totalCount = routes.length;
+  let doneCount = 0;
 
   return (
     await Promise.all(
@@ -43,9 +47,18 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
 
             const route: RouteV2 = {
               ...index,
-              description: await parseDescription(text),
+              description: await parseDescription(text).catch(error => {
+                if (isObject(error) && 'isPandocTimeoutError' in error) {
+                  logger.warn(`Pandoc timed out for "${index.name}"`);
+                  return undefined;
+                } else {
+                  throw error;
+                }
+              }),
               geojson: undefined,
             };
+
+            logger.progress(totalCount, ++doneCount, index.name);
 
             validate('RouteV2', route);
 

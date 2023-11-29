@@ -3,6 +3,7 @@ import {RouteV2} from '../types/RouteV2';
 import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
 import {cloneDeep, keyBy} from 'lodash';
+import {inspect} from 'util';
 import {logger} from '../logger';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
@@ -23,13 +24,19 @@ export async function scrapeKMLs(
 ): Promise<RouteV2[]> {
   const lookup = keyBy(cloneDeep(routes), 'name');
 
+  // We don't know exactly how many routes there are in each region or how many of those have KMLs.
+  // This formula creates a worst case upper bound for the number of requests we'll need to make.
+  const totalCount = Math.floor(routes.length / kmlCountPerRequest) + regions.length;
+
+  let doneCount = 0;
+
   for (const region of regions) {
     let offset = 0;
 
     while (true) {
       const url1 = new URL(`http://ropewiki.com/index.php/KMLList`);
       url1.searchParams.append('offset', `${offset}`);
-      url1.searchParams.append('limit', `${kmlCountPerRequest}`);
+      url1.searchParams.append('kmlCountPerRequest', `${kmlCountPerRequest}`);
       url1.searchParams.append('action', `raw`);
       url1.searchParams.append('templates', `expand`);
       url1.searchParams.append('ctype', `application/x-zope-edit`);
@@ -64,27 +71,59 @@ export async function scrapeKMLs(
         text += '</kml>';
       }
 
-      const document = new xmldom.DOMParser().parseFromString(text);
-      const els = Array.from(document.getElementsByTagName('Document'));
+      let document: Document;
+      const internalErrors: string[] = [];
+      try {
+        document = new xmldom.DOMParser({
+          locator: {},
+          errorHandler: {
+            warning: function (e) {
+              internalErrors.push(e);
+            },
+            error: function (e) {
+              internalErrors.push(e);
+            },
+            fatalError: function (e) {
+              internalErrors.push(e);
+            },
+          },
+        }).parseFromString(text);
 
-      if (els.length === 1) break;
+        const elements = Array.from(document.getElementsByTagName('Document'));
 
-      for (const el of els) {
-        const name = el.previousSibling?.previousSibling?.textContent?.trim();
+        if (elements.length === 1) break;
 
-        if (!name) continue;
-        if (name === 'Ropewiki Map Export') continue;
+        for (const element of elements) {
+          const routeName = element.previousSibling?.previousSibling?.textContent?.trim();
 
-        const route = lookup[name];
-        if (!route) continue;
+          if (!routeName) continue;
+          if (routeName === 'Ropewiki Map Export') continue;
 
-        logger.verbose(`Got KML for ${name}`);
-        route.geojson = TJ.kml(el, {styles: true});
+          const route = lookup[routeName];
+          if (!route) {
+            // Sometimes there are entire route descriptions embedded into `<name>` tags.
+            // Truncate the text so that console isn't dominated by these warnings.
+            const nameTruncated =
+              routeName.split('\n')[0].slice(0, 64) + (routeName.length > 64 ? '...' : '');
+            logger.warn(`Couldn't find route named "${nameTruncated}"`);
+            continue;
+          }
 
-        validate('RouteV2', route);
+          route.geojson = TJ.kml(element, {styles: true});
+          validate('RouteV2', route);
+        }
+      } catch (error) {
+        if (error instanceof DOMException) {
+          logger.error(
+            `Error parsing KML for "${region}" ${url}\n\n${error}\n\n${inspect(internalErrors)}`,
+          );
+          continue;
+        }
+      } finally {
+        offset += kmlCountPerRequest;
+        doneCount += 1;
+        logger.progress(totalCount, doneCount, region);
       }
-
-      offset += els.length;
     }
   }
 

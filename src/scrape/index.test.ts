@@ -1,9 +1,11 @@
 import {scrape} from '.';
+import {logger} from '../logger';
 import {toRouteV1} from '../types/RouteV1';
 import {writeAllSchemas} from '../writeAllSchemas';
 
 describe('scrape', () => {
   beforeAll(async () => {
+    logger.enable = false;
     await writeAllSchemas();
   });
 

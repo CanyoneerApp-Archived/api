@@ -48,6 +48,9 @@ type APIResponse = {
 export async function scrapeIndices({regions}: FetchIndicesOptions) {
   const output: IndexRouteV2[] = [];
 
+  const totalCount = regions.length;
+  let doneCount = 0;
+
   for (const region of regions) {
     const url = new URL('https://ropewiki.com/index.php');
     url.searchParams.append('title', 'Special:Ask');
@@ -108,6 +111,9 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
 
       output.push(route);
     }
+
+    doneCount++;
+    logger.progress(totalCount, doneCount, region);
   }
 
   return output;

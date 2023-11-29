@@ -4,11 +4,9 @@ import {logger} from './logger';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 
 export async function uploadOutputDir(s3: S3, outputs: SyncStackOutput) {
-  logger.log('Uploading');
   await syncS3Dir(s3, {
     ...outputs,
     LocalPath: './output',
-    FileUploadedHandler: ({S3Key}) => logger.verbose(`Upload ${S3Key}`),
+    FileUploadedHandler: ({S3Key, total, done}) => logger.progress(total, done, S3Key),
   });
-  logger.log(`Uploaded to ${outputs.URL}`);
 }
