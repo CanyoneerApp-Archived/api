@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-ignore there are no type definitions for this module
 import tippecanoe from 'tippecanoe';
 
 export async function writeTippecanoe() {
