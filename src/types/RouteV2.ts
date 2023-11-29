@@ -59,7 +59,12 @@ export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
 export type WaterGradeV2 = 'A' | 'B' | 'C' | 'C1' | 'C2' | 'C3' | 'C4';
 export type TimeGradeV2 = 'I' | 'II' | 'III' | 'IV' | 'V' | 'VI';
 export type RiskGradeV2 = 'PG' | 'PG-13' | 'R' | 'X' | 'XX' | 'XXX';
-export type VehicleV2 = string;
+export type VehicleV2 =
+  | '4WD'
+  | '4WD - High Clearance'
+  | '4WD - Very High Clearance'
+  | 'High Clearance'
+  | 'Passenger';
 export type ShuttleV2 = string;
 export type PermitV2 = 'No' | 'Restricted' | 'Yes' | 'Closed';
 export type MonthV2 =
