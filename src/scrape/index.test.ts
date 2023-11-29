@@ -1,4 +1,4 @@
-import {inner as scrapeInner} from '.';
+import {scrape} from '.';
 import {logger} from '../logger';
 import {toRouteV1} from '../types/RouteV1';
 import {writeAllSchemas} from '../writeAllSchemas';
@@ -12,7 +12,7 @@ describe('scrape', () => {
   it(
     'Maine',
     async () => {
-      return expect(await scrapeInner(['Maine'])).toMatchSnapshot();
+      return expect(await scrape(['Maine'])).toMatchSnapshot();
     },
     60 * 1000,
   );
@@ -20,7 +20,7 @@ describe('scrape', () => {
   it(
     'Maine v1',
     async () => {
-      const routes = await scrapeInner(['Maine']);
+      const routes = await scrape(['Maine']);
       return expect(routes.map(toRouteV1)).toMatchSnapshot();
     },
     60 * 1000,
@@ -29,7 +29,7 @@ describe('scrape', () => {
   it(
     'South Dakota',
     async () => {
-      return expect(await scrapeInner(['South Dakota'])).toMatchSnapshot();
+      return expect(await scrape(['South Dakota'])).toMatchSnapshot();
     },
     60 * 1000,
   );

@@ -8,7 +8,11 @@ import {logger} from '../logger';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 
-const limit = 100;
+/**
+ * The maximum number of KMLs to load per batched request.
+ * A larger number results in fewer requests but each request is slower and more expensive.
+ */
+const kmlCountPerRequest = 10;
 
 /**
  * Take an array of `RouteV2`s and a list of their RopeWiki regions, scrape their KMLs,
@@ -22,7 +26,7 @@ export async function scrapeKMLs(
 
   // We don't know exactly how many routes there are in each region or how many of those have KMLs.
   // This formula creates a worst case upper bound for the number of requests we'll need to make.
-  const totalCount = Math.floor(routes.length / limit) + regions.length;
+  const totalCount = Math.floor(routes.length / kmlCountPerRequest) + regions.length;
 
   let doneCount = 0;
 
@@ -32,7 +36,7 @@ export async function scrapeKMLs(
     while (true) {
       const url1 = new URL(`http://ropewiki.com/index.php/KMLList`);
       url1.searchParams.append('offset', `${offset}`);
-      url1.searchParams.append('limit', `${limit}`);
+      url1.searchParams.append('kmlCountPerRequest', `${kmlCountPerRequest}`);
       url1.searchParams.append('action', `raw`);
       url1.searchParams.append('templates', `expand`);
       url1.searchParams.append('ctype', `application/x-zope-edit`);
@@ -60,7 +64,12 @@ export async function scrapeKMLs(
       const url = new URL('https://ropewiki.com/luca/rwr');
       url.searchParams.append('gpx', 'off');
 
-      const text = await cachedFetch(new URL(`${url.toString()}&kml=${url1.toString()}`));
+      let text = await cachedFetch(new URL(`${url.toString()}&kml=${url1.toString()}`));
+
+      // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
+      if (!text.trim().endsWith('</kml>')) {
+        text += '</kml>';
+      }
 
       let document: Document;
       const internalErrors: string[] = [];
@@ -111,7 +120,7 @@ export async function scrapeKMLs(
           continue;
         }
       } finally {
-        offset += limit;
+        offset += kmlCountPerRequest;
         doneCount += 1;
         logger.progress(totalCount, doneCount, region);
       }

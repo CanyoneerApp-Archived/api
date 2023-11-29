@@ -10,6 +10,7 @@ import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
+import {writeRoutes} from './writeRoutes';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
@@ -36,9 +37,15 @@ async function main() {
 
   logger.enableFetch = options.verbose;
 
-  const region = 'us-west-1';
-  const s3 = new S3({region});
-  const cloudFormation = new CloudFormation({region});
+  const regions = isArray(options.region)
+    ? options.region
+    : options.region === 'all'
+      ? allRegions
+      : [options.region];
+
+  const awsRegion = 'us-west-1';
+  const s3 = new S3({region: awsRegion});
+  const cloudFormation = new CloudFormation({region: awsRegion});
 
   let stack: SyncStackOutput | undefined;
   if (!options.skipAWS) {
@@ -47,13 +54,8 @@ async function main() {
 
   await logger.step(rmOutputDir, []);
   await logger.step(writeAllSchemas, []);
-  await scrape(
-    isArray(options.region)
-      ? options.region
-      : options.region === 'all'
-        ? allRegions
-        : [options.region],
-  );
+  const routes = await logger.step(scrape, [regions]);
+  await logger.step(writeRoutes, [routes]);
   await logger.step(writeTippecanoe, []);
 
   if (!options.skipAWS && stack) {

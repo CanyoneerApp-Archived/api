@@ -67,7 +67,9 @@ class Logger {
         style: 'unit',
       });
 
-      this.inner('log', s => chalk.blue(chalk.bold(s)), [`End   ${fn.name} ${timeString}`]);
+      this.inner('log', identity, [
+        chalk.blue(chalk.bold(`End   ${fn.name}`)) + chalk.dim(` ${timeString}`),
+      ]);
     });
     return promise;
   }

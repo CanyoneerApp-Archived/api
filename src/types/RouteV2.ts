@@ -37,7 +37,7 @@ export interface IndexRouteV2 {
  * we have on a particular route.
  */
 export interface RouteV2 extends IndexRouteV2 {
-  description: string;
+  description: string | undefined;
   geojson: FeatureCollection | undefined;
 }
 

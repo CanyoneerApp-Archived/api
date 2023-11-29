@@ -1,11 +1,11 @@
-import {chunk as lodashChunk} from 'lodash';
+import {isObject, chunk as lodashChunk} from 'lodash';
 // @ts-ignore
-import pandoc from 'node-pandoc';
 import XML2JS from 'xml2js';
 import {logger} from '../logger';
 import {IndexRouteV2, RouteV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
+import {parseDescription} from './parseDescription';
 
 /**
  * Take an array of `RouteV2`s, scrape their KMLs, and return a new array of routes with the
@@ -47,7 +47,14 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
 
             const route: RouteV2 = {
               ...index,
-              description: await parseDescription(text),
+              description: await parseDescription(text).catch(error => {
+                if (isObject(error) && 'isPandocTimeoutError' in error) {
+                  logger.warn(`Pandoc timed out for "${index.name}"`);
+                  return undefined;
+                } else {
+                  throw error;
+                }
+              }),
               geojson: undefined,
             };
 
@@ -61,20 +68,4 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
       }),
     )
   ).flat();
-}
-
-/**
- * Turn MediaWiki markup into HTML
- */
-function parseDescription(input: string) {
-  return new Promise<string>((resolve, reject) =>
-    pandoc(
-      input.slice(input.indexOf('==Introduction==')),
-      '-f mediawiki -t html',
-      (error: Error, result: string) => {
-        if (error) reject(error);
-        else resolve(result);
-      },
-    ),
-  );
 }
