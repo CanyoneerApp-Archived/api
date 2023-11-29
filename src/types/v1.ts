@@ -2,7 +2,7 @@ import {FeatureCollection} from '@turf/helpers';
 
 // Avoid using types from RouteV2 in the V1 schema to prevent breaking changes from being propagated
 import {METERS_PER_FOOT} from '../scrape/scrapeIndices';
-import {RouteV2, permitV2toV1} from './RouteV2';
+import {RouteV2, permitV2toV1} from './v2';
 
 export interface RouteV1 {
   URL: string;

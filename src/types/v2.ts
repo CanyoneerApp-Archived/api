@@ -1,6 +1,6 @@
 import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
 import {omit} from 'lodash';
-import type {PermitV1} from './RouteV1';
+import type {PermitV1} from './v1';
 
 /**
  * This "stripped down" type is used in `index.json` and `tiles/{z}/{x}/{y}.pbf`. It is meant

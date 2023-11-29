@@ -1,28 +1,31 @@
 import FS from 'fs';
+import Path from 'path';
 import * as TSJ from 'ts-json-schema-generator';
 
 export const schemas = {
-  RouteV1: './src/types/RouteV1.ts',
-  RouteV2: './src/types/RouteV2.ts',
-  IndexRouteV2: './src/types/RouteV2.ts',
-  GeoJSONRouteV2: './src/types/RouteV2.ts',
+  RouteV1: 'v1',
+  RouteV2: 'v2',
+  IndexRouteV2: 'v2',
+  GeoJSONRouteV2: 'v2',
 };
 
 export async function writeAllSchemas() {
-  await FS.promises.mkdir('./output/schemas', {recursive: true});
-
-  Object.entries(schemas).map(([type, path]) =>
-    FS.promises.writeFile(
-      `./output/schemas/${type}.json`,
-      JSON.stringify(
-        TSJ.createGenerator({
-          path,
-          tsconfig: './tsconfig.json',
-          topRef: false,
-        }).createSchema(type),
-        null,
-        2,
-      ),
-    ),
+  return Promise.all(
+    Object.entries(schemas).map(async ([type, version]) => {
+      const outputPath = Path.resolve(`./output/${version}/schemas/${type}.json`);
+      await FS.promises.mkdir(Path.dirname(outputPath), {recursive: true});
+      await FS.promises.writeFile(
+        outputPath,
+        JSON.stringify(
+          TSJ.createGenerator({
+            path: `./src/types/${version}.ts`,
+            tsconfig: './tsconfig.json',
+            topRef: false,
+          }).createSchema(type),
+          null,
+          2,
+        ),
+      );
+    }),
   );
 }

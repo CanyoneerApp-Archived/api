@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {round} from 'lodash';
 import {logger} from '../logger';
-import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/RouteV2';
+import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/v2';
 import cachedFetch from './cachedFetch';
 import {validate as validateSchema} from './getValidator';
 import {parseIntSafe} from './parseIntSafe';
