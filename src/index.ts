@@ -10,6 +10,7 @@ import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
+import {writeRoutes} from './writeRoutes';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
@@ -41,13 +42,14 @@ async function main() {
 
   await rmOutputDir();
   await writeAllSchemas();
-  await scrape(
+  const routes = await scrape(
     isArray(options.region)
       ? options.region
       : options.region === 'all'
         ? allRegions
         : [options.region],
   );
+  await writeRoutes(routes);
   await writeTippecanoe();
 
   if (!options.skipAWS && stack) {
