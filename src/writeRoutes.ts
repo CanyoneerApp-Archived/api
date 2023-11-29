@@ -3,9 +3,11 @@ import {toRouteV1} from './types/RouteV1';
 import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/RouteV2';
 
 export async function writeRoutes(routes: RouteV2[]) {
-  const legacyStream = FS.createWriteStream('./output/legacy.json');
-  const indexStream = FS.createWriteStream('./output/index.json');
-  const geojsonStream = FS.createWriteStream('./output/index.geojson');
+  await FS.promises.mkdir('./output/details', {recursive: true});
+
+  const legacyStream = FS.createWriteStream('./output/index.v1.json');
+  const indexStream = FS.createWriteStream('./output/index.v2.json');
+  const geojsonStream = FS.createWriteStream('./output/index.v2.geojson');
 
   let first = true;
 
@@ -19,7 +21,7 @@ export async function writeRoutes(routes: RouteV2[]) {
     }
 
     await FS.promises.writeFile(
-      `./output/details/${route.id}.json`,
+      `./output/details/${route.id}.v2.json`,
       JSON.stringify(route, null, 2),
     );
 

@@ -1,5 +1,19 @@
 This is an API for canyoneering routes from RopeWiki.
 
+## Using the API
+
+You can make HTTP requests to the API at `http://canyoneer--main.s3.us-west-1.amazonaws.com`.
+
+The following endpoints are available:
+
+- `index.v2.json` - all routes as a newline separated JSON file using the lightweight `IndexRouteV2` type
+- `index.v2.geojson` - all route geometries from the KML file as a newline separated JSON file using the `GeoJSONRouteV2` type
+- `details/{id}.v2.json` - detailed data for a single route using the `RouteV2` type which includes the HTML description and all geometries from the KML file
+- `tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML as the `GeoJSONRouteV2` type formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
+- `tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the vector tiles and how they were generated
+- `schema/{type}.json` - JSON schemas for `RouteV1`, `IndexRouteV2`, `RouteV2`, and `GeoJSONRouteV2`
+- `index.v1.json` - all routes as a JSON array using the `RouteV1` type
+
 # Getting Started
 
 Install native dependencies
@@ -57,13 +71,3 @@ The scraper supports some command line flags. You can see all of them by running
 ```
 yarn start --help
 ```
-
-## Output Products
-
-- `index.json` - all routes as a newline separated JSON file using the `IndexRouteV2` type
-- `index.geojson` - all route geometries from the KML file as a newline separated JSON file using the `GeoJSONRouteV2` type
-- `details/{id}.json` - detailed data for a single route using the `RouteV2` type which includes the HTML description and all geometries from the KML file
-- `tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML as the `GeoJSONRouteV2` type formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
-- `tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the vector tiles and how they were generated
-- `schema/{type}.json` - JSON schemas for RouteV1, IndexRouteV2, RouteV2, RouteV2GeoJSONFeature
-- `legacy.json` - all routes as a JSON array using the `RouteV1` type
