@@ -1,6 +1,7 @@
 import assert from 'assert';
+import {round} from 'lodash';
 import {logger} from '../logger';
-import {IndexRouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/RouteV2';
+import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate as validateSchema} from './getValidator';
 import {parseIntSafe} from './parseIntSafe';
@@ -46,7 +47,7 @@ type APIResponse = {
 };
 
 export async function scrapeIndices({regions}: FetchIndicesOptions) {
-  const output: IndexRouteV2[] = [];
+  const output: RouteV2[] = [];
 
   const totalCount = regions.length;
   let doneCount = 0;
@@ -82,16 +83,19 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
       assert(['minutes', undefined].includes(result.printouts['shuttle'][0]?.units));
       assert(['ft', undefined].includes(result.printouts['rappelLongest'][0]?.units));
 
-      if (!result.printouts.coordinates[0]?.lat || !result.printouts.coordinates[0]?.lon) continue;
+      const lat = result.printouts.coordinates[0]?.lat;
+      const lon = result.printouts.coordinates[0]?.lon;
 
-      const route: IndexRouteV2 = {
+      if (!lat || !lon) continue;
+
+      const route: RouteV2 = {
         url: result.fullurl,
-        latitude: result.printouts.coordinates[0]?.lat,
-        longitude: result.printouts.coordinates[0]?.lon,
+        latitude: round(lat, 5),
+        longitude: round(lon, 5),
         id: result.printouts.pageid[0],
         name: result.printouts.name[0],
-        quality: result.printouts.quality[0],
-        months: result.printouts.months,
+        quality: result.printouts.quality[0] || undefined,
+        months: result.printouts.months.length ? result.printouts.months : undefined,
         technicalRating: parseIntSafe(result.printouts.technicalRating[0]) as TechnicalGradeV2,
         waterRating: result.printouts.waterRating[0] as WaterGradeV2,
         timeRating: result.printouts.timeRating[0],
@@ -99,15 +103,17 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
         permit: result.printouts.permits[0],
         ...parseRappelCount(result.printouts.rappelCount[0]),
         rappelLongestMeters: result.printouts.rappelLongest[0]?.value
-          ? result.printouts.rappelLongest[0].value * METERS_PER_FOOT
+          ? round(result.printouts.rappelLongest[0].value * METERS_PER_FOOT, 2)
           : undefined,
         vehicle: result.printouts.vehicle[0],
         shuttleSeconds: result.printouts.shuttle[0]?.value
           ? result.printouts.shuttle[0].value * 60
           : undefined,
+        description: undefined, // this is populated by `scrapeDescription` later
+        geojson: undefined, // this is populated by `scrapeKMLs` later
       };
 
-      validateSchema('IndexRouteV2', route);
+      validateSchema('RouteV2', route);
 
       output.push(route);
     }

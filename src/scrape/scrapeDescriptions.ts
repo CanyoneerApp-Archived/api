@@ -2,7 +2,7 @@ import {isObject, chunk as lodashChunk} from 'lodash';
 // @ts-ignore
 import XML2JS from 'xml2js';
 import {logger} from '../logger';
-import {IndexRouteV2, RouteV2} from '../types/RouteV2';
+import {RouteV2} from '../types/RouteV2';
 import cachedFetch from './cachedFetch';
 import {validate} from './getValidator';
 import {parseDescription} from './parseDescription';
@@ -11,7 +11,7 @@ import {parseDescription} from './parseDescription';
  * Take an array of `RouteV2`s, scrape their KMLs, and return a new array of routes with the
  * "description" property populated.
  */
-export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV2[]> {
+export async function scrapeDescriptions(routes: RouteV2[]): Promise<RouteV2[]> {
   const routeChunks = lodashChunk(routes, 50);
 
   const totalCount = routes.length;
@@ -55,7 +55,6 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
                   throw error;
                 }
               }),
-              geojson: undefined,
             };
 
             logger.progress(totalCount, ++doneCount, index.name);

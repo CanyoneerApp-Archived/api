@@ -95,7 +95,7 @@ export function toRouteV1(route: RouteV2): RouteV1 {
     Popularity: undefined, // not supported by new type & not used in app
     Latitude: route.latitude,
     Longitude: route.longitude,
-    Months: route.months.map(month => monthsV2toV1[month]),
+    Months: route.months?.map(month => monthsV2toV1[month]) ?? [],
     Difficulty:
       route.technicalRating &&
       ((route.technicalRating + (route.waterRating ?? '?')).toLowerCase() as DifficultyV1),
