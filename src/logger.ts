@@ -15,8 +15,8 @@ class Logger {
    */
   fetch(url: string, type: 'live' | 'cached' = 'live') {
     if (this.enableFetch) {
-      this.inner('log', chalk.dim, [
-        `Fetch ${type === 'live' ? chalk.bold(chalk.green('live')) : type} ${url}`,
+      this.inner('log', [
+        chalk.dim(`Fetch ${type === 'live' ? chalk.bold(chalk.green('live')) : type} ${url}`),
       ]);
     }
   }
@@ -32,7 +32,7 @@ class Logger {
 
     const fractionString = `${doneCount.toLocaleString()}/${totalCount.toLocaleString()}`;
 
-    this.inner('log', identity, [`${percentString} (${fractionString}) ${name}`], {
+    this.inner('log', [`${percentString} (${fractionString}) ${name}`], {
       isProgress: true,
     });
   }
@@ -42,15 +42,15 @@ class Logger {
    * Prefer a more specific method like `progress` if applicable.
    */
   log(...args: unknown[]) {
-    this.inner('log', identity, args);
+    this.inner('log', args);
   }
 
   warn(...args: unknown[]) {
-    this.inner('warn', chalk.yellow, args);
+    this.inner('warn', args, {style: chalk.yellow});
   }
 
   error(...args: unknown[]) {
-    this.inner('error', chalk.red, args);
+    this.inner('error', args, {style: chalk.red});
   }
 
   /**
@@ -58,7 +58,7 @@ class Logger {
    */
   step<T extends unknown[], U>(fn: (...args: T) => Promise<U>, args: T): Promise<U> {
     const startTime = Date.now();
-    this.inner('log', s => chalk.blue(chalk.bold(s)), [`Start ${fn.name}`]);
+    this.inner('log', [chalk.blue(chalk.bold(`Start ${fn.name}`))]);
     const promise = fn(...args);
     promise.then(() => {
       const timeString = ((Date.now() - startTime) / 1000).toLocaleString(undefined, {
@@ -67,9 +67,7 @@ class Logger {
         style: 'unit',
       });
 
-      this.inner('log', identity, [
-        chalk.blue(chalk.bold(`End   ${fn.name}`)) + chalk.dim(` ${timeString}`),
-      ]);
+      this.inner('log', [chalk.blue(chalk.bold(`End   ${fn.name}`)) + chalk.dim(` ${timeString}`)]);
     });
     return promise;
   }
@@ -78,16 +76,18 @@ class Logger {
    * Call this method to report the entire program has completed successfully.
    */
   done() {
-    this.inner('log', s => chalk.green(chalk.bold(s)), [`DONE`]);
+    this.inner('log', [chalk.green(chalk.bold(`DONE`))]);
   }
 
   private isPreviousProgress = false;
 
   private inner(
     stream: 'log' | 'error' | 'warn',
-    transform: (input: string) => string,
     args: unknown[],
-    {isProgress}: {isProgress: boolean} = {isProgress: false},
+    {
+      isProgress = false,
+      style = identity,
+    }: {isProgress?: boolean; style?: (input: string) => string} = {},
   ) {
     if (!this.enable) return false;
 
@@ -98,7 +98,7 @@ class Logger {
       process.stdout.clearLine(1);
     }
 
-    console[stream](...args.map(arg => transform(isString(arg) ? arg : inspect(arg, {depth: 10}))));
+    console[stream](...args.map(arg => style(isString(arg) ? arg : inspect(arg, {depth: 10}))));
 
     this.isPreviousProgress = isProgress;
   }
