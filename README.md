@@ -6,13 +6,13 @@ You can make HTTP requests to the API at `http://canyoneer--main.s3.us-west-1.am
 
 The following endpoints are available:
 
-- `index.v2.json` - all routes as a newline separated JSON file using the lightweight `IndexRouteV2` type
-- `index.v2.geojson` - all route geometries from the KML file as a newline separated JSON file using the `GeoJSONRouteV2` type
-- `details/{id}.v2.json` - detailed data for a single route using the `RouteV2` type which includes the HTML description and all geometries from the KML file
+- `v2/index.json` - all routes as a [newline separated JSON](https://ndjson.org) file using the lightweight `IndexRouteV2` type
+- `v2/index.geojson` - all route geometries from the KML file as a [newline separated JSON](https://ndjson.org) file using the `GeoJSONRouteV2` type
+- `v2/details/{id}.json` - detailed data for a single route using the `RouteV2` type which includes the HTML description and all geometries from the KML file
 - `tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML as the `GeoJSONRouteV2` type formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
-- `tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the vector tiles and how they were generated
-- `schema/{type}.json` - JSON schemas for `RouteV1`, `IndexRouteV2`, `RouteV2`, and `GeoJSONRouteV2`
-- `index.v1.json` - all routes as a JSON array using the `RouteV1` type
+- `v2/tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the vector tiles and how they were generated
+- `v1/index.json` - all routes as a JSON array using the `RouteV1` type
+- `schemas/{type}.json` - JSON schemas for `RouteV1`, `IndexRouteV2`, `RouteV2`, and `GeoJSONRouteV2`
 
 # Getting Started
 
