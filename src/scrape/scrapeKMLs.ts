@@ -35,8 +35,8 @@ export async function scrapeKMLs(
 
     while (true) {
       const innerURL = new URL(`http://ropewiki.com/index.php/KMLList`);
-      innerURL.searchParams.append('offset', `${offset}`);
-      innerURL.searchParams.append('limit', `${kmlCountPerRequest}`);
+      innerURL.searchParams.append('offset', offset.toString());
+      innerURL.searchParams.append('limit', kmlCountPerRequest.toString());
       innerURL.searchParams.append('action', `raw`);
       innerURL.searchParams.append('templates', `expand`);
       innerURL.searchParams.append('ctype', `application/x-zope-edit`);
@@ -44,12 +44,10 @@ export async function scrapeKMLs(
       innerURL.searchParams.append('group', `link`);
       innerURL.searchParams.append(
         'query',
-        decodeURIComponent(
-          `%5B%5BCategory%3ACanyons%5D%5D%5B%5BLocated%20in%20region.Located%20in%20regions%3A%3AX%7C%7C${region}%5D%5D`,
-        ),
+        `[[Category:Canyons]][[Located in region.Located in regions::X||${region}]]`,
       );
-      innerURL.searchParams.append('sort', decodeURIComponent(`Has_rank_rating%2C%20Has_name`));
-      innerURL.searchParams.append('order', decodeURIComponent(`descending%2C%20ascending`));
+      innerURL.searchParams.append('sort', 'Has_rank_rating, Has_name');
+      innerURL.searchParams.append('order', 'descending, ascending');
       innerURL.searchParams.append('gpx', `off`);
       innerURL.searchParams.append('mapnum', ``);
       innerURL.searchParams.append('mapname', `off`);
