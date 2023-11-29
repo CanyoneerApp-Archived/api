@@ -77,25 +77,27 @@ export async function scrapeKMLs(
           },
         }).parseFromString(text);
 
-        const els = Array.from(document.getElementsByTagName('Document'));
+        const elements = Array.from(document.getElementsByTagName('Document'));
 
-        if (els.length === 1) break;
+        if (elements.length === 1) break;
 
-        for (const el of els) {
-          const name = el.previousSibling?.previousSibling?.textContent?.trim();
+        for (const element of elements) {
+          const routeName = element.previousSibling?.previousSibling?.textContent?.trim();
 
-          if (!name) continue;
-          if (name === 'Ropewiki Map Export') continue;
+          if (!routeName) continue;
+          if (routeName === 'Ropewiki Map Export') continue;
 
-          const route = lookup[name];
+          const route = lookup[routeName];
           if (!route) {
+            // Sometimes there are entire route descriptions embedded into `<name>` tags.
+            // Truncate the text so that console isn't dominated by these warnings.
             const nameTruncated =
-              name.split('\n')[0].slice(0, 64) + (name.length > 64 ? '...' : '');
+              routeName.split('\n')[0].slice(0, 64) + (routeName.length > 64 ? '...' : '');
             logger.warn(`Couldn't find route named "${nameTruncated}"`);
             continue;
           }
 
-          route.geojson = TJ.kml(el, {styles: true});
+          route.geojson = TJ.kml(element, {styles: true});
           validate('RouteV2', route);
         }
       } catch (error) {

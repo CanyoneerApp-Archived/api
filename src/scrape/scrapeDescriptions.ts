@@ -15,7 +15,7 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
   const routeChunks = lodashChunk(routes, 50);
 
   const totalCount = routes.length;
-  const doneCount = 0;
+  let doneCount = 0;
 
   return (
     await Promise.all(
@@ -45,13 +45,13 @@ export async function scrapeDescriptions(routes: IndexRouteV2[]): Promise<RouteV
             const text = xml.mediawiki.page.find((page: any) => page.id[0] === index.id).revision[0]
               .text[0]._;
 
-            logger.progress(totalCount, doneCount, index.name);
-
             const route: RouteV2 = {
               ...index,
               description: await parseDescription(text),
               geojson: undefined,
             };
+
+            logger.progress(totalCount, ++doneCount, index.name);
 
             validate('RouteV2', route);
 

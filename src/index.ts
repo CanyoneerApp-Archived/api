@@ -19,7 +19,7 @@ program.option(
 );
 
 program.option(
-  '--logFetch',
+  '--verbose',
   'If true, print every HTTP request to the console. This is useful for debugging but makes the console output very noisy.',
   false,
 );
@@ -34,7 +34,7 @@ async function main() {
   program.parse();
   const options = program.opts();
 
-  logger.enableFetch = options.logFetch;
+  logger.enableFetch = options.verbose;
 
   const region = 'us-west-1';
   const s3 = new S3({region});
