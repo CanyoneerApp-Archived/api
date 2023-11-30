@@ -3,6 +3,9 @@ import Path from 'path';
 import {main} from '.';
 import {logger} from './logger';
 
+// This test can take longer than the default 5 seconds timeout
+const timeout = 60 * 1000;
+
 describe('scrape', () => {
   beforeAll(async () => {
     logger.enable = false;
@@ -11,10 +14,10 @@ describe('scrape', () => {
   it(
     'Maine',
     async () => {
-      await main(['', '', '', '--local', '--region', 'Maine']);
+      await main(['test', 'test', '--local', '--region', 'Maine']);
       expect(JSON.stringify(await getOutputDir(), null, '  ')).toMatchSnapshot();
     },
-    60 * 1000,
+    timeout,
   );
 });
 
@@ -39,15 +42,19 @@ async function getOutputDir(path = 'output') {
   );
 }
 
-function parseFile(body: string) {
+/**
+ * Try to parse a string as JSON or newline separated JSON for an easier-to-read snapshot.
+ * If the string is neither, return the original string.
+ */
+function parseFile(input: string) {
   try {
-    return JSON.parse(body);
+    return JSON.parse(input);
   } catch (error) {
     // do nothing
   }
 
   try {
-    return body
+    return input
       .split('\n')
       .filter(Boolean)
       .map(line => JSON.parse(line));
@@ -55,5 +62,5 @@ function parseFile(body: string) {
     // do nothing
   }
 
-  return body;
+  return input;
 }
