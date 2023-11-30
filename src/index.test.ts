@@ -15,26 +15,32 @@ describe('scrape', () => {
     'Maine',
     async () => {
       await main(['test', 'test', '--local', '--region', 'Maine']);
-      expect(JSON.stringify(await getOutputDir(), null, '  ')).toMatchSnapshot();
+      expect(JSON.stringify(await readOutputDir(), null, '  ')).toMatchSnapshot();
     },
     timeout,
   );
 });
 
-const ignore = ['output/v1/schemas', 'output/v2/schemas', 'output/v2/tiles'];
+const readOutputDirIgnore = ['output/v1/schemas', 'output/v2/schemas', 'output/v2/tiles'];
 
-async function getOutputDir(path = 'output') {
+async function readOutputDir(parentPath = 'output') {
   return Object.fromEntries(
     (
       await Promise.all(
-        FS.readdirSync(path).map(async (child): Promise<[string, string][]> => {
-          const path1 = Path.join(path, child);
-          if (ignore.includes(path1)) {
+        FS.readdirSync(parentPath).map(async (childPathUnresolved): Promise<[string, string][]> => {
+          const childPath = Path.join(parentPath, childPathUnresolved);
+
+          // Child is ignored
+          if (readOutputDirIgnore.includes(childPath)) {
             return [];
-          } else if ((await FS.promises.lstat(path1)).isDirectory()) {
-            return Object.entries(await getOutputDir(path1));
+
+            // Child is a directory
+          } else if ((await FS.promises.lstat(childPath)).isDirectory()) {
+            return Object.entries(await readOutputDir(childPath));
+
+            // Child is a file
           } else {
-            return [[path1, parseFile(await FS.promises.readFile(path1, 'utf8'))]];
+            return [[childPath, parseOutputFile(await FS.promises.readFile(childPath, 'utf8'))]];
           }
         }),
       )
@@ -44,9 +50,9 @@ async function getOutputDir(path = 'output') {
 
 /**
  * Try to parse a string as JSON or newline separated JSON for an easier-to-read snapshot.
- * If the string is neither, return the original string.
+ * If the string is parsable as neither, return the original string.
  */
-function parseFile(input: string) {
+function parseOutputFile(input: string) {
   try {
     return JSON.parse(input);
   } catch (error) {
