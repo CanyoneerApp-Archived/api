@@ -9,10 +9,12 @@ The following endpoints are available:
 - `v2/index.json` - all routes as a [newline separated JSON](https://ndjson.org) file using the lightweight `IndexRouteV2` type
 - `v2/index.geojson` - all route geometries from the KML file as a [newline separated JSON](https://ndjson.org) file using the `GeoJSONRouteV2` type
 - `v2/details/{id}.json` - detailed data for a single route using the `RouteV2` type which includes the HTML description and all geometries from the KML file
-- `tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML as the `GeoJSONRouteV2` type formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
+- `v2/tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML as the `GeoJSONRouteV2` type formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
 - `v2/tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the vector tiles and how they were generated
+- `v2/schemas/{type}.json` - JSON schemas for `IndexRouteV2`, `RouteV2`, and `GeoJSONRouteV2`
+
 - `v1/index.json` - all routes as a JSON array using the `RouteV1` type
-- `schemas/{type}.json` - JSON schemas for `RouteV1`, `IndexRouteV2`, `RouteV2`, and `GeoJSONRouteV2`
+- `v1/schemas/{type}.json` - JSON schemas for `RouteV1`
 
 # Getting Started
 
