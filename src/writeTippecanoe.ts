@@ -1,5 +1,6 @@
 // @ts-ignore
 import tippecanoe from 'tippecanoe';
+import {logger} from './logger';
 
 export async function writeTippecanoe() {
   await tippecanoe(
@@ -23,6 +24,6 @@ export async function writeTippecanoe() {
       // tiles to be created with those features that remain
       dropDensestAsNeeded: true,
     },
-    {echo: true},
+    {echo: logger.enable},
   );
 }
