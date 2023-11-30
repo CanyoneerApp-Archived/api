@@ -9,7 +9,7 @@ const validateInner = memoize((schema: SchemaName) => {
   const ajv = new Ajv({allowUnionTypes: true, allErrors: true});
   const version = schemas[schema];
   return ajv.compile(
-    JSON.parse(FS.readFileSync(`./output/schemas/${version}/${schema}.json`, 'utf-8')),
+    JSON.parse(FS.readFileSync(`./output/${version}/schemas/${schema}.json`, 'utf-8')),
   );
 });
 
