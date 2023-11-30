@@ -3,13 +3,13 @@ import tippecanoe from 'tippecanoe';
 
 export async function writeTippecanoe() {
   await tippecanoe(
-    ['./output/index.geojson'],
+    ['./output/v2/index.geojson'],
 
     // You can pass any option from https://github.com/mapbox/tippecanoe. The node wrapper will
     // convert keys from camelCase to kebab-case.
     {
       // Write tiles to a directory instead of creating a mbtiles file
-      outputToDirectory: './output/tiles',
+      outputToDirectory: './output/v2/tiles',
 
       // The highest zoom level for which tiles are generated. Choosing a larger value allows for
       // more detailed geometries at the expense of much larger download sizes.

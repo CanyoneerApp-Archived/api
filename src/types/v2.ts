@@ -1,6 +1,6 @@
 import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
 import {omit} from 'lodash';
-import type {PermitV1} from './RouteV1';
+import type {PermitV1} from './v1';
 
 /**
  * This "stripped down" type is used in `index.json` and `tiles/{z}/{x}/{y}.pbf`. It is meant
@@ -10,7 +10,7 @@ export interface IndexRouteV2 {
   id: string;
   name: string;
   quality: number | undefined;
-  months: MonthV2[];
+  months: MonthV2[] | undefined;
   technicalRating: TechnicalGradeV2 | undefined;
   waterRating: WaterGradeV2 | undefined;
   timeRating: TimeGradeV2 | undefined;
@@ -27,7 +27,6 @@ export interface IndexRouteV2 {
   rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
   shuttleSeconds: number | undefined;
-  url: string;
   latitude: number;
   longitude: number;
 }
@@ -37,6 +36,7 @@ export interface IndexRouteV2 {
  * we have on a particular route.
  */
 export interface RouteV2 extends IndexRouteV2 {
+  url: string;
   description: string | undefined;
   geojson: FeatureCollection | undefined;
 }
@@ -82,7 +82,7 @@ export type MonthV2 =
   | 'Dec';
 
 export function toIndexRouteV2(route: RouteV2): IndexRouteV2 {
-  return omit(route, ['description', 'geojson']);
+  return omit(route, ['description', 'geojson', 'url']);
 }
 
 export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
