@@ -14,7 +14,7 @@ import {writeRoutes} from './writeRoutes';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
-  '--skipAWS',
+  '--local',
   'run entirely locally, do not update the AWS stack or uploading files to S3',
   false,
 );
@@ -26,13 +26,13 @@ program.option(
 );
 
 program.option(
-  '--region',
+  '--region <NAME>',
   '"all" or the name a RopeWiki region to scrape (https://ropewiki.com/Regions). In development you may prefer to scrape a small number of canyons in a region such as "California."',
   'all',
 );
 
-async function main() {
-  program.parse();
+export async function main(argv: string[]) {
+  program.parse(argv);
   const options = program.opts();
 
   logger.enableFetch = options.verbose;
@@ -48,7 +48,7 @@ async function main() {
   const cloudFormation = new CloudFormation({region: awsRegion});
 
   let stack: SyncStackOutput | undefined;
-  if (!options.skipAWS) {
+  if (!options.local) {
     stack = await logger.step(syncStack, [cloudFormation]);
   }
 
@@ -58,11 +58,13 @@ async function main() {
   await logger.step(writeRoutes, [routes]);
   await logger.step(writeTippecanoe, []);
 
-  if (!options.skipAWS && stack) {
+  if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);
   }
 
   logger.done();
 }
 
-main();
+if (require.main === module) {
+  main(process.argv);
+}
