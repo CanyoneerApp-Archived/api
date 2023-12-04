@@ -1,8 +1,7 @@
 import Crypto from 'crypto';
 import FS from 'fs';
-import fetch from 'node-fetch';
 import Path from 'path';
-// @ts-ignore TODO create a type file for this module
+// @ts-ignore there are no type definitions for this module
 import PromiseThrottle from 'promise-throttle';
 import {logger} from '../logger';
 

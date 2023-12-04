@@ -1,5 +1,5 @@
 import {RouteV2} from '../types/v2';
-// @ts-ignore
+// @ts-ignore there are no type definitions for this module
 import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
 import {cloneDeep, keyBy} from 'lodash';

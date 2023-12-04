@@ -1,5 +1,4 @@
 import {isObject, chunk as lodashChunk} from 'lodash';
-// @ts-ignore
 import XML2JS from 'xml2js';
 import {logger} from '../logger';
 import {RouteV2} from '../types/v2';
