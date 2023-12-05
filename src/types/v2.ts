@@ -41,18 +41,29 @@ export interface RouteV2 extends IndexRouteV2 {
   geojson: FeatureCollection | undefined;
 }
 
+type GeoJSONRouteProperties = {
+  'route.id': IndexRouteV2['id'];
+  'route.name': IndexRouteV2['name'];
+  'route.quality': IndexRouteV2['quality'];
+  'route.months': string | undefined;
+  'route.technicalRating': IndexRouteV2['technicalRating'];
+  'route.waterRating': IndexRouteV2['waterRating'];
+  'route.timeRating': IndexRouteV2['timeRating'];
+  'route.riskRating': IndexRouteV2['riskRating'];
+  'route.permit': IndexRouteV2['permit'];
+  'route.rappelCountMin': IndexRouteV2['rappelCountMin'];
+  'route.rappelCountMax': IndexRouteV2['rappelCountMax'];
+  'route.rappelLongestMeters': IndexRouteV2['rappelLongestMeters'];
+  'route.vehicle': IndexRouteV2['vehicle'];
+  'route.shuttleSeconds': IndexRouteV2['shuttleSeconds'];
+};
+
 /**
  * A GeoJSON feature representing a route
  */
 export type GeoJSONRouteV2 = Feature<
   Geometry | GeometryCollection,
-  {
-    [key: string]: unknown;
-
-    // This mapped type pulls in all properties from IndexRouteV2 and prepends them with `route.`
-    // e.g. 'route.id', 'route.name', 'route.stars'
-    // Including these properties makes filtering directly on the main map possible.
-  } & {[Key in keyof IndexRouteV2 as `route.${Key}`]: IndexRouteV2[Key]}
+  {[key: string]: unknown} & GeoJSONRouteProperties
 >;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
@@ -85,17 +96,34 @@ export function toIndexRouteV2(route: RouteV2): IndexRouteV2 {
   return omit(route, ['description', 'geojson', 'url']);
 }
 
+function toGeoJSONRoutePropertiesV2(route: IndexRouteV2): GeoJSONRouteProperties {
+  return {
+    'route.id': route.id,
+    'route.name': route.name,
+    'route.quality': route.quality,
+    'route.months': route.months?.join(','),
+    'route.technicalRating': route.technicalRating,
+    'route.waterRating': route.waterRating,
+    'route.timeRating': route.timeRating,
+    'route.riskRating': route.riskRating,
+    'route.permit': route.permit,
+    'route.rappelCountMin': route.rappelCountMin,
+    'route.rappelCountMax': route.rappelCountMax,
+    'route.rappelLongestMeters': route.rappelLongestMeters,
+    'route.vehicle': route.vehicle,
+    'route.shuttleSeconds': route.shuttleSeconds,
+  };
+}
+
 export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
   return (
     route.geojson?.features.map(
       (feature): GeoJSONRouteV2 => ({
         ...feature,
         properties: {
-          ...Object.fromEntries(
-            Object.entries(toIndexRouteV2(route)).map(([key, value]) => [`route.${key}`, value]),
-          ),
+          ...toGeoJSONRoutePropertiesV2(route),
           ...feature.properties,
-        } as GeoJSONRouteV2['properties'],
+        },
       }),
     ) ??
     (route.longitude && route.latitude
@@ -108,10 +136,8 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
             },
             properties: {
               name: route.name,
-              ...Object.fromEntries(
-                Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
-              ),
-            } as unknown as GeoJSONRouteV2['properties'],
+              ...toGeoJSONRoutePropertiesV2(route),
+            },
           },
         ]
       : [])
