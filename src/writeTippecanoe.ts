@@ -23,6 +23,9 @@ export async function writeTippecanoe() {
       // If the tiles are too big at low zoom levels, drop the least-visible features to allow
       // tiles to be created with those features that remain
       dropDensestAsNeeded: true,
+
+      // Do not apply gzip compression to the vector tile files.
+      noTileCompression: true,
     },
     {echo: logger.enable, async: true},
   );
