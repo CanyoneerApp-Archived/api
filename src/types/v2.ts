@@ -41,21 +41,14 @@ export interface RouteV2 extends IndexRouteV2 {
   geojson: FeatureCollection | undefined;
 }
 
-type GeoJSONRouteProperties = {
-  'route.id': IndexRouteV2['id'];
-  'route.name': IndexRouteV2['name'];
-  'route.quality': IndexRouteV2['quality'];
-  'route.months': string | undefined;
-  'route.technicalRating': IndexRouteV2['technicalRating'];
-  'route.waterRating': IndexRouteV2['waterRating'];
-  'route.timeRating': IndexRouteV2['timeRating'];
-  'route.riskRating': IndexRouteV2['riskRating'];
-  'route.permit': IndexRouteV2['permit'];
-  'route.rappelCountMin': IndexRouteV2['rappelCountMin'];
-  'route.rappelCountMax': IndexRouteV2['rappelCountMax'];
-  'route.rappelLongestMeters': IndexRouteV2['rappelLongestMeters'];
-  'route.vehicle': IndexRouteV2['vehicle'];
-  'route.shuttleSeconds': IndexRouteV2['shuttleSeconds'];
+type GeoJSONRouteV2CoreProperties = {
+  [Key in keyof Omit<
+    IndexRouteV2,
+    'months' | 'latitude' | 'longitude'
+  > as `route.${Key}`]: IndexRouteV2[Key];
+} & {
+  // Vector tiles cannot encode arrays so we break the months out into individual properties.
+  [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
 };
 
 /**
@@ -63,7 +56,8 @@ type GeoJSONRouteProperties = {
  */
 export type GeoJSONRouteV2 = Feature<
   Geometry | GeometryCollection,
-  {[key: string]: unknown} & GeoJSONRouteProperties
+  // "GeoJSONRouteV2CoreProperties" contains information about the route associated with this feature
+  GeoJSONRouteV2CoreProperties & {[key: string]: unknown} // structured data. // See https://github.com/CanyoneerApp/api/issues/28 for our effort on classifying these into // We also add the freeform properties from the original KML file.
 >;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
@@ -96,12 +90,11 @@ export function toIndexRouteV2(route: RouteV2): IndexRouteV2 {
   return omit(route, ['description', 'geojson', 'url']);
 }
 
-function toGeoJSONRoutePropertiesV2(route: IndexRouteV2): GeoJSONRouteProperties {
+function toGeoJSONRouteV2CoreProperties(route: IndexRouteV2): GeoJSONRouteV2CoreProperties {
   return {
     'route.id': route.id,
     'route.name': route.name,
     'route.quality': route.quality,
-    'route.months': route.months?.join(','),
     'route.technicalRating': route.technicalRating,
     'route.waterRating': route.waterRating,
     'route.timeRating': route.timeRating,
@@ -112,6 +105,10 @@ function toGeoJSONRoutePropertiesV2(route: IndexRouteV2): GeoJSONRouteProperties
     'route.rappelLongestMeters': route.rappelLongestMeters,
     'route.vehicle': route.vehicle,
     'route.shuttleSeconds': route.shuttleSeconds,
+
+    ...Object.fromEntries(
+      route.months?.map(month => [`route.month.${month.toLowerCase()}`, true]) ?? [],
+    ),
   };
 }
 
@@ -121,8 +118,8 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
       (feature): GeoJSONRouteV2 => ({
         ...feature,
         properties: {
-          ...toGeoJSONRoutePropertiesV2(route),
           ...feature.properties,
+          ...toGeoJSONRouteV2CoreProperties(route),
         },
       }),
     ) ??
@@ -136,7 +133,7 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
             },
             properties: {
               name: route.name,
-              ...toGeoJSONRoutePropertiesV2(route),
+              ...toGeoJSONRouteV2CoreProperties(route),
             },
           },
         ]
