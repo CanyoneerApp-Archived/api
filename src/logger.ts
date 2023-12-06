@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import {identity, isString} from 'lodash';
 import {inspect} from 'util';
+import {WriteOutputStats} from './writeOutput';
 
 /**
  * All messages that get printed to the console should flow through this object.
@@ -70,6 +71,26 @@ class Logger {
       this.inner('log', [chalk.blue(chalk.bold(`End   ${fn.name}`)) + chalk.dim(` ${timeString}`)]);
     });
     return promise;
+  }
+
+  outputStats(stats: WriteOutputStats) {
+    this.inner('log', [chalk.bold(chalk.magenta('Output Stats'))]);
+
+    const longestKey = Math.max(...Object.keys(stats).map(key => key.length));
+
+    for (const [key, value] of Object.entries(stats)) {
+      this.inner('log', [
+        key.padEnd(longestKey),
+        value
+          ? (value / 1000).toLocaleString(undefined, {
+              unit: 'kilobyte',
+              unitDisplay: 'short',
+              style: 'unit',
+              maximumSignificantDigits: 2,
+            })
+          : 'undefined',
+      ]);
+    }
   }
 
   /**

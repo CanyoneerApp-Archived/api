@@ -1,8 +1,11 @@
 import FS from 'fs';
+import {max, mean, sum} from 'lodash';
 import {toRouteV1} from './types/v1';
 import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/v2';
 
-export async function writeRoutes(routes: RouteV2[]) {
+export type WriteOutputStats = Awaited<ReturnType<typeof writeOutput>>;
+
+export async function writeOutput(routes: RouteV2[]) {
   await FS.promises.mkdir('./output/v2/details', {recursive: true});
   await FS.promises.mkdir('./output/v1', {recursive: true});
 
@@ -14,6 +17,8 @@ export async function writeRoutes(routes: RouteV2[]) {
 
   indexV1Schema.write('[\n');
 
+  const detailBytes: number[] = [];
+
   for (const route of routes) {
     if (first) {
       first = false;
@@ -21,10 +26,9 @@ export async function writeRoutes(routes: RouteV2[]) {
       indexV1Schema.write(',\n');
     }
 
-    await FS.promises.writeFile(
-      `./output/v2/details/${route.id}.json`,
-      JSON.stringify(route, null, 2),
-    );
+    const detailBody = JSON.stringify(route, null, 2);
+    await FS.promises.writeFile(`./output/v2/details/${route.id}.json`, detailBody);
+    detailBytes.push(Buffer.byteLength(detailBody));
 
     indexV2Stream.write(`${JSON.stringify(toIndexRouteV2(route))}\n`);
 
@@ -43,4 +47,26 @@ export async function writeRoutes(routes: RouteV2[]) {
     new Promise(resolve => indexV2Stream.end(resolve)),
     new Promise(resolve => geojsonV2Stream.end(resolve)),
   ]);
+
+  detailBytes.sort();
+
+  const metadata = {
+    indexBytes: (await FS.promises.stat('./output/v2/index.json')).size,
+    geojsonBytes: (await FS.promises.stat('./output/v2/index.geojson')).size,
+    detailBytesSum: sum(detailBytes),
+    detailBytesMean: mean(detailBytes),
+    detailBytesP50: getPercentile(detailBytes, 0.5),
+    detailBytesP95: getPercentile(detailBytes, 0.95),
+    detailBytesP99: getPercentile(detailBytes, 0.99),
+    detailBytesMax: max(detailBytes),
+  };
+
+  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(metadata));
+
+  return metadata;
+}
+
+function getPercentile(sortedArray: number[], percentile: number) {
+  const index = Math.floor(sortedArray.length * percentile);
+  return sortedArray[index];
 }

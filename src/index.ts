@@ -10,7 +10,7 @@ import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
-import {writeRoutes} from './writeRoutes';
+import {writeOutput} from './writeOutput';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
@@ -55,7 +55,8 @@ export async function main(argv: string[]) {
   await logger.step(rmOutputDir, []);
   await logger.step(writeAllSchemas, []);
   const routes = await logger.step(scrape, [regions]);
-  await logger.step(writeRoutes, [routes]);
+  const stats = await logger.step(writeOutput, [routes]);
+  logger.outputStats(stats);
   await logger.step(writeTippecanoe, []);
 
   if (!options.local && stack) {

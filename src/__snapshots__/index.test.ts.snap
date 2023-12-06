@@ -1186,6 +1186,16 @@ exports[`scrape Maine 1`] = `
       "rappelCountMax": 5,
       "rappelLongestMeters": 15.24
     }
-  ]
+  ],
+  "output/v2/stats.json": {
+    "indexBytes": 1078,
+    "geojsonBytes": 12481,
+    "detailBytesSum": 13946,
+    "detailBytesMean": 2789.2,
+    "detailBytesP50": 2264,
+    "detailBytesP95": 886,
+    "detailBytesP99": 886,
+    "detailBytesMax": 7915
+  }
 }"
 `;
