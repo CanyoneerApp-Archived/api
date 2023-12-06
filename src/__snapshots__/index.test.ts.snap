@@ -1188,8 +1188,8 @@ exports[`scrape Maine 1`] = `
     }
   ],
   "output/v2/stats.json": {
-    "indexBytes": 1078,
-    "geojsonBytes": 12481,
+    "indexBytes": 395,
+    "geojsonBytes": 2842,
     "detailBytesSum": 13946,
     "detailBytesMean": 2789.2,
     "detailBytesP50": 2264,

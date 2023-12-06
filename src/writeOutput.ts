@@ -1,5 +1,6 @@
 import FS from 'fs';
 import {max, mean, sum} from 'lodash';
+import {gzip} from 'zlib';
 import {toRouteV1} from './types/v1';
 import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/v2';
 
@@ -51,8 +52,16 @@ export async function writeOutput(routes: RouteV2[]) {
   detailBytes.sort();
 
   const metadata = {
-    indexBytes: (await FS.promises.stat('./output/v2/index.json')).size,
-    geojsonBytes: (await FS.promises.stat('./output/v2/index.geojson')).size,
+    indexBytes: await new Promise<number>(async (resolve, reject) =>
+      gzip(await FS.promises.readFile('./output/v2/index.json'), (error, result) =>
+        error ? reject(error) : resolve(result.byteLength),
+      ),
+    ),
+    geojsonBytes: await new Promise<number>(async (resolve, reject) =>
+      gzip(await FS.promises.readFile('./output/v2/index.geojson'), (error, result) =>
+        error ? reject(error) : resolve(result.byteLength),
+      ),
+    ),
     detailBytesSum: sum(detailBytes),
     detailBytesMean: mean(detailBytes),
     detailBytesP50: getPercentile(detailBytes, 0.5),
@@ -61,7 +70,7 @@ export async function writeOutput(routes: RouteV2[]) {
     detailBytesMax: max(detailBytes),
   };
 
-  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(metadata));
+  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(metadata, null, '  '));
 
   return metadata;
 }
