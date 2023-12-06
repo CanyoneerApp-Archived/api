@@ -61,7 +61,7 @@ export async function writeOutput(routes: RouteV2[]) {
     detailBytesMax: max(detailBytes),
   };
 
-  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(metadata));
+  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(metadata, null, '  '));
 
   return metadata;
 }
