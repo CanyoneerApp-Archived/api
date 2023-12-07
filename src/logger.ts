@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import FS from 'fs';
 import {identity, isString} from 'lodash';
 import {inspect} from 'util';
 
@@ -98,7 +99,21 @@ class Logger {
       process.stdout.clearLine(1);
     }
 
-    console[stream](...args.map(arg => style(isString(arg) ? arg : inspect(arg, {depth: 10}))));
+    const message = args
+      .map(arg => style(isString(arg) ? arg : inspect(arg, {depth: 10})))
+      .join(' ');
+    console[stream](message);
+
+    if (!isProgress) {
+      try {
+        FS.appendFileSync(
+          './output/log',
+          `${`[${stream}]`.padStart(7)} ${message}\n`.replace(/\u001b[^m]*?m/g, ''),
+        );
+      } catch (error) {
+        // ignore ENOENT errors
+      }
+    }
 
     this.isPreviousProgress = isProgress;
   }
