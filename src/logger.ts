@@ -78,18 +78,10 @@ class Logger {
     actualStats: WriteOutputStats,
     baselineStats: WriteOutputStats = defaultBaselineStats,
   ) {
-    this.inner('log', [chalk.bold(chalk.magenta('Output Stats'))]);
-
     const isRegionMismatch = actualStats.regions !== baselineStats.regions;
 
-    if (isRegionMismatch) {
-      this.inner('warn', [`region mismatch: ${actualStats.regions} !== ${baselineStats.regions}`]);
-    }
-
-    const table: string[][] = [['name', 'baseline', 'actual', '% change']];
-
     const names = Object.keys({...actualStats, ...baselineStats}) as (keyof WriteOutputStats)[];
-
+    const table: string[][] = [['name', 'baseline', 'actual', '% change']];
     for (const name of names) {
       if (name === 'regions') continue;
       const baselineValue = baselineStats[name];
@@ -99,18 +91,29 @@ class Logger {
         name,
         formatKBString(baselineValue),
         formatKBString(actualValue),
-        baselineValue && actualValue
-          ? (actualValue / baselineValue).toLocaleString(undefined, {
-              style: 'percent',
-              minimumFractionDigits: 1,
-            })
-          : 'N/A',
+        formatPercentChange(actualValue, baselineValue, isRegionMismatch),
       ]);
     }
 
+    this.inner('log', [chalk.bold(chalk.magenta('Output Stats'))]);
     this.table(table, {style: chalk.magenta});
 
-    this.inner('log', ['new stats baseline\n', actualStats], {style: chalk.dim});
+    function formatPercentChange(
+      actualValue: number,
+      baselineValue: number,
+      isRegionMismatch: boolean,
+    ) {
+      if (isRegionMismatch) {
+        return chalk.red('region mismatch');
+      } else if (!baselineValue || !actualValue) {
+        return 'null';
+      } else {
+        return ((actualValue - baselineValue) / baselineValue).toLocaleString(undefined, {
+          style: 'percent',
+          maximumSignificantDigits: 2,
+        });
+      }
+    }
 
     function formatKBString(bytes: number | undefined) {
       return bytes

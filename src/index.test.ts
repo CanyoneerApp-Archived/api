@@ -48,7 +48,6 @@ async function expectStatsToMatchBaseline() {
   );
 
   const names = Object.keys({...actualStats, ...baselineStats}) as (keyof WriteOutputStats)[];
-  logger.outputStats(actualStats, baselineStats);
 
   expect(actualStats.regions).toBe(baselineStats.regions);
 
