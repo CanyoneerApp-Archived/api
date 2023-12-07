@@ -17,6 +17,16 @@ describe('scrape', () => {
       await main(['test', 'test', '--local', '--region', 'Maine']);
 
       expect(await readOutputDir()).toMatchSnapshot();
+
+      const stats = JSON.parse(await FS.promises.readFile('output/v2/stats.json', 'utf8'));
+      expect(stats.indexBytes).toBeCloseTo(395);
+      expect(stats.geojsonBytes).toBeCloseTo(2842);
+      expect(stats.detailBytesSum).toBeCloseTo(13946);
+      expect(stats.detailBytesMean).toBeCloseTo(2789.2);
+      expect(stats.detailBytesP50).toBeCloseTo(2264);
+      expect(stats.detailBytesP95).toBeCloseTo(886);
+      expect(stats.detailBytesP99).toBeCloseTo(886);
+      expect(stats.detailBytesMax).toBeCloseTo(7915);
     },
     timeout,
   );
