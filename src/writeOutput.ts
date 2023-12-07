@@ -1,12 +1,13 @@
 import FS from 'fs';
-import {max, mean, sum} from 'lodash';
+import {isEqual, max, mean, sum} from 'lodash';
 import {gzip} from 'zlib';
+import {allRegions} from './scrape/allRegions';
 import {toRouteV1} from './types/v1';
 import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/v2';
 
 export type WriteOutputStats = Awaited<ReturnType<typeof writeOutput>>;
 
-export async function writeOutput(routes: RouteV2[]) {
+export async function writeOutput(routes: RouteV2[], regions: string[]) {
   await FS.promises.mkdir('./output/v2/details', {recursive: true});
   await FS.promises.mkdir('./output/v1', {recursive: true});
 
@@ -53,6 +54,7 @@ export async function writeOutput(routes: RouteV2[]) {
   detailBytesResolved.sort();
 
   const stats = {
+    regions: isEqual(regions, allRegions) ? 'all' : regions.join(','),
     indexBytes: await getGzipSize(await FS.promises.readFile('./output/v2/index.json')),
     geojsonBytes: await getGzipSize(await FS.promises.readFile('./output/v2/index.geojson')),
     detailBytesSum: sum(detailBytesResolved),
@@ -60,7 +62,8 @@ export async function writeOutput(routes: RouteV2[]) {
     detailBytesP50: getPercentile(detailBytesResolved, 0.5),
     detailBytesP95: getPercentile(detailBytesResolved, 0.95),
     detailBytesP99: getPercentile(detailBytesResolved, 0.99),
-    detailBytesMax: max(detailBytesResolved),
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    detailBytesMax: max(detailBytesResolved)!,
   };
 
   FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(stats, null, '  '));

@@ -55,7 +55,7 @@ export async function main(argv: string[]) {
   await logger.step(rmOutputDir, []);
   await logger.step(writeAllSchemas, []);
   const routes = await logger.step(scrape, [regions]);
-  const stats = await logger.step(writeOutput, [routes]);
+  const stats = await logger.step(writeOutput, [routes, regions]);
   logger.outputStats(stats);
   await logger.step(writeTippecanoe, []);
 

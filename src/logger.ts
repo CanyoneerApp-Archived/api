@@ -1,6 +1,7 @@
 import chalk from 'chalk';
-import {identity, isString} from 'lodash';
+import {identity, isString, unzip} from 'lodash';
 import {inspect} from 'util';
+import {baselineStats as defaultBaselineStats} from './baselineStats';
 import {WriteOutputStats} from './writeOutput';
 
 /**
@@ -73,23 +74,62 @@ class Logger {
     return promise;
   }
 
-  outputStats(stats: WriteOutputStats) {
+  outputStats(
+    actualStats: WriteOutputStats,
+    baselineStats: WriteOutputStats = defaultBaselineStats,
+  ) {
     this.inner('log', [chalk.bold(chalk.magenta('Output Stats'))]);
 
-    const longestKey = Math.max(...Object.keys(stats).map(key => key.length));
+    const isRegionMismatch = actualStats.regions !== baselineStats.regions;
 
-    for (const [key, value] of Object.entries(stats)) {
-      this.inner('log', [
-        key.padEnd(longestKey),
-        value
-          ? (value / 1000).toLocaleString(undefined, {
-              unit: 'kilobyte',
-              unitDisplay: 'short',
-              style: 'unit',
-              maximumSignificantDigits: 2,
+    if (isRegionMismatch) {
+      this.inner('warn', [`region mismatch: ${actualStats.regions} !== ${baselineStats.regions}`]);
+    }
+
+    const table: string[][] = [['name', 'baseline', 'actual', '% change']];
+
+    const names = Object.keys({...actualStats, ...baselineStats}) as (keyof WriteOutputStats)[];
+
+    for (const name of names) {
+      if (name === 'regions') continue;
+      const baselineValue = baselineStats[name];
+      const actualValue = actualStats[name];
+
+      table.push([
+        name,
+        formatKBString(baselineValue),
+        formatKBString(actualValue),
+        baselineValue && actualValue
+          ? (actualValue / baselineValue).toLocaleString(undefined, {
+              style: 'percent',
+              minimumFractionDigits: 1,
             })
-          : 'undefined',
+          : 'N/A',
       ]);
+    }
+
+    this.table(table, {style: chalk.magenta});
+
+    this.inner('log', ['new stats baseline\n', actualStats], {style: chalk.dim});
+
+    function formatKBString(bytes: number | undefined) {
+      return bytes
+        ? (bytes / 1000).toLocaleString(undefined, {
+            unit: 'kilobyte',
+            unitDisplay: 'short',
+            style: 'unit',
+            maximumSignificantDigits: 2,
+          })
+        : 'undefined';
+    }
+  }
+
+  private table(tableData: string[][], {style = identity}: {style: (input: string) => string}) {
+    const columnWidths = unzip(tableData).map(column => Math.max(...column.map(s => s.length)));
+    this.inner('log', [tableData[0].map((s, i) => s.padEnd(columnWidths[i])).join(' | ')], {style});
+    this.inner('log', [columnWidths.map(width => '-'.repeat(width)).join('-|-')], {style});
+    for (const row of tableData.slice(1)) {
+      this.inner('log', [row.map((s, i) => s.padEnd(columnWidths[i])).join(' | ')], {style});
     }
   }
 
@@ -110,7 +150,7 @@ class Logger {
       style = identity,
     }: {isProgress?: boolean; style?: (input: string) => string} = {},
   ) {
-    if (!this.enable) return false;
+    if (!this.enable) return;
 
     // If this line is a progress report AND the previous line is a progress report, overwrite the
     // previous line. This keeps the console output clean and makes errors easier to spot.
