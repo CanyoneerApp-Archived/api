@@ -1,6 +1,5 @@
 import FS from 'fs';
 import {isEqual, max, mean, sum} from 'lodash';
-import {gzip} from 'zlib';
 import {allRegions} from './scrape/allRegions';
 import {toRouteV1} from './types/v1';
 import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/v2';
@@ -19,7 +18,7 @@ export async function writeOutput(routes: RouteV2[], regions: string[]) {
 
   indexV1Schema.write('[\n');
 
-  const detailBytes: Promise<number>[] = [];
+  const detailBytes: number[] = [];
 
   for (const route of routes) {
     if (first) {
@@ -30,7 +29,7 @@ export async function writeOutput(routes: RouteV2[], regions: string[]) {
 
     const detailBody = JSON.stringify(route, null, 2);
     await FS.promises.writeFile(`./output/v2/details/${route.id}.json`, detailBody);
-    detailBytes.push(getGzipSize(Buffer.from(detailBody)));
+    detailBytes.push(Buffer.byteLength(detailBody));
 
     indexV2Stream.write(`${JSON.stringify(toIndexRouteV2(route))}\n`);
 
@@ -44,37 +43,30 @@ export async function writeOutput(routes: RouteV2[], regions: string[]) {
 
   indexV1Schema.write(']');
 
-  const [detailBytesResolved] = await Promise.all([
-    Promise.all(detailBytes),
+  await Promise.all([
     new Promise(resolve => indexV1Schema.end(resolve)),
     new Promise(resolve => indexV2Stream.end(resolve)),
     new Promise(resolve => geojsonV2Stream.end(resolve)),
   ]);
 
-  detailBytesResolved.sort();
+  detailBytes.sort();
 
   const stats = {
     regions: isEqual(regions, allRegions) ? 'all' : regions.join(','),
-    indexBytes: await getGzipSize(await FS.promises.readFile('./output/v2/index.json')),
-    geojsonBytes: await getGzipSize(await FS.promises.readFile('./output/v2/index.geojson')),
-    detailBytesSum: sum(detailBytesResolved),
-    detailBytesMean: mean(detailBytesResolved),
-    detailBytesP50: getPercentile(detailBytesResolved, 0.5),
-    detailBytesP95: getPercentile(detailBytesResolved, 0.95),
-    detailBytesP99: getPercentile(detailBytesResolved, 0.99),
+    indexBytes: (await FS.promises.readFile('./output/v2/index.json')).byteLength,
+    geojsonBytes: (await FS.promises.readFile('./output/v2/index.geojson')).byteLength,
+    detailBytesSum: sum(detailBytes),
+    detailBytesMean: mean(detailBytes),
+    detailBytesP50: getPercentile(detailBytes, 0.5),
+    detailBytesP95: getPercentile(detailBytes, 0.95),
+    detailBytesP99: getPercentile(detailBytes, 0.99),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    detailBytesMax: max(detailBytesResolved)!,
+    detailBytesMax: max(detailBytes)!,
   };
 
   FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(stats, null, '  '));
 
   return stats;
-}
-
-async function getGzipSize(buffer: Buffer) {
-  return new Promise<number>(async (resolve, reject) =>
-    gzip(buffer, (error, result) => (error ? reject(error) : resolve(result.byteLength))),
-  );
 }
 
 function getPercentile(sortedArray: number[], percentile: number) {

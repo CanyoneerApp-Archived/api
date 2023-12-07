@@ -6,14 +6,14 @@ import {WriteOutputStats} from './writeOutput';
 
 const baselineStats = {
   regions: 'Maine',
-  indexBytes: 395,
-  geojsonBytes: 2842,
-  detailBytesSum: 4286,
-  detailBytesMean: 857.2,
-  detailBytesP50: 472,
-  detailBytesP95: 894,
-  detailBytesP99: 894,
-  detailBytesMax: 1249,
+  indexBytes: 1078,
+  geojsonBytes: 12481,
+  detailBytesSum: 13946,
+  detailBytesMean: 2789.2,
+  detailBytesP50: 2264,
+  detailBytesP95: 886,
+  detailBytesP99: 886,
+  detailBytesMax: 7915,
 };
 
 // This test can take longer than the default 5 seconds timeout
