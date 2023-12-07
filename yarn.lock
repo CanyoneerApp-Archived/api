@@ -1259,10 +1259,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@scree/aws-utils@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@scree/aws-utils/-/aws-utils-0.12.0.tgz#396b40fc6169149af2f3bdd6dd088b3a5e6757e0"
-  integrity sha512-/G1vU6KuPFqSii4IBXj4leloJsUmXBqaeazCY/A2tBfiD9XILwN8MZkmxcGqDYDRzlNlHFjQZjBZw0o+pRPKLw==
+"@scree/aws-utils@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@scree/aws-utils/-/aws-utils-0.10.0.tgz#4844702ae72e7f57cb1c9825f49315373c49fce2"
+  integrity sha512-aiAbhbDLapxHoACZW4q0FDl8AXuC7QTyNpgqLLK5OMhjquArHowzlM8+APB86tRcmoagmA9qbflT+WBRSZXtrg==
   dependencies:
     "@aws-sdk/client-cloudformation" "^3.454.0"
     "@aws-sdk/client-s3" "^3.456.0"
@@ -1909,13 +1909,6 @@
   version "4.14.202"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.202.tgz#f09dbd2fb082d507178b2f2a5c7e74bd72ff98f8"
   integrity sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==
-
-"@types/markdown-table@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/markdown-table/-/markdown-table-3.0.0.tgz#26d520b27b2e005ece067def77bb1af39c3378d1"
-  integrity sha512-vX5zya26rnLLHdAKA3E9ZOT07CJslYp2gZfAZiXKUY5vd2RRiJyOQKrSlmUjyJ+eNoDAPkHflebG3PsfqC32aA==
-  dependencies:
-    markdown-table "*"
 
 "@types/node@*", "@types/node@^20.10.0":
   version "20.10.0"
@@ -4577,11 +4570,6 @@ makeerror@1.0.12:
   integrity sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==
   dependencies:
     tmpl "1.0.5"
-
-markdown-table@*, markdown-table@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-3.0.3.tgz#e6331d30e493127e031dd385488b5bd326e4a6bd"
-  integrity sha512-Z1NL3Tb1M9wH4XESsCDEksWoKTdlUafKc4pt0GRwjUyXaCFZ+dc3g2erqB6zm3szA2IUSi7VnPI+o/9jnxh9hw==
 
 merge-stream@^2.0.0:
   version "2.0.0"

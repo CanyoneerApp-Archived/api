@@ -14,8 +14,6 @@ export async function writeOutput(routes: RouteV2[]) {
 
   indexV1Schema.write('[\n');
 
-  const detailBytes: number[] = [];
-
   for (const route of routes) {
     if (first) {
       first = false;
@@ -25,7 +23,6 @@ export async function writeOutput(routes: RouteV2[]) {
 
     const detailBody = JSON.stringify(route, null, 2);
     await FS.promises.writeFile(`./output/v2/details/${route.id}.json`, detailBody);
-    detailBytes.push(Buffer.byteLength(detailBody));
 
     indexV2Stream.write(`${JSON.stringify(toIndexRouteV2(route))}\n`);
 

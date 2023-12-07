@@ -15,18 +15,13 @@ describe('scrape', () => {
     'Maine',
     async () => {
       await main(['test', 'test', '--local', '--region', 'Maine']);
-      expect(await readOutputDir()).toMatchSnapshot();
+      expect(JSON.stringify(await readOutputDir(), null, '  ')).toMatchSnapshot();
     },
     timeout,
   );
 });
 
-const readOutputDirIgnore = [
-  'output/v1/schemas',
-  'output/v2/schemas',
-  'output/v2/tiles',
-  'output/v2/stats.json',
-];
+const readOutputDirIgnore = ['output/v1/schemas', 'output/v2/schemas', 'output/v2/tiles'];
 
 async function readOutputDir(parentPath = 'output') {
   return Object.fromEntries(
