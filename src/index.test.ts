@@ -26,16 +26,8 @@ describe('scrape', () => {
     'Maine',
     async () => {
       await main(['test', 'test', '--local', '--region', 'Maine']);
-
       expect(await readOutputDir()).toMatchSnapshot();
-
-      const stats: {[key: string]: number} = JSON.parse(
-        await FS.promises.readFile('output/v2/stats.json', 'utf8'),
-      );
-
-      for (const key of Object.keys(stats)) {
-        expect(stats[key]).toBeCloseTo(statsBaseline[key]);
-      }
+      await expectStatsToMatchSnapshot();
     },
     timeout,
   );
@@ -47,6 +39,16 @@ const readOutputDirIgnore = [
   'output/v2/tiles',
   'output/v2/stats.json',
 ];
+
+async function expectStatsToMatchSnapshot() {
+  const stats: {[key: string]: number} = JSON.parse(
+    await FS.promises.readFile('output/v2/stats.json', 'utf8'),
+  );
+
+  for (const key of Object.keys(stats)) {
+    expect(stats[key]).toBeCloseTo(statsBaseline[key]);
+  }
+}
 
 async function readOutputDir(parentPath = 'output') {
   return Object.fromEntries(
