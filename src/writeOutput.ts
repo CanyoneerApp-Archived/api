@@ -52,16 +52,8 @@ export async function writeOutput(routes: RouteV2[]) {
   detailBytes.sort();
 
   const metadata = {
-    indexBytes: await new Promise<number>(async (resolve, reject) =>
-      gzip(await FS.promises.readFile('./output/v2/index.json'), (error, result) =>
-        error ? reject(error) : resolve(result.byteLength),
-      ),
-    ),
-    geojsonBytes: await new Promise<number>(async (resolve, reject) =>
-      gzip(await FS.promises.readFile('./output/v2/index.geojson'), (error, result) =>
-        error ? reject(error) : resolve(result.byteLength),
-      ),
-    ),
+    indexBytes: await getGzipSize('./output/v2/index.json'),
+    geojsonBytes: await getGzipSize('./output/v2/index.geojson'),
     detailBytesSum: sum(detailBytes),
     detailBytesMean: mean(detailBytes),
     detailBytesP50: getPercentile(detailBytes, 0.5),
@@ -73,6 +65,14 @@ export async function writeOutput(routes: RouteV2[]) {
   await FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(metadata));
 
   return metadata;
+}
+
+async function getGzipSize(path: string) {
+  return new Promise<number>(async (resolve, reject) =>
+    gzip(await FS.promises.readFile(path), (error, result) =>
+      error ? reject(error) : resolve(result.byteLength),
+    ),
+  );
 }
 
 function getPercentile(sortedArray: number[], percentile: number) {
