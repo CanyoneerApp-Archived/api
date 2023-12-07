@@ -8,5 +8,6 @@ export async function uploadOutputDir(s3: S3, outputs: SyncStackOutput) {
     ...outputs,
     LocalPath: './output',
     FileUploadedHandler: ({S3Key, total, done}) => logger.progress(total, done, S3Key),
+    ApplyContentEncoding: 'gzip',
   });
 }
