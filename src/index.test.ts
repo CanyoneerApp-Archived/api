@@ -2,19 +2,6 @@ import FS from 'fs';
 import Path from 'path';
 import {main} from '.';
 import {logger} from './logger';
-import {WriteOutputStats} from './writeOutput';
-
-const baselineStats = {
-  regions: 'Maine',
-  indexBytes: 1078,
-  geojsonBytes: 12481,
-  detailBytesSum: 13946,
-  detailBytesMean: 2789.2,
-  detailBytesP50: 2264,
-  detailBytesP95: 886,
-  detailBytesP99: 886,
-  detailBytesMax: 7915,
-};
 
 // This test can take longer than the default 5 seconds timeout
 const timeout = 60 * 1000;
@@ -29,7 +16,6 @@ describe('scrape', () => {
     async () => {
       await main(['test', 'test', '--local', '--region', 'Maine']);
       expect(await readOutputDir()).toMatchSnapshot();
-      await expectStatsToMatchBaseline();
     },
     timeout,
   );
@@ -41,22 +27,6 @@ const readOutputDirIgnore = [
   'output/v2/tiles',
   'output/v2/stats.json',
 ];
-
-async function expectStatsToMatchBaseline() {
-  const actualStats: WriteOutputStats = JSON.parse(
-    await FS.promises.readFile('output/v2/stats.json', 'utf8'),
-  );
-
-  const names = Object.keys({...actualStats, ...baselineStats}) as (keyof WriteOutputStats)[];
-
-  expect(actualStats.regions).toBe(baselineStats.regions);
-
-  for (const key of names) {
-    if (key === 'regions') continue;
-    const percentChange = Math.abs((baselineStats[key] - actualStats[key]) / baselineStats[key]);
-    expect(percentChange).toBeCloseTo(0.01, 1);
-  }
-}
 
 async function readOutputDir(parentPath = 'output') {
   return Object.fromEntries(

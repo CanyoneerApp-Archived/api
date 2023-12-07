@@ -1,8 +1,7 @@
 import chalk from 'chalk';
 import {identity, isString, unzip} from 'lodash';
 import {inspect} from 'util';
-import {baselineStats as defaultBaselineStats} from './baselineStats';
-import {WriteOutputStats} from './writeOutput';
+import {OutputStats} from './getOutputStats';
 
 /**
  * All messages that get printed to the console should flow through this object.
@@ -74,57 +73,23 @@ class Logger {
     return promise;
   }
 
-  outputStats(
-    actualStats: WriteOutputStats,
-    baselineStats: WriteOutputStats = defaultBaselineStats,
-  ) {
-    const isRegionMismatch = actualStats.regions !== baselineStats.regions;
-
-    const names = Object.keys({...actualStats, ...baselineStats}) as (keyof WriteOutputStats)[];
-    const table: string[][] = [['name', 'baseline', 'actual', '% change']];
+  outputStats(stats: OutputStats) {
+    const names = Object.keys(stats) as (keyof OutputStats)[];
+    const table: string[][] = [['name', 'value']];
     for (const name of names) {
-      if (name === 'regions') continue;
-      const baselineValue = baselineStats[name];
-      const actualValue = actualStats[name];
-
       table.push([
         name,
-        formatKBString(baselineValue),
-        formatKBString(actualValue),
-        formatPercentChange(actualValue, baselineValue, isRegionMismatch),
+        (stats[name] / 1000).toLocaleString(undefined, {
+          unit: 'kilobyte',
+          unitDisplay: 'short',
+          style: 'unit',
+          maximumSignificantDigits: 2,
+        }),
       ]);
     }
 
     this.inner('log', [chalk.bold(chalk.magenta('Output Stats'))]);
     this.table(table, {style: chalk.magenta});
-
-    function formatPercentChange(
-      actualValue: number,
-      baselineValue: number,
-      isRegionMismatch: boolean,
-    ) {
-      if (isRegionMismatch) {
-        return chalk.red('region mismatch');
-      } else if (!baselineValue || !actualValue) {
-        return 'null';
-      } else {
-        return ((actualValue - baselineValue) / baselineValue).toLocaleString(undefined, {
-          style: 'percent',
-          maximumSignificantDigits: 2,
-        });
-      }
-    }
-
-    function formatKBString(bytes: number | undefined) {
-      return bytes
-        ? (bytes / 1000).toLocaleString(undefined, {
-            unit: 'kilobyte',
-            unitDisplay: 'short',
-            style: 'unit',
-            maximumSignificantDigits: 2,
-          })
-        : 'undefined';
-    }
   }
 
   private table(tableData: string[][], {style = identity}: {style: (input: string) => string}) {

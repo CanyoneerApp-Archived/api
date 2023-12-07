@@ -1,12 +1,8 @@
 import FS from 'fs';
-import {isEqual, max, mean, sum} from 'lodash';
-import {allRegions} from './scrape/allRegions';
 import {toRouteV1} from './types/v1';
 import {GeoJSONRouteV2, RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/v2';
 
-export type WriteOutputStats = Awaited<ReturnType<typeof writeOutput>>;
-
-export async function writeOutput(routes: RouteV2[], regions: string[]) {
+export async function writeOutput(routes: RouteV2[]) {
   await FS.promises.mkdir('./output/v2/details', {recursive: true});
   await FS.promises.mkdir('./output/v1', {recursive: true});
 
@@ -48,28 +44,4 @@ export async function writeOutput(routes: RouteV2[], regions: string[]) {
     new Promise(resolve => indexV2Stream.end(resolve)),
     new Promise(resolve => geojsonV2Stream.end(resolve)),
   ]);
-
-  detailBytes.sort();
-
-  const stats = {
-    regions: isEqual(regions, allRegions) ? 'all' : regions.join(','),
-    indexBytes: (await FS.promises.readFile('./output/v2/index.json')).byteLength,
-    geojsonBytes: (await FS.promises.readFile('./output/v2/index.geojson')).byteLength,
-    detailBytesSum: sum(detailBytes),
-    detailBytesMean: mean(detailBytes),
-    detailBytesP50: getPercentile(detailBytes, 0.5),
-    detailBytesP95: getPercentile(detailBytes, 0.95),
-    detailBytesP99: getPercentile(detailBytes, 0.99),
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    detailBytesMax: max(detailBytes)!,
-  };
-
-  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(stats, null, '  '));
-
-  return stats;
-}
-
-function getPercentile(sortedArray: number[], percentile: number) {
-  const index = Math.floor(sortedArray.length * percentile);
-  return sortedArray[index];
 }
