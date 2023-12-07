@@ -55,6 +55,11 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 62
+      }
+    }
   }
 }
