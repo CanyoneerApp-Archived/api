@@ -18,7 +18,7 @@ export async function writeOutput(routes: RouteV2[]) {
 
   indexV1Schema.write('[\n');
 
-  const detailBytes: number[] = [];
+  const detailBytes: Promise<number>[] = [];
 
   for (const route of routes) {
     if (first) {
@@ -29,7 +29,7 @@ export async function writeOutput(routes: RouteV2[]) {
 
     const detailBody = JSON.stringify(route, null, 2);
     await FS.promises.writeFile(`./output/v2/details/${route.id}.json`, detailBody);
-    detailBytes.push(Buffer.byteLength(detailBody));
+    detailBytes.push(getGzipSize(Buffer.from(detailBody)));
 
     indexV2Stream.write(`${JSON.stringify(toIndexRouteV2(route))}\n`);
 
@@ -43,35 +43,34 @@ export async function writeOutput(routes: RouteV2[]) {
 
   indexV1Schema.write(']');
 
-  await Promise.all([
+  const [detailBytesResolved] = await Promise.all([
+    Promise.all(detailBytes),
     new Promise(resolve => indexV1Schema.end(resolve)),
     new Promise(resolve => indexV2Stream.end(resolve)),
     new Promise(resolve => geojsonV2Stream.end(resolve)),
   ]);
 
-  detailBytes.sort();
+  detailBytesResolved.sort();
 
-  const metadata = {
-    indexBytes: await getGzipSize('./output/v2/index.json'),
-    geojsonBytes: await getGzipSize('./output/v2/index.geojson'),
-    detailBytesSum: sum(detailBytes),
-    detailBytesMean: mean(detailBytes),
-    detailBytesP50: getPercentile(detailBytes, 0.5),
-    detailBytesP95: getPercentile(detailBytes, 0.95),
-    detailBytesP99: getPercentile(detailBytes, 0.99),
-    detailBytesMax: max(detailBytes),
+  const stats = {
+    indexBytes: await getGzipSize(await FS.promises.readFile('./output/v2/index.json')),
+    geojsonBytes: await getGzipSize(await FS.promises.readFile('./output/v2/index.geojson')),
+    detailBytesSum: sum(detailBytesResolved),
+    detailBytesMean: mean(detailBytesResolved),
+    detailBytesP50: getPercentile(detailBytesResolved, 0.5),
+    detailBytesP95: getPercentile(detailBytesResolved, 0.95),
+    detailBytesP99: getPercentile(detailBytesResolved, 0.99),
+    detailBytesMax: max(detailBytesResolved),
   };
 
-  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(metadata, null, '  '));
+  FS.promises.writeFile('./output/v2/stats.json', JSON.stringify(stats, null, '  '));
 
-  return metadata;
+  return stats;
 }
 
-async function getGzipSize(path: string) {
+async function getGzipSize(buffer: Buffer) {
   return new Promise<number>(async (resolve, reject) =>
-    gzip(await FS.promises.readFile(path), (error, result) =>
-      error ? reject(error) : resolve(result.byteLength),
-    ),
+    gzip(buffer, (error, result) => (error ? reject(error) : resolve(result.byteLength))),
   );
 }
 

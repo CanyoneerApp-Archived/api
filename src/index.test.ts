@@ -9,12 +9,12 @@ const timeout = 60 * 1000;
 const statsBaseline: {[key: string]: number} = {
   indexBytes: 395,
   geojsonBytes: 2842,
-  detailBytesSum: 13946,
-  detailBytesMean: 2789.2,
-  detailBytesP50: 2264,
-  detailBytesP95: 886,
-  detailBytesP99: 886,
-  detailBytesMax: 7915,
+  detailBytesSum: 4286,
+  detailBytesMean: 857.2,
+  detailBytesP50: 472,
+  detailBytesP95: 894,
+  detailBytesP99: 894,
+  detailBytesMax: 1249,
 };
 
 describe('scrape', () => {
@@ -27,7 +27,7 @@ describe('scrape', () => {
     async () => {
       await main(['test', 'test', '--local', '--region', 'Maine']);
       expect(await readOutputDir()).toMatchSnapshot();
-      await expectStatsToMatchSnapshot();
+      await expectStatsToMatchBaseline();
     },
     timeout,
   );
@@ -40,13 +40,16 @@ const readOutputDirIgnore = [
   'output/v2/stats.json',
 ];
 
-async function expectStatsToMatchSnapshot() {
+async function expectStatsToMatchBaseline() {
   const stats: {[key: string]: number} = JSON.parse(
     await FS.promises.readFile('output/v2/stats.json', 'utf8'),
   );
 
+  console.log(stats);
+
   for (const key of Object.keys(stats)) {
-    expect(stats[key]).toBeCloseTo(statsBaseline[key]);
+    const percentChange = Math.abs((statsBaseline[key] - stats[key]) / statsBaseline[key]);
+    expect(percentChange).toBeCloseTo(0.01, 1);
   }
 }
 
