@@ -6,6 +6,17 @@ import {logger} from './logger';
 // This test can take longer than the default 5 seconds timeout
 const timeout = 60 * 1000;
 
+const statsBaseline: {[key: string]: number} = {
+  indexBytes: 395,
+  geojsonBytes: 2842,
+  detailBytesSum: 13946,
+  detailBytesMean: 2789.2,
+  detailBytesP50: 2264,
+  detailBytesP95: 886,
+  detailBytesP99: 886,
+  detailBytesMax: 7915,
+};
+
 describe('scrape', () => {
   beforeAll(async () => {
     logger.enable = false;
@@ -18,15 +29,13 @@ describe('scrape', () => {
 
       expect(await readOutputDir()).toMatchSnapshot();
 
-      const stats = JSON.parse(await FS.promises.readFile('output/v2/stats.json', 'utf8'));
-      expect(stats.indexBytes).toBeCloseTo(395);
-      expect(stats.geojsonBytes).toBeCloseTo(2842);
-      expect(stats.detailBytesSum).toBeCloseTo(13946);
-      expect(stats.detailBytesMean).toBeCloseTo(2789.2);
-      expect(stats.detailBytesP50).toBeCloseTo(2264);
-      expect(stats.detailBytesP95).toBeCloseTo(886);
-      expect(stats.detailBytesP99).toBeCloseTo(886);
-      expect(stats.detailBytesMax).toBeCloseTo(7915);
+      const stats: {[key: string]: number} = JSON.parse(
+        await FS.promises.readFile('output/v2/stats.json', 'utf8'),
+      );
+
+      for (const key of Object.keys(stats)) {
+        expect(stats[key]).toBeCloseTo(statsBaseline[key]);
+      }
     },
     timeout,
   );
