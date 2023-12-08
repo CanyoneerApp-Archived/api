@@ -1,6 +1,8 @@
 import FS from 'fs/promises';
 import {max, mean, sum} from 'lodash';
 import Path from 'path';
+import {promisify} from 'util';
+import zlib from 'zlib';
 
 export type OutputStats = Awaited<ReturnType<typeof getOutputStats>>;
 
@@ -8,16 +10,14 @@ export async function getOutputStats() {
   const dir = './output/v2/details';
 
   const detailBytes = await Promise.all(
-    (await FS.readdir(dir)).map(async file => {
-      return (await FS.lstat(Path.join(dir, file))).size;
-    }),
+    (await FS.readdir(dir)).map(async file => getGzipSize(Path.join(dir, file))),
   );
 
   detailBytes.sort();
 
   return {
-    indexBytes: (await FS.readFile('./output/v2/index.json')).byteLength,
-    geojsonBytes: (await FS.readFile('./output/v2/index.geojson')).byteLength,
+    indexBytes: await getGzipSize('./output/v2/index.json'),
+    geojsonBytes: await getGzipSize('./output/v2/index.geojson'),
     detailBytesSum: sum(detailBytes),
     detailBytesMean: Math.round(mean(detailBytes)),
     detailBytesP50: getPercentile(detailBytes, 0.5),
@@ -31,4 +31,12 @@ export async function getOutputStats() {
 function getPercentile(sortedArray: number[], percentile: number) {
   const index = Math.floor(sortedArray.length * percentile);
   return sortedArray[index];
+}
+
+const gzip = promisify(zlib.gzip);
+
+async function getGzipSize(path: string): Promise<number> {
+  const fileData = await FS.readFile(path);
+  const gzippedData = await gzip(fileData);
+  return gzippedData.byteLength;
 }
