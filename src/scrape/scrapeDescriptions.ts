@@ -41,8 +41,8 @@ export async function scrapeDescriptions(routes: RouteV2[]): Promise<RouteV2[]> 
         return await Promise.all(
           routeChunk.map(async index => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const text = xml.mediawiki.page.find((page: any) => page.id[0] === index.id).revision[0]
-              .text[0]._;
+            const text = xml.mediawiki.page.find((page: any) => page.id[0] === String(index.id))
+              .revision[0].text[0]._;
 
             const route: RouteV2 = {
               ...index,

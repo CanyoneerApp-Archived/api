@@ -1,6 +1,7 @@
 import chalk from 'chalk';
-import {identity, isString} from 'lodash';
+import {identity, isString, unzip} from 'lodash';
 import {inspect} from 'util';
+import {OutputStats} from './getOutputStats';
 
 /**
  * All messages that get printed to the console should flow through this object.
@@ -72,6 +73,34 @@ class Logger {
     return promise;
   }
 
+  outputStats(stats: OutputStats) {
+    const names = Object.keys(stats) as (keyof OutputStats)[];
+    const table: string[][] = [['name', 'value']];
+    for (const name of names) {
+      table.push([
+        name,
+        (stats[name] / 1000).toLocaleString(undefined, {
+          unit: 'kilobyte',
+          unitDisplay: 'short',
+          style: 'unit',
+          maximumSignificantDigits: 2,
+        }),
+      ]);
+    }
+
+    this.inner('log', [chalk.bold(chalk.magenta('Output Stats'))]);
+    this.table(table, {style: chalk.magenta});
+  }
+
+  private table(tableData: string[][], {style = identity}: {style: (input: string) => string}) {
+    const columnWidths = unzip(tableData).map(column => Math.max(...column.map(s => s.length)));
+    this.inner('log', [tableData[0].map((s, i) => s.padEnd(columnWidths[i])).join(' | ')], {style});
+    this.inner('log', [columnWidths.map(width => '-'.repeat(width)).join('-|-')], {style});
+    for (const row of tableData.slice(1)) {
+      this.inner('log', [row.map((s, i) => s.padEnd(columnWidths[i])).join(' | ')], {style});
+    }
+  }
+
   /**
    * Call this method to report the entire program has completed successfully.
    */
@@ -89,7 +118,7 @@ class Logger {
       style = identity,
     }: {isProgress?: boolean; style?: (input: string) => string} = {},
   ) {
-    if (!this.enable) return false;
+    if (!this.enable) return;
 
     // If this line is a progress report AND the previous line is a progress report, overwrite the
     // previous line. This keeps the console output clean and makes errors easier to spot.
