@@ -2,6 +2,7 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
+import {getOutputStats} from './getOutputStats';
 import {logger} from './logger';
 import {rmOutputDir} from './rmOutputDir';
 import {scrape} from './scrape';
@@ -10,7 +11,7 @@ import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
 import {writeAllSchemas} from './writeAllSchemas';
-import {writeRoutes} from './writeRoutes';
+import {writeOutput} from './writeOutput';
 import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
@@ -55,7 +56,9 @@ export async function main(argv: string[]) {
   await logger.step(rmOutputDir, []);
   await logger.step(writeAllSchemas, []);
   const routes = await logger.step(scrape, [regions]);
-  await logger.step(writeRoutes, [routes]);
+  await logger.step(writeOutput, [routes]);
+  const stats = await logger.step(getOutputStats, []);
+  logger.outputStats(stats);
   await logger.step(writeTippecanoe, []);
 
   if (!options.local && stack) {
