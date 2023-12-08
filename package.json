@@ -9,7 +9,16 @@
     "precommit": "scree lint-precommit && yarn test",
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
-    "test": "jest"
+    "test": "jest",
+    "viewer": "react-app-rewired start"
+  },
+  "browserslist": {
+    "production": [
+      "last 2 chrome versions"
+    ],
+    "development": [
+      "last 2 chrome versions"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +35,8 @@
     "@types/jsdom": "^12.2.4",
     "@types/lodash": "^4.14.149",
     "@types/node": "^20.10.0",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
     "@typescript-eslint/parser": "^2.13.0",
@@ -44,6 +55,10 @@
     "lodash": "^4.17.15",
     "node-pandoc": "^0.3.0",
     "promise-throttle": "^1.1.2",
+    "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
     "tippecanoe": "^0.6.0",
     "ts-jest": "^29.1.1",
     "ts-json-schema-generator": "^1.4.0",

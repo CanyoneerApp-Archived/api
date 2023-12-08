@@ -2,6 +2,7 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
+import {buildViewer} from './buildViewer';
 import {logger} from './logger';
 import {rmOutputDir} from './rmOutputDir';
 import {scrape} from './scrape';
@@ -53,6 +54,11 @@ export async function main(argv: string[]) {
   }
 
   await logger.step(rmOutputDir, []);
+
+  if (stack) {
+    await logger.step(buildViewer, [stack]);
+  }
+
   await logger.step(writeAllSchemas, []);
   const routes = await logger.step(scrape, [regions]);
   await logger.step(writeRoutes, [routes]);

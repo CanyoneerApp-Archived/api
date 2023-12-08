@@ -100,20 +100,20 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
     ) ??
     (route.longitude && route.latitude
       ? [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [route.longitude, route.latitude],
-            },
-            properties: {
-              name: route.name,
-              ...Object.fromEntries(
-                Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
-              ),
-            } as unknown as GeoJSONRouteV2['properties'],
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [route.longitude, route.latitude],
           },
-        ]
+          properties: {
+            name: route.name,
+            ...Object.fromEntries(
+              Object.entries(route).map(([key, value]) => [`route.${key}`, value]),
+            ),
+          } as unknown as GeoJSONRouteV2['properties'],
+        },
+      ]
       : [])
   );
 }
