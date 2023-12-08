@@ -7,7 +7,8 @@ import type {PermitV1} from './v1';
  * to capture all data we need to filter routes while remaining as compact as possible.
  */
 export interface IndexRouteV2 {
-  id: string;
+  /** @asType integer */
+  id: number;
   name: string;
   quality: number | undefined;
   months: MonthV2[] | undefined;
@@ -16,13 +17,9 @@ export interface IndexRouteV2 {
   timeRating: TimeGradeV2 | undefined;
   riskRating: RiskGradeV2 | undefined;
   permit: PermitV2 | undefined;
-  /**
-   * @asType integer
-   */
+  /** @asType integer */
   rappelCountMin: number | undefined;
-  /**
-   * @asType integer
-   */
+  /** @asType integer */
   rappelCountMax: number | undefined;
   rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
