@@ -28,6 +28,7 @@ const readOutputDirIgnore = [
   'output/v1/schemas',
   'output/v2/schemas',
   'output/v2/tiles/metadata.json',
+  'output/index.html',
 ];
 
 async function readOutputDir(dirPath = 'output') {

@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mapbox GL Viewer</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>
+      mapboxgl.accessToken =
+        'pk.eyJ1Ijoic3BpbmRyaWZ0IiwiYSI6ImNqaDg2bDBsdTBmZG0yd3MwZ2x4ampsdXUifQ.7E19C7BhF9Dfd1gdJiYTEg';
+
+      let map = (window.map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/outdoors-v11',
+        center: [-116.74188, 36.21081],
+        zoom: 12,
+      }));
+
+      map.on('style.load', () => {
+        map.addSource('mapbox-dem', {
+          type: 'raster-dem',
+          url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          tileSize: 512,
+          maxzoom: 14,
+        });
+        map.setTerrain({source: 'mapbox-dem', exaggeration: 1.5});
+
+        map.addSource('routesSource', {
+          type: 'vector',
+          tiles: ['v2/tiles/{z}/{x}/{y}.pbf'],
+          minzoom: 1,
+          maxzoom: 12,
+        });
+
+        map.addLayer({
+          id: 'routes',
+          type: 'line',
+          source: 'routesSource',
+          'source-layer': 'routes',
+          layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+          },
+          paint: {
+            'line-opacity': 0.6,
+            'line-color': 'rgb(53, 175, 109)',
+            'line-width': 2,
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

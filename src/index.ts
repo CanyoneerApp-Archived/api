@@ -1,6 +1,7 @@
 import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
+import FS from 'fs/promises';
 import {isArray} from 'lodash';
 import {getOutputStats} from './getOutputStats';
 import {logger} from './logger';
@@ -60,6 +61,7 @@ export async function main(argv: string[]) {
   const stats = await logger.step(getOutputStats, []);
   logger.outputStats(stats);
   await logger.step(writeTippecanoe, []);
+  FS.copyFile('./public/index.html', './output/index.html');
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);
