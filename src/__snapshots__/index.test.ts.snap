@@ -691,19 +691,9 @@ exports[`scrape Maine 1`] = `
       },
       "properties": {
         "name": "Bickford Slides Canyon",
-        "route.url": "https://ropewiki.com/Bickford_Slides_Canyon",
-        "route.latitude": 44.274,
-        "route.longitude": -70.9843,
         "route.id": 68720,
         "route.name": "Bickford Slides Canyon",
         "route.quality": 3,
-        "route.months": [
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct"
-        ],
         "route.technicalRating": 3,
         "route.waterRating": "C",
         "route.timeRating": "II",
@@ -711,7 +701,11 @@ exports[`scrape Maine 1`] = `
         "route.rappelCountMin": 3,
         "route.rappelCountMax": 3,
         "route.rappelLongestMeters": 15.24,
-        "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>This gorgeous canyon sits high up in the White Mountains of western\\nMaine. The canyon descends over 400 feet in just a half mile and\\nrequires technical gear for navigation around its four rappels. It may\\nbe one of the most enjoyable descents in western Maine. Spend a fun\\nmorning descending this canyon then hop on over to Rattlesnake Gorge for\\nanother fun descent.</p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<p>The best location to start from is the Brickett Place. There is a day\\nuse fee for this trailhead it was $5.00 in 2021. From the trailhead hike\\nup Bickford Brook Trail past the first trail intersection until you\\nreach the second fork in the trail. (19 T 0341714E 4904338N). Take the\\ntrail on the right at this intersection. The trail will cross over the\\ncreek, follow this creek downstream until you reach the canyon.</p>\\n<h2 id=\\"descent\\">Descent</h2>\\n<p>Wrap a tree and descend 30 ft into the canyon. Continue down canyon\\nuntil you reach the second drop. Wrap another tree and descend 20 ft.\\nFollowing the second rappel hike along the canyon avoiding the pools of\\nwater as much as possible. Turn the corner and wrap another tree or\\nboulder and descend to the large pool at the end of the canyon. Hike\\nalong the stream another 1/4th of a mile to where a trail crosses the\\nstream.</p>\\n<h2 id=\\"exit\\">Exit</h2>\\n<p>Hike out to the trail head on this trail or descend down one last\\nrappel on the other side of this trail.</p>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<p><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">https://eyesupadventure.wixsite.com/adventure/maine-canyoneering</a></p>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+        "route.month.jun": true,
+        "route.month.jul": true,
+        "route.month.aug": true,
+        "route.month.sep": true,
+        "route.month.oct": true
       }
     },
     {
@@ -725,9 +719,6 @@ exports[`scrape Maine 1`] = `
       },
       "properties": {
         "name": "Inman's Cave",
-        "route.url": "https://ropewiki.com/Inman%27s_Cave",
-        "route.latitude": 44.2165,
-        "route.longitude": -69.0747,
         "route.id": 68718,
         "route.name": "Inman's Cave",
         "route.technicalRating": 3,
@@ -736,8 +727,7 @@ exports[`scrape Maine 1`] = `
         "route.permit": "No",
         "route.rappelCountMin": 2,
         "route.rappelCountMax": 2,
-        "route.rappelLongestMeters": 6.1,
-        "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>This is one of the only caves in Maine that requires the use of SRT\\nequipment. The cave is small but makes for a fun adventure. Location\\nbeta and more information can be provided by contacting the Maine Cave\\nSurvey with the following email: stephen.whitney1999@gmail.com</p>\\n<p>If you have visited this cave please do not post location data to\\nkeep riffraff out of dangrous situations!</p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<h2 id=\\"descent\\">Descent</h2>\\n<h2 id=\\"exit\\">Exit</h2>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+        "route.rappelLongestMeters": 6.1
       }
     },
     {
@@ -751,12 +741,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt1",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -765,7 +749,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)"
+        "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -779,12 +767,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt2",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -793,7 +775,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)"
+        "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -807,12 +793,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt3",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -821,7 +801,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)"
+        "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -835,12 +819,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt4",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -849,7 +827,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)"
+        "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -863,12 +845,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt5",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -877,7 +853,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)"
+        "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -891,12 +871,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt6",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -905,7 +879,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)"
+        "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -919,12 +897,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt7",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -933,7 +905,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "Br (Data by brennen.caltech.edu/swhikes)"
+        "description": "Br (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -947,12 +923,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt8",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -961,7 +931,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)"
+        "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -975,12 +949,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt9",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -989,7 +957,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)"
+        "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -1003,12 +975,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt10",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -1017,7 +983,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "5mile to (Data by brennen.caltech.edu/swhikes)"
+        "description": "5mile to (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -1031,12 +1001,6 @@ exports[`scrape Maine 1`] = `
         ]
       },
       "properties": {
-        "route.latitude": 45.9043,
-        "route.longitude": -68.922,
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No",
         "name": "Wpt11",
         "styleUrl": "#dot",
         "styleHash": "-56beb8bb",
@@ -1045,7 +1009,11 @@ exports[`scrape Maine 1`] = `
           "highlight": "#dot1"
         },
         "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)"
+        "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
+        "route.id": 25753,
+        "route.name": "Mount Katahdin",
+        "route.quality": 5,
+        "route.permit": "No"
       }
     },
     {
@@ -1059,18 +1027,8 @@ exports[`scrape Maine 1`] = `
       },
       "properties": {
         "name": "Screw Auger Falls Gorge",
-        "route.url": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
-        "route.latitude": 44.57194,
-        "route.longitude": -70.91,
         "route.id": 34280,
         "route.name": "Screw Auger Falls Gorge",
-        "route.months": [
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct"
-        ],
         "route.technicalRating": 3,
         "route.waterRating": "C1",
         "route.timeRating": "I",
@@ -1078,7 +1036,11 @@ exports[`scrape Maine 1`] = `
         "route.rappelCountMin": 1,
         "route.rappelCountMax": 1,
         "route.rappelLongestMeters": 7.62,
-        "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>\\"The last canyon along the Bear River in Grafton Notch is the Screw\\nAuger Gorge. This short Gorge is probably one of the most popular\\ntourist destinations in the area. It is frequented by thousands of\\ntourists each summer and it is not uncommon to find families and teens\\nswimming here on a warm summer afternoon. The canyoneering opportunities\\nare limited but still possible. Rappel off a natural anchor or tree into\\nthe pothole below, escape the small pothole and hike/ swim through the\\nrest of the gorge.\\"</p>\\n<p>from <em>The Maine Canyon Survey: A Guide to Canyoneering in\\nMaine.</em></p>\\n<p><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">1</a></p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<h2 id=\\"descent\\">Descent</h2>\\n<h2 id=\\"exit\\">Exit</h2>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<ul>\\n<li><img src=\\"rwl_en.png\\" title=\\"rwl_en.png\\" alt=\\"rwl_en.png\\" /><a\\nhref=\\"http://summitpost.org/screw-auger-falls-gorge/826303\\">SummitPost.org</a>\\n: Screw Auger Falls Gorge]</li>\\n</ul>\\n<ul>\\n<li><img src=\\"rwl_en.png\\" title=\\"rwl_en.png\\" alt=\\"rwl_en.png\\" /><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">Eyes\\nUp Adventure</a> : Maine canyoneering]</li>\\n</ul>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+        "route.month.jun": true,
+        "route.month.jul": true,
+        "route.month.aug": true,
+        "route.month.sep": true,
+        "route.month.oct": true
       }
     },
     {
@@ -1092,9 +1054,6 @@ exports[`scrape Maine 1`] = `
       },
       "properties": {
         "name": "The Cataracts",
-        "route.url": "https://ropewiki.com/The_Cataracts",
-        "route.latitude": 44.6351,
-        "route.longitude": -70.8616,
         "route.id": 68931,
         "route.name": "The Cataracts",
         "route.quality": 3,
@@ -1104,8 +1063,7 @@ exports[`scrape Maine 1`] = `
         "route.permit": "No",
         "route.rappelCountMin": 4,
         "route.rappelCountMax": 5,
-        "route.rappelLongestMeters": 15.24,
-        "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>Nice Canyon near Andover, ME.</p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<p>Hike up trail to slot.</p>\\n<h2 id=\\"descent\\">Descent</h2>\\n<p>8ft rap into slot, 25ft two tier rap at the end of slot. Another 30\\nft rap and a final 50ft.</p>\\n<h2 id=\\"exit\\">Exit</h2>\\n<p>Hike out trail</p>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<p>See The Maine Canyon Survey</p>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+        "route.rappelLongestMeters": 15.24
       }
     }
   ],
@@ -1200,13 +1158,9 @@ exports[`scrape Maine 1`] = `
         },
         "properties": {
           "name": "Bickford Slides Canyon",
-          "route.url": "https://ropewiki.com/Bickford_Slides_Canyon",
-          "route.latitude": 44.274,
-          "route.longitude": -70.9843,
           "route.id": 68720,
           "route.name": "Bickford Slides Canyon",
           "route.quality": 3,
-          "route.months": "[\\"Jun\\",\\"Jul\\",\\"Aug\\",\\"Sep\\",\\"Oct\\"]",
           "route.technicalRating": 3,
           "route.waterRating": "C",
           "route.timeRating": "II",
@@ -1214,7 +1168,11 @@ exports[`scrape Maine 1`] = `
           "route.rappelCountMin": 3,
           "route.rappelCountMax": 3,
           "route.rappelLongestMeters": 15.24,
-          "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>This gorgeous canyon sits high up in the White Mountains of western\\nMaine. The canyon descends over 400 feet in just a half mile and\\nrequires technical gear for navigation around its four rappels. It may\\nbe one of the most enjoyable descents in western Maine. Spend a fun\\nmorning descending this canyon then hop on over to Rattlesnake Gorge for\\nanother fun descent.</p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<p>The best location to start from is the Brickett Place. There is a day\\nuse fee for this trailhead it was $5.00 in 2021. From the trailhead hike\\nup Bickford Brook Trail past the first trail intersection until you\\nreach the second fork in the trail. (19 T 0341714E 4904338N). Take the\\ntrail on the right at this intersection. The trail will cross over the\\ncreek, follow this creek downstream until you reach the canyon.</p>\\n<h2 id=\\"descent\\">Descent</h2>\\n<p>Wrap a tree and descend 30 ft into the canyon. Continue down canyon\\nuntil you reach the second drop. Wrap another tree and descend 20 ft.\\nFollowing the second rappel hike along the canyon avoiding the pools of\\nwater as much as possible. Turn the corner and wrap another tree or\\nboulder and descend to the large pool at the end of the canyon. Hike\\nalong the stream another 1/4th of a mile to where a trail crosses the\\nstream.</p>\\n<h2 id=\\"exit\\">Exit</h2>\\n<p>Hike out to the trail head on this trail or descend down one last\\nrappel on the other side of this trail.</p>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<p><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">https://eyesupadventure.wixsite.com/adventure/maine-canyoneering</a></p>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+          "route.month.jun": true,
+          "route.month.jul": true,
+          "route.month.aug": true,
+          "route.month.sep": true,
+          "route.month.oct": true
         }
       }
     ]
@@ -1232,9 +1190,6 @@ exports[`scrape Maine 1`] = `
         },
         "properties": {
           "name": "The Cataracts",
-          "route.url": "https://ropewiki.com/The_Cataracts",
-          "route.latitude": 44.6351,
-          "route.longitude": -70.8616,
           "route.id": 68931,
           "route.name": "The Cataracts",
           "route.quality": 3,
@@ -1244,8 +1199,7 @@ exports[`scrape Maine 1`] = `
           "route.permit": "No",
           "route.rappelCountMin": 4,
           "route.rappelCountMax": 5,
-          "route.rappelLongestMeters": 15.24,
-          "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>Nice Canyon near Andover, ME.</p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<p>Hike up trail to slot.</p>\\n<h2 id=\\"descent\\">Descent</h2>\\n<p>8ft rap into slot, 25ft two tier rap at the end of slot. Another 30\\nft rap and a final 50ft.</p>\\n<h2 id=\\"exit\\">Exit</h2>\\n<p>Hike out trail</p>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<p>See The Maine Canyon Survey</p>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+          "route.rappelLongestMeters": 15.24
         }
       }
     ]
@@ -1263,12 +1217,8 @@ exports[`scrape Maine 1`] = `
         },
         "properties": {
           "name": "Screw Auger Falls Gorge",
-          "route.url": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
-          "route.latitude": 44.57194,
-          "route.longitude": -70.91,
           "route.id": 34280,
           "route.name": "Screw Auger Falls Gorge",
-          "route.months": "[\\"Jun\\",\\"Jul\\",\\"Aug\\",\\"Sep\\",\\"Oct\\"]",
           "route.technicalRating": 3,
           "route.waterRating": "C1",
           "route.timeRating": "I",
@@ -1276,7 +1226,11 @@ exports[`scrape Maine 1`] = `
           "route.rappelCountMin": 1,
           "route.rappelCountMax": 1,
           "route.rappelLongestMeters": 7.62,
-          "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>\\"The last canyon along the Bear River in Grafton Notch is the Screw\\nAuger Gorge. This short Gorge is probably one of the most popular\\ntourist destinations in the area. It is frequented by thousands of\\ntourists each summer and it is not uncommon to find families and teens\\nswimming here on a warm summer afternoon. The canyoneering opportunities\\nare limited but still possible. Rappel off a natural anchor or tree into\\nthe pothole below, escape the small pothole and hike/ swim through the\\nrest of the gorge.\\"</p>\\n<p>from <em>The Maine Canyon Survey: A Guide to Canyoneering in\\nMaine.</em></p>\\n<p><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">1</a></p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<h2 id=\\"descent\\">Descent</h2>\\n<h2 id=\\"exit\\">Exit</h2>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<ul>\\n<li><img src=\\"rwl_en.png\\" title=\\"rwl_en.png\\" alt=\\"rwl_en.png\\" /><a\\nhref=\\"http://summitpost.org/screw-auger-falls-gorge/826303\\">SummitPost.org</a>\\n: Screw Auger Falls Gorge]</li>\\n</ul>\\n<ul>\\n<li><img src=\\"rwl_en.png\\" title=\\"rwl_en.png\\" alt=\\"rwl_en.png\\" /><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">Eyes\\nUp Adventure</a> : Maine canyoneering]</li>\\n</ul>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+          "route.month.jun": true,
+          "route.month.jul": true,
+          "route.month.aug": true,
+          "route.month.sep": true,
+          "route.month.oct": true
         }
       }
     ]
@@ -1293,18 +1247,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt6",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)"
+          "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       }
     ]
@@ -1322,9 +1274,6 @@ exports[`scrape Maine 1`] = `
         },
         "properties": {
           "name": "Inman's Cave",
-          "route.url": "https://ropewiki.com/Inman%27s_Cave",
-          "route.latitude": 44.2165,
-          "route.longitude": -69.0747,
           "route.id": 68718,
           "route.name": "Inman's Cave",
           "route.technicalRating": 3,
@@ -1333,8 +1282,7 @@ exports[`scrape Maine 1`] = `
           "route.permit": "No",
           "route.rappelCountMin": 2,
           "route.rappelCountMax": 2,
-          "route.rappelLongestMeters": 6.1,
-          "route.description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>This is one of the only caves in Maine that requires the use of SRT\\nequipment. The cave is small but makes for a fun adventure. Location\\nbeta and more information can be provided by contacting the Maine Cave\\nSurvey with the following email: stephen.whitney1999@gmail.com</p>\\n<p>If you have visited this cave please do not post location data to\\nkeep riffraff out of dangrous situations!</p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<h2 id=\\"descent\\">Descent</h2>\\n<h2 id=\\"exit\\">Exit</h2>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
+          "route.rappelLongestMeters": 6.1
         }
       }
     ]
@@ -1351,18 +1299,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt5",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)"
+          "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       },
       {
@@ -1375,18 +1321,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt11",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)"
+          "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       },
       {
@@ -1399,18 +1343,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt10",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "5mile to (Data by brennen.caltech.edu/swhikes)"
+          "description": "5mile to (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       },
       {
@@ -1423,18 +1365,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt2",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)"
+          "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       },
       {
@@ -1447,18 +1387,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt4",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)"
+          "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       },
       {
@@ -1471,18 +1409,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt8",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)"
+          "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       },
       {
@@ -1495,18 +1431,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt3",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)"
+          "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       },
       {
@@ -1519,18 +1453,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt9",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)"
+          "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       }
     ]
@@ -1547,18 +1479,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt7",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "Br (Data by brennen.caltech.edu/swhikes)"
+          "description": "Br (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       }
     ]
@@ -1575,18 +1505,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt1",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)"
+          "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       }
     ]
@@ -1603,18 +1531,16 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
-          "route.latitude": 45.9043,
-          "route.longitude": -68.922,
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No",
           "name": "Wpt1",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)"
+          "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "route.permit": "No"
         }
       }
     ]
