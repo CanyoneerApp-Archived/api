@@ -6,9 +6,9 @@ export async function writeOutput(routes: RouteV2[]) {
   await FS.promises.mkdir('./output/v2/details', {recursive: true});
   await FS.promises.mkdir('./output/v1', {recursive: true});
 
-  const v1Index = new StreamingJSONWriter('./output/v1/index.json');
-  const v2Index = new StreamingJSONWriter('./output/v2/index.json');
-  const v2GeoJSON = new StreamingJSONWriter('./output/v2/index.geojson');
+  const v1Index = new JSONWriteStream('./output/v1/index.json');
+  const v2Index = new JSONWriteStream('./output/v2/index.json');
+  const v2GeoJSON = new JSONWriteStream('./output/v2/index.geojson');
 
   for (const route of routes) {
     v1Index.write(toRouteV1(route));
@@ -24,7 +24,10 @@ export async function writeOutput(routes: RouteV2[]) {
   await Promise.all([v1Index.end(), v2Index.end(), v2GeoJSON.end()]);
 }
 
-class StreamingJSONWriter {
+/**
+ * This class writes JSON objects to a file, line by line
+ */
+class JSONWriteStream {
   private first = true;
   private stream: FS.WriteStream;
 
