@@ -9,8 +9,8 @@
     "precommit": "scree lint-precommit && yarn test",
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
-    "test": "jest --env=node --detectOpenHandles",
-    "frontend": "react-app-rewired start"
+    "test": "jest",
+    "web": "react-app-rewired start"
   },
   "browserslist": {
     "production": [
@@ -58,7 +58,6 @@
     "jest": "^29.7.0",
     "jsdom": "^19.0.0",
     "lodash": "^4.17.15",
-    "node-fetch": "^3.3.2",
     "node-pandoc": "^0.3.0",
     "pbf": "^3.2.1",
     "promise-throttle": "^1.1.2",
@@ -78,6 +77,7 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "collectCoverage": true,
+    "detectOpenHandles": true,
     "coverageThreshold": {
       "global": {
         "branches": 62

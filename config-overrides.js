@@ -4,6 +4,6 @@ const Path = require('path');
 module.exports = {
   paths: paths => ({
     ...paths,
-    appIndexJs: Path.resolve('./src/frontend/index.tsx'),
+    appIndexJs: Path.resolve('./src/web/index.tsx'),
   }),
 };

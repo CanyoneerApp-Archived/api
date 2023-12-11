@@ -1,7 +1,7 @@
 import {spawn} from 'child_process';
 
 /**
- * Builds the frontend of the application using create-react-app.
+ * Builds the React web frontend using create-react-app.
  */
 export function createBuild(): Promise<void> {
   const child = spawn('yarn react-app-rewired build', {shell: true, stdio: 'inherit'});

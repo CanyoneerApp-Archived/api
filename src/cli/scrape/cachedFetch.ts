@@ -1,6 +1,5 @@
 import Crypto from 'crypto';
 import FS from 'fs';
-import fetch from 'node-fetch';
 import Path from 'path';
 import PromiseThrottle from 'promise-throttle';
 import {logger} from '../../utils/logger';
