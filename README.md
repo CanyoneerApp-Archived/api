@@ -1,6 +1,6 @@
 This is an API for canyoneering routes from RopeWiki.
 
-## Using the API
+# Using the API
 
 You can make HTTP requests to the API at `http://canyoneer--main.s3.us-west-1.amazonaws.com`.
 
@@ -16,7 +16,9 @@ The following endpoints are available:
 - `/v1/index.json` - all routes as a JSON array using the `RouteV1` type
 - `/v1/schemas/{type}.json` - JSON schemas for `RouteV1`
 
-# Getting Started
+# Developing the API
+
+## Getting Started
 
 Install native dependencies
 
@@ -73,3 +75,24 @@ The scraper supports some command line flags. You can see all of them by running
 ```
 yarn start --help
 ```
+
+## Developing the Mapbox Style and Web Frontend
+
+Start the web interface in development mode, with hot code reloading, by running
+
+```
+yarn web
+```
+
+## Directory Layout
+
+- `.github` contains configuration files for GitHub workflows which we use for continuous integration (CI).
+- `.vscode` contains configuration files for VSCode which automatically configures code validation and formatting tools for this project.
+- `build` contains the final output product that gets uploaded to S3 after the CLI finishes running. This folder does not exist until after running the CLI.
+- `cache` contains cached HTTP responses from RopeWiki. This folder does not exist until after running the CLI.
+- `coverage` contains a unit test code coverage report. This folder does not exist until after running the unit tests.
+- `public` contains static files served from our S3 bucket
+- `src/cli` contains the scraper itself and a command-line interface (CLI) for running it with different options.
+- `src/types` contains TypeScript type definitions used throughout the codebase.
+- `src/utils` contains utility functions and helper modules used across the codebase.
+- `src/web` contains a web frontend code a small app that allows viewing the data and developing the Mapbox style.
