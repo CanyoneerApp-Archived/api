@@ -12,7 +12,7 @@ export function md5(input: string) {
 }
 
 function getPath(url: string) {
-  return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
+  return Path.join(__dirname, '../../../cache', `${md5(url)}.txt`);
 }
 
 async function cachedFetch(urlObject: URL) {
