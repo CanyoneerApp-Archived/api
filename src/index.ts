@@ -1,6 +1,5 @@
 import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
-import {spawn} from 'child_process';
 import {program} from 'commander';
 import {isArray} from 'lodash';
 import {getOutputStats} from './getOutputStats';
@@ -62,7 +61,6 @@ export async function main(argv: string[]) {
   const stats = await logger.step(getOutputStats, []);
   logger.outputStats(stats);
   await logger.step(writeTippecanoe, []);
-
   await logger.step(buildFrontend, []);
 
   if (!options.local && stack) {
@@ -75,10 +73,11 @@ export async function main(argv: string[]) {
 if (require.main === module) {
   main(process.argv);
 }
-function buildFrontend(): Promise<unknown> {
-  spawn('yarn react-app-rewired build', {shell: true, stdio: 'inherit'})
-  return new Promise((resolve, reject) => {
-    process.on('exit', (code) => code ? reject(code) : resolve(code))
-  })
-}
 
+function buildFrontend(): Promise<unknown> {
+  // spawn('yarn react-app-rewired build', {shell: true, stdio: 'inherit'});
+  // return new Promise((resolve, reject) => {
+  //   process.on('exit', code => (code ? reject(code) : resolve(code)));
+  // });
+  return Promise.resolve()
+}

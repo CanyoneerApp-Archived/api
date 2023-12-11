@@ -1,4 +1,4 @@
 {
   "extends": "./node_modules/@scree/quality/src/tsconfig.json",
-  "include": ["./src", "./config-overrides.js"]
+  "include": ["./src"]
 }
