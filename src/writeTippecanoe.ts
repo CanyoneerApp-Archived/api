@@ -3,14 +3,18 @@ import tippecanoe from 'tippecanoe';
 import {logger} from './logger';
 
 export async function writeTippecanoe() {
+
   await tippecanoe(
-    ['./output/v2/index.geojson'],
+    ['./public/v2/index.geojson'],
 
     // You can pass any option from https://github.com/mapbox/tippecanoe. The node wrapper will
     // convert keys from camelCase to kebab-case.
     {
       // Write tiles to a directory instead of creating a mbtiles file
-      outputToDirectory: './output/v2/tiles',
+      outputToDirectory: './public/v2/tiles',
+
+      // Overwrite existing files
+      force: true,
 
       // The highest zoom level for which tiles are generated. Choosing a larger value allows for
       // more detailed geometries at the expense of much larger download sizes.
@@ -23,6 +27,9 @@ export async function writeTippecanoe() {
       // If the tiles are too big at low zoom levels, drop the least-visible features to allow
       // tiles to be created with those features that remain
       dropDensestAsNeeded: true,
+
+      // Do not apply gzip compression to the vector tile files.
+      noTileCompression: true,
     },
     {echo: logger.enable, async: true},
   );

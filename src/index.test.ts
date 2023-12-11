@@ -1,5 +1,8 @@
+import {VectorTile} from '@mapbox/vector-tile';
 import FS from 'fs';
+import {times} from 'lodash';
 import Path from 'path';
+import Protobuf from 'pbf';
 import {main} from '.';
 import {logger} from './logger';
 
@@ -21,26 +24,45 @@ describe('scrape', () => {
   );
 });
 
-const readOutputDirIgnore = ['output/v1/schemas', 'output/v2/schemas', 'output/v2/tiles'];
+const readOutputDirIgnore = [
+  'output/v1/schemas',
+  'output/v2/schemas',
+  'output/v2/tiles/metadata.json',
+];
 
-async function readOutputDir(parentPath = 'output') {
+async function readOutputDir(dirPath = 'output') {
+  const tilesMetadata = JSON.parse(
+    await FS.promises.readFile('output/v2/tiles/metadata.json', 'utf-8'),
+  );
+
   return Object.fromEntries(
     (
       await Promise.all(
-        FS.readdirSync(parentPath).map(async (childPathUnresolved): Promise<[string, string][]> => {
-          const childPath = Path.join(parentPath, childPathUnresolved);
+        FS.readdirSync(dirPath).map(async (basePath): Promise<[string, unknown][]> => {
+          const path = Path.join(dirPath, basePath);
 
-          // Child is ignored
-          if (readOutputDirIgnore.includes(childPath)) {
+          // Path is ignored
+          if (readOutputDirIgnore.includes(path)) {
             return [];
 
-            // Child is a directory
-          } else if ((await FS.promises.lstat(childPath)).isDirectory()) {
-            return Object.entries(await readOutputDir(childPath));
+            // Path is a directory
+          } else if ((await FS.promises.lstat(path)).isDirectory()) {
+            return Object.entries(await readOutputDir(path));
 
-            // Child is a file
+            // Path is a vector tile
+          } else if (Path.extname(path) === '.pbf') {
+            const coords = getVectorTileId(path);
+            // We give up some snapshot completeness to reduce the snapshot size by only including
+            // the tiles at the max zoom level.
+            if (coords.z !== Number(tilesMetadata.maxzoom)) {
+              return [];
+            } else {
+              return [[path, parseVectorTile(await FS.promises.readFile(path), coords)]];
+            }
+
+            // Path is some other kind of file
           } else {
-            return [[childPath, parseOutputFile(await FS.promises.readFile(childPath, 'utf8'))]];
+            return [[path, JSON.parse(await FS.promises.readFile(path, 'utf-8'))]];
           }
         }),
       )
@@ -49,24 +71,34 @@ async function readOutputDir(parentPath = 'output') {
 }
 
 /**
- * Try to parse a string as JSON or newline separated JSON for an easier-to-read snapshot.
- * If the string is parsable as neither, return the original string.
+ * A vector tile's x, y, and z coordinates. These specify a tile's geographic location.
+ * See https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames for more.
  */
-function parseOutputFile(input: string) {
-  try {
-    return JSON.parse(input);
-  } catch (error) {
-    // do nothing
-  }
+type VectorTileId = {x: number; y: number; z: number};
 
-  try {
-    return input
-      .split('\n')
-      .filter(Boolean)
-      .map(line => JSON.parse(line));
-  } catch (error) {
-    // do nothing
-  }
+/**
+ * Turn a binary buffer containing a vector tile and it's associated VectorTileId into a
+ * GeoJSON object for snapshot inspection.
+ */
+function parseVectorTile(data: Buffer, {x, y, z}: VectorTileId) {
+  const tile = new VectorTile(new Protobuf(data));
 
-  return input;
+  return Object.fromEntries(
+    Object.entries(tile.layers).map(([name, layer]) => [
+      name,
+      times(layer.length, i => layer.feature(i).toGeoJSON(x, y, z)),
+    ]),
+  );
+}
+
+/**
+ * Given a filesystem path to a vector tile, return the associated VectorTileId
+ */
+function getVectorTileId(path: string): VectorTileId {
+  const [z, x, y] = path
+    .split('/')
+    .slice(-3)
+    .map(s => Number(Path.basename(s, Path.extname(s))));
+
+  return {x, y, z};
 }

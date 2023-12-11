@@ -12,7 +12,7 @@ export const schemas = {
 export async function writeAllSchemas() {
   return Promise.all(
     Object.entries(schemas).map(async ([type, version]) => {
-      const outputPath = Path.resolve(`./output/${version}/schemas/${type}.json`);
+      const outputPath = Path.resolve(`./public/${version}/schemas/${type}.json`);
       await FS.promises.mkdir(Path.dirname(outputPath), {recursive: true});
       await FS.promises.writeFile(
         outputPath,

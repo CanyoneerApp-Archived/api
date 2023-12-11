@@ -92,7 +92,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
         url: result.fullurl,
         latitude: round(lat, 5),
         longitude: round(lon, 5),
-        id: result.printouts.pageid[0],
+        id: parseInt(result.printouts.pageid[0]),
         name: result.printouts.name[0],
         quality: result.printouts.quality[0] || undefined,
         months: result.printouts.months.length ? result.printouts.months : undefined,

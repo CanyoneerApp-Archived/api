@@ -1,11 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-
 module.exports = {
+  // @ts-ignore
   paths: paths => {
     return {
       ...paths,
-      appIndexJs: './src/buildViewer/app.tsx',
-      appBuild: './output/viewer',
+      appIndexJs: './src/frontend/index.tsx',
+      appBuild: './output',
     };
   },
 };
