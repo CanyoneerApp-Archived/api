@@ -16,6 +16,8 @@ The following endpoints are available:
 - `/v1/index.json` - all routes as a JSON array using the `RouteV1` type
 - `/v1/schemas/{type}.json` - JSON schemas for `RouteV1`
 
+All content on our API is available under [Creative Commons Attribution Non-Commercial Share Alike](http://creativecommons.org/licenses/by-nc-sa/3.0/) unless otherwise noted.
+
 # Developing the API
 
 ## Getting Started
