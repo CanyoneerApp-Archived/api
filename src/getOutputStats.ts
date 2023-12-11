@@ -21,7 +21,7 @@ export async function getOutputStats() {
     ...getArrayStats('tileBytes', tileBytes),
   };
 
-  FS.writeFile('./output/stats.json', JSON.stringify(stats, null, 2));
+  FS.writeFile('./output/v2/stats.json', JSON.stringify(stats, null, 2));
 
   return stats;
 }
