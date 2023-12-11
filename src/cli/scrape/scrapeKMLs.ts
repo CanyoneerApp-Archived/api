@@ -1,4 +1,4 @@
-import {RouteV2} from '../types/v2';
+import {RouteV2} from '../../types/v2';
 // @ts-ignore there are no type definitions for this module
 import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';

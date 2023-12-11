@@ -3,7 +3,6 @@ import tippecanoe from 'tippecanoe';
 import {logger} from './logger';
 
 export async function writeTippecanoe() {
-
   await tippecanoe(
     ['./public/v2/index.geojson'],
 

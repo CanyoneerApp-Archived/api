@@ -1,3 +1,5 @@
+jest.mock('uuid', () => ({v4: () => '00000000-0000-0000-0000-000000000000'}));
+
 import {VectorTile} from '@mapbox/vector-tile';
 import FS from 'fs';
 import {times} from 'lodash';
@@ -28,6 +30,9 @@ const readOutputDirIgnore = [
   'output/v1/schemas',
   'output/v2/schemas',
   'output/v2/tiles/metadata.json',
+  'output/static',
+  'output/index.html',
+  'output/asset-manifest.json',
 ];
 
 async function readOutputDir(dirPath = 'output') {

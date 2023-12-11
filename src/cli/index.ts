@@ -2,6 +2,7 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
+import {buildFrontend} from './buildFrontend';
 import {getOutputStats} from './getOutputStats';
 import {logger} from './logger';
 import {rmOutputDir} from './rmOutputDir';
@@ -72,12 +73,4 @@ export async function main(argv: string[]) {
 
 if (require.main === module) {
   main(process.argv);
-}
-
-function buildFrontend(): Promise<unknown> {
-  // spawn('yarn react-app-rewired build', {shell: true, stdio: 'inherit'});
-  // return new Promise((resolve, reject) => {
-  //   process.on('exit', code => (code ? reject(code) : resolve(code)));
-  // });
-  return Promise.resolve()
 }

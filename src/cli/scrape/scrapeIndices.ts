@@ -1,7 +1,8 @@
 import assert from 'assert';
 import {round} from 'lodash';
+import {METERS_PER_FOOT} from '../../constants';
+import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../../types/v2';
 import {logger} from '../logger';
-import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/v2';
 import cachedFetch from './cachedFetch';
 import {validate as validateSchema} from './getValidator';
 import {parseIntSafe} from './parseIntSafe';
@@ -128,5 +129,3 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
 function encode(input: string) {
   return encodeURIComponent(input).replace(/%/g, '-');
 }
-
-export const METERS_PER_FOOT = 0.3048;
