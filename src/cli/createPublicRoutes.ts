@@ -1,6 +1,5 @@
 import FS from 'fs';
-import {toRouteV1} from '../types/v1';
-import {RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from '../types/v2';
+import {RouteV2, toGeoJSONRouteV2, toIndexRouteV2, toRouteV1} from '../types/v2';
 
 export async function createPublicRoutes(routes: RouteV2[]) {
   await FS.promises.mkdir('./public/v2/details', {recursive: true});
