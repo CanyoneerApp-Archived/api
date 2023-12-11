@@ -85,4 +85,3 @@ export type DifficultyV1 =
   | '4a'
   | '4b'
   | '4c';
-

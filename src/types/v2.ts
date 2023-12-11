@@ -46,9 +46,9 @@ type GeoJSONRouteV2CoreProperties = {
     'months' | 'latitude' | 'longitude'
   > as `route.${Key}`]: IndexRouteV2[Key];
 } & {
-    // Vector tiles cannot encode arrays so we break the months out into individual properties.
-    [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
-  };
+  // Vector tiles cannot encode arrays so we break the months out into individual properties.
+  [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
+};
 
 /**
  * A GeoJSON feature representing a route
@@ -124,18 +124,18 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
     ) ??
     (route.longitude && route.latitude
       ? [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [route.longitude, route.latitude],
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [route.longitude, route.latitude],
+            },
+            properties: {
+              name: route.name,
+              ...toGeoJSONRouteV2CoreProperties(route),
+            },
           },
-          properties: {
-            name: route.name,
-            ...toGeoJSONRouteV2CoreProperties(route),
-          },
-        },
-      ]
+        ]
       : [])
   );
 }
@@ -152,7 +152,8 @@ export const permitV2toV1: {[key: string]: PermitV1} = {
   Yes: 'Permit required',
   Closed: 'Closed to entry',
   Restricted: 'Access is Restricted',
-}; export function toRouteV1(route: RouteV2): RouteV1 {
+};
+export function toRouteV1(route: RouteV2): RouteV1 {
   return {
     URL: route.url,
     Name: route.name,
@@ -161,7 +162,8 @@ export const permitV2toV1: {[key: string]: PermitV1} = {
     Latitude: route.latitude,
     Longitude: route.longitude,
     Months: route.months?.map(month => monthsV2toV1[month]) ?? [],
-    Difficulty: route.technicalRating &&
+    Difficulty:
+      route.technicalRating &&
       ((route.technicalRating + (route.waterRating ?? '?')).toLowerCase() as DifficultyV1),
     AdditionalRisk: route.riskRating,
     Vehicle: route.vehicle,
@@ -179,7 +181,7 @@ export const permitV2toV1: {[key: string]: PermitV1} = {
     GeoJSON: route.geojson,
   };
 }
-const monthsV2toV1: {[key: string]: MonthV1;} = {
+const monthsV2toV1: {[key: string]: MonthV1} = {
   Jan: 'January',
   Feb: 'Feburary',
   Mar: 'March',
@@ -193,4 +195,3 @@ const monthsV2toV1: {[key: string]: MonthV1;} = {
   Nov: 'November',
   Dec: 'December',
 };
-

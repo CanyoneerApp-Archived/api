@@ -95,7 +95,7 @@ yarn web
 - `build` contains the final output product that gets uploaded to S3 after the CLI finishes running. This folder does not exist until after running the CLI.
 - `cache` contains cached HTTP responses from RopeWiki. This folder does not exist until after running the CLI.
 - `coverage` contains a unit test code coverage report. This folder does not exist until after running the unit tests.
-- `public` contains static files served from our S3 bucket
+- `public` contains static files used by our web frontend AND all generated route JSON files and tiles. This is all copied to the build directory alongside the compiled web frontend in a later step.
 - `src/cli` contains the scraper itself and a command-line interface (CLI) for running it with different options.
 - `src/types` contains TypeScript type definitions used throughout the codebase.
 - `src/utils` contains utility functions and helper modules used across the codebase.

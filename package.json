@@ -10,7 +10,7 @@
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
     "test": "jest",
-    "web": "react-scripts start"
+    "web": "react-app-rewired start"
   },
   "browserslist": {
     "production": [
@@ -60,6 +60,9 @@
     "node-pandoc": "^0.3.0",
     "pbf": "^3.2.1",
     "promise-throttle": "^1.1.2",
+    "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
+    "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "tippecanoe": "^0.6.0",
     "ts-jest": "^29.1.1",
