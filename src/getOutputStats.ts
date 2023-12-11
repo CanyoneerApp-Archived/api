@@ -1,12 +1,9 @@
 import FS from 'fs/promises';
 import {max, mean, sum} from 'lodash';
 import {glob} from 'miniglob';
-import {promisify} from 'util';
-import zlib from 'zlib';
+import {gzip} from 'zlib';
 
-const gzip = promisify(zlib.gzip);
-
-export type OutputStats = Awaited<ReturnType<typeof getOutputStats>>;
+export type Stats = Awaited<ReturnType<typeof getOutputStats>>;
 
 export async function getOutputStats() {
   const detailBytes = await Promise.all(glob(`./output/v2/details/*.json`).map(getGzipSize));
@@ -51,6 +48,7 @@ function getPercentile(sortedArray: number[], percentile: number) {
 
 async function getGzipSize(path: string): Promise<number> {
   const fileData = await FS.readFile(path);
-  const gzippedData = await gzip(fileData);
-  return gzippedData.byteLength;
+  return await new Promise((resolve, reject) =>
+    gzip(fileData, (error, result) => (error ? reject(error) : resolve(result.byteLength))),
+  );
 }
