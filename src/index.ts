@@ -2,7 +2,7 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
-import {getOutputStats} from './getOutputStats';
+import {getMainOutputStats, getOutputStats} from './getOutputStats';
 import {logger} from './logger';
 import {rmOutputDir} from './rmOutputDir';
 import {scrape} from './scrape';
@@ -59,7 +59,15 @@ export async function main(argv: string[]) {
   await logger.step(writeOutput, [routes]);
   await logger.step(writeTippecanoe, []);
   const stats = await logger.step(getOutputStats, []);
-  logger.outputStats(stats);
+  logger.outputStats(
+    stats,
+    options.region === 'all'
+      ? await getMainOutputStats().catch(error => {
+          logger.error(error);
+          return undefined;
+        })
+      : undefined,
+  );
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);

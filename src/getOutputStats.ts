@@ -4,6 +4,8 @@ import {glob} from 'miniglob';
 import {promisify} from 'util';
 import zlib from 'zlib';
 
+const gzip = promisify(zlib.gzip);
+
 export type OutputStats = Awaited<ReturnType<typeof getOutputStats>>;
 
 export async function getOutputStats() {
@@ -24,6 +26,12 @@ export async function getOutputStats() {
   return stats;
 }
 
+export async function getMainOutputStats(): Promise<Record<string, number> | undefined> {
+  const response = await fetch('http://canyoneer--main.s3.us-west-1.amazonaws.com/v2/stats.json');
+  if (!response.ok) return undefined;
+  return response.json();
+}
+
 function getArrayStats(name: string, values: number[]) {
   return {
     [`${name}Sum`]: sum(values),
@@ -40,8 +48,6 @@ function getPercentile(sortedArray: number[], percentile: number) {
   const index = Math.floor(sortedArray.length * percentile);
   return sortedArray[index];
 }
-
-const gzip = promisify(zlib.gzip);
 
 async function getGzipSize(path: string): Promise<number> {
   const fileData = await FS.readFile(path);
