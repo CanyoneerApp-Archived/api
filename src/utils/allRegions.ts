@@ -1,4 +1,3 @@
-export const METERS_PER_FOOT = 0.3048;
 export const allRegions = [
   'Asia',
   'Central America',

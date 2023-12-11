@@ -1,8 +1,6 @@
 import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
-import {isArray} from 'lodash';
-import {allRegions} from '../utils/constants';
 import {logger} from '../utils/logger';
 import {clearPublicDir} from './clearPublicDir';
 import {createBuild} from './createBuild';
@@ -39,12 +37,6 @@ export async function main(argv: string[]) {
 
   logger.enableFetch = options.verbose;
 
-  const regions = isArray(options.region)
-    ? options.region
-    : options.region === 'all'
-      ? allRegions
-      : [options.region];
-
   const awsRegion = 'us-west-1';
   const s3 = new S3({region: awsRegion});
   const cloudFormation = new CloudFormation({region: awsRegion});
@@ -56,17 +48,18 @@ export async function main(argv: string[]) {
 
   await logger.step(clearPublicDir, []);
   await logger.step(createPublicSchemas, []);
-  const routes = await logger.step(scrape, [regions]);
+  const routes = await logger.step(scrape, [options.regions]);
   await logger.step(createPublicRoutes, [routes]);
   await logger.step(createPublicTiles, []);
-  await logger.step(createBuild, []);
   const stats = await logger.step(getOutputStats, []);
   logger.stats(stats);
+  await logger.step(createBuild, []);
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);
   }
 
+  logger.stats(stats);
   logger.done();
 }
 

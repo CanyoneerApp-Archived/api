@@ -1,9 +1,9 @@
 import assert from 'assert';
 import {round} from 'lodash';
 import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../../types/v2';
-import {METERS_PER_FOOT} from '../../utils/constants';
 import {validate as validateSchema} from '../../utils/getValidator';
 import {logger} from '../../utils/logger';
+import {metersPerFoot} from '../../utils/metersPerFoot';
 import {parseIntSafe} from '../../utils/parseIntSafe';
 import cachedFetch from './cachedFetch';
 import parseRappelCount from './parseRappelCount';
@@ -104,7 +104,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
         permit: result.printouts.permits[0],
         ...parseRappelCount(result.printouts.rappelCount[0]),
         rappelLongestMeters: result.printouts.rappelLongest[0]?.value
-          ? round(result.printouts.rappelLongest[0].value * METERS_PER_FOOT, 2)
+          ? round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
           : undefined,
         vehicle: result.printouts.vehicle[0],
         shuttleSeconds: result.printouts.shuttle[0]?.value
