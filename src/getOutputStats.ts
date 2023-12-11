@@ -1,30 +1,38 @@
 import FS from 'fs/promises';
 import {max, mean, sum} from 'lodash';
-import Path from 'path';
+import {glob} from 'miniglob';
 import {promisify} from 'util';
 import zlib from 'zlib';
 
 export type OutputStats = Awaited<ReturnType<typeof getOutputStats>>;
 
 export async function getOutputStats() {
-  const dir = './output/v2/details';
-
-  const detailBytes = await Promise.all(
-    (await FS.readdir(dir)).map(async file => getGzipSize(Path.join(dir, file))),
-  );
+  const detailBytes = await Promise.all(glob(`./output/v2/details/*.json`).map(getGzipSize));
+  const tileBytes = await Promise.all(glob(`./output/v2/tiles/*/*/*.pbf`).map(getGzipSize));
 
   detailBytes.sort();
 
-  return {
+  const stats = {
     indexBytes: await getGzipSize('./output/v2/index.json'),
     geojsonBytes: await getGzipSize('./output/v2/index.geojson'),
-    detailBytesSum: sum(detailBytes),
-    detailBytesMean: Math.round(mean(detailBytes)),
-    detailBytesP50: getPercentile(detailBytes, 0.5),
-    detailBytesP95: getPercentile(detailBytes, 0.95),
-    detailBytesP99: getPercentile(detailBytes, 0.99),
+    ...getArrayStats('detailBytes', detailBytes),
+    ...getArrayStats('tileBytes', tileBytes),
+  };
+
+  FS.writeFile('./output/stats.json', JSON.stringify(stats, null, 2));
+
+  return stats;
+}
+
+function getArrayStats(name: string, values: number[]) {
+  return {
+    [`${name}Sum`]: sum(values),
+    [`${name}Mean`]: Math.round(mean(values)),
+    [`${name}P50`]: getPercentile(values, 0.5),
+    [`${name}P95`]: getPercentile(values, 0.95),
+    [`${name}P99`]: getPercentile(values, 0.99),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    detailBytesMax: max(detailBytes)!,
+    [`${name}Max`]: max(values)!,
   };
 }
 

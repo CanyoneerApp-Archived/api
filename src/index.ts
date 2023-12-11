@@ -57,9 +57,9 @@ export async function main(argv: string[]) {
   await logger.step(writeAllSchemas, []);
   const routes = await logger.step(scrape, [regions]);
   await logger.step(writeOutput, [routes]);
+  await logger.step(writeTippecanoe, []);
   const stats = await logger.step(getOutputStats, []);
   logger.outputStats(stats);
-  await logger.step(writeTippecanoe, []);
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);

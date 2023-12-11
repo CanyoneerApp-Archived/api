@@ -1,6 +1,7 @@
 import {VectorTile} from '@mapbox/vector-tile';
 import FS from 'fs';
 import {times} from 'lodash';
+import {glob} from 'miniglob';
 import Path from 'path';
 import Protobuf from 'pbf';
 import {main} from '.';
@@ -24,50 +25,34 @@ describe('scrape', () => {
   );
 });
 
-const readOutputDirIgnore = [
-  'output/v1/schemas',
-  'output/v2/schemas',
-  'output/v2/tiles/metadata.json',
-];
-
-async function readOutputDir(dirPath = 'output') {
-  const tilesMetadata = JSON.parse(
+async function readOutputDir() {
+  const {maxzoom} = JSON.parse(
     await FS.promises.readFile('output/v2/tiles/metadata.json', 'utf-8'),
   );
 
-  return Object.fromEntries(
-    (
-      await Promise.all(
-        FS.readdirSync(dirPath).map(async (basePath): Promise<[string, unknown][]> => {
-          const path = Path.join(dirPath, basePath);
+  return Object.fromEntries([
+    ...(await Promise.all(
+      [
+        'output/v2/index.json',
+        'output/v2/geojson.json',
+        'output/v1/index.json',
+        'output/v2/details/*.json',
+      ].flatMap(pattern =>
+        glob(pattern)
+          .sort()
+          .map(async path => [path, JSON.parse(await FS.promises.readFile(path, 'utf-8'))]),
+      ),
+    )),
 
-          // Path is ignored
-          if (readOutputDirIgnore.includes(path)) {
-            return [];
-
-            // Path is a directory
-          } else if ((await FS.promises.lstat(path)).isDirectory()) {
-            return Object.entries(await readOutputDir(path));
-
-            // Path is a vector tile
-          } else if (Path.extname(path) === '.pbf') {
-            const coords = getVectorTileId(path);
-            // We give up some snapshot completeness to reduce the snapshot size by only including
-            // the tiles at the max zoom level.
-            if (coords.z !== Number(tilesMetadata.maxzoom)) {
-              return [];
-            } else {
-              return [[path, parseVectorTile(await FS.promises.readFile(path), coords)]];
-            }
-
-            // Path is some other kind of file
-          } else {
-            return [[path, JSON.parse(await FS.promises.readFile(path, 'utf-8'))]];
-          }
-        }),
-      )
-    ).flat(),
-  );
+    ...(await Promise.all(
+      glob(`output/v2/tiles/${maxzoom}/*/*.pbf`)
+        .sort()
+        .map(async path => [
+          path,
+          parseVectorTile(await FS.promises.readFile(path), getVectorTileId(path)),
+        ]),
+    )),
+  ]);
 }
 
 /**

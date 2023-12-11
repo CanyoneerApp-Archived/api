@@ -2,6 +2,84 @@
 
 exports[`scrape Maine 1`] = `
 "{
+  "output/v2/index.json": [
+    {
+      "latitude": 44.274,
+      "longitude": -70.9843,
+      "id": 68720,
+      "name": "Bickford Slides Canyon",
+      "quality": 3,
+      "months": [
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct"
+      ],
+      "technicalRating": 3,
+      "waterRating": "C",
+      "timeRating": "II",
+      "permit": "No",
+      "rappelCountMin": 3,
+      "rappelCountMax": 3,
+      "rappelLongestMeters": 15.24
+    },
+    {
+      "latitude": 44.2165,
+      "longitude": -69.0747,
+      "id": 68718,
+      "name": "Inman's Cave",
+      "technicalRating": 3,
+      "waterRating": "A",
+      "timeRating": "I",
+      "permit": "No",
+      "rappelCountMin": 2,
+      "rappelCountMax": 2,
+      "rappelLongestMeters": 6.1
+    },
+    {
+      "latitude": 45.9043,
+      "longitude": -68.922,
+      "id": 25753,
+      "name": "Mount Katahdin",
+      "quality": 5,
+      "permit": "No"
+    },
+    {
+      "latitude": 44.57194,
+      "longitude": -70.91,
+      "id": 34280,
+      "name": "Screw Auger Falls Gorge",
+      "months": [
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct"
+      ],
+      "technicalRating": 3,
+      "waterRating": "C1",
+      "timeRating": "I",
+      "permit": "No",
+      "rappelCountMin": 1,
+      "rappelCountMax": 1,
+      "rappelLongestMeters": 7.62
+    },
+    {
+      "latitude": 44.6351,
+      "longitude": -70.8616,
+      "id": 68931,
+      "name": "The Cataracts",
+      "quality": 3,
+      "technicalRating": 3,
+      "waterRating": "C",
+      "timeRating": "II",
+      "permit": "No",
+      "rappelCountMin": 4,
+      "rappelCountMax": 5,
+      "rappelLongestMeters": 15.24
+    }
+  ],
   "output/v1/index.json": [
     {
       "URL": "https://ropewiki.com/Bickford_Slides_Canyon",
@@ -679,472 +757,6 @@ exports[`scrape Maine 1`] = `
     "rappelLongestMeters": 15.24,
     "description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>Nice Canyon near Andover, ME.</p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<p>Hike up trail to slot.</p>\\n<h2 id=\\"descent\\">Descent</h2>\\n<p>8ft rap into slot, 25ft two tier rap at the end of slot. Another 30\\nft rap and a final 50ft.</p>\\n<h2 id=\\"exit\\">Exit</h2>\\n<p>Hike out trail</p>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<p>See The Maine Canyon Survey</p>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n"
   },
-  "output/v2/index.geojson": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -70.9843,
-          44.274
-        ]
-      },
-      "properties": {
-        "name": "Bickford Slides Canyon",
-        "route.id": 68720,
-        "route.name": "Bickford Slides Canyon",
-        "route.quality": 3,
-        "route.technicalRating": 3,
-        "route.waterRating": "C",
-        "route.timeRating": "II",
-        "route.permit": "No",
-        "route.rappelCountMin": 3,
-        "route.rappelCountMax": 3,
-        "route.rappelLongestMeters": 15.24,
-        "route.month.jun": true,
-        "route.month.jul": true,
-        "route.month.aug": true,
-        "route.month.sep": true,
-        "route.month.oct": true
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -69.0747,
-          44.2165
-        ]
-      },
-      "properties": {
-        "name": "Inman's Cave",
-        "route.id": 68718,
-        "route.name": "Inman's Cave",
-        "route.technicalRating": 3,
-        "route.waterRating": "A",
-        "route.timeRating": "I",
-        "route.permit": "No",
-        "route.rappelCountMin": 2,
-        "route.rappelCountMax": 2,
-        "route.rappelLongestMeters": 6.1
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -116.329666,
-          35.030834,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt1",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.936668,
-          45.898499,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt2",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.921997,
-          45.904335,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt3",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.936668,
-          45.898499,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt4",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.981667,
-          45.896168,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt5",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.998833,
-          45.887333,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt6",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.963997,
-          45.873833,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt7",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "Br (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.936668,
-          45.898499,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt8",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.921997,
-          45.904335,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt9",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.947334,
-          45.900002,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt10",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "5mile to (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -68.981667,
-          45.896168,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Wpt11",
-        "styleUrl": "#dot",
-        "styleHash": "-56beb8bb",
-        "styleMapHash": {
-          "normal": "#dot0",
-          "highlight": "#dot1"
-        },
-        "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-        "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
-        "route.id": 25753,
-        "route.name": "Mount Katahdin",
-        "route.quality": 5,
-        "route.permit": "No"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -70.91,
-          44.57194
-        ]
-      },
-      "properties": {
-        "name": "Screw Auger Falls Gorge",
-        "route.id": 34280,
-        "route.name": "Screw Auger Falls Gorge",
-        "route.technicalRating": 3,
-        "route.waterRating": "C1",
-        "route.timeRating": "I",
-        "route.permit": "No",
-        "route.rappelCountMin": 1,
-        "route.rappelCountMax": 1,
-        "route.rappelLongestMeters": 7.62,
-        "route.month.jun": true,
-        "route.month.jul": true,
-        "route.month.aug": true,
-        "route.month.sep": true,
-        "route.month.oct": true
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -70.8616,
-          44.6351
-        ]
-      },
-      "properties": {
-        "name": "The Cataracts",
-        "route.id": 68931,
-        "route.name": "The Cataracts",
-        "route.quality": 3,
-        "route.technicalRating": 3,
-        "route.waterRating": "C",
-        "route.timeRating": "II",
-        "route.permit": "No",
-        "route.rappelCountMin": 4,
-        "route.rappelCountMax": 5,
-        "route.rappelLongestMeters": 15.24
-      }
-    }
-  ],
-  "output/v2/index.json": [
-    {
-      "latitude": 44.274,
-      "longitude": -70.9843,
-      "id": 68720,
-      "name": "Bickford Slides Canyon",
-      "quality": 3,
-      "months": [
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct"
-      ],
-      "technicalRating": 3,
-      "waterRating": "C",
-      "timeRating": "II",
-      "permit": "No",
-      "rappelCountMin": 3,
-      "rappelCountMax": 3,
-      "rappelLongestMeters": 15.24
-    },
-    {
-      "latitude": 44.2165,
-      "longitude": -69.0747,
-      "id": 68718,
-      "name": "Inman's Cave",
-      "technicalRating": 3,
-      "waterRating": "A",
-      "timeRating": "I",
-      "permit": "No",
-      "rappelCountMin": 2,
-      "rappelCountMax": 2,
-      "rappelLongestMeters": 6.1
-    },
-    {
-      "latitude": 45.9043,
-      "longitude": -68.922,
-      "id": 25753,
-      "name": "Mount Katahdin",
-      "quality": 5,
-      "permit": "No"
-    },
-    {
-      "latitude": 44.57194,
-      "longitude": -70.91,
-      "id": 34280,
-      "name": "Screw Auger Falls Gorge",
-      "months": [
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct"
-      ],
-      "technicalRating": 3,
-      "waterRating": "C1",
-      "timeRating": "I",
-      "permit": "No",
-      "rappelCountMin": 1,
-      "rappelCountMax": 1,
-      "rappelLongestMeters": 7.62
-    },
-    {
-      "latitude": 44.6351,
-      "longitude": -70.8616,
-      "id": 68931,
-      "name": "The Cataracts",
-      "quality": 3,
-      "technicalRating": 3,
-      "waterRating": "C",
-      "timeRating": "II",
-      "permit": "No",
-      "rappelCountMin": 4,
-      "rappelCountMax": 5,
-      "rappelLongestMeters": 15.24
-    }
-  ],
   "output/v2/tiles/12/1240/1485.pbf": {
     "routes": [
       {
