@@ -1,3 +1,7 @@
+// This is a workaround for a bug in the uuid package per
+// https://stackoverflow.com/a/76956796/345530
+jest.mock('uuid', () => ({v4: () => '00000000-0000-0000-0000-000000000000'}));
+
 import {VectorTile} from '@mapbox/vector-tile';
 import FS from 'fs';
 import {times} from 'lodash';
