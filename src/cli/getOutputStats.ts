@@ -7,7 +7,7 @@ import zlib from 'zlib';
 export type OutputStats = Awaited<ReturnType<typeof getOutputStats>>;
 
 export async function getOutputStats() {
-  const dir = './public/v2/details';
+  const dir = './output/v2/details';
 
   const detailBytes = await Promise.all(
     (await FS.readdir(dir)).map(async file => getGzipSize(Path.join(dir, file))),
@@ -16,8 +16,8 @@ export async function getOutputStats() {
   detailBytes.sort();
 
   return {
-    indexBytes: await getGzipSize('./public/v2/index.json'),
-    geojsonBytes: await getGzipSize('./public/v2/index.geojson'),
+    indexBytes: await getGzipSize('./output/v2/index.json'),
+    geojsonBytes: await getGzipSize('./output/v2/index.geojson'),
     detailBytesSum: sum(detailBytes),
     detailBytesMean: Math.round(mean(detailBytes)),
     detailBytesP50: getPercentile(detailBytes, 0.5),

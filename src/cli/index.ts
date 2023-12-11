@@ -2,18 +2,18 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
-import {allRegions} from '../constants';
+import {allRegions} from '../utils/constants';
 import {logger} from '../utils/logger';
-import {buildFrontend} from './buildFrontend';
+import {clearPublicDir} from './clearPublicDir';
+import {createOutput} from './createOutput';
+import {createPublicJSONFiles} from './createPublicJSONFiles';
+import {createPublicTiles} from './createPublicTiles';
+import {createSchemas} from './createSchemas';
 import {getOutputStats} from './getOutputStats';
-import {rmOutputDir} from './rmOutputDir';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
-import {writeAllSchemas} from './writeAllSchemas';
-import {writeOutput} from './writeOutput';
-import {writeTippecanoe} from './writeTippecanoe';
 
 program.option(
   '--local',
@@ -54,14 +54,14 @@ export async function main(argv: string[]) {
     stack = await logger.step(syncStack, [cloudFormation]);
   }
 
-  await logger.step(rmOutputDir, []);
-  await logger.step(writeAllSchemas, []);
+  await logger.step(clearPublicDir, []);
+  await logger.step(createSchemas, []);
   const routes = await logger.step(scrape, [regions]);
-  await logger.step(writeOutput, [routes]);
+  await logger.step(createPublicJSONFiles, [routes]);
+  await logger.step(createPublicTiles, []);
+  await logger.step(createOutput, []);
   const stats = await logger.step(getOutputStats, []);
   logger.outputStats(stats);
-  await logger.step(writeTippecanoe, []);
-  await logger.step(buildFrontend, []);
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);

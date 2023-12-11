@@ -9,7 +9,7 @@ export const schemas = {
   GeoJSONRouteV2: 'v2',
 };
 
-export async function writeAllSchemas() {
+export async function createSchemas() {
   return Promise.all(
     Object.entries(schemas).map(async ([type, version]) => {
       const outputPath = Path.resolve(`./public/${version}/schemas/${type}.json`);

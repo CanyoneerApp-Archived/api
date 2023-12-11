@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {round} from 'lodash';
-import {METERS_PER_FOOT} from '../../constants';
 import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../../types/v2';
+import {METERS_PER_FOOT} from '../../utils/constants';
 import {validate as validateSchema} from '../../utils/getValidator';
 import {logger} from '../../utils/logger';
 import {parseIntSafe} from '../../utils/parseIntSafe';

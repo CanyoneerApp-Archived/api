@@ -1,6 +1,6 @@
 import FS from 'fs/promises';
 
-export async function rmOutputDir() {
+export async function clearPublicDir() {
   try {
     await Promise.all([
       await FS.rm('./public/v1', {recursive: true, force: true}),

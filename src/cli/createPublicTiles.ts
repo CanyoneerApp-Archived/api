@@ -2,7 +2,7 @@
 import tippecanoe from 'tippecanoe';
 import {logger} from '../utils/logger';
 
-export async function writeTippecanoe() {
+export async function createPublicTiles() {
   await tippecanoe(
     ['./public/v2/index.geojson'],
 

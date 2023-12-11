@@ -1,7 +1,7 @@
 import Ajv, {ErrorObject} from 'ajv';
 import FS from 'fs';
 import {memoize} from 'lodash';
-import {schemas} from '../cli/writeAllSchemas';
+import {schemas} from '../cli/createSchemas';
 
 type SchemaName = keyof typeof schemas;
 
