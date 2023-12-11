@@ -91,11 +91,11 @@ yarn web
 ## Directory Layout
 
 - `.github` contains configuration files for GitHub workflows which we use for continuous integration (CI).
-- `.vscode` contains configuration files for VSCode which automatically configures code validation and formatting tools for this project.
-- `build` contains the final output product that gets uploaded to S3 after the CLI finishes running. This folder does not exist until after running the CLI.
-- `cache` contains cached HTTP responses from RopeWiki. This folder does not exist until after running the CLI.
+- `.vscode` contains configuration files for VSCode that automatically configure code formatting tools for this project.
+- `build` contains the final compiled web frontend, route JSON files, and tiles after the CLI finishes running. This is what gets uploaded to S3. This folder does not exist until the CLI has run.
+- `cache` contains cached HTTP responses from RopeWiki. This folder does not exist until the CLI has run.
 - `coverage` contains a unit test code coverage report. This folder does not exist until after running the unit tests.
-- `public` contains static files used by our web frontend AND all generated route JSON files and tiles. This is all copied to the build directory alongside the compiled web frontend in a later step.
+- `public` contains static files used by our web frontend. These files are copied to the build directory alongside the compiled web frontend in a later step.
 - `src/cli` contains the scraper itself and a command-line interface (CLI) for running it with different options.
 - `src/types` contains TypeScript type definitions used throughout the codebase.
 - `src/utils` contains utility functions and helper modules used across the codebase.
