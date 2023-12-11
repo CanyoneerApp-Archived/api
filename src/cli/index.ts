@@ -5,15 +5,15 @@ import {isArray} from 'lodash';
 import {allRegions} from '../utils/constants';
 import {logger} from '../utils/logger';
 import {clearPublicDir} from './clearPublicDir';
-import {createOutput} from './createOutput';
-import {createPublicJSONFiles} from './createPublicJSONFiles';
+import {createBuild} from './createBuild';
+import {createPublicRoutes} from './createPublicRoutes';
+import {createPublicSchemas} from './createPublicSchemas';
+import {getOutputStats} from './createPublicStats';
 import {createPublicTiles} from './createPublicTiles';
-import {createSchemas} from './createSchemas';
-import {getOutputStats} from './getOutputStats';
 import {scrape} from './scrape';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
-import {uploadOutputDir} from './uploadOutputDir';
+import {uploadOutputDir} from './uploadBuild';
 
 program.option(
   '--local',
@@ -55,13 +55,13 @@ export async function main(argv: string[]) {
   }
 
   await logger.step(clearPublicDir, []);
-  await logger.step(createSchemas, []);
+  await logger.step(createPublicSchemas, []);
   const routes = await logger.step(scrape, [regions]);
-  await logger.step(createPublicJSONFiles, [routes]);
+  await logger.step(createPublicRoutes, [routes]);
   await logger.step(createPublicTiles, []);
-  await logger.step(createOutput, []);
+  await logger.step(createBuild, []);
   const stats = await logger.step(getOutputStats, []);
-  logger.outputStats(stats);
+  logger.stats(stats);
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);

@@ -5,6 +5,5 @@ module.exports = {
   paths: paths => ({
     ...paths,
     appIndexJs: Path.resolve('./src/frontend/index.tsx'),
-    appBuild: Path.resolve('./output'),
   }),
 };

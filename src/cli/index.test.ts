@@ -29,17 +29,17 @@ describe('scrape', () => {
 });
 
 const readOutputDirIgnore = [
-  'output/v1/schemas',
-  'output/v2/schemas',
-  'output/v2/tiles/metadata.json',
-  'output/static',
-  'output/index.html',
-  'output/asset-manifest.json',
+  'build/v1/schemas',
+  'build/v2/schemas',
+  'build/v2/tiles/metadata.json',
+  'build/static',
+  'build/index.html',
+  'build/asset-manifest.json',
 ];
 
-async function readOutputDir(dirPath = 'output') {
+async function readOutputDir(dirPath = 'build') {
   const tilesMetadata = JSON.parse(
-    await FS.promises.readFile('output/v2/tiles/metadata.json', 'utf-8'),
+    await FS.promises.readFile('build/v2/tiles/metadata.json', 'utf-8'),
   );
 
   return Object.fromEntries(

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import {identity, isString, unzip} from 'lodash';
 import {inspect} from 'util';
-import {OutputStats} from '../cli/getOutputStats';
+import {OutputStats as Stats} from '../cli/createPublicStats';
 
 /**
  * All messages that get printed to the console should flow through this object.
@@ -73,8 +73,8 @@ class Logger {
     return promise;
   }
 
-  outputStats(stats: OutputStats) {
-    const names = Object.keys(stats) as (keyof OutputStats)[];
+  stats(stats: Stats) {
+    const names = Object.keys(stats) as (keyof Stats)[];
     const table: string[][] = [['name', 'value']];
     for (const name of names) {
       table.push([

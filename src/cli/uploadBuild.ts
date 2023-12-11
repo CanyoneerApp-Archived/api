@@ -6,7 +6,7 @@ import {SyncStackOutput} from './syncStack/getStackTemplate';
 export async function uploadOutputDir(s3: S3, outputs: SyncStackOutput) {
   await syncS3Dir(s3, {
     ...outputs,
-    LocalPath: './output',
+    LocalPath: './build',
     FileUploadedHandler: ({S3Key, total, done}) => logger.progress(total, done, S3Key),
     ApplyContentEncoding: 'gzip',
   });
