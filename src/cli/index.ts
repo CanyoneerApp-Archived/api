@@ -8,7 +8,7 @@ import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
 import {getOutputStats} from './createPublicStats';
 import {createPublicTiles} from './createPublicTiles';
-import {scrape as scrapeRoutes} from './scrapeRoutes';
+import {scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadBuild';

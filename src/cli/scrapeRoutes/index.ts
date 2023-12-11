@@ -5,7 +5,7 @@ import {scrapeDescriptions} from './scrapeDescriptions';
 import {scrapeIndices} from './scrapeIndices';
 import {scrapeKMLs} from './scrapeKMLs';
 
-export async function scrape(regions: string | string[]) {
+export async function scrapeRoutes(regions: string | string[]) {
   regions = isArray(regions) ? regions : regions === 'all' ? allRegions : [regions];
 
   const indices = await logger.step(scrapeIndices, [{regions}]);

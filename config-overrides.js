@@ -1,6 +1,7 @@
 const Path = require('path');
 
-// This file configures some "create-react-app" overrides via the "react-scripts" package.
+// This file configures some "create-react-app" overrides via the "react-app-rewired" package.
+// See https://github.com/timarney/react-app-rewired#extended-configuration-options
 module.exports = {
   paths: paths => ({
     ...paths,
