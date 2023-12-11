@@ -14,10 +14,10 @@
   },
   "browserslist": {
     "production": [
-      "last 2 chrome versions"
+      "defaults"
     ],
     "development": [
-      "last 2 chrome versions"
+      "defaults"
     ]
   },
   "author": "",
@@ -81,8 +81,5 @@
         "branches": 62
       }
     }
-  },
-  "browser": {
-    "uuid": "./node_modules/uuid/dist/esm-browser/index.js"
   }
 }

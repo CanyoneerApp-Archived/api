@@ -2,12 +2,12 @@ import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
 import {isArray} from 'lodash';
+import {allRegions} from '../constants';
+import {logger} from '../utils/logger';
 import {buildFrontend} from './buildFrontend';
 import {getOutputStats} from './getOutputStats';
-import {logger} from './logger';
 import {rmOutputDir} from './rmOutputDir';
 import {scrape} from './scrape';
-import {allRegions} from './scrape/allRegions';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadOutputDir';
@@ -55,7 +55,6 @@ export async function main(argv: string[]) {
   }
 
   await logger.step(rmOutputDir, []);
-
   await logger.step(writeAllSchemas, []);
   const routes = await logger.step(scrape, [regions]);
   await logger.step(writeOutput, [routes]);

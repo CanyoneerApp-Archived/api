@@ -1,3 +1,5 @@
+// This is a workaround for a bug in the uuid package per
+// https://stackoverflow.com/a/76956796/345530
 jest.mock('uuid', () => ({v4: () => '00000000-0000-0000-0000-000000000000'}));
 
 import {VectorTile} from '@mapbox/vector-tile';
@@ -6,7 +8,7 @@ import {times} from 'lodash';
 import Path from 'path';
 import Protobuf from 'pbf';
 import {main} from '.';
-import {logger} from './logger';
+import {logger} from '../utils/logger';
 
 // This test can take longer than the default 5 seconds timeout
 const timeout = 60 * 1000;

@@ -3,7 +3,7 @@ import FS from 'fs';
 import Path from 'path';
 // @ts-ignore there are no type definitions for this module
 import PromiseThrottle from 'promise-throttle';
-import {logger} from '../logger';
+import {logger} from '../../utils/logger';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
 

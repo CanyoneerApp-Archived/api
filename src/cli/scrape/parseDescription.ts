@@ -1,7 +1,7 @@
 // @ts-ignore there are no type definitions for this module
 import pandoc from 'node-pandoc';
 import PromiseThrottle from 'promise-throttle';
-import {sleep} from './sleep';
+import {sleep} from '../../utils/sleep';
 
 /**
  * Limit the number of Pandoc processes created to 500 per second to prevent the system from running

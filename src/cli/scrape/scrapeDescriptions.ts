@@ -1,9 +1,9 @@
 import {isObject, chunk as lodashChunk} from 'lodash';
 import XML2JS from 'xml2js';
 import {RouteV2} from '../../types/v2';
-import {logger} from '../logger';
+import {validate} from '../../utils/getValidator';
+import {logger} from '../../utils/logger';
 import cachedFetch from './cachedFetch';
-import {validate} from './getValidator';
 import {parseDescription} from './parseDescription';
 
 /**

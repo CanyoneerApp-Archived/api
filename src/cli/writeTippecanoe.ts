@@ -1,6 +1,6 @@
 // @ts-ignore there are no type definitions for this module
 import tippecanoe from 'tippecanoe';
-import {logger} from './logger';
+import {logger} from '../utils/logger';
 
 export async function writeTippecanoe() {
   await tippecanoe(
@@ -11,9 +11,6 @@ export async function writeTippecanoe() {
     {
       // Write tiles to a directory instead of creating a mbtiles file
       outputToDirectory: './public/v2/tiles',
-
-      // Overwrite existing files
-      force: true,
 
       // The highest zoom level for which tiles are generated. Choosing a larger value allows for
       // more detailed geometries at the expense of much larger download sizes.

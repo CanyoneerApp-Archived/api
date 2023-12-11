@@ -1,4 +1,4 @@
-import {parseIntSafe} from './parseIntSafe';
+import {parseIntSafe} from '../../utils/parseIntSafe';
 
 /**
  * RopeWiki stores rappel counts in a string format like "1r" or "1-2r"

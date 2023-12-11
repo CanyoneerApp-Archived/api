@@ -2,10 +2,10 @@ import assert from 'assert';
 import {round} from 'lodash';
 import {METERS_PER_FOOT} from '../../constants';
 import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../../types/v2';
-import {logger} from '../logger';
+import {validate as validateSchema} from '../../utils/getValidator';
+import {logger} from '../../utils/logger';
+import {parseIntSafe} from '../../utils/parseIntSafe';
 import cachedFetch from './cachedFetch';
-import {validate as validateSchema} from './getValidator';
-import {parseIntSafe} from './parseIntSafe';
 import parseRappelCount from './parseRappelCount';
 
 interface FetchIndicesOptions {
