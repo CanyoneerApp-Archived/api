@@ -57,40 +57,17 @@ async function readOutputDir(dirPath = 'output') {
             if (coords.z !== Number(tilesMetadata.maxzoom)) {
               return [];
             } else {
-              return [[path, parseVectorTileTile(await FS.promises.readFile(path), coords)]];
+              return [[path, parseVectorTile(await FS.promises.readFile(path), coords)]];
             }
 
             // Path is some other kind of file
           } else {
-            return [[path, parseTextFile(await FS.promises.readFile(path, 'utf-8'))]];
+            return [[path, JSON.parse(await FS.promises.readFile(path, 'utf-8'))]];
           }
         }),
       )
     ).flat(),
   );
-}
-
-/**
- * Try to parse a string as JSON or newline separated JSON for an easier-to-read snapshot.
- * If the string is parsable as neither, return the original string.
- */
-function parseTextFile(input: string) {
-  try {
-    return JSON.parse(input);
-  } catch (error) {
-    // do nothing
-  }
-
-  try {
-    return input
-      .split('\n')
-      .filter(Boolean)
-      .map(line => JSON.parse(line));
-  } catch (error) {
-    // do nothing
-  }
-
-  return input;
 }
 
 /**
@@ -103,7 +80,7 @@ type VectorTileId = {x: number; y: number; z: number};
  * Turn a binary buffer containing a vector tile and it's associated VectorTileId into a
  * GeoJSON object for snapshot inspection.
  */
-function parseVectorTileTile(data: Buffer, {x, y, z}: VectorTileId) {
+function parseVectorTile(data: Buffer, {x, y, z}: VectorTileId) {
   const tile = new VectorTile(new Protobuf(data));
 
   return Object.fromEntries(
