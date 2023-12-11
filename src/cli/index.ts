@@ -8,7 +8,7 @@ import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
 import {getOutputStats} from './createPublicStats';
 import {createPublicTiles} from './createPublicTiles';
-import {scrape} from './scrape';
+import {scrape as scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 import {uploadOutputDir} from './uploadBuild';
@@ -48,7 +48,7 @@ export async function main(argv: string[]) {
 
   await logger.step(clearPublicDir, []);
   await logger.step(createPublicSchemas, []);
-  const routes = await logger.step(scrape, [options.regions]);
+  const routes = await logger.step(scrapeRoutes, [options.region]);
   await logger.step(createPublicRoutes, [routes]);
   await logger.step(createPublicTiles, []);
   const stats = await logger.step(getOutputStats, []);
