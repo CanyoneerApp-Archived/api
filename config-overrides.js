@@ -7,4 +7,8 @@ module.exports = {
     ...paths,
     appIndexJs: Path.resolve('./src/web/index.tsx'),
   }),
+  jest: config => ({
+    ...config,
+    testEnvironment: 'node',
+  }),
 };
