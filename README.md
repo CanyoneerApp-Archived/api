@@ -81,6 +81,10 @@ yarn start --help
 Start the web interface in development mode, with hot code reloading, by running
 
 ```
+# Build the data
+yarn start
+
+# Start the web interface in development mode
 yarn web
 ```
 
