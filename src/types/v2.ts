@@ -23,6 +23,10 @@ export interface IndexRouteV2 {
   rappelCountMax: number | undefined;
   rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
+  /**
+   * If there is a required vehicle shuttle, the approximate duration of the drive.
+   * If there is no shuttle required or if the shuttle is unknown, `undefined`.
+   */
   shuttleSeconds: number | undefined;
   latitude: number;
   longitude: number;
