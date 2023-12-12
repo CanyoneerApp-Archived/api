@@ -73,7 +73,6 @@ export type VehicleV2 =
   | '4WD - Very High Clearance'
   | 'High Clearance'
   | 'Passenger';
-export type ShuttleV2 = string;
 export type PermitV2 = 'No' | 'Restricted' | 'Yes' | 'Closed';
 export type MonthV2 =
   | 'Jan'

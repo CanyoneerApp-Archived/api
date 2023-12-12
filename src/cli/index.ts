@@ -6,7 +6,7 @@ import {clearPublicDir} from './clearPublicDir';
 import {createBuild} from './createBuild';
 import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
-import {getOutputStats} from './createPublicStats';
+import {getMainOutputStats, getOutputStats} from './createPublicStats';
 import {createPublicTiles} from './createPublicTiles';
 import {scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
@@ -52,14 +52,21 @@ export async function main(argv: string[]) {
   await logger.step(createPublicRoutes, [routes]);
   await logger.step(createPublicTiles, []);
   const stats = await logger.step(getOutputStats, []);
-  logger.stats(stats);
+  logger.outputStats(
+    stats,
+    options.region === 'all'
+      ? await getMainOutputStats().catch(error => {
+          logger.error(error);
+          return undefined;
+        })
+      : undefined,
+  );
   await logger.step(createBuild, []);
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);
   }
 
-  logger.stats(stats);
   logger.done();
 }
 

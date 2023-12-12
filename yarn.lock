@@ -8947,6 +8947,11 @@ mini-css-extract-plugin@^2.4.5:
   dependencies:
     schema-utils "^4.0.0"
 
+miniglob@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/miniglob/-/miniglob-0.1.2.tgz#0b124575b26a843be498a51f7aa2bfb7951e50f9"
+  integrity sha512-AJATXQn1SYAQyTxAOQwRDZrwre3W/wMiVMFehY0hxDE1vrMITU2NDUd8BNNb8taheIxb3f9n31kp/Ze8h91iUg==
+
 minimalistic-assert@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
