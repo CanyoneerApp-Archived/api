@@ -4,7 +4,7 @@ import {times} from 'lodash';
 import Path from 'path';
 import Protobuf from 'pbf';
 import {main} from '.';
-import {logger} from './logger';
+import {logger} from '../utils/logger';
 
 // This test can take longer than the default 5 seconds timeout
 const timeout = 60 * 1000;
@@ -25,14 +25,17 @@ describe('scrape', () => {
 });
 
 const readOutputDirIgnore = [
-  'output/v1/schemas',
-  'output/v2/schemas',
-  'output/v2/tiles/metadata.json',
+  'build/v1/schemas',
+  'build/v2/schemas',
+  'build/v2/tiles/metadata.json',
+  'build/static',
+  'build/index.html',
+  'build/asset-manifest.json',
 ];
 
-async function readOutputDir(dirPath = 'output') {
+async function readOutputDir(dirPath = 'build') {
   const tilesMetadata = JSON.parse(
-    await FS.promises.readFile('output/v2/tiles/metadata.json', 'utf-8'),
+    await FS.promises.readFile('build/v2/tiles/metadata.json', 'utf-8'),
   );
 
   return Object.fromEntries(

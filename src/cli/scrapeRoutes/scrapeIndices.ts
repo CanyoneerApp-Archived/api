@@ -1,10 +1,11 @@
 import assert from 'assert';
 import {round} from 'lodash';
-import {logger} from '../logger';
-import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../types/v2';
+import {RouteV2, TechnicalGradeV2, WaterGradeV2} from '../../types/v2';
+import {validate as validateSchema} from '../../utils/getValidator';
+import {logger} from '../../utils/logger';
+import {metersPerFoot} from '../../utils/metersPerFoot';
+import {parseIntSafe} from '../../utils/parseIntSafe';
 import cachedFetch from './cachedFetch';
-import {validate as validateSchema} from './getValidator';
-import {parseIntSafe} from './parseIntSafe';
 import parseRappelCount from './parseRappelCount';
 
 interface FetchIndicesOptions {
@@ -103,7 +104,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
         permit: result.printouts.permits[0],
         ...parseRappelCount(result.printouts.rappelCount[0]),
         rappelLongestMeters: result.printouts.rappelLongest[0]?.value
-          ? round(result.printouts.rappelLongest[0].value * METERS_PER_FOOT, 2)
+          ? round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
           : undefined,
         vehicle: result.printouts.vehicle[0],
         shuttleSeconds: result.printouts.shuttle[0]?.value
@@ -128,5 +129,3 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
 function encode(input: string) {
   return encodeURIComponent(input).replace(/%/g, '-');
 }
-
-export const METERS_PER_FOOT = 0.3048;

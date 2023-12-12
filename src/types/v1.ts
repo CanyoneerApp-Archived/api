@@ -1,8 +1,7 @@
-import {FeatureCollection} from '@turf/helpers';
+// Do not import anything from V2 because it may break clients that depend on the V1 schema exactly
+// as it is!
 
-// Avoid using types from RouteV2 in the V1 schema to prevent breaking changes from being propagated
-import {METERS_PER_FOOT} from '../scrape/scrapeIndices';
-import {RouteV2, permitV2toV1} from './v2';
+import {FeatureCollection} from '@turf/helpers';
 
 export interface RouteV1 {
   URL: string;
@@ -86,47 +85,3 @@ export type DifficultyV1 =
   | '4a'
   | '4b'
   | '4c';
-
-export function toRouteV1(route: RouteV2): RouteV1 {
-  return {
-    URL: route.url,
-    Name: route.name,
-    Quality: route.quality,
-    Popularity: undefined, // not supported by new type & not used in app
-    Latitude: route.latitude,
-    Longitude: route.longitude,
-    Months: route.months?.map(month => monthsV2toV1[month]) ?? [],
-    Difficulty:
-      route.technicalRating &&
-      ((route.technicalRating + (route.waterRating ?? '?')).toLowerCase() as DifficultyV1),
-    AdditionalRisk: route.riskRating,
-    Vehicle: route.vehicle,
-    Shuttle: route.shuttleSeconds ? `${Math.round(route.shuttleSeconds / 60)} minutes` : undefined,
-    Permits: permitV2toV1[route.permit ?? ''],
-    Sports: ['canyoneering'],
-    Time: route.timeRating,
-    RappelCountMin: route.rappelCountMin,
-    RappelCountMax: route.rappelCountMax,
-    RappelLengthMax: route.rappelLongestMeters
-      ? route.rappelLongestMeters / METERS_PER_FOOT
-      : undefined,
-    KMLURL: undefined, // not supported by new type & not used in app
-    HTMLDescription: route.description,
-    GeoJSON: route.geojson,
-  };
-}
-
-const monthsV2toV1: {[key: string]: MonthV1} = {
-  Jan: 'January',
-  Feb: 'Feburary',
-  Mar: 'March',
-  Apr: 'April',
-  May: 'May',
-  Jun: 'June',
-  Jul: 'July',
-  Aug: 'August',
-  Sep: 'September',
-  Oct: 'October',
-  Nov: 'November',
-  Dec: 'December',
-};

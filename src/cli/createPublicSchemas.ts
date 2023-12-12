@@ -9,13 +9,13 @@ export const schemas = {
   GeoJSONRouteV2: 'v2',
 };
 
-export async function writeAllSchemas() {
+export async function createPublicSchemas() {
   return Promise.all(
     Object.entries(schemas).map(async ([type, version]) => {
-      const outputPath = Path.resolve(`./output/${version}/schemas/${type}.json`);
-      await FS.promises.mkdir(Path.dirname(outputPath), {recursive: true});
+      const path = Path.resolve(`./public/${version}/schemas/${type}.json`);
+      await FS.promises.mkdir(Path.dirname(path), {recursive: true});
       await FS.promises.writeFile(
-        outputPath,
+        path,
         JSON.stringify(
           TSJ.createGenerator({
             path: `./src/types/${version}.ts`,

@@ -1,12 +1,12 @@
-import {RouteV2} from '../types/v2';
+import {RouteV2} from '../../types/v2';
 // @ts-ignore there are no type definitions for this module
 import TJ from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
 import {cloneDeep, keyBy} from 'lodash';
 import {inspect} from 'util';
-import {logger} from '../logger';
+import {validate} from '../../utils/getValidator';
+import {logger} from '../../utils/logger';
 import cachedFetch from './cachedFetch';
-import {validate} from './getValidator';
 
 /**
  * The maximum number of KMLs to load per batched request.

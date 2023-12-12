@@ -1,7 +1,7 @@
 import Ajv, {ErrorObject} from 'ajv';
 import FS from 'fs';
 import {memoize} from 'lodash';
-import {schemas} from '../writeAllSchemas';
+import {schemas} from '../cli/createPublicSchemas';
 
 type SchemaName = keyof typeof schemas;
 
@@ -9,7 +9,7 @@ const validateInner = memoize((schema: SchemaName) => {
   const ajv = new Ajv({allowUnionTypes: true, allErrors: true});
   const version = schemas[schema];
   return ajv.compile(
-    JSON.parse(FS.readFileSync(`./output/${version}/schemas/${schema}.json`, 'utf-8')),
+    JSON.parse(FS.readFileSync(`./public/${version}/schemas/${schema}.json`, 'utf-8')),
   );
 });
 

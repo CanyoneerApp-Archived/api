@@ -1,4 +1,5 @@
 /node_modules
 /cache
-/output
+/build
 /coverage
+/config-overrides.js
