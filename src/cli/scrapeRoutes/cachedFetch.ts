@@ -1,9 +1,8 @@
 import Crypto from 'crypto';
 import FS from 'fs';
 import Path from 'path';
-// @ts-ignore there are no type definitions for this module
 import PromiseThrottle from 'promise-throttle';
-import {logger} from '../logger';
+import {logger} from '../../utils/logger';
 
 const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
 
@@ -12,7 +11,7 @@ export function md5(input: string) {
 }
 
 function getPath(url: string) {
-  return Path.join(__dirname, '../../cache', `${md5(url)}.txt`);
+  return Path.join(__dirname, '../../../cache', `${md5(url)}.txt`);
 }
 
 async function cachedFetch(urlObject: URL) {

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import {identity, isString, unzip} from 'lodash';
 import {inspect} from 'util';
-import {Stats} from './getOutputStats';
+import {Stats} from '../cli/createPublicStats';
 
 /**
  * All messages that get printed to the console should flow through this object.

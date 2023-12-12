@@ -1,18 +1,17 @@
 import {CloudFormation} from '@aws-sdk/client-cloudformation';
 import {S3} from '@aws-sdk/client-s3';
 import {program} from 'commander';
-import {isArray} from 'lodash';
-import {getMainOutputStats, getOutputStats} from './getOutputStats';
-import {logger} from './logger';
-import {rmOutputDir} from './rmOutputDir';
-import {scrape} from './scrape';
-import {allRegions} from './scrape/allRegions';
+import {logger} from '../utils/logger';
+import {clearPublicDir} from './clearPublicDir';
+import {createBuild} from './createBuild';
+import {createPublicRoutes} from './createPublicRoutes';
+import {createPublicSchemas} from './createPublicSchemas';
+import {getMainOutputStats, getOutputStats} from './createPublicStats';
+import {createPublicTiles} from './createPublicTiles';
+import {scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
-import {uploadOutputDir} from './uploadOutputDir';
-import {writeAllSchemas} from './writeAllSchemas';
-import {writeOutput} from './writeOutput';
-import {writeTippecanoe} from './writeTippecanoe';
+import {uploadOutputDir} from './uploadBuild';
 
 program.option(
   '--local',
@@ -38,12 +37,6 @@ export async function main(argv: string[]) {
 
   logger.enableFetch = options.verbose;
 
-  const regions = isArray(options.region)
-    ? options.region
-    : options.region === 'all'
-      ? allRegions
-      : [options.region];
-
   const awsRegion = 'us-west-1';
   const s3 = new S3({region: awsRegion});
   const cloudFormation = new CloudFormation({region: awsRegion});
@@ -53,11 +46,11 @@ export async function main(argv: string[]) {
     stack = await logger.step(syncStack, [cloudFormation]);
   }
 
-  await logger.step(rmOutputDir, []);
-  await logger.step(writeAllSchemas, []);
-  const routes = await logger.step(scrape, [regions]);
-  await logger.step(writeOutput, [routes]);
-  await logger.step(writeTippecanoe, []);
+  await logger.step(clearPublicDir, []);
+  await logger.step(createPublicSchemas, []);
+  const routes = await logger.step(scrapeRoutes, [options.region]);
+  await logger.step(createPublicRoutes, [routes]);
+  await logger.step(createPublicTiles, []);
   const stats = await logger.step(getOutputStats, []);
   logger.outputStats(
     stats,
@@ -68,6 +61,7 @@ export async function main(argv: string[]) {
         })
       : undefined,
   );
+  await logger.step(createBuild, []);
 
   if (!options.local && stack) {
     await logger.step(uploadOutputDir, [s3, stack]);

@@ -1,14 +1,13 @@
 import FS from 'fs';
-import {toRouteV1} from './types/v1';
-import {RouteV2, toGeoJSONRouteV2, toIndexRouteV2} from './types/v2';
+import {RouteV2, toGeoJSONRouteV2, toIndexRouteV2, toRouteV1} from '../types/v2';
 
-export async function writeOutput(routes: RouteV2[]) {
-  await FS.promises.mkdir('./output/v2/details', {recursive: true});
-  await FS.promises.mkdir('./output/v1', {recursive: true});
+export async function createPublicRoutes(routes: RouteV2[]) {
+  await FS.promises.mkdir('./public/v2/details', {recursive: true});
+  await FS.promises.mkdir('./public/v1', {recursive: true});
 
-  const v1Index = new JSONWriteStream('./output/v1/index.json');
-  const v2Index = new JSONWriteStream('./output/v2/index.json');
-  const v2GeoJSON = new JSONWriteStream('./output/v2/index.geojson');
+  const v1Index = new JSONWriteStream('./public/v1/index.json');
+  const v2Index = new JSONWriteStream('./public/v2/index.json');
+  const v2GeoJSON = new JSONWriteStream('./public/v2/index.geojson');
 
   for (const route of routes) {
     v1Index.write(toRouteV1(route));
@@ -16,7 +15,7 @@ export async function writeOutput(routes: RouteV2[]) {
     toGeoJSONRouteV2(route).forEach(feature => v2GeoJSON.write(feature));
 
     await FS.promises.writeFile(
-      `./output/v2/details/${route.id}.json`,
+      `./public/v2/details/${route.id}.json`,
       JSON.stringify(route, null, 2),
     );
   }

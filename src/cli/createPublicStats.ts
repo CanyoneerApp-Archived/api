@@ -6,19 +6,19 @@ import {gzip} from 'zlib';
 export type Stats = Awaited<ReturnType<typeof getOutputStats>>;
 
 export async function getOutputStats() {
-  const detailBytes = await Promise.all(glob(`./output/v2/details/*.json`).map(getGzipSize));
-  const tileBytes = await Promise.all(glob(`./output/v2/tiles/*/*/*.pbf`).map(getGzipSize));
+  const detailBytes = await Promise.all(glob(`./public/v2/details/*.json`).map(getGzipSize));
+  const tileBytes = await Promise.all(glob(`./public/v2/tiles/*/*/*.pbf`).map(getGzipSize));
 
   detailBytes.sort();
 
   const stats = {
-    indexBytes: await getGzipSize('./output/v2/index.json'),
-    geojsonBytes: await getGzipSize('./output/v2/index.geojson'),
+    indexBytes: await getGzipSize('./public/v2/index.json'),
+    geojsonBytes: await getGzipSize('./public/v2/index.geojson'),
     ...getArrayStats('detailBytes', detailBytes),
     ...getArrayStats('tileBytes', tileBytes),
   };
 
-  FS.writeFile('./output/v2/stats.json', JSON.stringify(stats, null, 2));
+  FS.writeFile('./public/v2/stats.json', JSON.stringify(stats, null, 2));
 
   return stats;
 }

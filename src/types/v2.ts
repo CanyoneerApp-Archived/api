@@ -1,6 +1,8 @@
 import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
 import {omit} from 'lodash';
+import {metersPerFoot} from '../utils/metersPerFoot';
 import type {PermitV1} from './v1';
+import {DifficultyV1, MonthV1, RouteV1} from './v1';
 
 /**
  * This "stripped down" type is used in `index.json` and `tiles/{z}/{x}/{y}.pbf`. It is meant
@@ -153,4 +155,46 @@ export const permitV2toV1: {[key: string]: PermitV1} = {
   Yes: 'Permit required',
   Closed: 'Closed to entry',
   Restricted: 'Access is Restricted',
+};
+export function toRouteV1(route: RouteV2): RouteV1 {
+  return {
+    URL: route.url,
+    Name: route.name,
+    Quality: route.quality,
+    Popularity: undefined,
+    Latitude: route.latitude,
+    Longitude: route.longitude,
+    Months: route.months?.map(month => monthsV2toV1[month]) ?? [],
+    Difficulty:
+      route.technicalRating &&
+      ((route.technicalRating + (route.waterRating ?? '?')).toLowerCase() as DifficultyV1),
+    AdditionalRisk: route.riskRating,
+    Vehicle: route.vehicle,
+    Shuttle: route.shuttleSeconds ? `${Math.round(route.shuttleSeconds / 60)} minutes` : undefined,
+    Permits: permitV2toV1[route.permit ?? ''],
+    Sports: ['canyoneering'],
+    Time: route.timeRating,
+    RappelCountMin: route.rappelCountMin,
+    RappelCountMax: route.rappelCountMax,
+    RappelLengthMax: route.rappelLongestMeters
+      ? route.rappelLongestMeters / metersPerFoot
+      : undefined,
+    KMLURL: undefined,
+    HTMLDescription: route.description,
+    GeoJSON: route.geojson,
+  };
+}
+const monthsV2toV1: {[key: string]: MonthV1} = {
+  Jan: 'January',
+  Feb: 'Feburary',
+  Mar: 'March',
+  Apr: 'April',
+  May: 'May',
+  Jun: 'June',
+  Jul: 'July',
+  Aug: 'August',
+  Sep: 'September',
+  Oct: 'October',
+  Nov: 'November',
+  Dec: 'December',
 };

@@ -5,7 +5,7 @@ import {glob} from 'miniglob';
 import Path from 'path';
 import Protobuf from 'pbf';
 import {main} from '.';
-import {logger} from './logger';
+import {logger} from '../utils/logger';
 
 // This test can take longer than the default 5 seconds timeout
 const timeout = 60 * 1000;
@@ -27,16 +27,16 @@ describe('scrape', () => {
 
 async function readOutputDir() {
   const {maxzoom} = JSON.parse(
-    await FS.promises.readFile('output/v2/tiles/metadata.json', 'utf-8'),
+    await FS.promises.readFile('public/v2/tiles/metadata.json', 'utf-8'),
   );
 
   return Object.fromEntries([
     ...(await Promise.all(
       [
-        'output/v2/index.json',
-        'output/v2/geojson.json',
-        'output/v1/index.json',
-        'output/v2/details/*.json',
+        'public/v2/index.json',
+        'public/v2/geojson.json',
+        'public/v1/index.json',
+        'public/v2/details/*.json',
       ].flatMap(pattern =>
         glob(pattern)
           .sort()
@@ -45,7 +45,7 @@ async function readOutputDir() {
     )),
 
     ...(await Promise.all(
-      glob(`output/v2/tiles/${maxzoom}/*/*.pbf`)
+      glob(`public/v2/tiles/${maxzoom}/*/*.pbf`)
         .sort()
         .map(async path => [
           path,
