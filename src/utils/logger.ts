@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import {identity, isString, unzip} from 'lodash';
 import {inspect} from 'util';
-import {Stats, getMainOutputStats} from '../cli/createPublicStats';
+import {Stats} from '../cli/createPublicStats';
 
 /**
  * All messages that get printed to the console should flow through this object.
@@ -171,3 +171,9 @@ class Logger {
 }
 
 export const logger = new Logger();
+
+async function getMainOutputStats(): Promise<Stats | undefined> {
+  const response = await fetch('http://canyoneer--main.s3.us-west-1.amazonaws.com/v2/stats.json');
+  if (!response.ok) return undefined;
+  return response.json();
+}

@@ -6,7 +6,7 @@ import {clearPublicDir} from './clearPublicDir';
 import {createBuild} from './createBuild';
 import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
-import {getOutputStats as createPublicStats} from './createPublicStats';
+import {createPublicStats} from './createPublicStats';
 import {createPublicTiles} from './createPublicTiles';
 import {scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
