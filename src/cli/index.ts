@@ -54,12 +54,12 @@ export async function main(argv: string[]) {
   const stats = await logger.step(getOutputStats, []);
   logger.outputStats(
     stats,
-    options.region === 'all'
-      ? await getMainOutputStats().catch(error => {
-          logger.error(error);
-          return undefined;
-        })
-      : undefined,
+    options.region === 'all' ?
+      await getMainOutputStats().catch(error => {
+        logger.error(error);
+        return undefined;
+      })
+    : undefined,
   );
   await logger.step(createBuild, []);
 

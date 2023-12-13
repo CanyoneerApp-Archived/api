@@ -103,13 +103,13 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
         riskRating: result.printouts.riskRating[0],
         permit: result.printouts.permits[0],
         ...parseRappelCount(result.printouts.rappelCount[0]),
-        rappelLongestMeters: result.printouts.rappelLongest[0]?.value
-          ? round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
+        rappelLongestMeters:
+          result.printouts.rappelLongest[0]?.value ?
+            round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
           : undefined,
         vehicle: result.printouts.vehicle[0],
-        shuttleSeconds: result.printouts.shuttle[0]?.value
-          ? result.printouts.shuttle[0].value * 60
-          : undefined,
+        shuttleSeconds:
+          result.printouts.shuttle[0]?.value ? result.printouts.shuttle[0].value * 60 : undefined,
         description: undefined, // this is populated by `scrapeDescription` later
         geojson: undefined, // this is populated by `scrapeKMLs` later
       };

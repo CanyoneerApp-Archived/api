@@ -1,4 +1,5 @@
 import {VectorTile} from '@mapbox/vector-tile';
+import assert from 'assert';
 import FS from 'fs';
 import {times} from 'lodash';
 import {glob} from 'miniglob';
@@ -84,6 +85,8 @@ function getVectorTileId(path: string): VectorTileId {
     .split('/')
     .slice(-3)
     .map(s => Number(Path.basename(s, Path.extname(s))));
+
+  assert(x !== undefined && y !== undefined && z !== undefined);
 
   return {x, y, z};
 }

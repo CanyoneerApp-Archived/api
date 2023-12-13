@@ -73,7 +73,7 @@ class Logger {
     return promise;
   }
 
-  outputStats(stats: Stats, mainStats: Record<string, number> | undefined) {
+  outputStats(stats: Stats, mainStats: Stats | undefined) {
     const names = Object.keys(stats) as (keyof Stats)[];
 
     const table: string[][] = [];
@@ -121,10 +121,12 @@ class Logger {
 
   private table(data: string[][], {style = identity}: {style: (input: string) => string}) {
     const columnWidths = unzip(data).map(column => Math.max(...column.map(s => s.length)));
-    this.inner('log', [data[0].map((s, i) => s.padEnd(columnWidths[i])).join(' | ')], {style});
+    this.inner('log', [data[0]?.map((s, i) => s.padEnd(columnWidths[i] ?? 0)).join(' | ')], {
+      style,
+    });
     this.inner('log', [columnWidths.map(width => '-'.repeat(width)).join('-|-')], {style});
     for (const row of data.slice(1)) {
-      this.inner('log', [row.map((s, i) => s.padEnd(columnWidths[i])).join(' | ')], {style});
+      this.inner('log', [row.map((s, i) => s.padEnd(columnWidths[i] ?? 0)).join(' | ')], {style});
     }
   }
 
