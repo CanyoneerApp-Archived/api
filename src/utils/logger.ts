@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import {identity, isString, unzip} from 'lodash';
 import {inspect} from 'util';
-import {Stats} from '../cli/createPublicStats';
+import {Stats, getMainOutputStats} from '../cli/createPublicStats';
 
 /**
  * All messages that get printed to the console should flow through this object.
@@ -73,7 +73,15 @@ class Logger {
     return promise;
   }
 
-  outputStats(stats: Stats, mainStats: Stats | undefined) {
+  async outputStats(stats: Stats, region: unknown) {
+    const mainStats =
+      region === 'all' ?
+        await getMainOutputStats().catch(error => {
+          logger.error(error);
+          return undefined;
+        })
+      : undefined;
+
     const names = Object.keys(stats) as (keyof Stats)[];
 
     const table: string[][] = [];
