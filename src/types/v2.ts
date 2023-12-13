@@ -32,13 +32,19 @@ export interface IndexRouteV2 {
   shuttleSeconds: number | undefined;
   latitude: number;
   longitude: number;
+
+  /**
+   * This is the ETag of the details JSON file. If the ETag changes, clients know they should fetch
+   * an updated version of the details JSON file.
+   */
+  etag: string;
 }
 
 /**
  * This "detailed" type is used in `details/{id}.json`. It is the source of truth for all data
  * we have on a particular route.
  */
-export interface RouteV2 extends IndexRouteV2 {
+export interface RouteV2 extends Omit<IndexRouteV2, 'etag'> {
   url: string;
   description: string | undefined;
   geojson: FeatureCollection | undefined;
@@ -47,7 +53,7 @@ export interface RouteV2 extends IndexRouteV2 {
 type GeoJSONRouteV2CoreProperties = {
   [Key in keyof Omit<
     IndexRouteV2,
-    'months' | 'latitude' | 'longitude'
+    'months' | 'latitude' | 'longitude' | 'etag'
   > as `route.${Key}`]: IndexRouteV2[Key];
 } & {
   // Vector tiles cannot encode arrays so we break the months out into individual properties.
@@ -88,11 +94,13 @@ export type MonthV2 =
   | 'Nov'
   | 'Dec';
 
-export function toIndexRouteV2(route: RouteV2): IndexRouteV2 {
-  return omit(route, ['description', 'geojson', 'url']);
+export function toIndexRouteV2(route: RouteV2, etag: string): IndexRouteV2 {
+  return omit({...route, etag}, ['description', 'geojson', 'url']);
 }
 
-function toGeoJSONRouteV2CoreProperties(route: IndexRouteV2): GeoJSONRouteV2CoreProperties {
+function toGeoJSONRouteV2CoreProperties(
+  route: IndexRouteV2 | RouteV2,
+): GeoJSONRouteV2CoreProperties {
   return {
     'route.id': route.id,
     'route.name': route.name,
