@@ -11,7 +11,7 @@ import {createPublicTiles} from './createPublicTiles';
 import {scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
-import {uploadOutputDir as uploadBuildDir} from './uploadBuild';
+import {uploadBuildDir} from './uploadBuildDir';
 import {zipPublicDir} from './zipPublicDir';
 
 program.option(

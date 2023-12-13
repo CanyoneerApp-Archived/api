@@ -3,7 +3,7 @@ import {syncS3Dir} from '@scree/aws-utils';
 import {logger} from '../utils/logger';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
 
-export async function uploadOutputDir(s3: S3, outputs: SyncStackOutput) {
+export async function uploadBuildDir(s3: S3, outputs: SyncStackOutput) {
   await syncS3Dir(s3, {
     ...outputs,
     LocalPath: './build',
