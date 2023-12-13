@@ -2662,10 +2662,10 @@
     "@aws-sdk/client-s3" "^3.456.0"
     lodash "^4.17.21"
 
-"@scree/eslint-config-quality@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.6.0.tgz#93a30e1dd36bd141aa468869f203d6affe0b896b"
-  integrity sha512-aNfKcvuVLlhAYbyMGsqgnaH39yDvypNM8A7PfhFGzddyxeQ5S9NpbPAVDntlkE/badEiTOoybbOezhu3iI8Pzg==
+"@scree/eslint-config-quality@1.13.0", "@scree/eslint-config-quality@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.13.0.tgz#12f3d08ccf36f90f1f55fe96b6ae017321bfa739"
+  integrity sha512-qiSQNutZOMhCySuRXrtSeX2K33Sfk0Cx+9xRm57noQ5kvrbh2wV4+YOwAh6Zdd0zjzRO6b3TMaLSOQnK5+luqQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^6.10.0"
     "@typescript-eslint/parser" "^6.10.0"
@@ -2675,25 +2675,12 @@
     eslint-plugin-react "^7.33.2"
     eslint-plugin-react-hooks "^4.6.0"
 
-"@scree/eslint-config-quality@^1.6.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.7.0.tgz#e2d57221e691cce1faef9b37ec9971fb1fe0a8f2"
-  integrity sha512-QqBJxzI731IqedlLLgYHntqrmMC+IXWj2sESIiGbNRNzwnjIFodr05T/gJ4jjWDNzDRVinO7uATO2Go3c4FDIw==
+"@scree/quality@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-1.13.0.tgz#bc8ff71f3dd5cb6ed128c723121464f5cb5caa91"
+  integrity sha512-iAnjbt52n47tj1WBwOqg7y9J5U34e76Gyyvp4tkY7GmQYZwzyGpnXVAMcsktK9DXz20JulcVyHe3yHI41ExMqw==
   dependencies:
-    "@typescript-eslint/eslint-plugin" "^6.10.0"
-    "@typescript-eslint/parser" "^6.10.0"
-    eslint "^8.53.0"
-    eslint-config-prettier "^9.0.0"
-    eslint-plugin-import "^2.29.0"
-    eslint-plugin-react "^7.33.2"
-    eslint-plugin-react-hooks "^4.6.0"
-
-"@scree/quality@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-0.21.0.tgz#d4158fe06642a3d84a7e36d6b3fa71efe2ee009f"
-  integrity sha512-C4dsinlaaIaI5MoLXpxnZ35ftfPUXuHGJoNtVZ6Z48NTcr1S/soAkN3+JsnjbwMc96eqmMAxh4Htn30iwP7JhA==
-  dependencies:
-    "@scree/eslint-config-quality" "1.6.0"
+    "@scree/eslint-config-quality" "1.13.0"
     "@types/node" "^20.10.0"
     "@typescript-eslint/eslint-plugin" "^6.12.0"
     "@typescript-eslint/parser" "^6.10.0"
@@ -2702,7 +2689,7 @@
     eslint-plugin-import "^2.29.0"
     eslint-plugin-react "^7.33.2"
     eslint-plugin-react-hooks "^4.6.0"
-    prettier "^3.0.3"
+    prettier "^3.1.1"
     typescript "^5.2.2"
 
 "@sinclair/typebox@^0.24.1":
@@ -10039,10 +10026,10 @@ prelude-ls@~1.1.2:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==
 
-prettier@^3.0.3:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.1.0.tgz#c6d16474a5f764ea1a4a373c593b779697744d5e"
-  integrity sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==
+prettier@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.1.1.tgz#6ba9f23165d690b6cbdaa88cb0807278f7019848"
+  integrity sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==
 
 pretty-bytes@^5.3.0, pretty-bytes@^5.4.1:
   version "5.6.0"

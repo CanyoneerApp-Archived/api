@@ -125,21 +125,21 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
         },
       }),
     ) ??
-    (route.longitude && route.latitude
-      ? [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [route.longitude, route.latitude],
-            },
-            properties: {
-              name: route.name,
-              ...toGeoJSONRouteV2CoreProperties(route),
-            },
+    (route.longitude && route.latitude ?
+      [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [route.longitude, route.latitude],
           },
-        ]
-      : [])
+          properties: {
+            name: route.name,
+            ...toGeoJSONRouteV2CoreProperties(route),
+          },
+        },
+      ]
+    : [])
   );
 }
 
@@ -176,15 +176,14 @@ export function toRouteV1(route: RouteV2): RouteV1 {
     Time: route.timeRating,
     RappelCountMin: route.rappelCountMin,
     RappelCountMax: route.rappelCountMax,
-    RappelLengthMax: route.rappelLongestMeters
-      ? route.rappelLongestMeters / metersPerFoot
-      : undefined,
+    RappelLengthMax:
+      route.rappelLongestMeters ? route.rappelLongestMeters / metersPerFoot : undefined,
     KMLURL: undefined,
     HTMLDescription: route.description,
     GeoJSON: route.geojson,
   };
 }
-const monthsV2toV1: {[key: string]: MonthV1} = {
+const monthsV2toV1: {[key in MonthV2]: MonthV1} = {
   Jan: 'January',
   Feb: 'Feburary',
   Mar: 'March',

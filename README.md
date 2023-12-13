@@ -7,15 +7,21 @@ You can make HTTP requests to the API at `http://canyoneer--main.s3.us-west-1.am
 The following endpoints are available:
 
 - `/v2/index.json` - all routes as a JSON array using the lightweight `IndexRouteV2` type
-- `/v2/index.geojson` - all route geometries as a JSON array from the KML files using the `GeoJSONRouteV2` type
-- `/v2/details/{id}.json` - detailed data for a single route using the `RouteV2` type which includes the HTML description and all geometries from the KML file
-- `/v2/tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML files as the `GeoJSONRouteV2` type formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
-- `/v2/tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the vector tiles and how they were generated
+- `/v2/index.geojson` - all route geometries as a JSON array from the KML files using the
+  `GeoJSONRouteV2` type
+- `/v2/details/{id}.json` - detailed data for a single route using the `RouteV2` type which includes
+  the HTML description and all geometries from the KML file
+- `/v2/tiles/{z}/{x}/{y}.pbf` - all route geometries from the KML files as the `GeoJSONRouteV2` type
+  formatted as [Vector Tiles](https://github.com/mapbox/vector-tile-spec/)
+- `/v2/tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the
+  vector tiles and how they were generated
 - `/v2/schemas/{type}.json` - JSON schemas for `IndexRouteV2`, `RouteV2`, and `GeoJSONRouteV2
 - `/v1/index.json` - all routes as a JSON array using the `RouteV1` type
 - `/v1/schemas/{type}.json` - JSON schemas for `RouteV1`
 
-All content on our API is available under [Creative Commons Attribution Non-Commercial Share Alike](http://creativecommons.org/licenses/by-nc-sa/3.0/) unless otherwise noted.
+All content on our API is available under
+[Creative Commons Attribution Non-Commercial Share Alike](http://creativecommons.org/licenses/by-nc-sa/3.0/)
+unless otherwise noted.
 
 # Developing the API
 
@@ -52,7 +58,8 @@ yarn install-precommit
 
 [Install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
-[Create an AWS access key](https://us-east-1.console.aws.amazon.com/iam/home#/security_credentials) ([docs](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey))
+[Create an AWS access key](https://us-east-1.console.aws.amazon.com/iam/home#/security_credentials)
+([docs](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey))
 
 Authenticate the AWS CLI
 
@@ -87,13 +94,21 @@ yarn web
 
 ## Directory Layout
 
-- `.github` configures GitHub workflows to run our unit tests on every push to provide continuous integration (CI).
+- `.github` configures GitHub workflows to run our unit tests on every push to provide continuous
+  integration (CI).
 - `.vscode` configures VSCode to work seamlessly with our code formatting tools.
-- `build` contains the compiled web frontend, route JSON files, and tiles after the CLI finishes running. This is what gets uploaded to S3. This folder does not exist until the CLI has run.
-- `cache` contains cached HTTP responses from RopeWiki. This folder does not exist until the CLI has run.
-- `coverage` contains a unit test code coverage report. This folder does not exist until the unit tests have run.
-- `public` contains static files used by our web frontend. These files are copied to the build directory alongside the compiled web frontend in a later step. See the ["Using the Public Folder" docs](https://create-react-app.dev/docs/using-the-public-folder.) from Create React App for more.
+- `build` contains the compiled web frontend, route JSON files, and tiles after the CLI finishes
+  running. This is what gets uploaded to S3. This folder does not exist until the CLI has run.
+- `cache` contains cached HTTP responses from RopeWiki. This folder does not exist until the CLI has
+  run.
+- `coverage` contains a unit test code coverage report. This folder does not exist until the unit
+  tests have run.
+- `public` contains static files used by our web frontend. These files are copied to the build
+  directory alongside the compiled web frontend in a later step. See the
+  ["Using the Public Folder" docs](https://create-react-app.dev/docs/using-the-public-folder.) from
+  Create React App for more.
 - `src/cli` contains the scraper itself and a command-line interface (CLI) for running it.
 - `src/types` contains TypeScript type definitions used throughout the codebase.
 - `src/utils` contains utility functions and helper modules used across the codebase.
-- `src/web` contains a React web frontend app for viewing the data and iterating on our the Mapbox style.
+- `src/web` contains a React web frontend app for viewing the data and iterating on our the Mapbox
+  style.

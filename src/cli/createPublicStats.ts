@@ -23,7 +23,7 @@ export async function getOutputStats() {
   return stats;
 }
 
-export async function getMainOutputStats(): Promise<Record<string, number> | undefined> {
+export async function getMainOutputStats(): Promise<Stats | undefined> {
   const response = await fetch('http://canyoneer--main.s3.us-west-1.amazonaws.com/v2/stats.json');
   if (!response.ok) return undefined;
   return response.json();
