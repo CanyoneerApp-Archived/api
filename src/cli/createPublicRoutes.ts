@@ -1,3 +1,4 @@
+import {getS3Etag} from '@scree/aws-utils';
 import FS from 'fs';
 import {RouteV2, toGeoJSONRouteV2, toIndexRouteV2, toRouteV1} from '../types/v2';
 
@@ -10,14 +11,12 @@ export async function createPublicRoutes(routes: RouteV2[]) {
   const v2GeoJSON = new JSONWriteStream('./public/v2/index.geojson');
 
   for (const route of routes) {
-    v1Index.write(toRouteV1(route));
-    v2Index.write(toIndexRouteV2(route));
-    toGeoJSONRouteV2(route).forEach(feature => v2GeoJSON.write(feature));
+    const detailsJSON = Buffer.from(JSON.stringify(route, null, 2));
 
-    await FS.promises.writeFile(
-      `./public/v2/details/${route.id}.json`,
-      JSON.stringify(route, null, 2),
-    );
+    v1Index.write(toRouteV1(route));
+    v2Index.write(toIndexRouteV2(route, getS3Etag(detailsJSON)));
+    toGeoJSONRouteV2(route).forEach(feature => v2GeoJSON.write(feature));
+    await FS.promises.writeFile(`./public/v2/details/${route.id}.json`, detailsJSON);
   }
 
   await Promise.all([v1Index.end(), v2Index.end(), v2GeoJSON.end()]);

@@ -94,7 +94,7 @@ class Logger {
             style: 'unit',
             maximumSignificantDigits: 2,
           }),
-          ((mainStats[name] - stats[name]) / mainStats[name]).toLocaleString(undefined, {
+          ((stats[name] - mainStats[name]) / mainStats[name]).toLocaleString(undefined, {
             style: 'percent',
             maximumSignificantDigits: 2,
           }),
