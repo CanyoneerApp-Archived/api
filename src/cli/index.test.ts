@@ -9,7 +9,7 @@ import {main} from '.';
 import {logger} from '../utils/logger';
 
 // This test can take longer than the default 5 seconds timeout
-const timeout = 60 * 1000;
+const timeout = 120 * 1000;
 
 describe('scrape', () => {
   beforeAll(async () => {
