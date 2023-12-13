@@ -104,7 +104,7 @@ export async function scrapeKMLs(
             // Sometimes there are entire route descriptions embedded into `<name>` tags.
             // Truncate the text so that console isn't dominated by these warnings.
             const nameTruncated =
-              routeName.split('\n')[0].slice(0, 64) + (routeName.length > 64 ? '...' : '');
+              routeName.split('\n')[0]?.slice(0, 64) + (routeName.length > 64 ? '...' : '');
             logger.warn(`Couldn't find route named "${nameTruncated}"`);
             continue;
           }
