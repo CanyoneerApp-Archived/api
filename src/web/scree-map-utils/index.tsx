@@ -1,5 +1,5 @@
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import React, {useEffect, useState} from 'react';
 
 export const Map = ({
@@ -8,20 +8,20 @@ export const Map = ({
   images = {},
 }: {
   containerStyle?: React.CSSProperties;
-  style: maplibregl.StyleSpecification;
+  style: mapboxgl.Style;
   images?: {[id: string]: string};
 }) => {
   const [element, setElement] = useState<HTMLDivElement | null>(null);
-  const [map, setMap] = useState<maplibregl.Map | null>(null);
+  const [map, setMap] = useState<mapboxgl.Map | null>(null);
 
   useEffect(() => {
     if (!element) return;
 
-    const nextMap = new maplibregl.Map({
+    const nextMap = new mapboxgl.Map({
       container: element,
       style,
-      center: [-118.4917, 37.364],
-      zoom: 9,
+      center: [-116.73219, 36.21582],
+      zoom: 12,
       hash: true,
       attributionControl: false,
     });
@@ -48,8 +48,8 @@ export const Map = ({
 };
 
 function useMapStyle(
-  map: maplibregl.Map | null,
-  style: maplibregl.StyleSpecification,
+  map: mapboxgl.Map | null,
+  style: mapboxgl.Style,
   images: Record<string, string>,
 ) {
   useEffect(() => {
@@ -80,20 +80,10 @@ function useMapStyle(
     if (!map) return;
 
     for (const id of Object.keys(images)) {
-      if (map.style && map.hasImage(id)) {
+      if (map.hasImage(id)) {
         // We remove all map images when the style changes so that style diffing can occur
         map.removeImage(id);
       }
-    }
-
-    // This `map.style` check is necessary to work around a maplibre bug that breaks react hot
-    // reloads in development
-    const source = map.style && map.getSource('hillshadeSource');
-    if (source) {
-      source.serialize = () => {
-        // @ts-expect-error This is a hacky monkey patch
-        return source._options;
-      };
     }
 
     map.setStyle(style);
