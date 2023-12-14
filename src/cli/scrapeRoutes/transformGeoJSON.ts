@@ -18,30 +18,22 @@ function flatten(input: Feature | FeatureCollection): Feature<LineString | Point
   }
 }
 
-export async function transformGeoJSON(input: Feature | FeatureCollection): Promise<FeatureCollection> {
+export async function parseGeoJSON(input: Feature | FeatureCollection): Promise<FeatureCollection> {
   const output = flatten(input);
 
   const foo: FeatureCollection = {
     type: 'FeatureCollection',
     features: await Promise.all(
       output.map(async (feature): Promise<Feature<LineString | Point>> => {
-        console.log(feature)
-
         if (feature.geometry.type === 'LineString') {
           // @ts-expect-error
-          return await transformGeoJSONLine(feature);
+          return await parseGeoJSONLineString(feature);
 
         } else if (feature.geometry.type === 'Point') {
-          return {
-            ...feature,
-            properties: {
-              ...feature.properties,
-              // @ts-expect-error
-              elevationMeters: await getElevation(feature.geometry.coordinates),
-            }
-          }
+          // @ts-expect-error
+          return await parseGeoJSONPoint(feature)
         } else {
-          return feature;
+          throw new Error(`Unexpected feature type ${feature.type}`)
         }
       }),
     ),
@@ -50,7 +42,18 @@ export async function transformGeoJSON(input: Feature | FeatureCollection): Prom
   return foo
 }
 
-async function transformGeoJSONLine(feature: Feature<LineString>) {
+async function parseGeoJSONPoint(feature: Feature<Point>) {
+  return {
+    ...feature,
+    properties: {
+      ...feature.properties,
+      // @ts-expect-error
+      elevationMeters: Math.round(await getElevation(feature.geometry.coordinates)),
+    }
+  };
+}
+
+async function parseGeoJSONLineString(feature: Feature<LineString>) {
   const geometry: LineString = {
     type: 'LineString',
     coordinates: await Promise.all(

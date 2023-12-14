@@ -1,13 +1,13 @@
 import {RouteV2} from '../../types/v2';
 // @ts-ignore there are no type definitions for this module
-import TJ from '@mapbox/togeojson';
+import ToGeoJSON from '@mapbox/togeojson';
 import xmldom from '@xmldom/xmldom';
 import {cloneDeep, keyBy} from 'lodash';
 import {inspect} from 'util';
 import {validate} from '../../utils/getValidator';
 import {logger} from '../../utils/logger';
 import cachedFetch from './cachedFetch';
-import {transformGeoJSON} from './transformGeoJSON';
+import {parseGeoJSON} from './transformGeoJSON';
 
 /**
  * The maximum number of KMLs to load per batched request.
@@ -110,7 +110,7 @@ export async function scrapeKMLs(
             continue;
           }
 
-          route.geojson = await transformGeoJSON(TJ.kml(element, {styles: true}));
+          route.geojson = await parseGeoJSON(ToGeoJSON.kml(element, {styles: true}));
           validate('RouteV2', route);
         }
       } catch (error) {
