@@ -12,7 +12,7 @@ export function App() {
 }
 
 function getMapStyle(): mapboxgl.Style {
-  const publicURL = new URL('http://localhost:8001');
+  const publicURL = new URL(process.env.PUBLIC_URL || '', window.location.href);
 
   return {
     version: 8,

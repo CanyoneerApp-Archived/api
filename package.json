@@ -10,7 +10,7 @@
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
     "test": "jest",
-    "web": "concurrently \"PORT=8000 PUBLIC_URL=http://localhost:8001 react-app-rewired start\" \"serve public --listen 8001 --cors\""
+    "web": "react-app-rewired start"
   },
   "browserslist": {
     "production": [
