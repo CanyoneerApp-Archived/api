@@ -1,30 +1,25 @@
 import {Feature, FeatureCollection, LineString, Point} from '@turf/helpers';
 import length from '@turf/length';
-import {simplify} from '@turf/turf';
 import assert from 'assert';
 import * as FastPNG from 'fast-png';
 import {isNumber} from 'lodash';
-import {inspect} from 'util';
 import cachedFetch from './cachedFetch';
 
-function flatten(input: Feature | FeatureCollection): Feature<LineString | Point>[] {
+function flatten(input: Feature | FeatureCollection): Feature[] {
   if (input.type === 'FeatureCollection') {
     return input.features.flatMap(flatten)
-  } else if (input.geometry.type === 'LineString' || input.geometry.type === 'Point') {
-    // @ts-expect-error
-    return [input]
   } else {
-    throw new Error(`Unexpected feature type ${inspect(input)}`)
+    return [input]
   }
 }
 
 export async function parseGeoJSON(input: Feature | FeatureCollection): Promise<FeatureCollection> {
   const output = flatten(input);
 
-  const foo: FeatureCollection = {
+  return {
     type: 'FeatureCollection',
     features: await Promise.all(
-      output.map(async (feature): Promise<Feature<LineString | Point>> => {
+      output.map(async (feature) => {
         if (feature.geometry.type === 'LineString') {
           // @ts-expect-error
           return await parseGeoJSONLineString(feature);
@@ -33,13 +28,12 @@ export async function parseGeoJSON(input: Feature | FeatureCollection): Promise<
           // @ts-expect-error
           return await parseGeoJSONPoint(feature)
         } else {
-          throw new Error(`Unexpected feature type ${feature.type}`)
+          return feature
         }
       }),
     ),
   };
 
-  return foo
 }
 
 async function parseGeoJSONPoint(feature: Feature<Point>) {
@@ -57,7 +51,9 @@ async function parseGeoJSONLineString(feature: Feature<LineString>) {
   const geometry: LineString = {
     type: 'LineString',
     coordinates: await Promise.all(
-      simplify(feature.geometry, {tolerance: 1}).coordinates.map(async ([lon, lat]) => {
+      // eslint-disable-next-line no-warning-comments
+      // TODO simplify
+      feature.geometry.coordinates.map(async ([lon, lat]) => {
         assert(isNumber(lon) && isNumber(lat));
         return [lon, lat, await getElevation([lon, lat])];
       }),
@@ -70,8 +66,27 @@ async function parseGeoJSONLineString(feature: Feature<LineString>) {
     properties: {
       ...feature.properties,
       lengthMeters: length(feature, {units: 'meters'}),
+      ascentMeters: getAscent(geometry, false),
+      descentMeters: getAscent(geometry, true),
+      // @ts-ignore
+      changeMeters: geometry.coordinates[geometry.coordinates.length - 1][2] - geometry.coordinates[0][2],
     },
   };
+}
+
+function getAscent(geometry: LineString, isDescent: boolean) {
+  let ascent = 0;
+
+  for (let i = 0; i < geometry.coordinates.length - 1; i++) {
+    // @ts-expect-error
+    const [, , elevation1] = geometry.coordinates[i];
+    // @ts-expect-error
+    const [, , elevation2] = geometry.coordinates[i + 1];
+
+    ascent += Math.max(0, elevation2 - elevation1 * (isDescent ? -1 : 1));
+  }
+
+  return ascent;
 }
 
 async function getElevation([lon, lat]: [number, number]) {
@@ -82,6 +97,8 @@ async function getElevation([lon, lat]: [number, number]) {
   const url = new URL(
     `https://api.mapbox.com/v4/mapbox.terrain-rgb/${tileZ}/${Math.floor(tileX)}/${Math.floor(
       tileY,
+      // eslint-disable-next-line no-warning-comments
+      // TODO pull this out into a constant
     )}.png?access_token=pk.eyJ1Ijoic3BpbmRyaWZ0IiwiYSI6ImNqaDg2bDBsdTBmZG0yd3MwZ2x4ampsdXUifQ.7E19C7BhF9Dfd1gdJiYTEg`,
   );
 

@@ -5,7 +5,10 @@ import Path from 'path';
 import PromiseThrottle from 'promise-throttle';
 import {logger} from '../../utils/logger';
 
-const promiseThrottle = new PromiseThrottle({requestsPerSecond: 1});
+const throttle = {
+  'api.mapbox.com': new PromiseThrottle({requestsPerSecond: 500}),
+  'ropewiki.com': new PromiseThrottle({requestsPerSecond: 1})
+}
 
 export function md5(input: string) {
   return Crypto.createHash('md5').update(input).digest('hex');
@@ -31,7 +34,9 @@ async function cachedFetch(urlObject: URL, encoding?: 'utf-8') {
       throw error;
     }
 
-    const body = await promiseThrottle.add(async () => {
+    // @ts-expect-error
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const body = await throttle[urlObject.host]!.add(async () => {
       logger.fetch(url, 'live');
       const response = await fetch(url);
       if (!response.ok) {
