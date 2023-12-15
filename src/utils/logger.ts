@@ -73,7 +73,15 @@ class Logger {
     return promise;
   }
 
-  outputStats(stats: Stats, mainStats: Stats | undefined) {
+  async outputStats(stats: Stats, region: unknown) {
+    const mainStats =
+      region === 'all' ?
+        await getMainOutputStats().catch(error => {
+          logger.error(error);
+          return undefined;
+        })
+      : undefined;
+
     const names = Object.keys(stats) as (keyof Stats)[];
 
     const table: string[][] = [];
@@ -163,3 +171,9 @@ class Logger {
 }
 
 export const logger = new Logger();
+
+async function getMainOutputStats(): Promise<Stats | undefined> {
+  const response = await fetch('http://canyoneer--main.s3.us-west-1.amazonaws.com/v2/stats.json');
+  if (!response.ok) return undefined;
+  return response.json();
+}
