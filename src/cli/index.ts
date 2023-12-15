@@ -6,12 +6,13 @@ import {clearPublicDir} from './clearPublicDir';
 import {createBuild} from './createBuild';
 import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
-import {getMainOutputStats, getOutputStats} from './createPublicStats';
+import {createPublicStats} from './createPublicStats';
 import {createPublicTiles} from './createPublicTiles';
 import {scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
-import {uploadOutputDir} from './uploadBuild';
+import {uploadBuildDir} from './uploadBuildDir';
+import {zipPublicDir} from './zipPublicDir';
 
 program.option(
   '--local',
@@ -51,20 +52,13 @@ export async function main(argv: string[]) {
   const routes = await logger.step(scrapeRoutes, [options.region]);
   await logger.step(createPublicRoutes, [routes]);
   await logger.step(createPublicTiles, []);
-  const stats = await logger.step(getOutputStats, []);
-  logger.outputStats(
-    stats,
-    options.region === 'all' ?
-      await getMainOutputStats().catch(error => {
-        logger.error(error);
-        return undefined;
-      })
-    : undefined,
-  );
+  const stats = await logger.step(createPublicStats, []);
+  logger.outputStats(stats, [options.region]);
+  await logger.step(zipPublicDir, []);
   await logger.step(createBuild, []);
 
   if (!options.local && stack) {
-    await logger.step(uploadOutputDir, [s3, stack]);
+    await logger.step(uploadBuildDir, [s3, stack]);
   }
 
   logger.done();
