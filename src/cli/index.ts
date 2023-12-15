@@ -4,6 +4,7 @@ import {program} from 'commander';
 import {logger} from '../utils/logger';
 import {clearPublicDir} from './clearPublicDir';
 import {createBuild} from './createBuild';
+import {createPublicMapStyle} from './createPublicMapStyle';
 import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
 import {getMainOutputStats, getOutputStats} from './createPublicStats';
@@ -61,6 +62,7 @@ export async function main(argv: string[]) {
       })
     : undefined,
   );
+  await logger.step(createPublicMapStyle, [stack?.URL]);
   await logger.step(createBuild, []);
 
   if (!options.local && stack) {
