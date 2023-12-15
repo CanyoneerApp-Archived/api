@@ -27,10 +27,16 @@ export async function createPublicTiles() {
       // Do not apply gzip compression to the vector tile files.
       noTileCompression: true,
 
-      gamma: 25,
+      // Rate at which especially dense dots are dropped (default 0, for no effect). A gamma of 2
+      // reduces the number of dots less than a pixel apart to the square root of their original
+      // number.
+      gamma: 0,
 
+      // Rate at which dots are dropped at zoom levels below basezoom (default 2.5).
       dropRate: 1,
 
+      //  Dynamically drop some fraction of features from large tiles to keep them under the 500K
+      // size limit. It will probably look ugly at the tile boundaries.
       forceFeatureLimit: true,
     },
     {echo: logger.enable, async: true},

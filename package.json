@@ -10,7 +10,7 @@
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
     "test": "jest",
-    "web": "PORT=3000 react-app-rewired start"
+    "web": "react-app-rewired start"
   },
   "browserslist": {
     "production": [

@@ -1,5 +1,5 @@
 import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
-import {omit} from 'lodash';
+import {compact, omit} from 'lodash';
 import {metersPerFoot} from '../utils/metersPerFoot';
 import type {PermitV1} from './v1';
 import {DifficultyV1, MonthV1, RouteV1} from './v1';
@@ -159,7 +159,7 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
       }
     : undefined;
 
-  return [self, ...children].filter(Boolean) as GeoJSONRouteV2[];
+  return compact([self, ...children]) as GeoJSONRouteV2[];
 }
 
 export const permitV1toV2: {[key: string]: PermitV2} = {
