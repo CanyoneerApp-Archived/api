@@ -8,9 +8,6 @@ import Protobuf from 'pbf';
 import {main} from '.';
 import {logger} from '../utils/logger';
 
-// @ts-ignore
-global.window = {location: {href: 'http://example.com/'}};
-
 // This test can take longer than the default 5 seconds timeout
 const timeout = 120 * 1000;
 
