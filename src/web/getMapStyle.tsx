@@ -167,6 +167,12 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
               ['get', 'route.technicalRating'],
               ['get', 'route.waterRating'],
               ' ',
+              [
+                'case',
+                ['has', 'route.riskRating'],
+                ['concat', ['get', 'route.riskRating'], ' '],
+                '',
+              ],
               ['get', 'route.timeRating'],
               ' • ',
               [
