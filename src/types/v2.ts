@@ -109,7 +109,6 @@ function toGeoJSONRouteV2CoreProperties(
     'route.id': route.id,
     'route.name': route.name,
     'route.quality': route.quality,
-    // TODO use route popularity
     sortKey: route.quality == undefined ? 0 : -1 * route.quality,
     'route.technicalRating': route.technicalRating,
     'route.waterRating': route.waterRating,
