@@ -31,6 +31,50 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
     },
     layers: [
       {
+        id: 'linesCase',
+        type: 'line',
+        source: 'routes',
+        'source-layer': 'routes',
+        filter: ['==', ['geometry-type'], 'LineString'],
+        paint: {
+          'line-color': 'white',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 3, 14, 5],
+        },
+      },
+      {
+        id: 'lines',
+        type: 'line',
+        source: 'routes',
+        'source-layer': 'routes',
+        filter: ['==', ['geometry-type'], 'LineString'],
+        paint: {
+          'line-color': ['coalesce', ['get', 'stroke'], 'red'],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
+        },
+      },
+      {
+        id: 'routesOutline',
+        type: 'circle',
+        source: 'routes',
+        'source-layer': 'routes',
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
+        paint: {
+          'circle-color': 'white',
+          'circle-radius': 4,
+        },
+      },
+      {
+        id: 'routes',
+        type: 'circle',
+        source: 'routes',
+        'source-layer': 'routes',
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
+        paint: {
+          'circle-color': 'black',
+          'circle-radius': 3,
+        },
+      },
+      {
         id: 'routeLabels',
         filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
         source: 'routes',
@@ -73,67 +117,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'symbol-sort-key': ['get', 'sortKey'],
         },
       },
-      {
-        id: 'routesOutline',
-        type: 'circle',
-        source: 'routes',
-        'source-layer': 'routes',
-        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
-        paint: {
-          'circle-color': 'white',
-          'circle-radius': 4,
-        },
-      },
-      {
-        id: 'routes',
-        type: 'circle',
-        source: 'routes',
-        'source-layer': 'routes',
-        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
-        paint: {
-          'circle-color': 'black',
-          'circle-radius': 3,
-        },
-      },
-      // {
-      //   minzoom: 12,
-      //   id: 'waypoints',
-      //   type: 'circle',
-      //   source: 'routes',
-      //   'source-layer': 'routes',
-      //   filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
-      //   paint: {
-      //     'circle-color': ['concat', ['get', 'stroke'], 'red'],
-      //     'circle-radius': waypointCircleRadius,
-      //   },
-      // },
-      // ...getLabels({
-      //   minzoom: 12,
-      //   id: 'waypointLabels',
-      //   filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
-      //   layout: {
-      //     'text-offset': [0, waypointCircleRadius / waypointLabelSize],
-      //     'text-anchor': 'top',
-      //   },
-      // }),
-      // {
-      //   id: 'lines',
-      //   type: 'line',
-      //   source: 'routes',
-      //   'source-layer': 'routes',
-      //   filter: ['==', ['geometry-type'], 'LineString'],
-      //   paint: {
-      //     'line-color': ['coalesce', ['get', 'stroke'], 'red'],
-      //     'line-width': 2,
-      //   },
-      // },
-      // ...getLabels({
-      //   id: 'lineLabels',
-      //   filter: ['==', ['geometry-type'], 'LineString'],
-      //   layout: {
-      //     'symbol-placement': 'line',
-      //   },
-      // }),
     ],
     // @ts-expect-error we are using a very new style spec
     imports: [
@@ -148,47 +131,3 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
     ],
   };
 }
-
-// function getLabels(layer: Omit<mapbox.SymbolLayer, 'type'>): mapbox.SymbolLayer[] {
-//   const switchZoom = 13;
-//   return [
-//     {
-//       ...layer,
-//       id: `${layer.id}Low`,
-//       source: 'routes',
-//       'source-layer': 'routes',
-//       type: 'symbol',
-//       minzoom: switchZoom,
-//       layout: {
-//         'text-allow-overlap': true,
-//         'text-size': waypointLabelSize,
-//         'text-font': font,
-//         'text-field': [
-//           'format',
-//           ['get', 'name'],
-//           {'font-style': fontBold},
-//           '\n',
-//           {},
-//           ['get', 'description'],
-//           {'font-scale': 0.8},
-//         ],
-//         ...layer.layout,
-//       },
-//     },
-//     {
-//       ...layer,
-//       id: `${layer.id}High`,
-//       source: 'routes',
-//       'source-layer': 'routes',
-//       type: 'symbol',
-//       maxzoom: switchZoom,
-//       layout: {
-//         'text-allow-overlap': false,
-//         'text-size': waypointLabelSize,
-//         'text-font': font,
-//         'text-field': ['get', 'name'],
-//         ...layer.layout,
-//       },
-//     },
-//   ];
-// }

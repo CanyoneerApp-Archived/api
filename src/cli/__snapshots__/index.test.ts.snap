@@ -774,10 +774,12 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "Bickford Slides Canyon",
           "route.id": 68720,
           "route.name": "Bickford Slides Canyon",
           "route.quality": 3,
+          "sortKey": -3,
           "route.technicalRating": 3,
           "route.waterRating": "C",
           "route.timeRating": "II",
@@ -806,10 +808,12 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "The Cataracts",
           "route.id": 68931,
           "route.name": "The Cataracts",
           "route.quality": 3,
+          "sortKey": -3,
           "route.technicalRating": 3,
           "route.waterRating": "C",
           "route.timeRating": "II",
@@ -833,9 +837,11 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "Screw Auger Falls Gorge",
           "route.id": 34280,
           "route.name": "Screw Auger Falls Gorge",
+          "sortKey": 0,
           "route.technicalRating": 3,
           "route.waterRating": "C1",
           "route.timeRating": "I",
@@ -864,6 +870,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt6",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -873,6 +880,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -890,9 +898,11 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "Inman's Cave",
           "route.id": 68718,
           "route.name": "Inman's Cave",
+          "sortKey": 0,
           "route.technicalRating": 3,
           "route.waterRating": "A",
           "route.timeRating": "I",
@@ -916,6 +926,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt5",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -925,28 +936,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
-          "route.permit": "No"
-        }
-      },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -68.98167371749878,
-            45.89616118432687
-          ]
-        },
-        "properties": {
-          "name": "Wpt11",
-          "styleUrl": "#dot",
-          "styleHash": "-56beb8bb",
-          "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
-          "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -960,6 +950,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt10",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -969,6 +960,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -982,6 +974,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt2",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -991,50 +984,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
-          "route.permit": "No"
-        }
-      },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -68.93667697906494,
-            45.8985057258885
-          ]
-        },
-        "properties": {
-          "name": "Wpt4",
-          "styleUrl": "#dot",
-          "styleHash": "-56beb8bb",
-          "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
-          "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
-          "route.permit": "No"
-        }
-      },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -68.93667697906494,
-            45.8985057258885
-          ]
-        },
-        "properties": {
-          "name": "Wpt8",
-          "styleUrl": "#dot",
-          "styleHash": "-56beb8bb",
-          "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
-          "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -1044,41 +994,17 @@ exports[`scrape Maine 1`] = `
           "type": "Point",
           "coordinates": [
             -68.92199993133545,
-            45.90432931795692
+            45.90429945494046
           ]
         },
         "properties": {
-          "name": "Wpt3",
-          "styleUrl": "#dot",
-          "styleHash": "-56beb8bb",
-          "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
-          "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
+          "type": "parent",
+          "hasChildren": true,
+          "name": "Mount Katahdin",
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
-          "route.permit": "No"
-        }
-      },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -68.92199993133545,
-            45.90432931795692
-          ]
-        },
-        "properties": {
-          "name": "Wpt9",
-          "styleUrl": "#dot",
-          "styleHash": "-56beb8bb",
-          "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
-          "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
-          "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-          "route.id": 25753,
-          "route.name": "Mount Katahdin",
-          "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -1096,6 +1022,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt7",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1105,6 +1032,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -1122,6 +1050,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt1",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1131,6 +1060,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -1148,6 +1078,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt1",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1157,6 +1088,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
