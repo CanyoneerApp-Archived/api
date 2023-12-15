@@ -70,7 +70,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
     // The API does not support returning more than 2000 results
     url.searchParams.append('limit', '2000');
 
-    const text = await cachedFetch(url);
+    const text = await cachedFetch(url, 'utf-8');
     const json = text && JSON.parse(text);
     const results: APIResponse[] = Object.values(json?.results ?? {});
 
@@ -106,7 +106,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
         rappelLongestMeters:
           result.printouts.rappelLongest[0]?.value ?
             round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
-          : undefined,
+            : undefined,
         vehicle: result.printouts.vehicle[0],
         shuttleSeconds:
           result.printouts.shuttle[0]?.value ? result.printouts.shuttle[0].value * 60 : undefined,

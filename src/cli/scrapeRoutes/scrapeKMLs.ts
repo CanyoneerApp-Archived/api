@@ -7,6 +7,7 @@ import {inspect} from 'util';
 import {validate} from '../../utils/getValidator';
 import {logger} from '../../utils/logger';
 import cachedFetch from './cachedFetch';
+import {parseKMLs} from './parseKMLs';
 
 /**
  * The maximum number of KMLs to load per batched request.
@@ -64,7 +65,7 @@ export async function scrapeKMLs(
       // The API demands the "inner" URL not be encoded so we cannot use the URL class here.
       const outerURL = new URL(`https://ropewiki.com/luca/rwr?gpx=off&kml=${innerURL.toString()}`);
 
-      let text = await cachedFetch(outerURL);
+      let text = await cachedFetch(outerURL, 'utf-8');
 
       // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
       if (!text.trim().endsWith('</kml>')) {
@@ -109,7 +110,7 @@ export async function scrapeKMLs(
             continue;
           }
 
-          route.geojson = TJ.kml(element, {styles: true});
+          route.geojson = await parseKMLs(TJ.kml(element, {styles: true}));
           validate('RouteV2', route);
         }
       } catch (error) {

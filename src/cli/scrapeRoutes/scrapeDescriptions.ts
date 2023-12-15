@@ -30,11 +30,11 @@ export async function scrapeDescriptions(routes: RouteV2[]): Promise<RouteV2[]> 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const xml: any = await new Promise(async (resolve, reject) =>
           XML2JS.parseString(
-            JSON.parse(await cachedFetch(url)).query.export['*'],
+            JSON.parse(await cachedFetch(url, 'utf-8')).query.export['*'],
             (error, result) => {
               if (error) reject(error);
               else resolve(result);
-            },
+            }
           ),
         );
 
