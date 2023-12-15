@@ -26,6 +26,12 @@ export async function createPublicTiles() {
 
       // Do not apply gzip compression to the vector tile files.
       noTileCompression: true,
+
+      gamma: 25,
+
+      dropRate: 1,
+
+      forceFeatureLimit: true,
     },
     {echo: logger.enable, async: true},
   );

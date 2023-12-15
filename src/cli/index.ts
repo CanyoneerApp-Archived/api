@@ -60,9 +60,9 @@ export async function main(argv: string[]) {
         logger.error(error);
         return undefined;
       })
-    : undefined,
+      : undefined,
   );
-  await logger.step(createPublicMapStyle, [stack?.URL]);
+  await logger.step(createPublicMapStyle, [stack?.URL ?? `http://localhost:3000`]);
   await logger.step(createBuild, []);
 
   if (!options.local && stack) {

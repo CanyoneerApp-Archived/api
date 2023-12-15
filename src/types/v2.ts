@@ -56,9 +56,9 @@ type GeoJSONRouteV2CoreProperties = {
     'months' | 'latitude' | 'longitude' | 'etag'
   > as `route.${Key}`]: IndexRouteV2[Key];
 } & {
-  // Vector tiles cannot encode arrays so we break the months out into individual properties.
-  [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
-};
+    // Vector tiles cannot encode arrays so we break the months out into individual properties.
+    [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
+  };
 
 /**
  * A GeoJSON feature representing a route
@@ -66,7 +66,7 @@ type GeoJSONRouteV2CoreProperties = {
 export type GeoJSONRouteV2 = Feature<
   Geometry | GeometryCollection,
   // "GeoJSONRouteV2CoreProperties" contains information about the route associated with this feature
-  GeoJSONRouteV2CoreProperties & {[key: string]: unknown} // structured data. // See https://github.com/CanyoneerApp/api/issues/28 for our effort on classifying these into // We also add the freeform properties from the original KML file.
+  GeoJSONRouteV2CoreProperties & {type: 'parent' | 'child'} & {[key: string]: unknown} // structured data. // See https://github.com/CanyoneerApp/api/issues/28 for our effort on classifying these into // We also add the freeform properties from the original KML file.
 >;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
@@ -123,32 +123,32 @@ function toGeoJSONRouteV2CoreProperties(
 }
 
 export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
-  return (
-    route.geojson?.features.map(
-      (feature): GeoJSONRouteV2 => ({
-        ...feature,
-        properties: {
-          ...feature.properties,
-          ...toGeoJSONRouteV2CoreProperties(route),
-        },
-      }),
-    ) ??
-    (route.longitude && route.latitude ?
-      [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [route.longitude, route.latitude],
-          },
-          properties: {
-            name: route.name,
-            ...toGeoJSONRouteV2CoreProperties(route),
-          },
-        },
-      ]
-    : [])
-  );
+
+  const children: GeoJSONRouteV2[] = route.geojson?.features.map(
+    (feature): GeoJSONRouteV2 => ({
+      ...feature,
+      properties: {
+        type: 'child',
+        ...feature.properties,
+        ...toGeoJSONRouteV2CoreProperties(route),
+      },
+    }),
+  ) ?? []
+
+  const self: GeoJSONRouteV2 | undefined = route.longitude && route.latitude ? {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [route.longitude, route.latitude],
+    },
+    properties: {
+      type: 'parent',
+      name: route.name,
+      ...toGeoJSONRouteV2CoreProperties(route),
+    },
+  } : undefined
+
+  return [self, ...children].filter(Boolean) as GeoJSONRouteV2[]
 }
 
 export const permitV1toV2: {[key: string]: PermitV2} = {
