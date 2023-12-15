@@ -3,9 +3,9 @@ import {max, mean, sum} from 'lodash';
 import {glob} from 'miniglob';
 import {gzip} from 'zlib';
 
-export type Stats = Awaited<ReturnType<typeof getOutputStats>>;
+export type Stats = Awaited<ReturnType<typeof createPublicStats>>;
 
-export async function getOutputStats() {
+export async function createPublicStats() {
   const detailBytes = await Promise.all(glob(`./public/v2/details/*.json`).map(getGzipSize));
   const tileBytes = await Promise.all(glob(`./public/v2/tiles/*/*/*.pbf`).map(getGzipSize));
 
@@ -21,12 +21,6 @@ export async function getOutputStats() {
   FS.writeFile('./public/v2/stats.json', JSON.stringify(stats, null, 2));
 
   return stats;
-}
-
-export async function getMainOutputStats(): Promise<Stats | undefined> {
-  const response = await fetch('http://canyoneer--main.s3.us-west-1.amazonaws.com/v2/stats.json');
-  if (!response.ok) return undefined;
-  return response.json();
 }
 
 function getArrayStats(name: string, values: number[]) {
