@@ -1,6 +1,6 @@
+import {Map} from '@scree/kit';
 import mapboxgl from 'mapbox-gl';
 import React from 'react';
-import {Map} from './Map';
 import {getMapStyle} from './getMapStyle';
 
 mapboxgl.accessToken =

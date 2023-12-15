@@ -23,7 +23,8 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
       },
       routes: {
         type: 'vector',
-        tiles: [`${new URL('v2/tiles/', publicUrl)}{z}/{x}/{y}.pbf`],
+        // Mapbox requires this is an absolute URL
+        tiles: [`${publicUrl}v2/tiles/{z}/{x}/{y}.pbf`],
         maxzoom: 12,
       },
       dem: {

@@ -2708,12 +2708,53 @@
     eslint-plugin-react "^7.33.2"
     eslint-plugin-react-hooks "^4.6.0"
 
+"@scree/eslint-config-quality@1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@scree/eslint-config-quality/-/eslint-config-quality-1.15.0.tgz#b93d3fa32be453ba9789945ceb722028055c9556"
+  integrity sha512-QG/gVEXHa0+L0n7zqBVHzRl69gs8i/9fkAGK8hoAh+XEhyjn30E/ohZQktyc+ifRU0ntTVQ/YS6ERvurnkhzeg==
+  dependencies:
+    "@typescript-eslint/eslint-plugin" "^6.10.0"
+    "@typescript-eslint/parser" "^6.10.0"
+    eslint "^8.53.0"
+    eslint-config-prettier "^9.0.0"
+    eslint-plugin-import "^2.29.0"
+    eslint-plugin-react "^7.33.2"
+    eslint-plugin-react-hooks "^4.6.0"
+
+"@scree/kit@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@scree/kit/-/kit-1.1.0.tgz#5963242280468b8102c44feee4a5006d4b57c72f"
+  integrity sha512-AszhdKtbSH7HJFE1HfHjFUuNUGELwxcVSaRTYRX6n5EybIxpCFDQP7CKwXYMs0PvUOVjUf9uV2WIrqBfd0Vk9w==
+  dependencies:
+    "@scree/quality" "^1.15.0"
+    "@types/mapbox-gl" "^2.7.19"
+    "@types/react" "^18.2.45"
+    mapbox-gl "^3.0.1"
+    react "^18.2.0"
+
 "@scree/quality@^1.13.0":
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-1.13.0.tgz#bc8ff71f3dd5cb6ed128c723121464f5cb5caa91"
   integrity sha512-iAnjbt52n47tj1WBwOqg7y9J5U34e76Gyyvp4tkY7GmQYZwzyGpnXVAMcsktK9DXz20JulcVyHe3yHI41ExMqw==
   dependencies:
     "@scree/eslint-config-quality" "1.13.0"
+    "@types/node" "^20.10.0"
+    "@typescript-eslint/eslint-plugin" "^6.12.0"
+    "@typescript-eslint/parser" "^6.10.0"
+    eslint "^8.53.0"
+    eslint-config-prettier "^9.0.0"
+    eslint-plugin-import "^2.29.0"
+    eslint-plugin-react "^7.33.2"
+    eslint-plugin-react-hooks "^4.6.0"
+    prettier "^3.1.1"
+    typescript "^5.2.2"
+
+"@scree/quality@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@scree/quality/-/quality-1.15.0.tgz#ccd6d00c951a77351295ed32a4b7e70476f6bfb9"
+  integrity sha512-0VMM8YBGsq7XPXvE1rife+c5SoM9DIU2zlvbcCbdmIK36Ld4uzuNi4fq8WZ7iCE60tncV+hiJW1s/9uZyPRRwQ==
+  dependencies:
+    "@scree/eslint-config-quality" "1.15.0"
     "@types/node" "^20.10.0"
     "@typescript-eslint/eslint-plugin" "^6.12.0"
     "@typescript-eslint/parser" "^6.10.0"
@@ -3660,6 +3701,15 @@
   version "18.2.43"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.43.tgz#c58e5abe241e6f71f60ce30e2a9aceb9d3a2a374"
   integrity sha512-nvOV01ZdBdd/KW6FahSbcNplt2jCJfyWdTos61RYHV+FVv5L/g9AOX1bmbVcWcLFL8+KHQfh1zVIQrud6ihyQA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^18.2.45":
+  version "18.2.45"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.45.tgz#253f4fac288e7e751ab3dc542000fb687422c15c"
+  integrity sha512-TtAxCNrlrBp8GoeEp1npd5g+d/OejJHFxS3OWmrPBMFaVQMSN0OFySozJio5BHxTuTeug00AVXVAjfDSfk+lUg==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"

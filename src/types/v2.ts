@@ -68,7 +68,15 @@ type GeoJSONRouteV2CoreProperties = {
 export type GeoJSONRouteV2 = Feature<
   Geometry | GeometryCollection,
   GeoJSONRouteV2CoreProperties & {
+    /**
+     * If `parent`, this is a top level Route from RopeWiki. If `child`, this is something we
+     * extracted from the route's KML file.
+     */
     type: 'parent' | 'child';
+
+    /**
+     * True if this `type` is `parent` and it has at least one child feature.
+     */
     hasChildren: true | undefined;
   } & {[key: string]: unknown}
 >;
