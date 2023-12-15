@@ -8,6 +8,7 @@ export default function parseRappelCount(input: string | undefined) {
   const match = input.match(/([0-9+])(-([0-9+]))?r/);
   return {
     rappelCountMin: parseIntSafe(match?.[1]),
+    // TODO this may be broken, all routes are reporting the same min and max
     rappelCountMax: parseIntSafe(match?.[3] ?? match?.[1]),
   };
 }

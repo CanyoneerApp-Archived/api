@@ -58,6 +58,8 @@ type GeoJSONRouteV2CoreProperties = {
 } & {
     // Vector tiles cannot encode arrays so we break the months out into individual properties.
     [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
+  } & {
+    sortKey: number,
   };
 
 /**
@@ -65,8 +67,12 @@ type GeoJSONRouteV2CoreProperties = {
  */
 export type GeoJSONRouteV2 = Feature<
   Geometry | GeometryCollection,
-  // "GeoJSONRouteV2CoreProperties" contains information about the route associated with this feature
-  GeoJSONRouteV2CoreProperties & {type: 'parent' | 'child'} & {[key: string]: unknown} // structured data. // See https://github.com/CanyoneerApp/api/issues/28 for our effort on classifying these into // We also add the freeform properties from the original KML file.
+  GeoJSONRouteV2CoreProperties &
+  {
+    type: 'parent' | 'child',
+    hasChildren: true | undefined
+  } &
+  {[key: string]: unknown}
 >;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
@@ -105,6 +111,8 @@ function toGeoJSONRouteV2CoreProperties(
     'route.id': route.id,
     'route.name': route.name,
     'route.quality': route.quality,
+    // TODO use route popularity
+    'sortKey': route.quality == undefined ? 0 : -1 * route.quality,
     'route.technicalRating': route.technicalRating,
     'route.waterRating': route.waterRating,
     'route.timeRating': route.timeRating,
@@ -129,6 +137,7 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
       ...feature,
       properties: {
         type: 'child',
+        hasChildren: undefined,
         ...feature.properties,
         ...toGeoJSONRouteV2CoreProperties(route),
       },
@@ -143,6 +152,7 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
     },
     properties: {
       type: 'parent',
+      hasChildren: children.length > 0 ? true : undefined,
       name: route.name,
       ...toGeoJSONRouteV2CoreProperties(route),
     },
