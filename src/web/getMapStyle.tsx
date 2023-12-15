@@ -17,6 +17,10 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
     version: 8,
     terrain: {source: 'dem', exaggeration: 2},
     sources: {
+      composite: {
+        url: 'mapbox://mapbox.mapbox-streets-v8,mapbox.mapbox-terrain-v2,mapbox.mapbox-bathymetry-v2',
+        type: 'vector',
+      },
       routes: {
         type: 'vector',
         tiles: [`${new URL('v2/tiles/', publicUrl)}{z}/{x}/{y}.pbf`],
@@ -30,6 +34,71 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
       },
     },
     layers: [
+      {
+        id: 'contour-line',
+        type: 'line',
+        source: 'composite',
+        'source-layer': 'contour',
+        minzoom: 11,
+        filter: ['!=', ['get', 'index'], -1],
+        layout: {},
+        paint: {
+          'line-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            11,
+            ['match', ['get', 'index'], [1, 2], 0.15, 0.3],
+            13,
+            ['match', ['get', 'index'], [1, 2], 0.3, 0.5],
+          ],
+          'line-color': 'hsl(60, 10%, 35%)',
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13,
+            ['match', ['get', 'index'], [1, 2], 0.5, 0.6],
+            16,
+            ['match', ['get', 'index'], [1, 2], 0.8, 1.2],
+          ],
+        },
+        metadata: {
+          'mapbox:featureComponent': 'terrain',
+          'mapbox:group': 'Terrain, land',
+        },
+        // @ts-expect-error we need to update these types
+        slot: 'bottom',
+      },
+      {
+        id: 'contour-label',
+        type: 'symbol',
+        source: 'composite',
+        'source-layer': 'contour',
+        minzoom: 11,
+        filter: ['any', ['==', ['get', 'index'], 10], ['==', ['get', 'index'], 5]],
+        layout: {
+          'text-field': ['concat', ['get', 'ele'], ' m'],
+          'symbol-placement': 'line',
+          'text-pitch-alignment': 'viewport',
+          'text-max-angle': 25,
+          'text-padding': 5,
+          'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 15, 9.5, 20, 12],
+        },
+        paint: {
+          'text-color': 'hsl(60, 10%, 35%)',
+          'text-halo-width': 1,
+          'text-halo-color': 'hsl(60, 10%, 85%)',
+        },
+        metadata: {
+          'mapbox:featureComponent': 'terrain',
+          'mapbox:group': 'Terrain, terrain-labels',
+        },
+        // @ts-expect-error we need to update these types
+        slot: 'bottom',
+      },
+
       {
         id: 'linesCase',
         type: 'line',
@@ -118,7 +187,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         },
       },
     ],
-    // @ts-expect-error we are using a very new style spec
     imports: [
       {
         id: 'basemap',
