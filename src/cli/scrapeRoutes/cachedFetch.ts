@@ -1,14 +1,13 @@
 import Crypto from 'crypto';
 import FS from 'fs';
-import {memoize} from 'lodash';
 import Path from 'path';
 import PromiseThrottle from 'promise-throttle';
 import {logger} from '../../utils/logger';
 
 const throttle = {
   'api.mapbox.com': new PromiseThrottle({requestsPerSecond: 500}),
-  'ropewiki.com': new PromiseThrottle({requestsPerSecond: 1})
-}
+  'ropewiki.com': new PromiseThrottle({requestsPerSecond: 1}),
+};
 
 export function md5(input: string) {
   return Crypto.createHash('md5').update(input).digest('hex');
@@ -18,9 +17,9 @@ function getPath(url: string) {
   return Path.join(__dirname, '../../../cache', `${md5(url)}.txt`);
 }
 
-function cachedFetch(urlObject: URL, encoding: 'utf-8'): Promise<string>;
-function cachedFetch(urlObject: URL): Promise<Buffer>;
-async function cachedFetch(urlObject: URL, encoding?: 'utf-8') {
+export default function cachedFetch(urlObject: URL, encoding: 'utf-8'): Promise<string>;
+export default function cachedFetch(urlObject: URL): Promise<Buffer>;
+export default async function cachedFetch(urlObject: URL, encoding?: 'utf-8') {
   const url = urlObject.toString();
 
   const path = getPath(url);
@@ -42,7 +41,7 @@ async function cachedFetch(urlObject: URL, encoding?: 'utf-8') {
       if (!response.ok) {
         throw new Error(`HTTP response not ok: ${url} ${response.statusText}`);
       }
-      return new Uint8Array(await (response).arrayBuffer())
+      return new Uint8Array(await response.arrayBuffer());
     });
 
     if (body) {
@@ -50,8 +49,6 @@ async function cachedFetch(urlObject: URL, encoding?: 'utf-8') {
       await FS.promises.writeFile(path, body);
     }
 
-    return await FS.promises.readFile(path, encoding);
+    return encoding === 'utf-8' ? new TextDecoder().decode(body) : body;
   }
 }
-
-export default memoize(cachedFetch, JSON.stringify);

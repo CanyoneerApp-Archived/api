@@ -7,7 +7,6 @@ import {inspect} from 'util';
 import {validate} from '../../utils/getValidator';
 import {logger} from '../../utils/logger';
 import cachedFetch from './cachedFetch';
-import {parseGeoJSON} from './transformGeoJSON';
 
 /**
  * The maximum number of KMLs to load per batched request.
@@ -110,7 +109,7 @@ export async function scrapeKMLs(
             continue;
           }
 
-          route.geojson = await parseGeoJSON(ToGeoJSON.kml(element, {styles: true}));
+          route.geojson = ToGeoJSON.kml(element, {styles: true});
           validate('RouteV2', route);
         }
       } catch (error) {
@@ -122,7 +121,7 @@ export async function scrapeKMLs(
           );
           continue;
         } else {
-          throw error
+          throw error;
         }
       } finally {
         offset += kmlCountPerRequest;
