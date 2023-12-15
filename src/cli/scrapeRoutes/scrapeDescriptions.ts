@@ -34,7 +34,7 @@ export async function scrapeDescriptions(routes: RouteV2[]): Promise<RouteV2[]> 
             (error, result) => {
               if (error) reject(error);
               else resolve(result);
-            }
+            },
           ),
         );
 

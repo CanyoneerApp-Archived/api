@@ -5,7 +5,7 @@ import PromiseThrottle from 'promise-throttle';
 import {logger} from '../../utils/logger';
 
 const throttle = {
-  'api.mapbox.com': new PromiseThrottle({requestsPerSecond: 500}),
+  'api.mapbox.com': new PromiseThrottle({requestsPerSecond: 60}),
   'ropewiki.com': new PromiseThrottle({requestsPerSecond: 1}),
 };
 

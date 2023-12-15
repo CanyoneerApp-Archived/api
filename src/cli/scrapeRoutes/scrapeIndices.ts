@@ -106,7 +106,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
         rappelLongestMeters:
           result.printouts.rappelLongest[0]?.value ?
             round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
-            : undefined,
+          : undefined,
         vehicle: result.printouts.vehicle[0],
         shuttleSeconds:
           result.printouts.shuttle[0]?.value ? result.printouts.shuttle[0].value * 60 : undefined,
