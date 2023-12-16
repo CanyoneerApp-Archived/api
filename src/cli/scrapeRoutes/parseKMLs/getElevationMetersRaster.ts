@@ -4,15 +4,11 @@ import {isNumber} from 'lodash';
 import {LRUCache} from 'lru-cache';
 import cachedFetch from '../cachedFetch';
 import {MAPBOX_TOKEN} from './MAPBOX_TOKEN';
+import {Raster} from './Raster';
+import {gigabyte} from './gigabyte';
 import {str2id} from './id2str';
 
-interface Raster {
-  width: number;
-  height: number;
-  data: Float32Array;
-}
-const gigabyte = 1000000000;
-export const fetchElevationsCache = new LRUCache<string, Raster>({
+export const getElevationMetersRaster = new LRUCache<string, Raster>({
   maxSize: 4 * gigabyte,
   ignoreFetchAbort: true,
 
@@ -21,13 +17,10 @@ export const fetchElevationsCache = new LRUCache<string, Raster>({
   },
 
   fetchMethod: async (s: string) => {
-    const {x, y, z} = str2id(s);
+    const id = str2id(s);
 
-    const url = new URL(
-      `https://api.mapbox.com/v4/mapbox.terrain-rgb/${z}/${Math.floor(x)}/${Math.floor(
-        y,
-      )}.png?access_token=${MAPBOX_TOKEN}`,
-    );
+    const url = new URL(`https://api.mapbox.com/v4/mapbox.terrain-rgb/${id.z}/${id.x}/${id.y}.png`);
+    url.searchParams.append('access_token', MAPBOX_TOKEN);
 
     const input = FastPNG.decode(await cachedFetch(url));
 
@@ -45,9 +38,6 @@ export const fetchElevationsCache = new LRUCache<string, Raster>({
       data[i] = height;
     }
 
-    // // https://wiki.openstreetmap.org/wiki/Zoom_levels
-    // const tileWidthMeters = earthCircumference * Math.cos(d2r(lat)) /
-    //   Math.pow(2, z);
-    return {width: input.width, height: input.height, data: data};
+    return {width: input.width, height: input.height, data, id};
   },
 });

@@ -3,6 +3,7 @@ import length from '@turf/length';
 import assert from 'assert';
 import {isNumber} from 'lodash';
 import {getAscentDescentMeters} from './getAscentDescentMeters';
+import {getCurvature} from './getCurvature';
 import {getElevationMeters} from './getElevationMeters';
 
 export async function parseLineString(feature: Feature<LineString>) {
@@ -11,7 +12,7 @@ export async function parseLineString(feature: Feature<LineString>) {
     coordinates: await Promise.all(
       feature.geometry.coordinates.map(async ([lon, lat]) => {
         assert(isNumber(lon) && isNumber(lat));
-        return [lon, lat, await getElevationMeters([lon, lat])];
+        return [lon, lat, await getElevationMeters([lon, lat]), await getCurvature([lon, lat])];
       }),
     ),
   };
@@ -28,7 +29,18 @@ export async function parseLineString(feature: Feature<LineString>) {
       ...feature.properties,
       lengthMeters: length(feature, {units: 'meters'}),
       ...getAscentDescentMeters(geometry),
+      ...getCurvatureStats(geometry),
       changeMeters: endElevationMeters - startElevationMeters,
     },
+  };
+}
+
+function getCurvatureStats(geometry: LineString) {
+  const curvatures = geometry.coordinates.map(([, , , curvature]) => curvature).sort();
+
+  return {
+    curvaturesP5: curvatures[Math.floor(curvatures.length * 0.05)],
+    curvaturesP50: curvatures[Math.floor(curvatures.length * 0.5)],
+    curvaturesP95: curvatures[Math.floor(curvatures.length * 0.95)],
   };
 }
