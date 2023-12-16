@@ -36,10 +36,10 @@ export async function parseLineString(feature: Feature<LineString>) {
 }
 
 function getCurvatureStats(geometry: LineString) {
-  const curvatures = geometry.coordinates.map(([, , , curvature]) => curvature).sort();
+  const curvatures = geometry.coordinates.map(([x, y, ele, curvature]) => curvature).sort();
 
   return {
-    curvaturesP5: curvatures[Math.floor(curvatures.length * 0.05)],
+    curvaturesP05: curvatures[Math.floor(curvatures.length * 0.05)],
     curvaturesP50: curvatures[Math.floor(curvatures.length * 0.5)],
     curvaturesP95: curvatures[Math.floor(curvatures.length * 0.95)],
   };
