@@ -109,7 +109,7 @@ export async function scrapeKMLs(
             continue;
           }
 
-          route.geojson = await TJ.kml(element, {styles: true});
+          route.geojson = TJ.kml(element, {styles: true});
           validate('RouteV2', route);
         }
       } catch (error) {

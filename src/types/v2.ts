@@ -1,4 +1,4 @@
-import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
+import {Feature, FeatureCollection, LineString, Point, Polygon} from '@turf/helpers';
 import {omit} from 'lodash';
 import {metersPerFoot} from '../utils/metersPerFoot';
 import type {PermitV1} from './v1';
@@ -58,16 +58,43 @@ type GeoJSONRouteV2CoreProperties = {
 } & {
   // Vector tiles cannot encode arrays so we break the months out into individual properties.
   [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
-};
+} & {[key: string]: unknown};
+
+export type GeoJSONRouteV2LineString = Feature<
+  LineString,
+  GeoJSONRouteV2CoreProperties & {
+    lengthMeters: number;
+    ascentMeters: number;
+    descentMeters: number;
+  }
+>;
+
+export type GeoJSONRouteV2Point = Feature<
+  Point,
+  GeoJSONRouteV2CoreProperties & {
+    elevationMeters: number;
+    type: 'child';
+  }
+>;
+
+export type GeoJSONRouteV2Parent = Feature<
+  Point,
+  GeoJSONRouteV2CoreProperties & {
+    type: 'parent';
+    hasChildren: true | undefined;
+  }
+>;
+
+export type GeoJSONRouteV2Polygon = Feature<Polygon, GeoJSONRouteV2CoreProperties>;
 
 /**
- * A GeoJSON feature representing a route
+ * A GeoJSON feature representing a route or any of its child geometries
  */
-export type GeoJSONRouteV2 = Feature<
-  Geometry | GeometryCollection,
-  // "GeoJSONRouteV2CoreProperties" contains information about the route associated with this feature
-  GeoJSONRouteV2CoreProperties & {[key: string]: unknown} // structured data. // See https://github.com/CanyoneerApp/api/issues/28 for our effort on classifying these into // We also add the freeform properties from the original KML file.
->;
+export type GeoJSONRouteV2 =
+  | GeoJSONRouteV2LineString
+  | GeoJSONRouteV2Point
+  | GeoJSONRouteV2Polygon
+  | GeoJSONRouteV2Parent;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
 export type WaterGradeV2 = 'A' | 'B' | 'C' | 'C1' | 'C2' | 'C3' | 'C4';
@@ -122,17 +149,15 @@ function toGeoJSONRouteV2CoreProperties(
   };
 }
 
-export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
+export function toGeoJSONRouteV2(route: RouteV2): Feature[] {
   return (
-    route.geojson?.features.map(
-      (feature): GeoJSONRouteV2 => ({
-        ...feature,
-        properties: {
-          ...feature.properties,
-          ...toGeoJSONRouteV2CoreProperties(route),
-        },
-      }),
-    ) ??
+    route.geojson?.features.map(feature => ({
+      ...feature,
+      properties: {
+        ...feature.properties,
+        ...toGeoJSONRouteV2CoreProperties(route),
+      },
+    })) ??
     (route.longitude && route.latitude ?
       [
         {

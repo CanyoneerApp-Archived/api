@@ -8,29 +8,31 @@ import {RouteV2} from '../../types/v2';
 import {logger} from '../../utils/logger';
 import cachedFetch from './cachedFetch';
 
-function flatten(input: Feature | FeatureCollection): Feature[] {
-  if (input.type === 'FeatureCollection') {
-    return input.features.flatMap(flatten);
-  } else {
-    return [input];
+const MAPBOX_TOKEN =
+  'pk.eyJ1Ijoic3BpbmRyaWZ0IiwiYSI6ImNqaDg2bDBsdTBmZG0yd3MwZ2x4ampsdXUifQ.7E19C7BhF9Dfd1gdJiYTEg';
+
+export async function parseKMLs(routes: RouteV2[]): Promise<RouteV2[]> {
+  let doneCount = 0;
+  for (const route of routes) {
+    route.geojson = route.geojson && (await parseKMLsInner(route.geojson));
+    logger.progress(routes.length, doneCount++, route.name);
   }
+  return routes;
 }
 
 export async function parseKMLsInner(
   input: Feature | FeatureCollection,
 ): Promise<FeatureCollection> {
-  const output = flatten(input);
+  const output = flattenFeatureCollection(input);
 
   return {
     type: 'FeatureCollection',
     features: await Promise.all(
       output.map(async feature => {
         if (feature.geometry.type === 'LineString') {
-          // @ts-expect-error
-          return await parseLineString(feature);
+          return await parseLineString(feature as Feature<LineString>);
         } else if (feature.geometry.type === 'Point') {
-          // @ts-expect-error
-          return await parsePoint(feature);
+          return await parsePoint(feature as Feature<Point>);
         } else {
           return feature;
         }
@@ -44,7 +46,6 @@ async function parsePoint(feature: Feature<Point>) {
     ...feature,
     properties: {
       ...feature.properties,
-      // @ts-expect-error
       elevationMeters: Math.round(await getElevationMeters(feature.geometry.coordinates)),
     },
   };
@@ -54,14 +55,17 @@ async function parseLineString(feature: Feature<LineString>) {
   const geometry: LineString = {
     type: 'LineString',
     coordinates: await Promise.all(
-      // eslint-disable-next-line no-warning-comments
-      // TODO simplify
       feature.geometry.coordinates.map(async ([lon, lat]) => {
         assert(isNumber(lon) && isNumber(lat));
         return [lon, lat, await getElevationMeters([lon, lat])];
       }),
     ),
   };
+
+  const endElevationMeters = geometry.coordinates[geometry.coordinates.length - 1]?.[2];
+  const startElevationMeters = geometry.coordinates[0]?.[2];
+
+  assert(isNumber(endElevationMeters) && isNumber(startElevationMeters));
 
   return {
     ...feature,
@@ -70,9 +74,7 @@ async function parseLineString(feature: Feature<LineString>) {
       ...feature.properties,
       lengthMeters: length(feature, {units: 'meters'}),
       ...getAscentDescentMeters(geometry),
-      changeMeters:
-        // @ts-ignore
-        geometry.coordinates[geometry.coordinates.length - 1][2] - geometry.coordinates[0][2],
+      changeMeters: endElevationMeters - startElevationMeters,
     },
   };
 }
@@ -97,7 +99,9 @@ function getAscentDescentMeters(geometry: LineString) {
   };
 }
 
-async function getElevationMeters([lon, lat]: [number, number]) {
+async function getElevationMeters([lon, lat]: number[]) {
+  assert(isNumber(lon) && isNumber(lat));
+
   const z = 12;
   const x = lon2tile(lon, z);
   const y = lat2tile(lat, z);
@@ -130,8 +134,6 @@ interface Raster {
   data: Float32Array;
 }
 
-const gigabyte = 1e9;
-
 function id2str(id: TileId) {
   return `${id.z}/${id.x}/${id.y}`;
 }
@@ -141,6 +143,8 @@ function str2id(str: string): TileId {
   assert(isNumber(z) && isNumber(x) && isNumber(y));
   return {z, x, y};
 }
+
+const gigabyte = 1e9;
 
 const fetchElevationsCache = new LRUCache<string, Raster>({
   maxSize: 4 * gigabyte,
@@ -156,9 +160,7 @@ const fetchElevationsCache = new LRUCache<string, Raster>({
     const url = new URL(
       `https://api.mapbox.com/v4/mapbox.terrain-rgb/${z}/${Math.floor(x)}/${Math.floor(
         y,
-        // eslint-disable-next-line no-warning-comments
-        // TODO pull this out into a constant
-      )}.png?access_token=pk.eyJ1Ijoic3BpbmRyaWZ0IiwiYSI6ImNqaDg2bDBsdTBmZG0yd3MwZ2x4ampsdXUifQ.7E19C7BhF9Dfd1gdJiYTEg`,
+      )}.png?access_token=${MAPBOX_TOKEN}`,
     );
 
     const input = FastPNG.decode(await cachedFetch(url));
@@ -198,54 +200,11 @@ export function lat2tile(lat: number, zoom: number) {
     Math.pow(2, zoom)
   );
 }
-export async function parseKMLs(routes: RouteV2[]): Promise<RouteV2[]> {
-  let doneCount = 0;
-  for (const route of routes) {
-    route.geojson = route.geojson && (await parseKMLsInner(route.geojson));
-    logger.progress(routes.length, doneCount++, route.name);
+
+function flattenFeatureCollection(input: Feature | FeatureCollection): Feature[] {
+  if (input.type === 'FeatureCollection') {
+    return input.features.flatMap(flattenFeatureCollection);
+  } else {
+    return [input];
   }
-  return routes;
 }
-
-// export function getRasterSlopes(input: {width: number, height: number, data: Float32Array, pixelsPerMeter: number}) {
-//   const output = {
-//     ...input,
-//     data: new Float32Array(input.width * input.height)
-//   }
-
-//   for (let i = 0; i < input.width * input.height; i++) {
-//     const {y, x} = getRasterGradient(input, i);
-//     output.data[i] = Math.sqrt(x * x + y * y);
-//   }
-
-//   return output;
-// }
-
-// export function d2r(deg: number) {
-//   return deg / 180 * Math.PI;
-// }
-
-// // See https://sci-hub.st/10.3846/20296991.2013.806702
-// export function getRasterGradient(input: {width: number, height: number, data: Float32Array, pixelsPerMeter: number}, i: number): {x: number, y: number} {
-//   // The width of each "pixel" in meters.
-//   const g = input.pixelsPerMeter;
-
-//   // const z1 = input.data[i - input.width - 1];
-//   const z2 = input.data[i - input.width - 0];
-//   // const z3 = input.data[i - input.width + 1];
-//   const z4 = input.data[i - 1];
-//   const z6 = input.data[i + 1];
-//   // const z7 = input.data[i + input.width - 1];
-//   const z8 = input.data[i + input.width - 0];
-//   // const z9 = input.data[i + input.width + 1];
-
-//   // const x = (z3 - z1 + 2 * (z6 - z4) + z9 - z7) / 8 / g;
-//   // const y = (z7 - z1 + 2 * (z8 - z2) + z9 - z3) / 8 / g;
-
-//   assert(isNumber(z2) && isNumber(z4) && isNumber(z6) && isNumber(z8));
-
-//   const x = (z6 - z4) / 2 / g;
-//   const y = (z8 - z2) / 2 / g;
-
-//   return {y, x};
-// }

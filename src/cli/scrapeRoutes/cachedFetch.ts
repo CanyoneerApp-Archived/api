@@ -4,8 +4,8 @@ import Path from 'path';
 import PromiseThrottle from 'promise-throttle';
 import {logger} from '../../utils/logger';
 
-const throttle = {
-  'api.mapbox.com': new PromiseThrottle({requestsPerSecond: 60}),
+const throttle: {[host: string]: PromiseThrottle} = {
+  'api.mapbox.com': new PromiseThrottle({requestsPerSecond: 100}),
   'ropewiki.com': new PromiseThrottle({requestsPerSecond: 1}),
 };
 
@@ -33,9 +33,12 @@ export default async function cachedFetch(urlObject: URL, encoding?: 'utf-8') {
       throw error;
     }
 
-    // @ts-expect-error
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const body = await throttle[urlObject.host]!.add(async () => {
+    const hostThrottle = throttle[urlObject.host];
+    if (!hostThrottle) {
+      throw new Error(`Please set a throttling rate for "${urlObject.host}"`);
+    }
+
+    const body = await hostThrottle.add(async () => {
       logger.fetch(url, 'live');
       const response = await fetch(url);
       if (!response.ok) {

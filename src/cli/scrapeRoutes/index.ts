@@ -14,7 +14,7 @@ export async function scrapeRoutes(regions: string | string[]) {
 
   const indices = await logger.step(scrapeIndices, [{regions}]);
   const descriptions = await logger.step(scrapeDescriptions, [indices]);
-  const kmls = await logger.step(scrapeKMLs, [descriptions, {regions}]);
-  const kml1s = await logger.step(parseKMLs, [kmls]);
-  return kml1s;
+  const rawGeojson = await logger.step(scrapeKMLs, [descriptions, {regions}]);
+  const geojson = await logger.step(parseKMLs, [rawGeojson]);
+  return geojson;
 }
