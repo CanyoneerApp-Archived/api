@@ -16,6 +16,7 @@ The following endpoints are available:
 - `/v2/tiles/metadata.json` - a standard Tippecanoe metadata file that describes what's in the
   vector tiles and how they were generated
 - `/v2/schemas/{type}.json` - JSON schemas for `IndexRouteV2`, `RouteV2`, and `GeoJSONRouteV2
+- `/v2/mapStyle.json` - a JSON file containing a Mapbox Style Spec for viewing the vector tiles
 - `/v2.zip` - A zip archive of the entire v2 directory
 - `/v1/index.json` - all routes as a JSON array using the `RouteV1` type
 - `/v1/schemas/{type}.json` - JSON schemas for `RouteV1`

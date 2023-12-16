@@ -796,10 +796,12 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "Bickford Slides Canyon",
           "route.id": 68720,
           "route.name": "Bickford Slides Canyon",
           "route.quality": 3,
+          "sortKey": -3,
           "route.technicalRating": 3,
           "route.waterRating": "C",
           "route.timeRating": "II",
@@ -828,10 +830,12 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "The Cataracts",
           "route.id": 68931,
           "route.name": "The Cataracts",
           "route.quality": 3,
+          "sortKey": -3,
           "route.technicalRating": 3,
           "route.waterRating": "C",
           "route.timeRating": "II",
@@ -855,9 +859,11 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "Screw Auger Falls Gorge",
           "route.id": 34280,
           "route.name": "Screw Auger Falls Gorge",
+          "sortKey": 0,
           "route.technicalRating": 3,
           "route.waterRating": "C1",
           "route.timeRating": "I",
@@ -886,6 +892,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt6",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -896,6 +903,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -913,9 +921,11 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "parent",
           "name": "Inman's Cave",
           "route.id": 68718,
           "route.name": "Inman's Cave",
+          "sortKey": 0,
           "route.technicalRating": 3,
           "route.waterRating": "A",
           "route.timeRating": "I",
@@ -939,6 +949,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt5",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -949,6 +960,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -962,6 +974,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt11",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -972,6 +985,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -985,6 +999,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt10",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -995,6 +1010,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -1008,6 +1024,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt2",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1018,6 +1035,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -1031,6 +1049,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt4",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1041,6 +1060,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -1054,6 +1074,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt8",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1064,6 +1085,27 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
+          "route.permit": "No"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -68.92199993133545,
+            45.90429945494046
+          ]
+        },
+        "properties": {
+          "type": "parent",
+          "hasChildren": true,
+          "name": "Mount Katahdin",
+          "route.id": 25753,
+          "route.name": "Mount Katahdin",
+          "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -1077,6 +1119,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt3",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1087,6 +1130,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       },
@@ -1100,6 +1144,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt9",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1110,6 +1155,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -1127,6 +1173,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt7",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1137,6 +1184,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -1154,6 +1202,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt1",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1164,6 +1213,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }
@@ -1181,6 +1231,7 @@ exports[`scrape Maine 1`] = `
           ]
         },
         "properties": {
+          "type": "child",
           "name": "Wpt1",
           "styleUrl": "#dot",
           "styleHash": "-56beb8bb",
@@ -1191,6 +1242,7 @@ exports[`scrape Maine 1`] = `
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
+          "sortKey": -5,
           "route.permit": "No"
         }
       }

@@ -26,6 +26,9 @@ export async function createPublicTiles() {
 
       // Do not apply gzip compression to the vector tile files.
       noTileCompression: true,
+
+      // Rate at which dots are dropped at zoom levels below basezoom (default 2.5).
+      dropRate: 1,
     },
     {echo: logger.enable, async: true},
   );

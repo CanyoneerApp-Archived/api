@@ -1,6 +1,9 @@
 /// <reference types="react-scripts" />
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'reset-css';
+import {App} from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(<React.StrictMode>hello world</React.StrictMode>);
+root.render(<App />);

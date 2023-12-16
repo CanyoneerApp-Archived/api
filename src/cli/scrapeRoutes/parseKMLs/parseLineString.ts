@@ -36,7 +36,7 @@ export async function parseLineString(feature: Feature<LineString>) {
 }
 
 function getCurvatureStats(geometry: LineString) {
-  const curvatures = geometry.coordinates.map(([x, y, ele, curvature]) => curvature).sort();
+  const curvatures = geometry.coordinates.map(([, , , curvature]) => curvature).sort();
 
   return {
     curvaturesP05: curvatures[Math.floor(curvatures.length * 0.05)],
