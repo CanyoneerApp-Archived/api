@@ -70,7 +70,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
     // The API does not support returning more than 2000 results
     url.searchParams.append('limit', '2000');
 
-    const text = await cachedFetch(url);
+    const text = await cachedFetch(url, 'utf-8');
     const json = text && JSON.parse(text);
     const results: APIResponse[] = Object.values(json?.results ?? {});
 

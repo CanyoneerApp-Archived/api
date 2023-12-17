@@ -1,4 +1,4 @@
-import {Feature, FeatureCollection, Geometry, GeometryCollection} from '@turf/helpers';
+import {Feature, FeatureCollection, LineString, Point, Polygon} from '@turf/helpers';
 import {compact, omit} from 'lodash';
 import {metersPerFoot} from '../utils/metersPerFoot';
 import type {PermitV1} from './v1';
@@ -58,28 +58,45 @@ type GeoJSONRouteV2CoreProperties = {
 } & {
   // Vector tiles cannot encode arrays so we break the months out into individual properties.
   [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
-} & {
+} & {[key: string]: unknown} & {
   sortKey: number;
 };
 
-/**
- * A GeoJSON feature representing a route
- */
-export type GeoJSONRouteV2 = Feature<
-  Geometry | GeometryCollection,
+export type GeoJSONRouteV2LineString = Feature<
+  LineString,
   GeoJSONRouteV2CoreProperties & {
-    /**
-     * If `parent`, this is a top level Route from RopeWiki. If `child`, this is something we
-     * extracted from the route's KML file.
-     */
-    type: 'parent' | 'child';
-
-    /**
-     * True if this `type` is `parent` and it has at least one child feature.
-     */
-    hasChildren: true | undefined;
-  } & {[key: string]: unknown}
+    lengthMeters: number;
+    ascentMeters: number;
+    descentMeters: number;
+  }
 >;
+
+export type GeoJSONRouteV2Point = Feature<
+  Point,
+  GeoJSONRouteV2CoreProperties & {
+    elevationMeters: number;
+    type: 'child';
+  }
+>;
+
+export type GeoJSONRouteV2Parent = Feature<
+  Point,
+  GeoJSONRouteV2CoreProperties & {
+    type: 'parent';
+    hasChildren: true | undefined;
+  }
+>;
+
+export type GeoJSONRouteV2Polygon = Feature<Polygon, GeoJSONRouteV2CoreProperties>;
+
+/**
+ * A GeoJSON feature representing a route or any of its child geometries
+ */
+export type GeoJSONRouteV2 =
+  | GeoJSONRouteV2LineString
+  | GeoJSONRouteV2Point
+  | GeoJSONRouteV2Polygon
+  | GeoJSONRouteV2Parent;
 
 export type TechnicalGradeV2 = 1 | 2 | 3 | 4;
 export type WaterGradeV2 = 'A' | 'B' | 'C' | 'C1' | 'C2' | 'C3' | 'C4';
@@ -135,19 +152,17 @@ function toGeoJSONRouteV2CoreProperties(
   };
 }
 
-export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
-  const children: GeoJSONRouteV2[] =
-    route.geojson?.features.map(
-      (feature): GeoJSONRouteV2 => ({
-        ...feature,
-        properties: {
-          type: 'child',
-          hasChildren: undefined,
-          ...feature.properties,
-          ...toGeoJSONRouteV2CoreProperties(route),
-        },
-      }),
-    ) ?? [];
+export function toGeoJSONRouteV2(route: RouteV2) {
+  const children =
+    route.geojson?.features.map(feature => ({
+      ...feature,
+      properties: {
+        type: 'child',
+        hasChildren: undefined,
+        ...feature.properties,
+        ...toGeoJSONRouteV2CoreProperties(route),
+      },
+    })) ?? [];
 
   const self: GeoJSONRouteV2 | undefined =
     route.longitude && route.latitude ?
@@ -168,13 +183,6 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
 
   return compact([self, ...children]) as GeoJSONRouteV2[];
 }
-
-export const permitV1toV2: {[key: string]: PermitV2} = {
-  'No permit required': 'No',
-  'Permit required': 'Yes',
-  'Closed to entry': 'Closed',
-  'Access is Restricted': 'Restricted',
-};
 
 export const permitV2toV1: {[key: string]: PermitV1} = {
   No: 'No permit required',
