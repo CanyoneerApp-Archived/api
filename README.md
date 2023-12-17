@@ -104,6 +104,7 @@ yarn web
   run.
 - `coverage` contains a unit test code coverage report. This folder does not exist until the unit
   tests have run.
+- `fixtures` contains test fixtures needed for the unit tests
 - `public` contains static files used by our web frontend. These files are copied to the build
   directory alongside the compiled web frontend in a later step. See the
   ["Using the Public Folder" docs](https://create-react-app.dev/docs/using-the-public-folder.) from

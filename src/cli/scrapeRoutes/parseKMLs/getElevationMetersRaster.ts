@@ -12,13 +12,17 @@ interface Raster {
   data: Float32Array;
 }
 
-const gigabyte = 1000000000;
-
-interface FetchElevationsCacheOptions extends TileId {
+interface GetElevationMetersRasterOptions extends TileId {
   cachePath: string;
 }
 
-export const fetchElevationsCache = new LRUCache<string, Raster>({
+export function getElevationMetersRaster(options: GetElevationMetersRasterOptions) {
+  return cache.fetch(JSON.stringify(options));
+}
+
+const gigabyte = 1000000000;
+
+const cache = new LRUCache<string, Raster>({
   maxSize: 4 * gigabyte,
   ignoreFetchAbort: true,
 
@@ -27,7 +31,7 @@ export const fetchElevationsCache = new LRUCache<string, Raster>({
   },
 
   fetchMethod: async (s: string) => {
-    const {z, x, y, cachePath} = JSON.parse(s) as FetchElevationsCacheOptions;
+    const {z, x, y, cachePath} = JSON.parse(s) as GetElevationMetersRasterOptions;
 
     const url = new URL(
       `https://api.mapbox.com/v4/mapbox.terrain-rgb/${z}/${Math.floor(x)}/${Math.floor(

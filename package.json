@@ -9,7 +9,7 @@
     "precommit": "scree lint-precommit && yarn test",
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
-    "test": "CACHE_PATH=./fixtures jest",
+    "test": "jest",
     "web": "react-app-rewired start"
   },
   "browserslist": {
