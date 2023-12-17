@@ -4,8 +4,8 @@ interface GetMapStyleOptions {
   publicUrl: string;
 }
 
-const font = ['Open Sans Regular', 'Arial Unicode MS Regular'];
-const fontBold = ['Open Sans Bold', 'Arial Unicode MS Bold'];
+const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
+const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Bold'];
 // const waypointCircleRadius = 5;
 // const waypointLabelSize = 12;
 
@@ -47,7 +47,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         type: 'raster',
         source: 'canyoniness',
         paint: {
-          'raster-opacity': 1,
+          'raster-opacity': 0.25,
           'raster-resampling': 'nearest',
         },
         // @ts-expect-error we need to update these types

@@ -6,11 +6,9 @@ import cachedFetch from '../cachedFetch';
 import {MAPBOX_TOKEN} from './MAPBOX_TOKEN';
 import {Raster} from './Raster';
 import {TileId} from './TileId';
-import {blurRaster} from './blurRaster';
 
 export interface GetElevationMetersRasterOptions extends TileId {
   cachePath: string;
-  blur?: number;
 }
 
 export function getElevationMetersRaster(options: GetElevationMetersRasterOptions) {
@@ -28,7 +26,7 @@ const cache = new LRUCache<string, Raster>({
   },
 
   fetchMethod: async (s: string) => {
-    const {z, x, y, cachePath, blur = 0} = JSON.parse(s) as GetElevationMetersRasterOptions;
+    const {z, x, y, cachePath} = JSON.parse(s) as GetElevationMetersRasterOptions;
 
     const url = new URL(`https://api.mapbox.com/v4/mapbox.terrain-rgb/${z}/${x}/${y}.png`);
     url.searchParams.append('access_token', MAPBOX_TOKEN);
@@ -49,6 +47,6 @@ const cache = new LRUCache<string, Raster>({
       data[i] = height;
     }
 
-    return blurRaster({width: input.width, height: input.height, data, id: {x, y, z}}, blur);
+    return {width: input.width, height: input.height, data, id: {x, y, z}};
   },
 });
