@@ -5,7 +5,7 @@ interface GetMapStyleOptions {
 }
 
 const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
-const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Bold'];
+const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Regular'];
 
 export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   if (!publicUrl.endsWith('/')) publicUrl += '/';

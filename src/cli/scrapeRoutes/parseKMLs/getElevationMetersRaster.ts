@@ -18,7 +18,7 @@ export function getElevationMetersRaster(options: GetElevationMetersRasterOption
 const gigabyte = 1000000000;
 
 const cache = new LRUCache<string, Raster>({
-  maxSize: 4 * gigabyte,
+  maxSize: 2 * gigabyte,
   ignoreFetchAbort: true,
 
   sizeCalculation: ({data}) => {
