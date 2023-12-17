@@ -11,7 +11,9 @@ export async function getElevationMeters([lon, lat]: number[]) {
   const x = lon2tile(lon, z);
   const y = lat2tile(lat, z);
 
-  const raster = await getElevationMetersRaster.fetch(id2str({z: z, x: Math.floor(x), y: Math.floor(y)}));
+  const raster = await getElevationMetersRaster.fetch(
+    id2str({z: z, x: Math.floor(x), y: Math.floor(y)}),
+  );
 
   assert(raster);
 
