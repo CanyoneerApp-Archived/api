@@ -121,6 +121,8 @@ export async function scrapeKMLs(
             )}`,
           );
           continue;
+        } else {
+          throw error
         }
       } finally {
         offset += kmlCountPerRequest;

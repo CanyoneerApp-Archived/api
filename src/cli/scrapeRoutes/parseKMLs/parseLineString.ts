@@ -46,8 +46,6 @@ function getCanyoninessPercentiles(geometry: LineString, percentiles: number[]) 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     .sort((a, b) => a! - b!);
 
-  console.log(values);
-
   return Object.fromEntries(
     percentiles.map(p => [`canyoninessP${p * 100}`, values[Math.floor(values.length * p)]]),
   );

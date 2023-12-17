@@ -35,7 +35,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
       },
       canyoniness: {
         type: 'raster',
-        tiles: [`${publicUrl}v2/canyoniness/{z}/{x}/{y}.png`],
+        tiles: [`${publicUrl}v2/debug/canyoniness/{z}/{x}/{y}.png`],
         tileSize: 512,
         maxzoom: 12,
         minzoom: 12,
@@ -127,7 +127,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         'source-layer': 'routes',
         filter: ['==', ['geometry-type'], 'LineString'],
         paint: {
-          'line-color': ['case', ['>=', ['get', 'canyoninessP50'], 0], 'red', 'green'],
+          'line-color': ['case', ['>=', ['get', 'canyoninessP20'], 0], 'red', 'green'],
           'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
         },
       },
