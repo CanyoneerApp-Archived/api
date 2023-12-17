@@ -1,6 +1,6 @@
 import assert from 'assert';
 import {isNumber} from 'lodash';
-import {fetchElevationsCache} from './fetchElevationsCache';
+import {getElevationMetersRaster} from './getElevationMetersRaster';
 import {id2str} from './id2str';
 import {lat2tile, lon2tile} from './lon2tile';
 
@@ -11,14 +11,14 @@ export async function getElevationMeters([lon, lat]: number[]) {
   const x = lon2tile(lon, z);
   const y = lat2tile(lat, z);
 
-  const png = await fetchElevationsCache.fetch(id2str({z: z, x: Math.floor(x), y: Math.floor(y)}));
+  const raster = await getElevationMetersRaster.fetch(id2str({z: z, x: Math.floor(x), y: Math.floor(y)}));
 
-  assert(png);
+  assert(raster);
 
-  const tileX = Math.floor((x - Math.floor(x)) * png.width);
-  const tileY = Math.floor((y - Math.floor(y)) * png.height);
+  const tileX = Math.floor((x - Math.floor(x)) * raster.width);
+  const tileY = Math.floor((y - Math.floor(y)) * raster.height);
 
-  const elevation = png.data[tileX * png.width + tileY];
+  const elevation = raster.data[tileX * raster.width + tileY];
 
   assert(isNumber(elevation));
 
