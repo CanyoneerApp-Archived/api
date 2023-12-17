@@ -8,10 +8,6 @@ import {parseIntSafe} from '../../utils/parseIntSafe';
 import cachedFetch from './cachedFetch';
 import parseRappelCount from './parseRappelCount';
 
-interface FetchIndicesOptions {
-  regions: string[];
-}
-
 const apiRequestPrintouts = {
   pageid: 'Has pageid',
   name: 'Has name',
@@ -47,7 +43,7 @@ type APIResponse = {
   printouts: {[Key in keyof typeof apiRequestPrintouts]: any};
 };
 
-export async function scrapeIndices({regions}: FetchIndicesOptions) {
+export async function scrapeIndices(regions: string[], cachePath: string) {
   const output: RouteV2[] = [];
 
   const totalCount = regions.length;
@@ -70,7 +66,7 @@ export async function scrapeIndices({regions}: FetchIndicesOptions) {
     // The API does not support returning more than 2000 results
     url.searchParams.append('limit', '2000');
 
-    const text = await cachedFetch(url, 'utf-8');
+    const text = await cachedFetch(url, 'utf-8', cachePath);
     const json = text && JSON.parse(text);
     const results: APIResponse[] = Object.values(json?.results ?? {});
 

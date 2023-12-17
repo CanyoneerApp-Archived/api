@@ -5,13 +5,13 @@ import {isNumber} from 'lodash';
 import {getAscentDescentMeters} from './getAscentDescentMeters';
 import {getElevationMeters} from './getElevationMeters';
 
-export async function parseLineString(feature: Feature<LineString>) {
+export async function parseLineString(feature: Feature<LineString>, cachePath: string) {
   const geometry: LineString = {
     type: 'LineString',
     coordinates: await Promise.all(
       feature.geometry.coordinates.map(async ([lon, lat]) => {
         assert(isNumber(lon) && isNumber(lat));
-        return [lon, lat, await getElevationMeters([lon, lat])];
+        return [lon, lat, await getElevationMeters([lon, lat], cachePath)];
       }),
     ),
   };

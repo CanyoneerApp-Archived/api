@@ -1,12 +1,14 @@
 import {Feature, Point} from '@turf/helpers';
 import {getElevationMeters} from './getElevationMeters';
 
-export async function parsePoint(feature: Feature<Point>) {
+export async function parsePoint(feature: Feature<Point>, cachePath: string) {
   return {
     ...feature,
     properties: {
       ...feature.properties,
-      elevationMeters: Math.round(await getElevationMeters(feature.geometry.coordinates)),
+      elevationMeters: Math.round(
+        await getElevationMeters(feature.geometry.coordinates, cachePath),
+      ),
     },
   };
 }
