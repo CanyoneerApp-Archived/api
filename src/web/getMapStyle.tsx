@@ -33,9 +33,9 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         tileSize: 512,
         maxzoom: 14,
       },
-      curvature: {
+      canyoniness: {
         type: 'raster',
-        tiles: [`${publicUrl}v2/curvature/{z}/{x}/{y}.png`],
+        tiles: [`${publicUrl}v2/canyoniness/{z}/{x}/{y}.png`],
         tileSize: 512,
         maxzoom: 12,
         minzoom: 12,
@@ -43,9 +43,9 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
     },
     layers: [
       {
-        id: 'curvatureRaster',
+        id: 'canyoniness',
         type: 'raster',
-        source: 'curvature',
+        source: 'canyoniness',
         paint: {
           'raster-opacity': 1,
         },

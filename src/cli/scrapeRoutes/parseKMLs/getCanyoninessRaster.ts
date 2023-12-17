@@ -77,6 +77,6 @@ async function createCanyoninessDebugTile(canyoniness: Raster, s: string) {
     png.data[i * 4 + 3] = Math.max(0, Math.min(255, (Math.abs(c) / 50) * 255));
   }
 
-  await FS.promises.mkdir(`./public/v2/curvature/${Path.dirname(s)}`, {recursive: true});
-  await FS.promises.writeFile(`./public/v2/curvature/${s}.png`, PNG.sync.write(png, {}));
+  await FS.promises.mkdir(`./public/v2/canyoniness/${Path.dirname(s)}`, {recursive: true});
+  await FS.promises.writeFile(`./public/v2/canyoniness/${s}.png`, PNG.sync.write(png, {}));
 }
