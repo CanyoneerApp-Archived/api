@@ -20,7 +20,8 @@ const kmlCountPerRequest = 10;
  */
 export async function scrapeKMLs(
   routes: RouteV2[],
-  {regions}: {regions: string[]},
+  regions: string[],
+  cachePath: string,
 ): Promise<RouteV2[]> {
   const lookup = keyBy(cloneDeep(routes), 'name');
 
@@ -64,7 +65,7 @@ export async function scrapeKMLs(
       // The API demands the "inner" URL not be encoded so we cannot use the URL class here.
       const outerURL = new URL(`https://ropewiki.com/luca/rwr?gpx=off&kml=${innerURL.toString()}`);
 
-      let text = await cachedFetch(outerURL, 'utf-8');
+      let text = await cachedFetch(outerURL, 'utf-8', cachePath);
 
       // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
       if (!text.trim().endsWith('</kml>')) {

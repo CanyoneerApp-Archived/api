@@ -6,15 +6,15 @@ import {scrapeDescriptions} from './scrapeDescriptions';
 import {scrapeIndices} from './scrapeIndices';
 import {scrapeKMLs} from './scrapeKMLs';
 
-export async function scrapeRoutes(regions: string | string[]) {
+export async function scrapeRoutes(regions: string | string[], cachePath: string) {
   regions =
     isArray(regions) ? regions
     : regions === 'all' ? allRegions
     : [regions];
 
-  const indices = await logger.step(scrapeIndices, [{regions}]);
-  const descriptions = await logger.step(scrapeDescriptions, [indices]);
-  const rawGeojson = await logger.step(scrapeKMLs, [descriptions, {regions}]);
-  const geojson = await logger.step(parseKMLs, [rawGeojson]);
+  const indices = await logger.step(scrapeIndices, [regions, cachePath]);
+  const descriptions = await logger.step(scrapeDescriptions, [indices, cachePath]);
+  const rawGeojson = await logger.step(scrapeKMLs, [descriptions, regions, cachePath]);
+  const geojson = await logger.step(parseKMLs, [rawGeojson, cachePath]);
   return geojson;
 }

@@ -19,7 +19,15 @@ describe('scrape', () => {
   it(
     'Maine',
     async () => {
-      await main(['test', 'test', '--local', '--region', 'Maine']);
+      await main([
+        'test',
+        'test',
+        '--local',
+        '--region',
+        'Maine',
+        '--cachePath',
+        './fixtures/cache',
+      ]);
       expect(JSON.stringify(await readOutputDir(), null, '  ')).toMatchSnapshot();
     },
     timeout,

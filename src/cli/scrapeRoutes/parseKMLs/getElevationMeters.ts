@@ -1,17 +1,18 @@
 import assert from 'assert';
 import {isNumber} from 'lodash';
 import {fetchElevationsCache} from './fetchElevationsCache';
-import {id2str} from './id2str';
 import {lat2tile, lon2tile} from './lon2tile';
 
-export async function getElevationMeters([lon, lat]: number[]) {
+export async function getElevationMeters([lon, lat]: number[], cachePath: string) {
   assert(isNumber(lon) && isNumber(lat));
 
   const z = 12;
   const x = lon2tile(lon, z);
   const y = lat2tile(lat, z);
 
-  const png = await fetchElevationsCache.fetch(id2str({z: z, x: Math.floor(x), y: Math.floor(y)}));
+  const png = await fetchElevationsCache.fetch(
+    JSON.stringify({z: z, x: Math.floor(x), y: Math.floor(y), cachePath}),
+  );
 
   assert(png);
 
