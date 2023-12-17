@@ -20,8 +20,6 @@ export async function parseLineString(feature: Feature<LineString>) {
   const endElevationMeters = geometry.coordinates[geometry.coordinates.length - 1]?.[2];
   const startElevationMeters = geometry.coordinates[0]?.[2];
 
-  const canyoninessAll = geometry.coordinates.map(([, , , curvature]) => curvature).sort();
-
   assert(isNumber(endElevationMeters) && isNumber(startElevationMeters));
 
   return {
@@ -31,10 +29,21 @@ export async function parseLineString(feature: Feature<LineString>) {
       ...feature.properties,
       lengthMeters: length(feature, {units: 'meters'}),
       ...getAscentDescentMeters(geometry),
-      canyoninessP20: canyoninessAll[Math.floor(canyoninessAll.length * 0.2)],
-      canyoninessP15: canyoninessAll[Math.floor(canyoninessAll.length * 0.15)],
-      canyoninessP10: canyoninessAll[Math.floor(canyoninessAll.length * 0.1)],
+      ...getCanyoninessPercentiles(geometry, [0.1, 0.15, 0.2, 0.25, 0.5]),
       changeMeters: endElevationMeters - startElevationMeters,
     },
   };
+}
+
+function getCanyoninessPercentiles(geometry: LineString, percentiles: number[]) {
+  const values = geometry.coordinates
+    .map(([, , , canyoniness]) => canyoniness)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    .sort((a, b) => a! - b!);
+
+  console.log(values);
+
+  return Object.fromEntries(
+    percentiles.map(p => [`canyoninessP${p * 100}`, values[Math.floor(values.length * p)]]),
+  );
 }
