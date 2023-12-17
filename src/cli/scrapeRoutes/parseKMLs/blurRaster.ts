@@ -1,8 +1,7 @@
 // VENDORED FROM https://github.com/nodeca/glur/blob/master/mono16.js
 // @ts-nocheck
 
-import {Raster} from "./Raster";
-
+import {Raster} from './Raster';
 
 export function blurRaster(input: Raster, radius: number): Raster {
   const data = new Float32Array(input.data);
@@ -10,7 +9,7 @@ export function blurRaster(input: Raster, radius: number): Raster {
   // Quick exit on zero radius
   if (!radius) return input;
 
-  const out = new Float32Array(data.length)
+  const out = new Float32Array(data.length);
   const tmpLine = new Float32Array(input.width);
 
   const coeff = gaussCoef(radius);
@@ -38,7 +37,7 @@ function gaussCoef(sigma) {
   const a = Math.exp(0.726 * 0.726) / sigma,
     g1 = Math.exp(-a),
     g2 = Math.exp(-2 * a),
-    k = (1 - g1) * (1 - g1) / (1 + 2 * a * g1 - g2);
+    k = ((1 - g1) * (1 - g1)) / (1 + 2 * a * g1 - g2);
 
   a0 = k;
   a1 = k * (a - 1) * g1;
@@ -79,10 +78,8 @@ function convolveMono16(src, out, line, coeff, width, height) {
     for (j = 0; j < width; j++) {
       curr_src = src[src_index];
 
-      curr_out = curr_src * coeff_a0 +
-        prev_src * coeff_a1 +
-        prev_out * coeff_b1 +
-        prev_prev_out * coeff_b2;
+      curr_out =
+        curr_src * coeff_a0 + prev_src * coeff_a1 + prev_out * coeff_b1 + prev_prev_out * coeff_b2;
 
       prev_prev_out = prev_out;
       prev_out = curr_out;
@@ -107,10 +104,8 @@ function convolveMono16(src, out, line, coeff, width, height) {
     coeff_a1 = coeff[3];
 
     for (j = width - 1; j >= 0; j--) {
-      curr_out = curr_src * coeff_a0 +
-        prev_src * coeff_a1 +
-        prev_out * coeff_b1 +
-        prev_prev_out * coeff_b2;
+      curr_out =
+        curr_src * coeff_a0 + prev_src * coeff_a1 + prev_out * coeff_b1 + prev_prev_out * coeff_b2;
 
       prev_prev_out = prev_out;
       prev_out = curr_out;
