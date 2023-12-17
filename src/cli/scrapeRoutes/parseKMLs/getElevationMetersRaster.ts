@@ -2,17 +2,12 @@ import assert from 'assert';
 import * as FastPNG from 'fast-png';
 import {isNumber} from 'lodash';
 import {LRUCache} from 'lru-cache';
+import {MAPBOX_TOKEN} from '../../../MAPBOX_TOKEN';
 import cachedFetch from '../cachedFetch';
-import {MAPBOX_TOKEN} from './MAPBOX_TOKEN';
+import {Raster} from './Raster';
 import {TileId} from './TileId';
 
-interface Raster {
-  width: number;
-  height: number;
-  data: Float32Array;
-}
-
-interface GetElevationMetersRasterOptions extends TileId {
+export interface GetElevationMetersRasterOptions extends TileId {
   cachePath: string;
 }
 
@@ -23,7 +18,7 @@ export function getElevationMetersRaster(options: GetElevationMetersRasterOption
 const gigabyte = 1000000000;
 
 const cache = new LRUCache<string, Raster>({
-  maxSize: 4 * gigabyte,
+  maxSize: 2 * gigabyte,
   ignoreFetchAbort: true,
 
   sizeCalculation: ({data}) => {
@@ -33,11 +28,8 @@ const cache = new LRUCache<string, Raster>({
   fetchMethod: async (s: string) => {
     const {z, x, y, cachePath} = JSON.parse(s) as GetElevationMetersRasterOptions;
 
-    const url = new URL(
-      `https://api.mapbox.com/v4/mapbox.terrain-rgb/${z}/${Math.floor(x)}/${Math.floor(
-        y,
-      )}.png?access_token=${MAPBOX_TOKEN}`,
-    );
+    const url = new URL(`https://api.mapbox.com/v4/mapbox.terrain-rgb/${z}/${x}/${y}.png`);
+    url.searchParams.append('access_token', MAPBOX_TOKEN);
 
     const input = FastPNG.decode(await cachedFetch(url, undefined, cachePath));
 
@@ -55,9 +47,6 @@ const cache = new LRUCache<string, Raster>({
       data[i] = height;
     }
 
-    // // https://wiki.openstreetmap.org/wiki/Zoom_levels
-    // const tileWidthMeters = earthCircumference * Math.cos(d2r(lat)) /
-    //   Math.pow(2, z);
-    return {width: input.width, height: input.height, data: data};
+    return {width: input.width, height: input.height, data, id: {x, y, z}};
   },
 });

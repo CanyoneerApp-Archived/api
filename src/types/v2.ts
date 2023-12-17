@@ -58,9 +58,7 @@ type GeoJSONRouteV2CoreProperties = {
 } & {
   // Vector tiles cannot encode arrays so we break the months out into individual properties.
   [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
-} & {[key: string]: unknown} & {
-  sortKey: number;
-};
+} & {[key: string]: unknown};
 
 export type GeoJSONRouteV2LineString = Feature<
   LineString,
@@ -68,6 +66,7 @@ export type GeoJSONRouteV2LineString = Feature<
     lengthMeters: number;
     ascentMeters: number;
     descentMeters: number;
+    type: 'child';
   }
 >;
 

@@ -4,10 +4,8 @@ interface GetMapStyleOptions {
   publicUrl: string;
 }
 
-const font = ['Open Sans Regular', 'Arial Unicode MS Regular'];
-const fontBold = ['Open Sans Bold', 'Arial Unicode MS Bold'];
-// const waypointCircleRadius = 5;
-// const waypointLabelSize = 12;
+const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
+const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Regular'];
 
 export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   if (!publicUrl.endsWith('/')) publicUrl += '/';
@@ -33,8 +31,26 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         tileSize: 512,
         maxzoom: 14,
       },
+      canyoniness: {
+        type: 'raster',
+        tiles: [`${publicUrl}v2/debug/canyoniness/{z}/{x}/{y}.png`],
+        tileSize: 512,
+        maxzoom: 12,
+        minzoom: 12,
+      },
     },
     layers: [
+      {
+        id: 'canyoniness',
+        type: 'raster',
+        source: 'canyoniness',
+        paint: {
+          'raster-opacity': 0.25,
+          'raster-resampling': 'nearest',
+        },
+        // @ts-expect-error we need to update these types
+        slot: 'bottom',
+      },
       {
         id: 'contour-line',
         type: 'line',
@@ -64,10 +80,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
             ['match', ['get', 'index'], [1, 2], 0.8, 1.2],
           ],
         },
-        metadata: {
-          'mapbox:featureComponent': 'terrain',
-          'mapbox:group': 'Terrain, land',
-        },
         // @ts-expect-error we need to update these types
         slot: 'bottom',
       },
@@ -84,17 +96,13 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'text-pitch-alignment': 'viewport',
           'text-max-angle': 25,
           'text-padding': 5,
-          'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'],
+          'text-font': font,
           'text-size': ['interpolate', ['linear'], ['zoom'], 15, 9.5, 20, 12],
         },
         paint: {
           'text-color': 'hsl(60, 10%, 35%)',
           'text-halo-width': 1,
           'text-halo-color': 'hsl(60, 10%, 85%)',
-        },
-        metadata: {
-          'mapbox:featureComponent': 'terrain',
-          'mapbox:group': 'Terrain, terrain-labels',
         },
         // @ts-expect-error we need to update these types
         slot: 'bottom',
@@ -118,8 +126,40 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         'source-layer': 'routes',
         filter: ['==', ['geometry-type'], 'LineString'],
         paint: {
-          'line-color': ['coalesce', ['get', 'stroke'], 'red'],
+          'line-color': ['case', ['>=', ['get', 'canyoninessP20'], 0], 'red', 'green'],
           'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
+        },
+      },
+      {
+        id: 'linesSymbol',
+        type: 'symbol',
+        source: 'routes',
+        'source-layer': 'routes',
+        filter: ['==', ['geometry-type'], 'LineString'],
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1,
+          'text-color': 'black',
+        },
+        layout: {
+          'symbol-placement': 'line',
+          'text-allow-overlap': true,
+          'text-font': font,
+          'text-field': [
+            'concat',
+            'p10:',
+            ['round', ['get', 'canyoninessP10']],
+            '\np15:',
+            ['round', ['get', 'canyoninessP15']],
+            '\np20:',
+            ['round', ['get', 'canyoninessP20']],
+            '\np25:',
+            ['round', ['get', 'canyoninessP25']],
+            '\np50:',
+            ['round', ['get', 'canyoninessP50']],
+          ],
+          'text-size': 12,
+          'text-anchor': 'top',
         },
       },
       {
@@ -199,7 +239,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         id: 'basemap',
         url: 'mapbox://styles/mapbox/standard',
         config: {
-          font,
+          font: font[0],
           showPointOfInterestLabels: true,
         },
       },

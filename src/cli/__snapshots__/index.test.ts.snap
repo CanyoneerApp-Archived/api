@@ -46,7 +46,7 @@ exports[`scrape Maine 1`] = `
       "name": "Mount Katahdin",
       "quality": 5,
       "permit": "No",
-      "etag": "454e07c964b856a37a031a7163269fe0"
+      "etag": "cbba34ceac5bc1e5501c63826c0b32c1"
     },
     {
       "latitude": 44.57194,
@@ -162,7 +162,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 351
+              "elevationMeters": 389
             }
           },
           {
@@ -185,7 +185,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1031
+              "elevationMeters": 1409
             }
           },
           {
@@ -208,7 +208,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1413
+              "elevationMeters": 1597
             }
           },
           {
@@ -231,7 +231,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1031
+              "elevationMeters": 1409
             }
           },
           {
@@ -254,7 +254,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1184
+              "elevationMeters": 510
             }
           },
           {
@@ -277,7 +277,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 466
+              "elevationMeters": 328
             }
           },
           {
@@ -300,7 +300,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "Br (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 363
+              "elevationMeters": 395
             }
           },
           {
@@ -323,7 +323,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1031
+              "elevationMeters": 1409
             }
           },
           {
@@ -346,7 +346,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1413
+              "elevationMeters": 1597
             }
           },
           {
@@ -369,7 +369,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "5mile to (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1025
+              "elevationMeters": 1371
             }
           },
           {
@@ -392,7 +392,7 @@ exports[`scrape Maine 1`] = `
               },
               "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
               "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
-              "elevationMeters": 1184
+              "elevationMeters": 510
             }
           }
         ]
@@ -472,7 +472,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 351
+            "elevationMeters": 389
           }
         },
         {
@@ -495,7 +495,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1031
+            "elevationMeters": 1409
           }
         },
         {
@@ -518,7 +518,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1413
+            "elevationMeters": 1597
           }
         },
         {
@@ -541,7 +541,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1031
+            "elevationMeters": 1409
           }
         },
         {
@@ -564,7 +564,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1184
+            "elevationMeters": 510
           }
         },
         {
@@ -587,7 +587,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 466
+            "elevationMeters": 328
           }
         },
         {
@@ -610,7 +610,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "Br (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 363
+            "elevationMeters": 395
           }
         },
         {
@@ -633,7 +633,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1031
+            "elevationMeters": 1409
           }
         },
         {
@@ -656,7 +656,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1413
+            "elevationMeters": 1597
           }
         },
         {
@@ -679,7 +679,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "5mile to (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1025
+            "elevationMeters": 1371
           }
         },
         {
@@ -702,7 +702,7 @@ exports[`scrape Maine 1`] = `
             },
             "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
             "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
-            "elevationMeters": 1184
+            "elevationMeters": 510
           }
         }
       ]
@@ -899,7 +899,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 466,
+          "elevationMeters": 328,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -956,7 +956,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "9miles from the start at (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1184,
+          "elevationMeters": 510,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -981,7 +981,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1184,
+          "elevationMeters": 510,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1006,7 +1006,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "5mile to (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1025,
+          "elevationMeters": 1371,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1031,7 +1031,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1031,
+          "elevationMeters": 1409,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1056,7 +1056,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1031,
+          "elevationMeters": 1409,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1081,7 +1081,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1031,
+          "elevationMeters": 1409,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1126,7 +1126,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1413,
+          "elevationMeters": 1597,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1151,7 +1151,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 1413,
+          "elevationMeters": 1597,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1180,7 +1180,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "Br (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 363,
+          "elevationMeters": 395,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1209,7 +1209,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 351,
+          "elevationMeters": 389,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
@@ -1238,7 +1238,7 @@ exports[`scrape Maine 1`] = `
           "styleMapHash": "{\\"normal\\":\\"#dot0\\",\\"highlight\\":\\"#dot1\\"}",
           "icon": "http://maps.google.com/mapfiles/kml/shapes/open-diamond.png",
           "description": "Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)",
-          "elevationMeters": 351,
+          "elevationMeters": 389,
           "route.id": 25753,
           "route.name": "Mount Katahdin",
           "route.quality": 5,
