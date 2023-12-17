@@ -5,10 +5,10 @@ import {flattenFeatureCollection} from './flattenFeatureCollection';
 import {parseLineString} from './parseLineString';
 import {parsePoint} from './parsePoint';
 
-export async function parseKMLs(routes: RouteV2[]): Promise<RouteV2[]> {
+export async function parseKMLs(routes: RouteV2[], cachePath: string): Promise<RouteV2[]> {
   let doneCount = 0;
   for (const route of routes) {
-    route.geojson = route.geojson && (await parseKMLsInner(route.geojson));
+    route.geojson = route.geojson && (await parseKMLsInner(route.geojson, cachePath));
     logger.progress(routes.length, doneCount++, route.name);
   }
   return routes;
@@ -16,6 +16,7 @@ export async function parseKMLs(routes: RouteV2[]): Promise<RouteV2[]> {
 
 export async function parseKMLsInner(
   input: Feature | FeatureCollection,
+  cachePath: string,
 ): Promise<FeatureCollection> {
   const output = flattenFeatureCollection(input);
 
@@ -24,9 +25,9 @@ export async function parseKMLsInner(
     features: await Promise.all(
       output.map(async feature => {
         if (feature.geometry.type === 'LineString') {
-          return await parseLineString(feature as Feature<LineString>);
+          return await parseLineString(feature as Feature<LineString>, cachePath);
         } else if (feature.geometry.type === 'Point') {
-          return await parsePoint(feature as Feature<Point>);
+          return await parsePoint(feature as Feature<Point>, cachePath);
         } else {
           return feature;
         }

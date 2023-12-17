@@ -10,7 +10,7 @@ import {parseDescription} from './parseDescription';
  * Take an array of `RouteV2`s, scrape their KMLs, and return a new array of routes with the
  * "description" property populated.
  */
-export async function scrapeDescriptions(routes: RouteV2[]): Promise<RouteV2[]> {
+export async function scrapeDescriptions(routes: RouteV2[], cachePath: string): Promise<RouteV2[]> {
   const routeChunks = lodashChunk(routes, 50);
 
   const totalCount = routes.length;
@@ -30,7 +30,7 @@ export async function scrapeDescriptions(routes: RouteV2[]): Promise<RouteV2[]> 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const xml: any = await new Promise(async (resolve, reject) =>
           XML2JS.parseString(
-            JSON.parse(await cachedFetch(url, 'utf-8')).query.export['*'],
+            JSON.parse(await cachedFetch(url, 'utf-8', cachePath)).query.export['*'],
             (error, result) => {
               if (error) reject(error);
               else resolve(result);

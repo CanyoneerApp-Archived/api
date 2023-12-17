@@ -1,0 +1,418 @@
+{
+"printrequests": [
+{
+"label": "",
+"typeid": "_wpg",
+"mode": 2,
+"format": false
+},
+{
+"label": "pageid",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "name",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "coordinates",
+"typeid": "_geo",
+"mode": 1,
+"format": ""
+},
+{
+"label": "region",
+"typeid": "_wpg",
+"mode": 1,
+"format": ""
+},
+{
+"label": "quality",
+"typeid": "_num",
+"mode": 1,
+"format": ""
+},
+{
+"label": "rating",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "timeRating",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "kmlUrl",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "technicalRating",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "waterRating",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "riskRating",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "permits",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "rappelCount",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "rappelLongest",
+"typeid": "_qty",
+"mode": 1,
+"format": ""
+},
+{
+"label": "months",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+},
+{
+"label": "shuttle",
+"typeid": "_qty",
+"mode": 1,
+"format": ""
+},
+{
+"label": "vehicle",
+"typeid": "_txt",
+"mode": 1,
+"format": ""
+}
+],
+"results": {
+"Bickford Slides Canyon": {
+"printouts": {
+"pageid": [
+"68720"
+],
+"name": [
+"Bickford Slides Canyon"
+],
+"coordinates": [
+{
+"lat": 44.274,
+"lon": -70.9843
+}
+],
+"region": [
+{
+"fulltext": "Maine",
+"fullurl": "https://ropewiki.com/Maine",
+"namespace": 0,
+"exists": true
+}
+],
+"quality": [
+3
+],
+"rating": [
+" 3C II  (\u003Ci\u003Ev3a4\u0026nbsp;II\u003C/i\u003E)"
+],
+"timeRating": [
+"II"
+],
+"kmlUrl": [],
+"technicalRating": [
+"3"
+],
+"waterRating": [
+"C"
+],
+"riskRating": [],
+"permits": [
+"No"
+],
+"rappelCount": [
+"3r"
+],
+"rappelLongest": [
+{
+"value": 50,
+"unit": "ft"
+}
+],
+"months": [
+"Jun",
+"Jul",
+"Aug",
+"Sep",
+"Oct"
+],
+"shuttle": [],
+"vehicle": []
+},
+"fulltext": "Bickford Slides Canyon",
+"fullurl": "https://ropewiki.com/Bickford_Slides_Canyon",
+"namespace": 0,
+"exists": true
+},
+"Inman's Cave": {
+"printouts": {
+"pageid": [
+"68718"
+],
+"name": [
+"Inman's Cave"
+],
+"coordinates": [
+{
+"lat": 44.2165,
+"lon": -69.0747
+}
+],
+"region": [
+{
+"fulltext": "Maine",
+"fullurl": "https://ropewiki.com/Maine",
+"namespace": 0,
+"exists": true
+}
+],
+"quality": [
+0
+],
+"rating": [
+"Cave 3A I  (\u003Ci\u003Ev2a1\u0026nbsp;I\u003C/i\u003E)"
+],
+"timeRating": [
+"I"
+],
+"kmlUrl": [],
+"technicalRating": [
+"3"
+],
+"waterRating": [
+"A"
+],
+"riskRating": [],
+"permits": [
+"No"
+],
+"rappelCount": [
+"2r"
+],
+"rappelLongest": [
+{
+"value": 20,
+"unit": "ft"
+}
+],
+"months": [],
+"shuttle": [],
+"vehicle": []
+},
+"fulltext": "Inman's Cave",
+"fullurl": "https://ropewiki.com/Inman%27s_Cave",
+"namespace": 0,
+"exists": true
+},
+"Mount Katahdin": {
+"printouts": {
+"pageid": [
+"25753"
+],
+"name": [
+"Mount Katahdin"
+],
+"coordinates": [
+{
+"lat": 45.9043,
+"lon": -68.922
+}
+],
+"region": [
+{
+"fulltext": "Maine",
+"fullurl": "https://ropewiki.com/Maine",
+"namespace": 0,
+"exists": true
+}
+],
+"quality": [
+5
+],
+"rating": [
+"POI"
+],
+"timeRating": [],
+"kmlUrl": [
+"https://ropewiki.com/luca/rwr?gpx%3Doff\u0026filename%3DMount_Katahdin\u0026kmlnfx\u0026kmlx%3Dhttp://brennen.caltech.edu/swhikes/katadn.htm\u0026ext%3D.kml"
+],
+"technicalRating": [],
+"waterRating": [],
+"riskRating": [],
+"permits": [
+"No"
+],
+"rappelCount": [],
+"rappelLongest": [],
+"months": [],
+"shuttle": [],
+"vehicle": []
+},
+"fulltext": "Mount Katahdin",
+"fullurl": "https://ropewiki.com/Mount_Katahdin",
+"namespace": 0,
+"exists": true
+},
+"Screw Auger Falls Gorge": {
+"printouts": {
+"pageid": [
+"34280"
+],
+"name": [
+"Screw Auger Falls Gorge"
+],
+"coordinates": [
+{
+"lat": 44.571944444444,
+"lon": -70.91
+}
+],
+"region": [
+{
+"fulltext": "Maine",
+"fullurl": "https://ropewiki.com/Maine",
+"namespace": 0,
+"exists": true
+}
+],
+"quality": [
+0
+],
+"rating": [
+" 3C1 I  (\u003Ci\u003Ev2a4\u0026nbsp;I\u003C/i\u003E)"
+],
+"timeRating": [
+"I"
+],
+"kmlUrl": [],
+"technicalRating": [
+"3"
+],
+"waterRating": [
+"C1"
+],
+"riskRating": [],
+"permits": [
+"No"
+],
+"rappelCount": [
+"1r"
+],
+"rappelLongest": [
+{
+"value": 25,
+"unit": "ft"
+}
+],
+"months": [
+"Jun",
+"Jul",
+"Aug",
+"Sep",
+"Oct"
+],
+"shuttle": [],
+"vehicle": []
+},
+"fulltext": "Screw Auger Falls Gorge",
+"fullurl": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
+"namespace": 0,
+"exists": true
+},
+"The Cataracts": {
+"printouts": {
+"pageid": [
+"68931"
+],
+"name": [
+"The Cataracts"
+],
+"coordinates": [
+{
+"lat": 44.6351,
+"lon": -70.8616
+}
+],
+"region": [
+{
+"fulltext": "Maine",
+"fullurl": "https://ropewiki.com/Maine",
+"namespace": 0,
+"exists": true
+}
+],
+"quality": [
+3
+],
+"rating": [
+" 3C II  (\u003Ci\u003Ev3a4\u0026nbsp;II\u003C/i\u003E)"
+],
+"timeRating": [
+"II"
+],
+"kmlUrl": [],
+"technicalRating": [
+"3"
+],
+"waterRating": [
+"C"
+],
+"riskRating": [],
+"permits": [
+"No"
+],
+"rappelCount": [
+"4-5r"
+],
+"rappelLongest": [
+{
+"value": 50,
+"unit": "ft"
+}
+],
+"months": [],
+"shuttle": [],
+"vehicle": []
+},
+"fulltext": "The Cataracts",
+"fullurl": "https://ropewiki.com/The_Cataracts",
+"namespace": 0,
+"exists": true
+}
+},
+"serializer": "SMW\\Serializers\\QueryResultSerializer",
+"version": 0.5,
+"rows": 5
+}
