@@ -18,7 +18,6 @@ export const getCanyoninessRaster = new LRUCache<string, Raster>({
   },
 
   fetchMethod: async (s: string) => {
-    // TODO buffer this raster so the edges aren't undefined
     const elevations = await getElevationMetersRaster.fetch(s);
 
     assert(elevations);

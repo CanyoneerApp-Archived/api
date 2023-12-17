@@ -151,7 +151,7 @@ function toGeoJSONRouteV2CoreProperties(
   };
 }
 
-export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
+export function toGeoJSONRouteV2(route: RouteV2) {
   const children =
     route.geojson?.features.map(feature => ({
       ...feature,
@@ -182,13 +182,6 @@ export function toGeoJSONRouteV2(route: RouteV2): GeoJSONRouteV2[] {
 
   return compact([self, ...children]) as GeoJSONRouteV2[];
 }
-
-export const permitV1toV2: {[key: string]: PermitV2} = {
-  'No permit required': 'No',
-  'Permit required': 'Yes',
-  'Closed to entry': 'Closed',
-  'Access is Restricted': 'Restricted',
-};
 
 export const permitV2toV1: {[key: string]: PermitV1} = {
   No: 'No permit required',
