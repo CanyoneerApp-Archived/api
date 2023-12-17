@@ -24,3 +24,4 @@ export async function getCurvature([lon, lat]: number[]) {
 
   return curvature;
 }
+

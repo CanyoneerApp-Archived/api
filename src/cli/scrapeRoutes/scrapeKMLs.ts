@@ -91,7 +91,7 @@ export async function scrapeKMLs(
 
         const elements = Array.from(document.getElementsByTagName('Document'));
 
-        if (elements.length === 1) break;
+        if (elements.length <= 1) break;
 
         for (const element of elements) {
           const routeName = element.previousSibling?.previousSibling?.textContent?.trim();

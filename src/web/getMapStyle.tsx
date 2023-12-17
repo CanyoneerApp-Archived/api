@@ -33,8 +33,25 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         tileSize: 512,
         maxzoom: 14,
       },
+      curvature: {
+        type: 'raster',
+        tiles: [`${publicUrl}v2/slope/{z}/{x}/{y}.png`],
+        tileSize: 512,
+        maxzoom: 12,
+        minzoom: 12,
+      },
     },
     layers: [
+      {
+        id: 'curvatureRaster',
+        type: 'raster',
+        source: 'curvature',
+        paint: {
+          'raster-opacity': 1,
+        },
+        // @ts-expect-error we need to update these types
+        slot: 'bottom',
+      },
       {
         id: 'contour-line',
         type: 'line',
@@ -64,10 +81,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
             ['match', ['get', 'index'], [1, 2], 0.8, 1.2],
           ],
         },
-        metadata: {
-          'mapbox:featureComponent': 'terrain',
-          'mapbox:group': 'Terrain, land',
-        },
         // @ts-expect-error we need to update these types
         slot: 'bottom',
       },
@@ -92,10 +105,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'text-halo-width': 1,
           'text-halo-color': 'hsl(60, 10%, 85%)',
         },
-        metadata: {
-          'mapbox:featureComponent': 'terrain',
-          'mapbox:group': 'Terrain, terrain-labels',
-        },
         // @ts-expect-error we need to update these types
         slot: 'bottom',
       },
@@ -118,8 +127,38 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         'source-layer': 'routes',
         filter: ['==', ['geometry-type'], 'LineString'],
         paint: {
-          'line-color': ['coalesce', ['get', 'stroke'], 'red'],
+          'line-color': 'red',
           'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
+        },
+      },
+      {
+        id: 'linesSymbol',
+        type: 'symbol',
+        source: 'routes',
+        'source-layer': 'routes',
+        filter: ['==', ['geometry-type'], 'LineString'],
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1,
+          'text-color': 'black',
+        },
+        layout: {
+          'symbol-placement': 'line',
+          'text-allow-overlap': true,
+          'text-font': font,
+          'text-field': [
+            'concat',
+            'mean: ',
+            ['round', ['*', 10000000, ['get', 'curvatureMean']]],
+            '\np05:',
+            ['round', ['*', 10000000, ['get', 'curvatureP05']]],
+            '\np50:',
+            ['round', ['*', 10000000, ['get', 'curvatureP50']]],
+            '\np95: ',
+            ['round', ['*', 10000000, ['get', 'curvatureP95']]],
+          ],
+          'text-size': 12,
+          'text-anchor': 'top',
         },
       },
       {
@@ -199,7 +238,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         id: 'basemap',
         url: 'mapbox://styles/mapbox/standard',
         config: {
-          font,
+          font: font[0],
           showPointOfInterestLabels: true,
         },
       },
