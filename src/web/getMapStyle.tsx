@@ -4,10 +4,8 @@ interface GetMapStyleOptions {
   publicUrl: string;
 }
 
-const font = ['Open Sans Regular', 'Arial Unicode MS Regular'];
-const fontBold = ['Open Sans Bold', 'Arial Unicode MS Bold'];
-// const waypointCircleRadius = 5;
-// const waypointLabelSize = 12;
+const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
+const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Regular'];
 
 export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   if (!publicUrl.endsWith('/')) publicUrl += '/';
@@ -122,31 +120,98 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
         },
       },
+      ...getRoutes({
+        id: 'routesYesChildren',
+        filter: [
+          'all',
+          ['==', ['geometry-type'], 'Point'],
+          ['==', ['get', 'type'], 'parent'],
+          ['has', 'hasChildren'],
+        ],
+        maxzoom: 13,
+      }),
+      ...getRoutes({
+        id: 'routesNoChildren',
+        filter: [
+          'all',
+          ['==', ['geometry-type'], 'Point'],
+          ['==', ['get', 'type'], 'parent'],
+          ['!', ['has', 'hasChildren']],
+        ],
+        maxzoom: undefined,
+      }),
       {
-        id: 'routesOutline',
+        id: 'waypointsOutline',
+        minzoom: 13,
         type: 'circle',
         source: 'routes',
         'source-layer': 'routes',
-        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
         paint: {
           'circle-color': 'white',
-          'circle-radius': 4,
-        },
-      },
-      {
-        id: 'routes',
-        type: 'circle',
-        source: 'routes',
-        'source-layer': 'routes',
-        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
-        paint: {
-          'circle-color': 'black',
           'circle-radius': 3,
         },
       },
       {
-        id: 'routeLabels',
-        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
+        id: 'waypoints',
+        minzoom: 11,
+        type: 'circle',
+        source: 'routes',
+        'source-layer': 'routes',
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
+        paint: {
+          'circle-color': 'black',
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 2],
+          'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 1],
+        },
+      },
+      {
+        id: 'waypointLabelsHigh',
+        minzoom: 13,
+        maxzoom: 16,
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
+        source: 'routes',
+        'source-layer': 'routes',
+        type: 'symbol',
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1,
+        },
+        layout: {
+          'text-allow-overlap': false,
+          'text-font': font,
+          'text-field': ['format', ['get', 'name'], {}],
+          'text-size': 12,
+          'text-offset': [0, 0.25],
+          'text-anchor': 'top',
+          'symbol-sort-key': ['get', 'sortKey'],
+        },
+      },
+      {
+        id: 'waypointLabelsMedium',
+        minzoom: 16,
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
+        source: 'routes',
+        'source-layer': 'routes',
+        type: 'symbol',
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1,
+        },
+        layout: {
+          'text-allow-overlap': true,
+          'text-font': font,
+          'text-field': ['format', ['get', 'name'], {'text-font': fontBold}],
+          'text-size': 13,
+          'text-offset': [0, 0.25],
+          'text-anchor': 'top',
+          'symbol-sort-key': ['get', 'sortKey'],
+        },
+      },
+      {
+        id: 'waypointLabelsLow',
+        minzoom: 16,
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
         source: 'routes',
         'source-layer': 'routes',
         type: 'symbol',
@@ -160,34 +225,13 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'text-field': [
             'format',
             ['get', 'name'],
-            {'text-font': fontBold, 'text-scale': 1.2},
-            [
-              'concat',
-              '\n',
-              ['get', 'route.technicalRating'],
-              ['get', 'route.waterRating'],
-              ' ',
-              ['get', 'route.timeRating'],
-              [
-                'case',
-                ['has', 'route.riskRating'],
-                ['concat', ' ', ['get', 'route.riskRating']],
-                '',
-              ],
-              ' • ',
-              [
-                'case',
-                ['==', ['get', 'route.rappelCountMin'], ['get', 'route.rappelCountMax']],
-                ['get', 'route.rappelCountMin'],
-                ['concat', ['get', 'route.rappelCountMin'], '-', ['get', 'route.rappelCountMax']],
-              ],
-              'r, ',
-              ['round', ['*', 3.28084, ['get', 'route.rappelLongestMeters']]],
-              "' max",
-            ],
+            {'text-font': fontBold},
+            '\n',
             {},
+            ['get', 'description'],
+            {'font-scale': 0.9},
           ],
-          'text-size': 12,
+          'text-size': 13,
           'text-offset': [0, 0.25],
           'text-anchor': 'top',
           'symbol-sort-key': ['get', 'sortKey'],
@@ -199,10 +243,92 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         id: 'basemap',
         url: 'mapbox://styles/mapbox/standard',
         config: {
-          font,
+          font: font[0],
           showPointOfInterestLabels: true,
         },
       },
     ],
   };
+}
+
+function getRoutes({
+  id,
+  filter,
+  maxzoom,
+}: {
+  id: string;
+  filter: mapboxgl.Layer['filter'];
+  maxzoom: number | undefined;
+}): mapboxgl.AnyLayer[] {
+  return [
+    {
+      id: `${id}CircleOutline`,
+      type: 'circle',
+      source: 'routes',
+      'source-layer': 'routes',
+      filter,
+      ...(maxzoom !== undefined ? {maxzoom} : {}),
+      paint: {
+        'circle-color': 'white',
+        'circle-radius': 4,
+      },
+    },
+    {
+      id: `${id}Circle`,
+      type: 'circle',
+      source: 'routes',
+      'source-layer': 'routes',
+      filter,
+      ...(maxzoom !== undefined ? {maxzoom} : {}),
+      paint: {
+        'circle-color': 'black',
+        'circle-radius': 3,
+      },
+    },
+    {
+      id: `${id}Symbols`,
+      ...(maxzoom !== undefined ? {maxzoom} : {}),
+      filter,
+      source: 'routes',
+      'source-layer': 'routes',
+      type: 'symbol',
+      paint: {
+        'text-halo-color': 'white',
+        'text-halo-width': 1,
+      },
+      layout: {
+        'text-allow-overlap': false,
+        'text-font': font,
+        'text-field': [
+          'format',
+          ['get', 'name'],
+          {'text-font': fontBold, 'text-scale': 1.2},
+          [
+            'concat',
+            '\n',
+            ['get', 'route.technicalRating'],
+            ['get', 'route.waterRating'],
+            ' ',
+            ['get', 'route.timeRating'],
+            ['case', ['has', 'route.riskRating'], ['concat', ' ', ['get', 'route.riskRating']], ''],
+            ' • ',
+            [
+              'case',
+              ['==', ['get', 'route.rappelCountMin'], ['get', 'route.rappelCountMax']],
+              ['get', 'route.rappelCountMin'],
+              ['concat', ['get', 'route.rappelCountMin'], '-', ['get', 'route.rappelCountMax']],
+            ],
+            'r, ',
+            ['round', ['*', 3.28084, ['get', 'route.rappelLongestMeters']]],
+            "' max",
+          ],
+          {},
+        ],
+        'text-size': 12,
+        'text-offset': [0, 0.25],
+        'text-anchor': 'top',
+        'symbol-sort-key': ['get', 'sortKey'],
+      },
+    },
+  ];
 }
