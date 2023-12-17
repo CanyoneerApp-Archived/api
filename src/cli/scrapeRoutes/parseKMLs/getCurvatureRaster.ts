@@ -1,15 +1,13 @@
 import assert from 'assert';
 import FS from 'fs';
-import {isNumber, sum} from 'lodash';
+import {sum} from 'lodash';
 import {LRUCache} from 'lru-cache';
 import Path from 'path';
 import {PNG} from 'pngjs';
 import {Raster} from './Raster';
 import {blurRaster} from './blurRaster';
-import {earthCircumference} from './earthCircumference';
 import {getElevationMetersRaster} from './getElevationMetersRaster';
 import {gigabyte} from './gigabyte';
-import {tile2lat} from './lon2tile';
 
 export const getCurvaturesRaster = new LRUCache<string, Raster>({
   maxSize: 4 * gigabyte,
@@ -25,19 +23,11 @@ export const getCurvaturesRaster = new LRUCache<string, Raster>({
 
     assert(elevations);
 
-    const [slopes, slopesOrientation] = getRasterSlopes(blurRaster(elevations, 2));
-    const [curvature, curvatureOrientation] = getRasterSlopes(slopes);
-
-    const raster = blurRaster(highlightMaxLines(curvature), 3);
-
-    await createSlopeDebugTile(slopes, slopesOrientation, s);
-    await createCurvatureDebugTile(curvature, curvatureOrientation, s);
-
-    return raster;
+    return getCanyoniness(blurRaster(elevations, 2), s);
   },
 });
 
-export function getCanyoniness(elevations: Raster) {
+export function getCanyoniness(elevations: Raster, s: string) {
   const data = new Float32Array(elevations.data.length);
 
   for (let i = 0; i < elevations.data.length; i++) {
@@ -53,156 +43,190 @@ export function getCanyoniness(elevations: Raster) {
       i + elevations.width + 1,
     ];
 
-    const diff = sum(neighbors.map((j) => elevations.data[j]! - elevations.data[i]!))
-    data[i] = diff / neighbors.length;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    data[i] = sum(neighbors.map((j) => elevations.data[j]! - elevations.data[i]!))
   }
 
-  return {...curvatures, data};
 
-  async function createCurvatureDebugTile(curvatures: Raster, curvaturesOrientation: Raster, s: string) {
-    const png = new PNG({
-      width: curvatures.width,
-      height: curvatures.height,
-      colorType: 6
-    });
+  const out = {...elevations, data};
+  createCanyoninessDebugTile(out, s)
 
-    for (let i = 0; i < curvatures.data.length; i++) {
+  return out
+}
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const orientation = (curvaturesOrientation.data[i]! / Math.PI / 4 + 0.5) * 255;
+async function createCanyoninessDebugTile(canyoniness: Raster, s: string) {
+  const png = new PNG({
+    width: canyoniness.width,
+    height: canyoniness.height,
+    colorType: 6
+  });
 
-      // Red
-      png.data[i * 4 + 0] = orientation;
+  for (let i = 0; i < canyoniness.data.length; i++) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const c = canyoniness.data[i]!
 
-      // Green
-      png.data[i * 4 + 1] = 255 - orientation;
+    // Red
+    png.data[i * 4 + 0] = c >= 0 ? 255 : 0
 
-      // Blue
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      png.data[i * 4 + 2] = 0;
+    // Green
+    png.data[i * 4 + 1] = c < 0 ? 255 : 0
 
-      // Alpha
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      png.data[i * 4 + 3] = Math.max(0, Math.min(255, curvatures.data[i]! * 100000));
-    }
+    // Blue
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    png.data[i * 4 + 2] = 0;
 
-    await FS.promises.mkdir(`./public/v2/curvature/${Path.dirname(s)}`, {recursive: true});
-    await FS.promises.writeFile(`./public/v2/curvature/${s}.png`, PNG.sync.write(png, {}));
+    // Alpha
+    png.data[i * 4 + 3] = Math.max(0, Math.min(255, Math.abs(c) / 50 * 255));
   }
 
-  async function createSlopeDebugTile(slopes: Raster, slopesOrientation: Raster, s: string) {
-    const png = new PNG({
-      width: slopes.width,
-      height: slopes.height,
-      colorType: 6
-    });
+  await FS.promises.mkdir(`./public/v2/curvature/${Path.dirname(s)}`, {recursive: true});
+  await FS.promises.writeFile(`./public/v2/curvature/${s}.png`, PNG.sync.write(png, {}));
+}
 
-    for (let i = 0; i < slopes.data.length; i++) {
+// async function createCurvatureDebugTile(curvatures: Raster, curvaturesOrientation: Raster, s: string) {
+//   const png = new PNG({
+//     width: curvatures.width,
+//     height: curvatures.height,
+//     colorType: 6
+//   });
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const orientation = (slopesOrientation.data[i]! / Math.PI / 4 + 0.5) * 255;
+//   for (let i = 0; i < curvatures.data.length; i++) {
 
-      // Red
-      png.data[i * 4 + 0] = orientation;
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     const orientation = (curvaturesOrientation.data[i]! / Math.PI / 4 + 0.5) * 255;
 
-      // Green
-      png.data[i * 4 + 1] = 255 - orientation;
+//     // Red
+//     png.data[i * 4 + 0] = orientation;
 
-      // Blue
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      png.data[i * 4 + 2] = 0;
+//     // Green
+//     png.data[i * 4 + 1] = 255 - orientation;
 
-      // Alpha
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      png.data[i * 4 + 3] = Math.max(0, Math.min(255, slopes.data[i]! * 255));
-    }
+//     // Blue
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     png.data[i * 4 + 2] = 0;
 
-    await FS.promises.mkdir(`./public/v2/slope/${Path.dirname(s)}`, {recursive: true});
-    await FS.promises.writeFile(`./public/v2/slope/${s}.png`, PNG.sync.write(png, {}));
-  }
+//     // Alpha
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     png.data[i * 4 + 3] = Math.max(0, Math.min(255, curvatures.data[i]! * 100000));
+//   }
 
-  function getRasterSlopes(input: Raster): [Raster, Raster] {
-    const mag = new Float32Array(input.height * input.width);
-    const ori = new Float32Array(input.height * input.width);
+//   await FS.promises.mkdir(`./public/v2/curvature/${Path.dirname(s)}`, {recursive: true});
+//   await FS.promises.writeFile(`./public/v2/curvature/${s}.png`, PNG.sync.write(png, {}));
+// }
 
-    for (let i = 0; i < input.data.length; i++) {
-      const {y, x} = getRasterGradient(input, i);
-      mag[i] = Math.sqrt(x * x + y * y);
-      ori[i] = Math.atan2(y, x);
-    }
+// async function createSlopeDebugTile(slopes: Raster, slopesOrientation: Raster, s: string) {
+//   const png = new PNG({
+//     width: slopes.width,
+//     height: slopes.height,
+//     colorType: 6
+//   });
 
-    return [{...input, data: mag}, {...input, data: ori}];
-  }
+//   for (let i = 0; i < slopes.data.length; i++) {
 
-  // See https://sci-hub.st/10.3846/20296991.2013.806702
-  export function getRasterGradient(input: Raster, i: number) {
-    // https://wiki.openstreetmap.org/wiki/Zoom_levels
-    const tileWidthMeters =
-      (earthCircumference * Math.cos(d2r(tile2lat(input.id.y, input.id.z)))) /
-      Math.pow(2, input.id.z);
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     const orientation = (slopesOrientation.data[i]! / Math.PI / 4 + 0.5) * 255;
 
-    const g = tileWidthMeters / input.width;
+//     // Red
+//     png.data[i * 4 + 0] = orientation;
 
-    const z2 = input.data[i - input.width - 0];
-    const z4 = input.data[i - 1];
-    const z6 = input.data[i + 1];
-    const z8 = input.data[i + input.width - 0];
+//     // Green
+//     png.data[i * 4 + 1] = 255 - orientation;
 
-    if (isNumber(z2) && isNumber(z4) && isNumber(z6) && isNumber(z8)) {
-      const x = (z6 - z4) / 2 / g;
-      const y = (z8 - z2) / 2 / g;
-      return {y, x};
-    } else {
-      return {y: 0, x: 0};
-    }
-  }
+//     // Blue
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     png.data[i * 4 + 2] = 0;
 
-  export function r2d(rad: number) {
-    return (rad * 180) / Math.PI;
-  }
+//     // Alpha
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     png.data[i * 4 + 3] = Math.max(0, Math.min(255, slopes.data[i]! * 255));
+//   }
 
-  export function d2r(deg: number) {
-    return (deg / 180) * Math.PI;
-  }
+//   await FS.promises.mkdir(`./public/v2/slope/${Path.dirname(s)}`, {recursive: true});
+//   await FS.promises.writeFile(`./public/v2/slope/${s}.png`, PNG.sync.write(png, {}));
+// }
 
-  export function highlightMaxLines(curvatures: Raster) {
-    const data = new Float32Array(curvatures.data.length);
+// function getRasterSlopes(input: Raster): [Raster, Raster] {
+//   const mag = new Float32Array(input.height * input.width);
+//   const ori = new Float32Array(input.height * input.width);
 
-    for (let i = 0; i < curvatures.data.length; i++) {
-      const neighbors = [
-        i - curvatures.width - 1,
-        i - curvatures.width,
-        i - curvatures.width + 1,
-        i - 1,
-        i,
-        i + 1,
-        i + curvatures.width - 1,
-        i + curvatures.width,
-        i + curvatures.width + 1,
-      ];
+//   for (let i = 0; i < input.data.length; i++) {
+//     const {y, x} = getRasterGradient(input, i);
+//     mag[i] = Math.sqrt(x * x + y * y);
+//     ori[i] = Math.atan2(y, x);
+//   }
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const curvature = curvatures.data[i]!;
+//   return [{...input, data: mag}, {...input, data: ori}];
+// }
 
-      const pNeighbors = neighbors.filter(
-        j =>
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          curvature > curvatures.data[j]!,
-      );
-      const nNeighbors = neighbors.filter(
-        j =>
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          curvature < curvatures.data[j]!,
-      );
+// // See https://sci-hub.st/10.3846/20296991.2013.806702
+// export function getRasterGradient(input: Raster, i: number) {
+//   // https://wiki.openstreetmap.org/wiki/Zoom_levels
+//   const tileWidthMeters =
+//     (earthCircumference * Math.cos(d2r(tile2lat(input.id.y, input.id.z)))) /
+//     Math.pow(2, input.id.z);
 
-      if (pNeighbors.length <= 2) {
-        data[i] = curvature;
-      }
+//   const g = tileWidthMeters / input.width;
 
-      if (nNeighbors.length <= 2) {
-        data[i] = -curvature;
-      }
-    }
+//   const z2 = input.data[i - input.width - 0];
+//   const z4 = input.data[i - 1];
+//   const z6 = input.data[i + 1];
+//   const z8 = input.data[i + input.width - 0];
 
-    return {...curvatures, data};
-  }
+//   if (isNumber(z2) && isNumber(z4) && isNumber(z6) && isNumber(z8)) {
+//     const x = (z6 - z4) / 2 / g;
+//     const y = (z8 - z2) / 2 / g;
+//     return {y, x};
+//   } else {
+//     return {y: 0, x: 0};
+//   }
+// }
+
+// export function r2d(rad: number) {
+//   return (rad * 180) / Math.PI;
+// }
+
+// export function d2r(deg: number) {
+//   return (deg / 180) * Math.PI;
+// }
+
+// export function highlightMaxLines(curvatures: Raster) {
+//   const data = new Float32Array(curvatures.data.length);
+
+//   for (let i = 0; i < curvatures.data.length; i++) {
+//     const neighbors = [
+//       i - curvatures.width - 1,
+//       i - curvatures.width,
+//       i - curvatures.width + 1,
+//       i - 1,
+//       i,
+//       i + 1,
+//       i + curvatures.width - 1,
+//       i + curvatures.width,
+//       i + curvatures.width + 1,
+//     ];
+
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     const curvature = curvatures.data[i]!;
+
+//     const pNeighbors = neighbors.filter(
+//       j =>
+//         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//         curvature > curvatures.data[j]!,
+//     );
+//     const nNeighbors = neighbors.filter(
+//       j =>
+//         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//         curvature < curvatures.data[j]!,
+//     );
+
+//     if (pNeighbors.length <= 2) {
+//       data[i] = curvature;
+//     }
+
+//     if (nNeighbors.length <= 2) {
+//       data[i] = -curvature;
+//     }
+//   }
+
+//   return {...curvatures, data};
+// }

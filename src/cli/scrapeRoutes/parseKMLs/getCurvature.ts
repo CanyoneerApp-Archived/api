@@ -18,7 +18,7 @@ export async function getCurvature([lon, lat]: number[]) {
   const tileX = Math.floor((x - Math.floor(x)) * png.width);
   const tileY = Math.floor((y - Math.floor(y)) * png.height);
 
-  const curvature = png.data[tileX * png.width + tileY];
+  const curvature = png.data[tileY * png.width + tileX]
 
   assert(isNumber(curvature));
 
