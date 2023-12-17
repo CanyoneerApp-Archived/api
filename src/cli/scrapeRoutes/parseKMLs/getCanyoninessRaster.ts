@@ -2,17 +2,17 @@ import assert from 'assert';
 import FS from 'fs';
 import {sum} from 'lodash';
 import {LRUCache} from 'lru-cache';
-import Path from 'path';
 import {PNG} from 'pngjs';
 import {Raster} from './Raster';
-import {blurRaster} from './blurRaster';
-import {
-  GetElevationMetersRasterOptions,
-  getElevationMetersRaster,
-} from './getElevationMetersRaster';
+import {TileId} from './TileId';
+import {getElevationMetersRaster} from './getElevationMetersRaster';
 import {gigabyte} from './gigabyte';
 
-export function getCanyoninessRaster(options: GetElevationMetersRasterOptions) {
+export interface GetCanyoninessRasterOptions extends TileId {
+  cachePath: string;
+}
+
+export function getCanyoninessRaster(options: GetCanyoninessRasterOptions) {
   return cache.fetch(JSON.stringify(options));
 }
 
@@ -25,43 +25,45 @@ const cache = new LRUCache<string, Raster>({
   },
 
   fetchMethod: async (s: string) => {
-    const elevations = await getElevationMetersRaster(
-      JSON.parse(s) as GetElevationMetersRasterOptions,
-    );
+    const {x, y, z, cachePath} = JSON.parse(s) as GetCanyoninessRasterOptions;
+
+    const elevations = await getElevationMetersRaster({
+      x,
+      y,
+      z,
+      cachePath,
+      blur: 2,
+    });
 
     assert(elevations);
 
-    return getCanyoniness(blurRaster(elevations, 2), s);
+    const data = new Float32Array(elevations.data.length);
+
+    for (let i = 0; i < elevations.data.length; i++) {
+      const neighbors = [
+        i - elevations.width - 1,
+        i - elevations.width,
+        i - elevations.width + 1,
+        i - 1,
+        i,
+        i + 1,
+        i + elevations.width - 1,
+        i + elevations.width,
+        i + elevations.width + 1,
+      ];
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      data[i] = sum(neighbors.map(j => elevations.data[j]! - elevations.data[i]!));
+    }
+
+    const out = {...elevations, data};
+    createCanyoninessDebugTile(out, {x, y, z});
+
+    return out;
   },
 });
 
-export function getCanyoniness(elevations: Raster, s: string) {
-  const data = new Float32Array(elevations.data.length);
-
-  for (let i = 0; i < elevations.data.length; i++) {
-    const neighbors = [
-      i - elevations.width - 1,
-      i - elevations.width,
-      i - elevations.width + 1,
-      i - 1,
-      i,
-      i + 1,
-      i + elevations.width - 1,
-      i + elevations.width,
-      i + elevations.width + 1,
-    ];
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    data[i] = sum(neighbors.map(j => elevations.data[j]! - elevations.data[i]!));
-  }
-
-  const out = {...elevations, data};
-  createCanyoninessDebugTile(out, s);
-
-  return out;
-}
-
-async function createCanyoninessDebugTile(canyoniness: Raster, s: string) {
+async function createCanyoninessDebugTile(canyoniness: Raster, id: TileId) {
   const png = new PNG({
     width: canyoniness.width,
     height: canyoniness.height,
@@ -69,23 +71,18 @@ async function createCanyoninessDebugTile(canyoniness: Raster, s: string) {
   });
 
   for (let i = 0; i < canyoniness.data.length; i++) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const c = canyoniness.data[i]!;
+    const c = canyoniness.data[i];
+    assert(c !== undefined);
 
-    // Red
-    png.data[i * 4 + 0] = c >= 0 ? 255 : 0;
-
-    // Green
-    png.data[i * 4 + 1] = c < 0 ? 255 : 0;
-
-    // Blue
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    png.data[i * 4 + 2] = 0;
-
-    // Alpha
-    png.data[i * 4 + 3] = Math.max(0, Math.min(255, (Math.abs(c) / 50) * 255));
+    png.data[i * 4 + 0] = c >= 0 ? 255 : 0; // Red
+    png.data[i * 4 + 1] = c < 0 ? 255 : 0; // Green
+    png.data[i * 4 + 2] = 0; // Blue
+    png.data[i * 4 + 3] = Math.max(0, Math.min(255, (Math.abs(c) / 50) * 255)); // Alpha
   }
 
-  await FS.promises.mkdir(`./public/v2/canyoniness/${Path.dirname(s)}`, {recursive: true});
-  await FS.promises.writeFile(`./public/v2/canyoniness/${s}.png`, PNG.sync.write(png, {}));
+  await FS.promises.mkdir(`./public/v2/debug/canyoniness/${id.z}/${id.x}`, {recursive: true});
+  await FS.promises.writeFile(
+    `./public/v2/debug/canyoniness/${id.z}/${id.x}/${id.y}.png`,
+    PNG.sync.write(png, {}),
+  );
 }
