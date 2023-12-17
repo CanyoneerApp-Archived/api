@@ -33,6 +33,12 @@ program.option(
   'all',
 );
 
+program.option(
+  '--cachePath <PATH>',
+  'The path to the cache directory. This directory will be created if it does not exist. Defaults to "./cache".',
+  './cache',
+);
+
 export async function main(argv: string[]) {
   program.parse(argv);
   const options = program.opts();
@@ -50,7 +56,7 @@ export async function main(argv: string[]) {
 
   await logger.step(clearPublicDir, []);
   await logger.step(createPublicSchemas, []);
-  const routes = await logger.step(scrapeRoutes, [options.region]);
+  const routes = await logger.step(scrapeRoutes, [options.region, options.cachePath]);
   await logger.step(createPublicRoutes, [routes]);
   await logger.step(createPublicTiles, []);
   const stats = await logger.step(createPublicStats, []);

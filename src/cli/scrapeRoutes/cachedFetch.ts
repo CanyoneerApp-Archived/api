@@ -13,16 +13,23 @@ export function md5(input: string) {
   return Crypto.createHash('md5').update(input).digest('hex');
 }
 
-function getPath(url: string) {
-  return Path.join(__dirname, '../../../cache', `${md5(url)}.txt`);
-}
-
-export default function cachedFetch(urlObject: URL, encoding: 'utf-8'): Promise<string>;
-export default function cachedFetch(urlObject: URL): Promise<Buffer>;
-export default async function cachedFetch(urlObject: URL, encoding?: 'utf-8') {
+export default function cachedFetch(
+  urlObject: URL,
+  encoding: 'utf-8',
+  cachePath: string,
+): Promise<string>;
+export default function cachedFetch(
+  urlObject: URL,
+  encoding: undefined,
+  cachePath: string,
+): Promise<Buffer>;
+export default async function cachedFetch(
+  urlObject: URL,
+  encoding: 'utf-8' | undefined,
+  cachePath: string,
+) {
   const url = urlObject.toString();
-
-  const path = getPath(url);
+  const path = Path.join(cachePath, `${md5(url)}.txt`);
 
   try {
     const text = await FS.promises.readFile(path, encoding);

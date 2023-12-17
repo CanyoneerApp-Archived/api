@@ -6,10 +6,17 @@ import Path from 'path';
 import {PNG} from 'pngjs';
 import {Raster} from './Raster';
 import {blurRaster} from './blurRaster';
-import {getElevationMetersRaster} from './getElevationMetersRaster';
+import {
+  GetElevationMetersRasterOptions,
+  getElevationMetersRaster,
+} from './getElevationMetersRaster';
 import {gigabyte} from './gigabyte';
 
-export const getCanyoninessRaster = new LRUCache<string, Raster>({
+export function getCanyoninessRaster(options: GetElevationMetersRasterOptions) {
+  return cache.fetch(JSON.stringify(options));
+}
+
+const cache = new LRUCache<string, Raster>({
   maxSize: 4 * gigabyte,
   ignoreFetchAbort: true,
 
@@ -18,7 +25,9 @@ export const getCanyoninessRaster = new LRUCache<string, Raster>({
   },
 
   fetchMethod: async (s: string) => {
-    const elevations = await getElevationMetersRaster.fetch(s);
+    const elevations = await getElevationMetersRaster(
+      JSON.parse(s) as GetElevationMetersRasterOptions,
+    );
 
     assert(elevations);
 

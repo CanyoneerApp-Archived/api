@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+<Document>
+<Folder>
+<name>Ropewiki Map Export</name>
+<description>http://www.ropewiki.com</description>
+<Style id="000">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/7/75/Starn00.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="001">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/7/75/Starn00.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="00"><Pair><key>normal</key><styleUrl>#000</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#001</styleUrl></Pair></StyleMap><Style id="100">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/8/87/Starn10.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="101">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/8/87/Starn10.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="10"><Pair><key>normal</key><styleUrl>#100</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#101</styleUrl></Pair></StyleMap><Style id="200">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/15/Starn20.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="201">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/15/Starn20.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="20"><Pair><key>normal</key><styleUrl>#200</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#201</styleUrl></Pair></StyleMap><Style id="300">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/d/d3/Starn30.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="301">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/d/d3/Starn30.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="30"><Pair><key>normal</key><styleUrl>#300</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#301</styleUrl></Pair></StyleMap><Style id="400">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/a/a0/Starn40.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="401">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/a/a0/Starn40.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="40"><Pair><key>normal</key><styleUrl>#400</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#401</styleUrl></Pair></StyleMap><Style id="500">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/c/cc/Starn50.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="501">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/c/cc/Starn50.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="50"><Pair><key>normal</key><styleUrl>#500</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#501</styleUrl></Pair></StyleMap><Style id="010">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/b/b6/Starn01.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="011">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/b/b6/Starn01.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="01"><Pair><key>normal</key><styleUrl>#010</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#011</styleUrl></Pair></StyleMap><Style id="110">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/12/Starn11.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="111">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/12/Starn11.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="11"><Pair><key>normal</key><styleUrl>#110</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#111</styleUrl></Pair></StyleMap><Style id="210">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/b/b7/Starn21.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="211">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/b/b7/Starn21.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="21"><Pair><key>normal</key><styleUrl>#210</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#211</styleUrl></Pair></StyleMap><Style id="310">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/2e/Starn31.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="311">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/2e/Starn31.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="31"><Pair><key>normal</key><styleUrl>#310</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#311</styleUrl></Pair></StyleMap><Style id="410">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/1d/Starn41.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="411">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/1d/Starn41.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="41"><Pair><key>normal</key><styleUrl>#410</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#411</styleUrl></Pair></StyleMap><Style id="510">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/f/fe/Starn51.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="511">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/f/fe/Starn51.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="51"><Pair><key>normal</key><styleUrl>#510</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#511</styleUrl></Pair></StyleMap><Style id="020">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/3a/Starn02.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="021">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/3a/Starn02.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="02"><Pair><key>normal</key><styleUrl>#020</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#021</styleUrl></Pair></StyleMap><Style id="120">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/a/a4/Starn12.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="121">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/a/a4/Starn12.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="12"><Pair><key>normal</key><styleUrl>#120</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#121</styleUrl></Pair></StyleMap><Style id="220">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/13/Starn22.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="221">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/13/Starn22.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="22"><Pair><key>normal</key><styleUrl>#220</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#221</styleUrl></Pair></StyleMap><Style id="320">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/32/Starn32.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="321">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/32/Starn32.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="32"><Pair><key>normal</key><styleUrl>#320</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#321</styleUrl></Pair></StyleMap><Style id="420">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/7/77/Starn42.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="421">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/7/77/Starn42.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="42"><Pair><key>normal</key><styleUrl>#420</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#421</styleUrl></Pair></StyleMap><Style id="520">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/11/Starn52.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="521">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/1/11/Starn52.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="52"><Pair><key>normal</key><styleUrl>#520</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#521</styleUrl></Pair></StyleMap><Style id="030">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/b/bd/Starn03.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="031">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/b/bd/Starn03.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="03"><Pair><key>normal</key><styleUrl>#030</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#031</styleUrl></Pair></StyleMap><Style id="130">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/0/09/Starn13.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="131">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/0/09/Starn13.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="13"><Pair><key>normal</key><styleUrl>#130</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#131</styleUrl></Pair></StyleMap><Style id="230">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/9/98/Starn23.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="231">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/9/98/Starn23.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="23"><Pair><key>normal</key><styleUrl>#230</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#231</styleUrl></Pair></StyleMap><Style id="330">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/0/07/Starn33.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="331">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/0/07/Starn33.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="33"><Pair><key>normal</key><styleUrl>#330</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#331</styleUrl></Pair></StyleMap><Style id="430">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/f/fb/Starn43.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="431">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/f/fb/Starn43.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="43"><Pair><key>normal</key><styleUrl>#430</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#431</styleUrl></Pair></StyleMap><Style id="530">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/d/dc/Starn53.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="531">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/d/dc/Starn53.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="53"><Pair><key>normal</key><styleUrl>#530</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#531</styleUrl></Pair></StyleMap><Style id="040">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/25/Starn04.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="041">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/25/Starn04.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="04"><Pair><key>normal</key><styleUrl>#040</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#041</styleUrl></Pair></StyleMap><Style id="140">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/7/73/Starn14.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="141">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/7/73/Starn14.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="14"><Pair><key>normal</key><styleUrl>#140</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#141</styleUrl></Pair></StyleMap><Style id="240">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/e/ea/Starn24.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="241">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/e/ea/Starn24.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="24"><Pair><key>normal</key><styleUrl>#240</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#241</styleUrl></Pair></StyleMap><Style id="340">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/6/6a/Starn34.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="341">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/6/6a/Starn34.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="34"><Pair><key>normal</key><styleUrl>#340</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#341</styleUrl></Pair></StyleMap><Style id="440">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/31/Starn44.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="441">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/31/Starn44.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="44"><Pair><key>normal</key><styleUrl>#440</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#441</styleUrl></Pair></StyleMap><Style id="540">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/27/Starn54.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="541">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/27/Starn54.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="54"><Pair><key>normal</key><styleUrl>#540</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#541</styleUrl></Pair></StyleMap><Style id="050">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/29/Starn05.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="051">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/2/29/Starn05.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="05"><Pair><key>normal</key><styleUrl>#050</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#051</styleUrl></Pair></StyleMap><Style id="150">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/d/d9/Starn15.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="151">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/d/d9/Starn15.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="15"><Pair><key>normal</key><styleUrl>#150</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#151</styleUrl></Pair></StyleMap><Style id="250">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/e/e0/Starn25.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="251">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/e/e0/Starn25.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="25"><Pair><key>normal</key><styleUrl>#250</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#251</styleUrl></Pair></StyleMap><Style id="350">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/0/09/Starn35.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="351">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/0/09/Starn35.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="35"><Pair><key>normal</key><styleUrl>#350</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#351</styleUrl></Pair></StyleMap><Style id="450">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/8/81/Starn45.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="451">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/8/81/Starn45.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="45"><Pair><key>normal</key><styleUrl>#450</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#451</styleUrl></Pair></StyleMap><Style id="550">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/37/Starn55.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>0.0</scale></LabelStyle>
+</Style><Style id="551">
+<IconStyle><scale>1.0</scale><Icon><href>https://ropewiki.com/images/3/37/Starn55.png</href></Icon></IconStyle>
+<LabelStyle><color>ffc0c0ff</color><scale>1.1</scale></LabelStyle>
+</Style><StyleMap id="55"><Pair><key>normal</key><styleUrl>#550</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#551</styleUrl></Pair></StyleMap>
+<Placemark><name>Mount Katahdin</name><description><![CDATA[<div>5* POI  9.5h 5.6mi</div><div><a href="http://ropewiki.com/Mount_Katahdin">More information</a></div><div><a href="https://ropewiki.com/luca/rwr?gpx%3Doff&amp;filename%3DMount_Katahdin&amp;kmlnfx&amp;kmlx%3Dhttp://brennen.caltech.edu/swhikes/katadn.htm&amp;ext%3D.kml">Download KML Map of the route</a></div>]]></description><styleUrl>#55</styleUrl><Point><coordinates>-68.921944444444,45.904166666667</coordinates></Point></Placemark><Placemark><name>Bickford Slides Canyon</name><description><![CDATA[<div>3.4*  3C II  (<i>v3a4 II</i>)   3r 50ft</div><div><a href="http://ropewiki.com/Bickford_Slides_Canyon">More information</a></div><div><img src="https://ropewiki.com/images/thumb/4/48/Bickford_Slides_Canyon_Banner.jpg/150px-Bickford_Slides_Canyon_Banner.jpg"/></div>]]></description><styleUrl>#31</styleUrl><Point><coordinates>-70.984166666667,44.273888888889</coordinates></Point></Placemark><Placemark><name>The Cataracts</name><description><![CDATA[<div>3.2*  3C II  (<i>v3a4 II</i>)   4r 50ft</div><div><a href="http://ropewiki.com/The_Cataracts">More information</a></div><div><img src="https://ropewiki.com/images/thumb/9/99/The_Cataracts_Banner.jpg/150px-The_Cataracts_Banner.jpg"/></div>]]></description><styleUrl>#31</styleUrl><Point><coordinates>-70.861666666667,44.635</coordinates></Point></Placemark><Placemark><name>Inman's Cave</name><description><![CDATA[<div>Cave 3A I  (<i>v2a1 I</i>)   2r 20ft</div><div><a href="http://ropewiki.com/Inman%27s_Cave">More information</a></div><div><img src="https://ropewiki.com/images/thumb/1/11/Inman%27s_Cave_Banner.jpg/150px-Inman%27s_Cave_Banner.jpg"/></div>]]></description><styleUrl>#02</styleUrl><Point><coordinates>-69.074722222222,44.216388888889</coordinates></Point></Placemark><Placemark><name>Screw Auger Falls Gorge</name><description><![CDATA[<div>3C1 I  (<i>v2a4 I</i>)  0.5mi 1r 25ft</div><div><a href="http://ropewiki.com/Screw_Auger_Falls_Gorge">More information</a></div><div><img src="https://ropewiki.com/images/thumb/0/0e/Screw_Auger_Falls_Gorge_Banner.jpg/112px-Screw_Auger_Falls_Gorge_Banner.jpg"/></div>]]></description><styleUrl>#01</styleUrl><Point><coordinates>-70.91,44.571944444444</coordinates></Point></Placemark>
+</Folder>
+<Folder>
+<name>Mount Katahdin</name>
+
+<Document>
+<name>xtract  (Data by brennen.caltech.edu/swhikes)</name><description>http://brennen.caltech.edu/swhikes/katadn.htm</description><Style id="dot0"><LabelStyle><scale>0</scale></LabelStyle><IconStyle><Icon><href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href></Icon><scale>1</scale></IconStyle></Style>
+<Style id="dot1"><LabelStyle><scale>1.1</scale></LabelStyle><IconStyle><Icon><href>http://maps.google.com/mapfiles/kml/shapes/open-diamond.png</href></Icon><scale>1</scale></IconStyle></Style>
+<StyleMap id="dot"><Pair><key>normal</key><styleUrl>#dot0</styleUrl></Pair><Pair><key>highlight</key><styleUrl>#dot1</styleUrl></Pair></StyleMap>
+<Placemark><name>Wpt1</name><description>Hike Beyond the campground and the Abol trailhead (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-116.329666,35.030834,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt2</name><description>At the top of the slide is a large cairn and a few yards beyond this at (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.936668,45.898499,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt3</name><description>It rises fairly gently to Baxter Peak (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.921997,45.904335,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt4</name><description>Pamola Peak the Knife Edge and South Peak from Baxter Peak Looking down the Hunt Trail ridge Beginning the descent you proceed back along the way you came to the the trail junction at Thoreau Spring at (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.936668,45.898499,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt5</name><description>9miles from the start at (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.981667,45.896168,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt6</name><description>1mile from the bridge you finally reach the Katahdin Stream Campground and Trailhead at (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.998833,45.887333,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt7</name><description>Br (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.963997,45.873833,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt8</name><description>28am 4380ftMW Cairn at top of slide - just a short way to trail junction at Thoreau Spring (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.936668,45.898499,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt9</name><description>30am 4910ftMW Summit of Baxter Peak (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.921997,45.904335,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt10</name><description>5mile to (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.947334,45.900002,0</coordinates></Point></Placemark>
+<Placemark><name>Wpt11</name><description>18pm 1430ftMW After drop through forest and along the side of a stream - beautiful Katahdin Stream Falls (Data by brennen.caltech.edu/swhikes)</description><styleUrl>#dot</styleUrl><Point><coordinates>-68.981667,45.896168,0</coordinates></Point></Placemark>
+</Document>
+</Folder>
+
+</Document>
+</kml>

@@ -5,10 +5,19 @@ import {LRUCache} from 'lru-cache';
 import cachedFetch from '../cachedFetch';
 import {MAPBOX_TOKEN} from './MAPBOX_TOKEN';
 import {Raster} from './Raster';
-import {gigabyte} from './gigabyte';
-import {str2id} from './id2str';
+import {TileId} from './TileId';
 
-export const getElevationMetersRaster = new LRUCache<string, Raster>({
+export interface GetElevationMetersRasterOptions extends TileId {
+  cachePath: string;
+}
+
+export function getElevationMetersRaster(options: GetElevationMetersRasterOptions) {
+  return cache.fetch(JSON.stringify(options));
+}
+
+const gigabyte = 1000000000;
+
+const cache = new LRUCache<string, Raster>({
   maxSize: 4 * gigabyte,
   ignoreFetchAbort: true,
 
@@ -17,12 +26,12 @@ export const getElevationMetersRaster = new LRUCache<string, Raster>({
   },
 
   fetchMethod: async (s: string) => {
-    const id = str2id(s);
+    const {z, x, y, cachePath} = JSON.parse(s) as GetElevationMetersRasterOptions;
 
-    const url = new URL(`https://api.mapbox.com/v4/mapbox.terrain-rgb/${id.z}/${id.x}/${id.y}.png`);
+    const url = new URL(`https://api.mapbox.com/v4/mapbox.terrain-rgb/${z}/${x}/${y}.png`);
     url.searchParams.append('access_token', MAPBOX_TOKEN);
 
-    const input = FastPNG.decode(await cachedFetch(url));
+    const input = FastPNG.decode(await cachedFetch(url, undefined, cachePath));
 
     const data = new Float32Array(input.width * input.height);
 
@@ -38,6 +47,6 @@ export const getElevationMetersRaster = new LRUCache<string, Raster>({
       data[i] = height;
     }
 
-    return {width: input.width, height: input.height, data, id};
+    return {width: input.width, height: input.height, data, id: {x, y, z}};
   },
 });

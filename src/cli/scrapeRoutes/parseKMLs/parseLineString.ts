@@ -6,13 +6,18 @@ import {getAscentDescentMeters} from './getAscentDescentMeters';
 import {getCanyoniness} from './getCanyoniness';
 import {getElevationMeters} from './getElevationMeters';
 
-export async function parseLineString(feature: Feature<LineString>) {
+export async function parseLineString(feature: Feature<LineString>, cachePath: string) {
   const geometry: LineString = {
     type: 'LineString',
     coordinates: await Promise.all(
       feature.geometry.coordinates.map(async ([lon, lat]) => {
         assert(isNumber(lon) && isNumber(lat));
-        return [lon, lat, await getElevationMeters([lon, lat]), await getCanyoniness([lon, lat])];
+        return [
+          lon,
+          lat,
+          await getElevationMeters([lon, lat], cachePath),
+          await getCanyoniness([lon, lat], cachePath),
+        ];
       }),
     ),
   };
