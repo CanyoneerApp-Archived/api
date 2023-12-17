@@ -14,9 +14,6 @@ export async function getCanyoniness([lon, lat]: number[], cachePath: string, de
   const x = lon2tile(lon, z);
   const y = lat2tile(lat, z);
 
-  const innerX = Math.floor((x - Math.floor(x)) * elevationWidth)
-  const innerY = Math.floor((y - Math.floor(y)) * elevationWidth)
-
   const d = 1 / elevationWidth;
 
   const [self, ...neighbors] = await Promise.all(

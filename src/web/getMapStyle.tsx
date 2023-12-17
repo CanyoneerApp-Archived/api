@@ -48,6 +48,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         source: 'canyoniness',
         paint: {
           'raster-opacity': 1,
+          'raster-resampling': 'nearest',
         },
         // @ts-expect-error we need to update these types
         slot: 'bottom',
