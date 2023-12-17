@@ -6,8 +6,6 @@ interface GetMapStyleOptions {
 
 const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
 const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Bold'];
-// const waypointCircleRadius = 5;
-// const waypointLabelSize = 12;
 
 export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   if (!publicUrl.endsWith('/')) publicUrl += '/';
@@ -98,7 +96,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'text-pitch-alignment': 'viewport',
           'text-max-angle': 25,
           'text-padding': 5,
-          'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'],
+          'text-font': font,
           'text-size': ['interpolate', ['linear'], ['zoom'], 15, 9.5, 20, 12],
         },
         paint: {

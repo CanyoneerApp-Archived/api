@@ -38,12 +38,10 @@ export async function getCanyoninessTile([x, y]: number[], cachePath: string) {
     }),
   );
 
-  const curvature = sum(
+  return sum(
     neighbors.map(neighbor => {
       assert(isNumber(self));
       return neighbor - self;
     }),
   );
-
-  return curvature;
 }

@@ -32,17 +32,19 @@ export async function getElevationMetersTile(
     const d = 1 / elevationWidth;
     return sum(
       (
-        await Promise.all([
-          getElevationMetersTileInner([tileX - d, tileY + d], cachePath),
-          getElevationMetersTileInner([tileX + 0, tileY + d], cachePath),
-          getElevationMetersTileInner([tileX + d, tileY + d], cachePath),
-          getElevationMetersTileInner([tileX - d, tileY + 0], cachePath),
-          getElevationMetersTileInner([tileX + 0, tileY + 0], cachePath),
-          getElevationMetersTileInner([tileX + d, tileY + 0], cachePath),
-          getElevationMetersTileInner([tileX - d, tileY - d], cachePath),
-          getElevationMetersTileInner([tileX + 0, tileY - d], cachePath),
-          getElevationMetersTileInner([tileX + d, tileY - d], cachePath),
-        ])
+        await Promise.all(
+          [
+            [tileX - d, tileY + d],
+            [tileX + 0, tileY + d],
+            [tileX + d, tileY + d],
+            [tileX - d, tileY + 0],
+            [tileX + 0, tileY + 0],
+            [tileX + d, tileY + 0],
+            [tileX - d, tileY - d],
+            [tileX + 0, tileY - d],
+            [tileX + d, tileY - d],
+          ].map(async coords => getElevationMetersTileInner(coords, cachePath)),
+        )
       ).map((elevation, i) => {
         const k = kernel[i];
         assert(isNumber(k));
