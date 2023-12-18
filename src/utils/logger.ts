@@ -57,10 +57,10 @@ class Logger {
   /**
    * Call this method to report the start and end of a long-running task.
    */
-  step<T extends unknown[], U>(fn: (...args: T) => Promise<U>, args: T): Promise<U> {
+  step<T extends unknown[], U>(fn: (...args: T) => Promise<U> | U, args: T): Promise<U> | U {
     const startTime = Date.now();
     this.inner('log', [chalk.blue(chalk.bold(`Start ${fn.name}`))]);
-    const promise = fn(...args);
+    const promise = Promise.resolve(fn(...args));
     promise.then(() => {
       const timeString = ((Date.now() - startTime) / 1000).toLocaleString(undefined, {
         unit: 'second',
