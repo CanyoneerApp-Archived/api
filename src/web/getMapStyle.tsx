@@ -120,26 +120,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
         },
       },
-      ...getRoutes({
-        id: 'routesYesChildren',
-        filter: [
-          'all',
-          ['==', ['geometry-type'], 'Point'],
-          ['==', ['get', 'type'], 'parent'],
-          ['has', 'hasChildren'],
-        ],
-        maxzoom: 13,
-      }),
-      ...getRoutes({
-        id: 'routesNoChildren',
-        filter: [
-          'all',
-          ['==', ['geometry-type'], 'Point'],
-          ['==', ['get', 'type'], 'parent'],
-          ['!', ['has', 'hasChildren']],
-        ],
-        maxzoom: undefined,
-      }),
       {
         id: 'waypointsOutline',
         minzoom: 13,
@@ -149,7 +129,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
         paint: {
           'circle-color': 'white',
-          'circle-radius': 3,
+          'circle-radius': 4,
         },
       },
       {
@@ -160,9 +140,9 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         'source-layer': 'routes',
         filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
         paint: {
-          'circle-color': 'black',
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 2],
-          'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 1],
+          'circle-color': ['coalesce', ['get', 'stroke'], 'red'],
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 3],
+          'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 2],
         },
       },
       {
@@ -237,6 +217,26 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'symbol-sort-key': ['get', 'sortKey'],
         },
       },
+      ...getRoutes({
+        id: 'routesYesChildren',
+        filter: [
+          'all',
+          ['==', ['geometry-type'], 'Point'],
+          ['==', ['get', 'type'], 'parent'],
+          ['has', 'hasChildren'],
+        ],
+        maxzoom: 14,
+      }),
+      ...getRoutes({
+        id: 'routesNoChildren',
+        filter: [
+          'all',
+          ['==', ['geometry-type'], 'Point'],
+          ['==', ['get', 'type'], 'parent'],
+          ['!', ['has', 'hasChildren']],
+        ],
+        maxzoom: undefined,
+      }),
     ],
     imports: [
       {
@@ -270,7 +270,7 @@ function getRoutes({
       ...(maxzoom !== undefined ? {maxzoom} : {}),
       paint: {
         'circle-color': 'white',
-        'circle-radius': 4,
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 14, 5],
       },
     },
     {
@@ -281,10 +281,11 @@ function getRoutes({
       filter,
       ...(maxzoom !== undefined ? {maxzoom} : {}),
       paint: {
-        'circle-color': 'black',
-        'circle-radius': 3,
+        'circle-color': 'red',
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 4],
       },
     },
+
     {
       id: `${id}Symbols`,
       ...(maxzoom !== undefined ? {maxzoom} : {}),
@@ -324,7 +325,7 @@ function getRoutes({
           ],
           {},
         ],
-        'text-size': 12,
+        'text-size': ['interpolate', ['linear'], ['zoom'], 10, 12, 13, 15],
         'text-offset': [0, 0.25],
         'text-anchor': 'top',
         'symbol-sort-key': ['get', 'sortKey'],

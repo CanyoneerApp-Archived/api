@@ -2,8 +2,8 @@ import assert from 'assert';
 import * as FastPNG from 'fast-png';
 import {isNumber} from 'lodash';
 import {LRUCache} from 'lru-cache';
+import {MAPBOX_TOKEN} from '../../../MAPBOX_TOKEN';
 import cachedFetch from '../cachedFetch';
-import {MAPBOX_TOKEN} from './MAPBOX_TOKEN';
 import {TileId} from './TileId';
 
 interface Raster {
