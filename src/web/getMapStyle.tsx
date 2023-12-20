@@ -8,7 +8,7 @@ interface GetMapStyleOptions {
 const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
 const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Regular'];
 
-const routeSize: mapboxgl.Expression = ['interpolate', ['linear'], ['zoom'], 10, 0.625, 15, 1.5];
+const routeSize: mapboxgl.Expression = ['interpolate', ['linear'], ['zoom'], 8, 0, 15, 1.5];
 const routePointSize: mapboxgl.Expression = [
   'interpolate',
   ['linear'],
