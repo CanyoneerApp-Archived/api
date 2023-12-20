@@ -8,7 +8,7 @@ interface GetMapStyleOptions {
 const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
 const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Regular'];
 
-const routeSize: mapboxgl.Expression = ['interpolate', ['linear'], ['zoom'], 10, 0.5, 15, 1.5];
+const routeSize: mapboxgl.Expression = ['interpolate', ['linear'], ['zoom'], 10, 0.75, 15, 1.5];
 const routePointSize: mapboxgl.Expression = [
   'interpolate',
   ['linear'],
@@ -265,7 +265,7 @@ function getRoutes({
       type: 'symbol',
       paint: {
         'text-halo-color': 'white',
-        'text-halo-width': 1,
+        'text-halo-width': 2,
         'icon-color': colors.red,
         'icon-halo-color': 'white',
         'icon-halo-width': 1,
@@ -303,7 +303,7 @@ function getRoutes({
           ],
           {},
         ],
-        'text-size': ['interpolate', ['linear'], ['zoom'], 10, 12, 13, 13],
+        'text-size': 13,
         'text-anchor': 'top',
         'symbol-sort-key': ['get', 'sortKey'],
       },
