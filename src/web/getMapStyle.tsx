@@ -266,15 +266,7 @@ function getRoutes({
       paint: {
         'text-halo-color': 'white',
         'text-halo-width': 1,
-        'icon-color': [
-          'interpolate-hcl',
-          ['linear'],
-          ['coalesce', ['get', 'route.quality'], 0],
-          0,
-          colors.yellow,
-          5,
-          colors.red,
-        ],
+        'icon-color': colors.red,
         'icon-halo-color': 'white',
         'icon-halo-width': 1,
       },
