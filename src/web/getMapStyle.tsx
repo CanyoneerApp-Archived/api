@@ -270,7 +270,7 @@ function getRoutes({
       ...(maxzoom !== undefined ? {maxzoom} : {}),
       paint: {
         'circle-color': 'white',
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2, 14, 4],
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 13, 14, 21],
       },
     },
     {
@@ -281,8 +281,8 @@ function getRoutes({
       filter,
       ...(maxzoom !== undefined ? {maxzoom} : {}),
       paint: {
-        'circle-color': 'black',
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
+        'circle-color': 'red',
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 14, 14, 20],
       },
     },
 
