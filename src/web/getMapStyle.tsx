@@ -1,4 +1,5 @@
 import mapbox from 'mapbox-gl';
+import {colors} from '../colors';
 
 interface GetMapStyleOptions {
   publicUrl: string;
@@ -106,7 +107,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         'source-layer': 'routes',
         filter: ['==', ['geometry-type'], 'LineString'],
         paint: {
-          'line-color': ['coalesce', ['get', 'stroke'], 'red'],
+          'line-color': ['coalesce', ['get', 'stroke'], colors.red],
           'line-width': ['interpolate', ['linear'], ['zoom'], 10, 1, 14, 3],
         },
       },
@@ -130,7 +131,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         'source-layer': 'routes',
         filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
         paint: {
-          'circle-color': ['coalesce', ['get', 'stroke'], 'red'],
+          'circle-color': ['coalesce', ['get', 'stroke'], colors.red],
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 3],
           'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 2],
         },
@@ -266,12 +267,12 @@ function getRoutes({
           ['linear'],
           ['coalesce', ['get', 'route.quality'], 0],
           0,
-          'yellow',
+          colors.yellow,
           5,
-          'red',
+          colors.red,
         ],
         'icon-halo-color': 'white',
-        'icon-halo-width': 2,
+        'icon-halo-width': 1,
       },
       layout: {
         'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.5, 13, 1],
