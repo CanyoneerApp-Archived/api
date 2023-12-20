@@ -25,22 +25,26 @@ export async function parseKMLsInner(
   const lines = output.filter(isLineStringFeature);
   const points = output.filter(isPointFeature);
 
+  const parsedLines = await Promise.all(
+    lines.map(async line => {
+      return await parseLineString(line as Feature<LineString>, cachePath);
+    }),
+  );
+
   return {
     type: 'FeatureCollection',
     features: await Promise.all([
-      ...lines.map(async line => {
-        return await parseLineString(line as Feature<LineString>, cachePath);
-      }),
+      ...parsedLines,
 
       ...points.map(async point => {
-        const foo = lines
+        const associatedLines = parsedLines
           .map((line): [Feature<LineString>, number] => [
             line,
             pointToLineDistance(point.geometry, line.geometry, {units: 'meters'}),
           ])
-          .filter(([, distance]) => distance <= 100);
+          .filter(([, distance]) => distance <= 25);
 
-        const [associatedLine] = minBy(foo, ([, distance]) => distance) ?? [];
+        const [associatedLine] = minBy(associatedLines, ([, distance]) => distance) ?? [];
 
         return await parsePoint(point, associatedLine, cachePath);
       }),

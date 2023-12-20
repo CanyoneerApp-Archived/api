@@ -2,7 +2,6 @@ import {Feature, LineString} from '@turf/helpers';
 import length from '@turf/length';
 import assert from 'assert';
 import {isNumber} from 'lodash';
-import {colors} from '../../../colors';
 import {getAscentDescentMeters} from './getAscentDescentMeters';
 import {getElevationMeters} from './getElevationMeters';
 import {normalizeColor} from './normalizeColor';
@@ -28,7 +27,7 @@ export async function parseLineString(feature: Feature<LineString>, cachePath: s
     geometry,
     properties: {
       ...feature.properties,
-      stroke: feature.properties?.stroke ? normalizeColor(feature.properties?.stroke) : colors.red,
+      stroke: normalizeColor(feature.properties?.stroke),
       lengthMeters: length(feature, {units: 'meters'}),
       ...getAscentDescentMeters(geometry),
       changeMeters: endElevationMeters - startElevationMeters,
