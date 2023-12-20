@@ -1,0 +1,11 @@
+{
+  "waypoint": {
+    "height": 60,
+    "pixelRatio": 2,
+    "sdf": true,
+    "visible": true,
+    "width": 42,
+    "x": 0,
+    "y": 0
+  }
+}

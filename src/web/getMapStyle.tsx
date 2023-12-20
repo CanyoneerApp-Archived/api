@@ -13,7 +13,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   return {
     glyphs: 'mapbox://fonts/mapbox/{fontstack}/{range}.pbf',
     version: 8,
-    terrain: {source: 'dem', exaggeration: 2},
+    sprite: `${publicUrl}sprite`,
     sources: {
       composite: {
         url: 'mapbox://mapbox.mapbox-streets-v8,mapbox.mapbox-terrain-v2,mapbox.mapbox-bathymetry-v2',
@@ -24,12 +24,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         // Mapbox requires this is an absolute URL
         tiles: [`${publicUrl}v2/tiles/{z}/{x}/{y}.pbf`],
         maxzoom: 12,
-      },
-      dem: {
-        type: 'raster-dem',
-        url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        tileSize: 512,
-        maxzoom: 14,
       },
     },
     layers: [
@@ -89,10 +83,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'text-color': 'hsl(60, 10%, 35%)',
           'text-halo-width': 1,
           'text-halo-color': 'hsl(60, 10%, 85%)',
-        },
-        metadata: {
-          'mapbox:featureComponent': 'terrain',
-          'mapbox:group': 'Terrain, terrain-labels',
         },
         // @ts-expect-error we need to update these types
         slot: 'bottom',
@@ -262,31 +252,6 @@ function getRoutes({
 }): mapboxgl.AnyLayer[] {
   return [
     {
-      id: `${id}CircleOutline`,
-      type: 'circle',
-      source: 'routes',
-      'source-layer': 'routes',
-      filter,
-      ...(maxzoom !== undefined ? {maxzoom} : {}),
-      paint: {
-        'circle-color': 'white',
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 13, 14, 21],
-      },
-    },
-    {
-      id: `${id}Circle`,
-      type: 'circle',
-      source: 'routes',
-      'source-layer': 'routes',
-      filter,
-      ...(maxzoom !== undefined ? {maxzoom} : {}),
-      paint: {
-        'circle-color': 'red',
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 14, 14, 20],
-      },
-    },
-
-    {
       id: `${id}Symbols`,
       ...(maxzoom !== undefined ? {maxzoom} : {}),
       filter,
@@ -296,8 +261,24 @@ function getRoutes({
       paint: {
         'text-halo-color': 'white',
         'text-halo-width': 1,
+        'icon-color': [
+          'interpolate-hcl',
+          ['linear'],
+          ['coalesce', ['get', 'route.quality'], 0],
+          0,
+          'yellow',
+          5,
+          'red',
+        ],
+        'icon-halo-color': 'white',
+        'icon-halo-width': 2,
       },
       layout: {
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.5, 13, 1],
+        'icon-allow-overlap': true,
+        'text-optional': true,
+        'icon-image': 'waypoint',
+        'icon-anchor': 'bottom',
         'text-allow-overlap': false,
         'text-font': font,
         'text-field': [
@@ -325,8 +306,7 @@ function getRoutes({
           ],
           {},
         ],
-        'text-size': ['interpolate', ['linear'], ['zoom'], 10, 12, 13, 15],
-        'text-offset': [0, 0.25],
+        'text-size': ['interpolate', ['linear'], ['zoom'], 10, 10, 13, 13],
         'text-anchor': 'top',
         'symbol-sort-key': ['get', 'sortKey'],
       },
