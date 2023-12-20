@@ -8,6 +8,17 @@ interface GetMapStyleOptions {
 const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
 const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Regular'];
 
+const routeSize: mapboxgl.Expression = ['interpolate', ['linear'], ['zoom'], 10, 0.5, 13, 1];
+const routePointSize = (offset: number): mapboxgl.Expression => [
+  'interpolate',
+  ['linear'],
+  ['zoom'],
+  11,
+  1 + offset,
+  13,
+  5 + offset,
+];
+
 export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   if (!publicUrl.endsWith('/')) publicUrl += '/';
 
@@ -120,7 +131,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
         paint: {
           'circle-color': 'white',
-          'circle-radius': 4,
+          'circle-radius': routePointSize(1),
         },
       },
       {
@@ -132,7 +143,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
         filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'child']],
         paint: {
           'circle-color': ['coalesce', ['get', 'stroke'], colors.red],
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 3],
+          'circle-radius': routePointSize(0),
           'circle-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0, 13, 2],
         },
       },
@@ -275,7 +286,7 @@ function getRoutes({
         'icon-halo-width': 1,
       },
       layout: {
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.5, 13, 1],
+        'icon-size': routeSize,
         'icon-allow-overlap': true,
         'text-optional': true,
         'icon-image': 'waypoint',
