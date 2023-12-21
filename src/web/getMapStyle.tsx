@@ -127,7 +127,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'icon-allow-overlap': true,
           'icon-ignore-placement': true,
           'icon-image': 'waypoint',
-          'icon-size': ['interpolate', ['linear'], ['zoom'], 13, 0.25, 15, 0.75],
+          'icon-size': ['interpolate', ['linear'], ['zoom'], 13, 0.25, 15, 0.75, 18, 1],
           'icon-anchor': 'bottom',
           'symbol-sort-key': ['get', 'sortKey'],
         },
