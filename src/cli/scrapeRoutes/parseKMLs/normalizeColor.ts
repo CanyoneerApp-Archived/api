@@ -2,13 +2,13 @@ import {isEqual, minBy, sample} from 'lodash';
 import parseColor from 'parse-color';
 import {colors} from '../../../colors';
 
-// from https://stackoverflow.com/posts/52453462/revisions
 export function normalizeColor(input: string) {
   const inputRGB = parseColor(input).rgb;
-  if (isEqual(inputRGB, [0, 0, 0])) return sample(Object.values(colors));
+  if (!inputRGB || isEqual(inputRGB, [0, 0, 0])) return sample(Object.values(colors));
   return minBy(Object.values(colors), color => deltaE(inputRGB, parseColor(color).rgb));
 }
 
+// from https://stackoverflow.com/posts/52453462
 function deltaE(rgbA: [number, number, number], rgbB: [number, number, number]) {
   const labA = rgb2lab(rgbA);
   const labB = rgb2lab(rgbB);

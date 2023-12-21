@@ -57,10 +57,6 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
             ['match', ['get', 'index'], [1, 2], 0.8, 1.2],
           ],
         },
-        metadata: {
-          'mapbox:featureComponent': 'terrain',
-          'mapbox:group': 'Terrain, land',
-        },
         // @ts-expect-error we need to update these types
         slot: 'bottom',
       },
@@ -203,28 +199,19 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
       },
       ...getRouteSymbolLayer({
         id: 'routesHigh',
-        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
         maxzoom: 9,
-        showText: false,
+        textHidden: false,
       }),
       ...getRouteSymbolLayer({
         id: 'routesMedium',
-        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
         minzoom: 9,
-        maxzoom: 15,
+        maxzoom: 14,
         textAllowOverlap: false,
       }),
       ...getRouteSymbolLayer({
         id: 'routesLow',
-        filter: [
-          'all',
-          ['==', ['geometry-type'], 'Point'],
-          ['==', ['get', 'type'], 'parent'],
-          ['!', ['has', 'hasChildren']],
-        ],
         textAllowOverlap: true,
-        minzoom: 13,
-        maxzoom: undefined,
+        minzoom: 14,
       }),
     ],
     imports: [
@@ -242,25 +229,23 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
 
 function getRouteSymbolLayer({
   id,
-  filter,
-  maxzoom,
-  minzoom,
+  maxzoom = undefined,
+  minzoom = undefined,
   textAllowOverlap = false,
-  showText = true,
+  textHidden: showText = true,
 }: {
   id: string;
-  filter: mapboxgl.Layer['filter'];
-  maxzoom: number | undefined;
-  minzoom?: number | undefined;
+  maxzoom?: number;
+  minzoom?: number;
   textAllowOverlap?: boolean;
-  showText?: boolean;
+  textHidden?: boolean;
 }): mapboxgl.AnyLayer[] {
   return [
     {
       id: `${id}Symbols`,
       ...(maxzoom !== undefined ? {maxzoom} : {}),
       ...(minzoom !== undefined ? {minzoom} : {}),
-      filter,
+      filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
       source: 'routes',
       'source-layer': 'routes',
       type: 'symbol',
