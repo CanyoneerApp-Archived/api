@@ -1,6 +1,7 @@
 import {isArray} from 'lodash';
 import {allRegions} from '../../utils/allRegions';
 import {logger} from '../../utils/logger';
+import {injectVersions} from './injectVersions';
 import {parseKMLs} from './parseKMLs';
 import {scrapeDescriptions} from './scrapeDescriptions';
 import {scrapeIndices} from './scrapeIndices';
@@ -16,5 +17,6 @@ export async function scrapeRoutes(regions: string | string[], cachePath: string
   const descriptions = await logger.step(scrapeDescriptions, [indices, cachePath]);
   const rawGeojson = await logger.step(scrapeKMLs, [descriptions, regions, cachePath]);
   const geojson = await logger.step(parseKMLs, [rawGeojson, cachePath]);
-  return geojson;
+  const versions = logger.step(injectVersions, [geojson]);
+  return versions;
 }

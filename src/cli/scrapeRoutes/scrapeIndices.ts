@@ -108,6 +108,7 @@ export async function scrapeIndices(regions: string[], cachePath: string) {
           result.printouts.shuttle[0]?.value ? result.printouts.shuttle[0].value * 60 : undefined,
         description: undefined, // this is populated by `scrapeDescription` later
         geojson: undefined, // this is populated by `scrapeKMLs` later
+        version: '', // this is populated by `injectVersions` later
       };
 
       validateSchema('RouteV2', route);
