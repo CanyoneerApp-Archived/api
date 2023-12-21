@@ -1,5 +1,5 @@
 import {Feature, FeatureCollection, LineString, Point, Polygon} from '@turf/helpers';
-import {omit} from 'lodash';
+import {compact, omit} from 'lodash';
 import {metersPerFoot} from '../utils/metersPerFoot';
 import type {PermitV1} from './v1';
 import {DifficultyV1, MonthV1, RouteV1} from './v1';
@@ -57,7 +57,9 @@ type GeoJSONRouteV2CoreProperties = {
 } & {
   // Vector tiles cannot encode arrays so we break the months out into individual properties.
   [Key in MonthV2 as `route.month.${Lowercase<Key>}`]?: true;
-} & {[key: string]: unknown};
+} & {[key: string]: unknown} & {
+  sortKey: number;
+};
 
 export type GeoJSONRouteV2LineString = Feature<
   LineString,
@@ -131,6 +133,7 @@ function toGeoJSONRouteV2CoreProperties(
     'route.id': route.id,
     'route.name': route.name,
     'route.quality': route.quality,
+    sortKey: route.quality == undefined ? 0 : -1 * route.quality,
     'route.technicalRating': route.technicalRating,
     'route.waterRating': route.waterRating,
     'route.timeRating': route.timeRating,
@@ -148,39 +151,37 @@ function toGeoJSONRouteV2CoreProperties(
   };
 }
 
-export function toGeoJSONRouteV2(route: RouteV2): Feature[] {
-  return (
+export function toGeoJSONRouteV2(route: RouteV2) {
+  const children =
     route.geojson?.features.map(feature => ({
       ...feature,
       properties: {
+        type: 'child',
+        hasChildren: undefined,
         ...feature.properties,
         ...toGeoJSONRouteV2CoreProperties(route),
       },
-    })) ??
-    (route.longitude && route.latitude ?
-      [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [route.longitude, route.latitude],
-          },
-          properties: {
-            name: route.name,
-            ...toGeoJSONRouteV2CoreProperties(route),
-          },
-        },
-      ]
-    : [])
-  );
-}
+    })) ?? [];
 
-export const permitV1toV2: {[key: string]: PermitV2} = {
-  'No permit required': 'No',
-  'Permit required': 'Yes',
-  'Closed to entry': 'Closed',
-  'Access is Restricted': 'Restricted',
-};
+  const self: GeoJSONRouteV2 | undefined =
+    route.longitude && route.latitude ?
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [route.longitude, route.latitude],
+        },
+        properties: {
+          type: 'parent',
+          hasChildren: children.length > 0 ? true : undefined,
+          name: route.name,
+          ...toGeoJSONRouteV2CoreProperties(route),
+        },
+      }
+    : undefined;
+
+  return compact([self, ...children]) as GeoJSONRouteV2[];
+}
 
 export const permitV2toV1: {[key: string]: PermitV1} = {
   No: 'No permit required',

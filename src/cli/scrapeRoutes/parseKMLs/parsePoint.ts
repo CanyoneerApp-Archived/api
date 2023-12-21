@@ -1,14 +1,18 @@
-import {Feature, Point} from '@turf/helpers';
+import {Feature, LineString, Point} from '@turf/helpers';
+import {colors} from '../../../colors';
 import {getElevationMeters} from './getElevationMeters';
 
-export async function parsePoint(feature: Feature<Point>, cachePath: string) {
+export async function parsePoint(
+  point: Feature<Point>,
+  associatedLine: Feature<LineString> | undefined,
+  cachePath: string,
+) {
   return {
-    ...feature,
+    ...point,
     properties: {
-      ...feature.properties,
-      elevationMeters: Math.round(
-        await getElevationMeters(feature.geometry.coordinates, cachePath),
-      ),
+      ...point.properties,
+      stroke: associatedLine?.properties?.stroke ?? colors.red,
+      elevationMeters: Math.round(await getElevationMeters(point.geometry.coordinates, cachePath)),
     },
   };
 }

@@ -4,6 +4,7 @@ import {program} from 'commander';
 import {logger} from '../utils/logger';
 import {clearPublicDir} from './clearPublicDir';
 import {createBuild} from './createBuild';
+import {createPublicMapStyle} from './createPublicMapStyle';
 import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
 import {createPublicStats} from './createPublicStats';
@@ -60,6 +61,7 @@ export async function main(argv: string[]) {
   await logger.step(createPublicTiles, []);
   const stats = await logger.step(createPublicStats, []);
   logger.outputStats(stats, [options.region]);
+  await logger.step(createPublicMapStyle, [stack?.URL ?? `http://localhost:3000`]);
   await logger.step(zipPublicDir, []);
   await logger.step(createBuild, []);
 

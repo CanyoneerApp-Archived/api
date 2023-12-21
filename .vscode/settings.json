@@ -7,5 +7,6 @@
   "editor.formatOnSave": true,
   "eslint.enable": true,
   "prettier.enable": true,
-  "cSpell.words": ["canyoneering", "maxzoom", "minzoom", "precommit"]
+  "cSpell.words": ["canyoneering", "maxzoom", "minzoom", "precommit"],
+  "editor.formatOnSaveMode": "file"
 }
