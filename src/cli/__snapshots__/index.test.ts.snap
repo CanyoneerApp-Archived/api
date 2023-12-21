@@ -46,7 +46,7 @@ exports[`scrape Maine 1`] = `
       "name": "Mount Katahdin",
       "quality": 5,
       "permit": "No",
-      "version": "3a6023d5dedced4a32951c05c91d6b93"
+      "version": "eef298c9f93984f7fe2328f3d58391da"
     },
     {
       "latitude": 44.57194,
@@ -729,7 +729,7 @@ exports[`scrape Maine 1`] = `
         }
       ]
     },
-    "version": "3a6023d5dedced4a32951c05c91d6b93"
+    "version": "eef298c9f93984f7fe2328f3d58391da"
   },
   "public/v2/details/34280.json": {
     "url": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
