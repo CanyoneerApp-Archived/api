@@ -8,17 +8,6 @@ interface GetMapStyleOptions {
 const font = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
 const fontBold = ['DIN Pro Bold', 'Arial Unicode MS Regular'];
 
-const routeSize: mapboxgl.Expression = ['interpolate', ['linear'], ['zoom'], 8, 0, 15, 1.5];
-const routePointSize: mapboxgl.Expression = [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  13,
-  0.25,
-  15,
-  0.75,
-];
-
 export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   if (!publicUrl.endsWith('/')) publicUrl += '/';
 
@@ -138,7 +127,7 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'icon-allow-overlap': true,
           'icon-ignore-placement': true,
           'icon-image': 'waypoint',
-          'icon-size': routePointSize,
+          'icon-size': ['interpolate', ['linear'], ['zoom'], 13, 0.25, 15, 0.75],
           'icon-anchor': 'bottom',
           'symbol-sort-key': ['get', 'sortKey'],
         },
@@ -212,24 +201,29 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
           'symbol-sort-key': ['get', 'sortKey'],
         },
       },
-      ...getRoutes({
-        id: 'routesYesChildren',
-        filter: [
-          'all',
-          ['==', ['geometry-type'], 'Point'],
-          ['==', ['get', 'type'], 'parent'],
-          ['has', 'hasChildren'],
-        ],
-        maxzoom: 14,
+      ...getRouteSymbolLayer({
+        id: 'routesHigh',
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
+        maxzoom: 9,
+        showText: false,
       }),
-      ...getRoutes({
-        id: 'routesNoChildren',
+      ...getRouteSymbolLayer({
+        id: 'routesMedium',
+        filter: ['all', ['==', ['geometry-type'], 'Point'], ['==', ['get', 'type'], 'parent']],
+        minzoom: 9,
+        maxzoom: 15,
+        textAllowOverlap: false,
+      }),
+      ...getRouteSymbolLayer({
+        id: 'routesLow',
         filter: [
           'all',
           ['==', ['geometry-type'], 'Point'],
           ['==', ['get', 'type'], 'parent'],
           ['!', ['has', 'hasChildren']],
         ],
+        textAllowOverlap: true,
+        minzoom: 13,
         maxzoom: undefined,
       }),
     ],
@@ -246,19 +240,26 @@ export function getMapStyle({publicUrl}: GetMapStyleOptions): mapbox.Style {
   };
 }
 
-function getRoutes({
+function getRouteSymbolLayer({
   id,
   filter,
   maxzoom,
+  minzoom,
+  textAllowOverlap = false,
+  showText = true,
 }: {
   id: string;
   filter: mapboxgl.Layer['filter'];
   maxzoom: number | undefined;
+  minzoom?: number | undefined;
+  textAllowOverlap?: boolean;
+  showText?: boolean;
 }): mapboxgl.AnyLayer[] {
   return [
     {
       id: `${id}Symbols`,
       ...(maxzoom !== undefined ? {maxzoom} : {}),
+      ...(minzoom !== undefined ? {minzoom} : {}),
       filter,
       source: 'routes',
       'source-layer': 'routes',
@@ -271,39 +272,47 @@ function getRoutes({
         'icon-halo-width': 1,
       },
       layout: {
-        'icon-size': routeSize,
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 8, 0.5, 15, 1.5],
         'icon-allow-overlap': true,
         'text-optional': true,
         'icon-image': 'waypoint',
         'icon-anchor': 'bottom',
-        'text-allow-overlap': false,
+        'text-allow-overlap': textAllowOverlap,
         'text-font': font,
-        'text-field': [
-          'format',
-          ['get', 'name'],
-          {'text-font': fontBold, 'text-scale': 1.2},
-          [
-            'concat',
-            '\n',
-            ['get', 'route.technicalRating'],
-            ['get', 'route.waterRating'],
-            ' ',
-            ['get', 'route.timeRating'],
-            ['case', ['has', 'route.riskRating'], ['concat', ' ', ['get', 'route.riskRating']], ''],
-            ' • ',
+        'text-field':
+          !showText ? '' : (
             [
-              'case',
-              ['==', ['get', 'route.rappelCountMin'], ['get', 'route.rappelCountMax']],
-              ['get', 'route.rappelCountMin'],
-              ['concat', ['get', 'route.rappelCountMin'], '-', ['get', 'route.rappelCountMax']],
-            ],
-            'r, ',
-            ['round', ['*', 3.28084, ['get', 'route.rappelLongestMeters']]],
-            "' max",
-          ],
-          {},
-        ],
-        'text-size': 13,
+              'format',
+              ['get', 'name'],
+              {'text-font': fontBold, 'text-scale': 1.2},
+              [
+                'concat',
+                '\n',
+                ['get', 'route.technicalRating'],
+                ['get', 'route.waterRating'],
+                ' ',
+                ['get', 'route.timeRating'],
+                [
+                  'case',
+                  ['has', 'route.riskRating'],
+                  ['concat', ' ', ['get', 'route.riskRating']],
+                  '',
+                ],
+                ' • ',
+                [
+                  'case',
+                  ['==', ['get', 'route.rappelCountMin'], ['get', 'route.rappelCountMax']],
+                  ['get', 'route.rappelCountMin'],
+                  ['concat', ['get', 'route.rappelCountMin'], '-', ['get', 'route.rappelCountMax']],
+                ],
+                'r, ',
+                ['round', ['*', 3.28084, ['get', 'route.rappelLongestMeters']]],
+                "' max",
+              ],
+              {},
+            ]
+          ),
+        'text-size': ['interpolate', ['linear'], ['zoom'], 9, 11, 14, 14],
         'text-anchor': 'top',
         'symbol-sort-key': ['get', 'sortKey'],
       },
