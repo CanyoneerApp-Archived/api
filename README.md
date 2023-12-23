@@ -75,11 +75,11 @@ Default region name [None]:
 Default output format [None]:
 ```
 
-You can generate the `build` directory containing all routes in Utah (or any region of your choice)
-by running:
+You can generate the `build` directory containing all routes in California (or any region of your
+choice) by running:
 
 ```
-yarn build --local --region Utah
+yarn build --local --region California
 ```
 
 The `yarn build` script supports several command line flags. You can see all of them by running
@@ -94,7 +94,7 @@ You can deploy your branch to a preview environment to allow other developers to
 running
 
 ```
-yarn build --region Utah
+yarn build --region California
 ```
 
 Your changes will be published to
