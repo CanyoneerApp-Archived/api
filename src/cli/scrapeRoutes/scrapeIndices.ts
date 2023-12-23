@@ -26,8 +26,8 @@ const apiRequestPrintouts = {
   months: 'Has best month',
   shuttle: 'Has shuttle length',
   vehicle: 'Has vehicle type',
-  minTime: 'Has slowest typical time',
-  maxTime: 'Has fastest typical time',
+  minTime: 'Has fastest typical time',
+  maxTime: 'Has slowest typical time',
   hike: 'Has info length of hike',
   lastModified: 'Modification date',
 };
