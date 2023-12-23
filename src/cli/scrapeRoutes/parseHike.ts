@@ -7,6 +7,6 @@ export default function parseHike(input: string | undefined) {
   if (!input) return {hike: undefined};
   const match = input.match(/([0-9+])mi/);
   return {
-    hike: parseIntSafe(match?.[1]),
+    overallLengthMeters: Math.round(match * metersPerMile)
   };
 }
