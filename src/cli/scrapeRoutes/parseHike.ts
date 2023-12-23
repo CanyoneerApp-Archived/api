@@ -5,7 +5,7 @@ import {parseIntSafe} from '../../utils/parseIntSafe';
  */
 export default function parseHike(input: string | undefined) {
   if (!input) return {hike: undefined};
-  const match = input.match(/([0-9+])mi/);
+  const match = parseFloat(input)
   return {
     overallLengthMeters: Math.round(match * metersPerMile)
   };
