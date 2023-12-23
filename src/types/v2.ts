@@ -29,6 +29,10 @@ export interface IndexRouteV2 {
    * If there is a required vehicle shuttle, the approximate duration of the drive.
    * If there is no shuttle required or if the shuttle is unknown, `undefined`.
    */
+  maxTime: number | undefined;
+  minTime: number | undefined;
+  hike: number | undefined;
+  lastModified: string;
   shuttleSeconds: number | undefined;
   latitude: number;
   longitude: number;
@@ -143,6 +147,10 @@ function toGeoJSONRouteV2CoreProperties(
     'route.rappelCountMax': route.rappelCountMax,
     'route.rappelLongestMeters': route.rappelLongestMeters,
     'route.vehicle': route.vehicle,
+    'route.maxTime': route.maxTime,
+    'route.minTime': route.minTime,
+    'route.hike': route.hike,
+    'route.lastModified': route.lastModified,
     'route.shuttleSeconds': route.shuttleSeconds,
 
     ...Object.fromEntries(

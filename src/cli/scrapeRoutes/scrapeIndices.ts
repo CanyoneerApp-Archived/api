@@ -6,8 +6,8 @@ import {logger} from '../../utils/logger';
 import {metersPerFoot} from '../../utils/metersPerFoot';
 import {parseIntSafe} from '../../utils/parseIntSafe';
 import cachedFetch from './cachedFetch';
+import parseHike from './parseHike';
 import parseRappelCount from './parseRappelCount';
-
 const apiRequestPrintouts = {
   pageid: 'Has pageid',
   name: 'Has name',
@@ -26,12 +26,10 @@ const apiRequestPrintouts = {
   months: 'Has best month',
   shuttle: 'Has shuttle length',
   vehicle: 'Has vehicle type',
-
-  // We aren't using these properties yet but they are available in the API
-  // 'Min Time': 'Has fastest typical time',
-  // 'Max Time': 'Has slowest typical time',
-  // Hike: 'Has length of hike',
-  // URL: 'Has url',
+  minTime: 'Has slowest typical time',
+  maxTime: 'Has fastest typical time',
+  hike: 'Has info length of hike',
+  lastModified: 'Modification date',
 };
 
 type APIResponse = {
@@ -104,6 +102,10 @@ export async function scrapeIndices(regions: string[], cachePath: string) {
             round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
           : undefined,
         vehicle: result.printouts.vehicle[0],
+        minTime: result.printouts.minTime[0]?.value,
+        maxTime: result.printouts.maxTime[0]?.value,
+        ...parseHike(result.printouts.hike[0]),
+        lastModified: result.printouts.lastModified[0],
         shuttleSeconds:
           result.printouts.shuttle[0]?.value ? result.printouts.shuttle[0].value * 60 : undefined,
         description: undefined, // this is populated by `scrapeDescription` later
