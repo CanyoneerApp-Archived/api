@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "start": "AWS_PROFILE=canyoneer GIT_BRANCH=`git branch --show-current` ts-node --files --pretty src/cli/index.ts",
+    "build": "AWS_PROFILE=canyoneer GIT_BRANCH=`git branch --show-current` ts-node --files --pretty src/cli/index.ts",
     "lint": "scree lint",
     "lint-fix": "scree lint-fix",
     "precommit": "scree lint-precommit && yarn test",
     "install-precommit": "scree install-precommit",
     "ci": "yarn lint && yarn test",
     "test": "jest",
-    "web": "react-app-rewired start"
+    "start": "react-app-rewired start"
   },
   "browserslist": {
     "production": [

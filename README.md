@@ -75,24 +75,47 @@ Default region name [None]:
 Default output format [None]:
 ```
 
-Run the scraper
+You can generate the `build` directory containing all routes in California (or any region of your
+choice) by running:
+
+```
+yarn build --local --region California
+```
+
+The `yarn build` script supports several command line flags. You can see all of them by running
+
+```
+yarn build --help
+```
+
+## Deploying to Preview Environment
+
+You can deploy your branch to a preview environment to allow other developers to see your changes by
+running
+
+```
+yarn build --region California
+```
+
+Your changes will be published to
+`http://canyoneer--${YOUR BRANCH NAME}.s3-us-west-1.amazonaws.com/v2/index.json`
+
+## Deploying to Production
+
+You can deploy to production by running:
+
+```
+git checkout main
+git pull
+yarn build
+```
+
+## Using the Web Frontend
+
+After running `yarn build`, you may start the web interface in development mode by running
 
 ```
 yarn start
-```
-
-The scraper supports some command line flags. You can see all of them by running
-
-```
-yarn start --help
-```
-
-## Developing the Web Frontend
-
-After running the scraper as above, you may start the web interface in development mode by running
-
-```
-yarn web
 ```
 
 ## Directory Layout
