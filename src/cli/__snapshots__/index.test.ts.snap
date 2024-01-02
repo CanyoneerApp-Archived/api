@@ -48,10 +48,10 @@ exports[`scrape Maine 1`] = `
       "name": "Mount Katahdin",
       "quality": 5,
       "permit": "No",
-      "minTime": 9.5,
-      "hike": 6,
+      "overallFastestTimeSeconds": 34200,
+      "overallLengthMeters": 9012,
       "lastModified": "1486249956",
-      "version": "3adee3b9e8cf278565a00499e402d93f"
+      "version": "41d050231db6608808e2dd20d552b9af"
     },
     {
       "latitude": 44.57194,
@@ -72,9 +72,9 @@ exports[`scrape Maine 1`] = `
       "rappelCountMin": 1,
       "rappelCountMax": 1,
       "rappelLongestMeters": 7.62,
-      "hike": 5,
+      "overallLengthMeters": 805,
       "lastModified": "1640394425",
-      "version": "69a2b602ab2082928b1c41ebabf3a0d1"
+      "version": "64944c316cda1f1c37ed1520def98c4c"
     },
     {
       "latitude": 44.6351,
@@ -467,8 +467,8 @@ exports[`scrape Maine 1`] = `
     "name": "Mount Katahdin",
     "quality": 5,
     "permit": "No",
-    "minTime": 9.5,
-    "hike": 6,
+    "overallFastestTimeSeconds": 34200,
+    "overallLengthMeters": 9012,
     "lastModified": "1486249956",
     "description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<h2 id=\\"approach\\">Approach</h2>\\n<h2 id=\\"descent\\">Descent</h2>\\n<h2 id=\\"exit\\">Exit</h2>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<ul>\\n<li><img src=\\"rwl_en.png\\" title=\\"rwl_en.png\\" alt=\\"rwl_en.png\\" /><a\\nhref=\\"http://brennen.caltech.edu/swhikes/katadn.htm\\">Chris Brennen's\\nAdventure Hikes (Southwest)</a> : Katahdin; Maine</li>\\n</ul>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n",
     "geojson": {
@@ -740,7 +740,7 @@ exports[`scrape Maine 1`] = `
         }
       ]
     },
-    "version": "3adee3b9e8cf278565a00499e402d93f"
+    "version": "41d050231db6608808e2dd20d552b9af"
   },
   "public/v2/details/34280.json": {
     "url": "https://ropewiki.com/Screw_Auger_Falls_Gorge",
@@ -762,10 +762,10 @@ exports[`scrape Maine 1`] = `
     "rappelCountMin": 1,
     "rappelCountMax": 1,
     "rappelLongestMeters": 7.62,
-    "hike": 5,
+    "overallLengthMeters": 805,
     "lastModified": "1640394425",
     "description": "<h2 id=\\"introduction\\">Introduction</h2>\\n<p>\\"The last canyon along the Bear River in Grafton Notch is the Screw\\nAuger Gorge. This short Gorge is probably one of the most popular\\ntourist destinations in the area. It is frequented by thousands of\\ntourists each summer and it is not uncommon to find families and teens\\nswimming here on a warm summer afternoon. The canyoneering opportunities\\nare limited but still possible. Rappel off a natural anchor or tree into\\nthe pothole below, escape the small pothole and hike/ swim through the\\nrest of the gorge.\\"</p>\\n<p>from <em>The Maine Canyon Survey: A Guide to Canyoneering in\\nMaine.</em></p>\\n<p><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">1</a></p>\\n<h2 id=\\"approach\\">Approach</h2>\\n<h2 id=\\"descent\\">Descent</h2>\\n<h2 id=\\"exit\\">Exit</h2>\\n<h2 id=\\"red_tape\\">Red tape</h2>\\n<h2 id=\\"beta_sites\\">Beta sites</h2>\\n<ul>\\n<li><img src=\\"rwl_en.png\\" title=\\"rwl_en.png\\" alt=\\"rwl_en.png\\" /><a\\nhref=\\"http://summitpost.org/screw-auger-falls-gorge/826303\\">SummitPost.org</a>\\n: Screw Auger Falls Gorge]</li>\\n</ul>\\n<ul>\\n<li><img src=\\"rwl_en.png\\" title=\\"rwl_en.png\\" alt=\\"rwl_en.png\\" /><a\\nhref=\\"https://eyesupadventure.wixsite.com/adventure/maine-canyoneering\\">Eyes\\nUp Adventure</a> : Maine canyoneering]</li>\\n</ul>\\n<h2 id=\\"trip_reports_and_media\\">Trip reports and media</h2>\\n<h2 id=\\"background\\">Background</h2>\\n",
-    "version": "69a2b602ab2082928b1c41ebabf3a0d1"
+    "version": "64944c316cda1f1c37ed1520def98c4c"
   },
   "public/v2/details/68718.json": {
     "url": "https://ropewiki.com/Inman%27s_Cave",
@@ -916,7 +916,7 @@ exports[`scrape Maine 1`] = `
           "route.rappelCountMin": 1,
           "route.rappelCountMax": 1,
           "route.rappelLongestMeters": 7.62,
-          "route.hike": 5,
+          "route.overallLengthMeters": 805,
           "route.lastModified": "1640394425",
           "route.month.jun": true,
           "route.month.jul": true,
@@ -953,8 +953,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       }
@@ -1015,8 +1015,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1044,8 +1044,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1073,8 +1073,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1102,8 +1102,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1131,8 +1131,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1160,8 +1160,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1183,8 +1183,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1212,8 +1212,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       },
@@ -1241,8 +1241,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       }
@@ -1274,8 +1274,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       }
@@ -1307,8 +1307,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       }
@@ -1340,8 +1340,8 @@ exports[`scrape Maine 1`] = `
           "route.quality": 5,
           "sortKey": -5,
           "route.permit": "No",
-          "route.minTime": 9.5,
-          "route.hike": 6,
+          "route.overallFastestTimeSeconds": 34200,
+          "route.overallLengthMeters": 9012,
           "route.lastModified": "1486249956"
         }
       }

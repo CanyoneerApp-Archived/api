@@ -1,12 +1,12 @@
-import {parseIntSafe} from '../../utils/parseIntSafe';
-
 /**
  * RopeWiki stores Hike in a string like 4mi
  */
+const metersPerMile = 1609.34;
+
 export default function parseHike(input: string | undefined) {
-  if (!input) return {hike: undefined};
-  const match = parseFloat(input)
+  if (!input) return {overallLengthMeters: undefined};
+  const match = parseFloat(input);
   return {
-    overallLengthMeters: Math.round(match * metersPerMile)
+    overallLengthMeters: Math.round(match * metersPerMile),
   };
 }

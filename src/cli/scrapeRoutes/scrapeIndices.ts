@@ -102,8 +102,14 @@ export async function scrapeIndices(regions: string[], cachePath: string) {
             round(result.printouts.rappelLongest[0].value * metersPerFoot, 2)
           : undefined,
         vehicle: result.printouts.vehicle[0],
-        overallFastestTypicalSeconds: Math.round(result.printouts.minTime[0]?.value * 60 * 60),
-        overallSlowestTypicalSeconds: Math.round(result.printouts.maxTime[0]?.value * 60 * 60),
+        overallFastestTimeSeconds:
+          result.printouts.minTime[0]?.value != null ?
+            Math.round(result.printouts.minTime[0].value * 60 * 60)
+          : undefined,
+        overallSlowestTimeSeconds:
+          result.printouts.maxTime[0]?.value != null ?
+            Math.round(result.printouts.maxTime[0].value * 60 * 60)
+          : undefined,
         ...parseHike(result.printouts.hike[0]),
         lastModified: result.printouts.lastModified[0],
         shuttleSeconds:
