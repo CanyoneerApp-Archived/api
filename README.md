@@ -38,6 +38,14 @@ Install native dependencies
 - [tippecanoe](https://github.com/mapbox/tippecanoe) (>= v1.36)
 - [mapnik](https://github.com/mapbox/tippecanoe) (>= v1.36)
 
+One recommendation to install these is using [brew](https://brew.sh)
+```
+brew install yarn
+brew install pandoc
+brew install tippecanoe
+brew install mapnik
+```
+
 Clone this git repository
 
 ```
@@ -73,6 +81,12 @@ AWS Access Key ID [None]: {COPY FROM PREVIOUS STEP}
 AWS Secret Access Key [None]: {COPY FROM PREVIOUS STEP}
 Default region name [None]:
 Default output format [None]:
+```
+
+Run the tests
+
+```
+yarn test
 ```
 
 Run the scraper

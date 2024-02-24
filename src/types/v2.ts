@@ -45,6 +45,7 @@ export interface IndexRouteV2 {
  */
 export interface RouteV2 extends IndexRouteV2 {
   url: string;
+  // markdown
   description: string | undefined;
   geojson: FeatureCollection | undefined;
 }

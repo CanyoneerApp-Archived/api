@@ -8,7 +8,8 @@ import {createPublicMapStyle} from './createPublicMapStyle';
 import {createPublicRoutes} from './createPublicRoutes';
 import {createPublicSchemas} from './createPublicSchemas';
 import {createPublicStats} from './createPublicStats';
-import {createPublicTiles} from './createPublicTiles';
+// ISSUE-102: Tippecanoe not working
+// import {createPublicTiles} from './createPublicTiles';
 import {scrapeRoutes} from './scrapeRoutes';
 import {syncStack} from './syncStack';
 import {SyncStackOutput} from './syncStack/getStackTemplate';
@@ -58,7 +59,8 @@ export async function main(argv: string[]) {
   await logger.step(createPublicSchemas, []);
   const routes = await logger.step(scrapeRoutes, [options.region, options.cachePath]);
   await logger.step(createPublicRoutes, [routes]);
-  await logger.step(createPublicTiles, []);
+  // ISSUE-102: Tippecanoe not working
+  // await logger.step(createPublicTiles, []);
   const stats = await logger.step(createPublicStats, []);
   logger.outputStats(stats, [options.region]);
   await logger.step(createPublicMapStyle, [stack?.URL ?? `http://localhost:3000`]);

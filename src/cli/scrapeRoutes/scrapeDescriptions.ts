@@ -23,6 +23,7 @@ export async function scrapeDescriptions(routes: RouteV2[], cachePath: string): 
       routeChunks.map(async routeChunk => {
         // See https://ropewiki.com/Export and https://www.mediawiki.org/wiki/API:Export for more
         // information about this API
+        // Example: http://ropewiki.com/api.php?format=json&action=query&export=true&pageids=68720
         const url = new URL('http://ropewiki.com/api.php');
         url.searchParams.append('format', 'json');
         url.searchParams.append('action', 'query');
@@ -73,13 +74,14 @@ export async function scrapeDescriptions(routes: RouteV2[], cachePath: string): 
                 if (isObject(error) && 'isPandocTimeoutError' in error) {
                   const result = text.slice(text.indexOf("Region"))
                   const region = result.split("|")[0].split("=")[1]
-                  logger.warn(`Pandoc timed out for "${index.name}", re-run region ${region} to debug.`);
-                  logger.log(`If running the region alone succeeds, consider lowering requestsPerSecond in parseDescription before re-running suite`)
+                  logger.warn(`Pandoc timed out for "${index.name}", re-run region "${region}" to debug.`);
+                  logger.log(`If running the region alone succeeds, consider adjusting requestsPerSecond or timeoutMilliseconds in parseDescription`)
+                  logger.log(`If running the region alone fails, it must be a pandoc issue`)
                   return undefined;
                 } else {
                   throw error;
                 }
-              }),
+              })
             };
 
             logger.progress(totalCount, ++doneCount, index.name);
