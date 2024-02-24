@@ -65,63 +65,76 @@ export async function scrapeKMLs(
       // The API demands the "inner" URL not be encoded so we cannot use the URL class here.
       const outerURL = new URL(`https://ropewiki.com/luca/rwr?gpx=off&kml=${innerURL.toString()}`);
 
-      let text = await cachedFetch(outerURL, 'utf-8', cachePath);
-
-      // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
-      if (!text.trim().endsWith('</kml>')) {
-        text += '</kml>';
-      }
-
-      let document: Document;
-      const internalErrors: string[] = [];
       try {
-        document = new xmldom.DOMParser({
-          locator: {},
-          errorHandler: {
-            warning: function (e) {
-              internalErrors.push(e);
-            },
-            error: function (e) {
-              internalErrors.push(e);
-            },
-            fatalError: function (e) {
-              internalErrors.push(e);
-            },
-          },
-        }).parseFromString(text);
+        let text = await cachedFetch(outerURL, 'utf-8', cachePath);
 
-        const elements = Array.from(document.getElementsByTagName('Document'));
-
-        if (elements.length === 1) break;
-
-        for (const element of elements) {
-          const routeName = element.previousSibling?.previousSibling?.textContent?.trim();
-
-          if (!routeName) continue;
-          if (routeName === 'Ropewiki Map Export') continue;
-
-          const route = lookup[routeName];
-          if (!route) {
-            // Sometimes there are entire route descriptions embedded into `<name>` tags.
-            // Truncate the text so that console isn't dominated by these warnings.
-            const nameTruncated =
-              routeName.split('\n')[0]?.slice(0, 64) + (routeName.length > 64 ? '...' : '');
-            logger.warn(`Couldn't find route named "${nameTruncated}"`);
-            continue;
-          }
-
-          route.geojson = TJ.kml(element, {styles: true});
-          validate('RouteV2', route);
+        // Sometimes the document is missing a KML end tag. This hack seems to always fix it.
+        if (!text.trim().endsWith('</kml>')) {
+          text += '</kml>';
         }
-      } catch (error) {
-        if (error instanceof DOMException) {
-          logger.error(
-            `Error parsing KML for "${region}" ${outerURL}\n\n${error}\n\n${inspect(
-              internalErrors,
-            )}`,
-          );
+
+        let document: Document;
+        const internalErrors: string[] = [];
+        try {
+          document = new xmldom.DOMParser({
+            locator: {},
+            errorHandler: {
+              warning: function (e) {
+                internalErrors.push(e);
+              },
+              error: function (e) {
+                internalErrors.push(e);
+              },
+              fatalError: function (e) {
+                internalErrors.push(e);
+              },
+            },
+          }).parseFromString(text);
+
+          const elements = Array.from(document.getElementsByTagName('Document'));
+
+          if (elements.length === 1) break;
+
+          for (const element of elements) {
+            const routeName = element.previousSibling?.previousSibling?.textContent?.trim();
+
+            if (!routeName) continue;
+            if (routeName === 'Ropewiki Map Export') continue;
+
+            const route = lookup[routeName];
+            if (!route) {
+              // Sometimes there are entire route descriptions embedded into `<name>` tags.
+              // Truncate the text so that console isn't dominated by these warnings.
+              const nameTruncated =
+                routeName.split('\n')[0]?.slice(0, 64) + (routeName.length > 64 ? '...' : '');
+              logger.warn(`Couldn't find route named "${nameTruncated}"`);
+              continue;
+            }
+
+            route.geojson = TJ.kml(element, {styles: true});
+            validate('RouteV2', route);
+          }
+        } catch (error) {
+          if (error instanceof DOMException) {
+            logger.error(
+              `Error parsing KML for "${region}" ${outerURL}\n\n${error}\n\n${inspect(
+                internalErrors,
+              )}`,
+            );
+          } else {
+              logger.error(
+                `Unknown error parsing KML for "${region}" ${outerURL}\n\n${error}\n\n${inspect(
+                  internalErrors,
+                )}`,
+              );
+          }
           continue;
         }
+      } catch (error) {
+        logger.error(
+          `Unknown network error requesting KML for "${region}" at ${outerURL}\n\n${error}\n\n`,
+        );
+        continue;
       } finally {
         offset += kmlCountPerRequest;
         doneCount += 1;
