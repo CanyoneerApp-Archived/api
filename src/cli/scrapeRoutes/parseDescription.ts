@@ -33,7 +33,7 @@ export async function parseDescription(input: string): Promise<string> {
         const htmlBody = input.slice(input.indexOf('==Introduction=='));
         pandoc(
           htmlBody,
-          '-f mediawiki -t markdown',
+          '-f mediawiki -t html',
           (error: Error, html: (string | boolean)) => {
             timeout.cancel();
             if (error) {
