@@ -25,6 +25,10 @@ export interface IndexRouteV2 {
   rappelCountMax: number | undefined;
   rappelLongestMeters: number | undefined;
   vehicle: VehicleV2 | undefined;
+  overallSlowestTimeSeconds: number | undefined;
+  overallFastestTimeSeconds: number | undefined;
+  overallLengthMeters: number | undefined;
+  lastModified: string;
   /**
    * If there is a required vehicle shuttle, the approximate duration of the drive.
    * If there is no shuttle required or if the shuttle is unknown, `undefined`.
@@ -143,6 +147,10 @@ function toGeoJSONRouteV2CoreProperties(
     'route.rappelCountMax': route.rappelCountMax,
     'route.rappelLongestMeters': route.rappelLongestMeters,
     'route.vehicle': route.vehicle,
+    'route.overallSlowestTimeSeconds': route.overallSlowestTimeSeconds,
+    'route.overallFastestTimeSeconds': route.overallFastestTimeSeconds,
+    'route.overallLengthMeters': route.overallLengthMeters,
+    'route.lastModified': route.lastModified,
     'route.shuttleSeconds': route.shuttleSeconds,
 
     ...Object.fromEntries(
