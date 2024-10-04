@@ -1,3 +1,8 @@
+# Archived
+*This project has been archived. Contact the owner of [Canyoneer](https://github.com/bricepollock/canyoneer) for current work.*
+
+----------------------
+
 This is an API for canyoneering routes from RopeWiki.
 
 # Using the API
